@@ -133,19 +133,5 @@
                 document.getElementById('root')
             );
         </script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                // Update circles
-                updateCircleProgress('overall_progress', 0.2, 200, '35px', '#000718');
-                var slug;
-                var team_progress;
-
-                for (i=0; i<teams.length; i++) {
-                    slug = teams[i].slug;
-                    team_progress = Number(progress[i]);
-                    updateCircleProgress(slug, team_progress, 125, '25px', '#010D1E');
-                }
-            });
-        </script>
     </body>
 </html>
