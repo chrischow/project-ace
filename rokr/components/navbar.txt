@@ -25,7 +25,7 @@ function Navbar(props) {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarContent">
                     <ul className="navbar-nav ml-auto">
-                        {[...linkElements]}
+                        {[homeLink, ...linkElements]}
                     </ul>
                 </div>
             </div>

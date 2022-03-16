@@ -57,10 +57,20 @@
             const BrowserRouter = ReactRouterDOM.HashRouter;
             const Route = ReactRouterDOM.Route;
             const Switch = ReactRouterDOM.Switch;
+            const Link = ReactRouterDOM.Link;
 
             // Load components
             loadComponent('navbar');
             loadComponent('home');
+
+            // Configs
+            var teams = [
+                {teamName: 'HQ RAiD', slug: 'hq-raid'},
+                {teamName: 'SWiFT', slug: 'swift'},
+                {teamName: 'RDO', slug: 'rdo'},
+                {teamName: 'CyDef', slug: 'cydef'},
+                {teamName: 'SES', slug: 'ses'}
+            ];
         </script>
     </head>
     <body>
@@ -69,7 +79,7 @@
             // Branch page
             function Team(props) {
                 return (
-                    <h1>props.teamName</h1>
+                    <h1>{props.teamName}</h1>
                 );
             }
 
@@ -82,22 +92,14 @@
                             <h1 className="mt-4">
                                 <span className="accent-blue">R</span><span className="accent-green">OKR</span>
                             </h1>
+                            <Switch>
+                                <Route path='/' render={(props) => <Home teams={teams} />} exact />
+                                <Route path='/rdo' render={(props) => <Team teamName="rdo" />} />
+                            </Switch>
                         </div>
-                        <Route path='/' render={(props) => <Home teams={teams} />} />
-                        <Route path='/rdo' render={(props) => <Team teamName="rdo" />} />
-
                     </BrowserRouter>
                 )
             }
-
-            // Data
-            var teams = [
-                {teamName: 'HQ RAiD', slug: 'hq-raid'},
-                {teamName: 'SWiFT', slug: 'swift'},
-                {teamName: 'RDO', slug: 'rdo'},
-                {teamName: 'CyDef', slug: 'cydef'},
-                {teamName: 'SES', slug: 'ses'}
-            ];
 
             // Render
             ReactDOM.render(
