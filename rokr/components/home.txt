@@ -11,7 +11,7 @@ function Card(props) {
         <div className="col-6 col-lg-4 card--outer">
             <div className="col-11 card--inner text-center">
                 <h4 className="card--header">{props.teamName}</h4>
-                <div id={props.slug} className="text-center"></div>
+                <div id={props.slug} className="text-center mt-3"></div>
             </div>
         </div>
     );
