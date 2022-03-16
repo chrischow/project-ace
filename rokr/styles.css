@@ -1,5 +1,5 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Bahnschrift Light', 'Segoe UI', sans-serif;
     color: #E9E9E9;
     background-color: #000C1D;
 }
@@ -27,8 +27,12 @@ body {
 }
 
 h1 {
-    font-family: 'Segoe UI', 'Segoe UI', sans-serif;
+    font-family: 'Bahnschrift', 'Segoe UI', 'Segoe UI', sans-serif;
     font-size: 3.0rem;
+}
+
+.navbar-brand {
+    font-family: 'Bahnschrift'
 }
 
 .card--header {
