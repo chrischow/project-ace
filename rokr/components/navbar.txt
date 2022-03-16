@@ -1,6 +1,6 @@
 // Navbar
 function Navbar(props) {
-    var links = props.teamName;
+    var links = props.teams;
     var homeLink = (
         <li className="nav-item">
             <a className="nav-link" href="/">Home</a>
