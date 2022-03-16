@@ -1,0 +1,51 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    color: #E9E9E9;
+    background-color: #000C1D;
+}
+
+.accent-blue {
+    color: #7B73F0;
+}
+
+.accent-green {
+    color: #27DDCB;
+}
+
+.top-header {
+    margin-top: 30px;
+}
+
+.bg-dark, .table > thead.thead-dark th {
+    background-color: #1A2637!important;
+}
+
+h1 {
+    font-family: 'Segoe UI Light', 'Segoe UI', sans-serif;
+    font-size: 2.8rem;
+}
+
+.card--header {
+    font-family: 'Segoe UI Light';
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.card--outer {
+    padding: 10px 5px;
+}
+
+.card--inner {
+    background-color: #1A2637;
+    color: #EAEAEA;
+    border-radius: 5px;
+    transition: 0.3s;
+    padding: 15px;
+}
+
+.card--inner:hover {
+    background-color: #333F50;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+}

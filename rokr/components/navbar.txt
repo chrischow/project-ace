@@ -1,0 +1,28 @@
+function Navbar(props) {
+    var links = props.links;
+    var linkElements = links.map(function(item) {
+        return (
+            <li className="nav-item">
+                <a className="nav-link" href={item.url}>{item.link}</a>
+            </li>
+        );
+    });
+
+    return (
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className="container">
+                <span className="navbar-brand">
+                    <span className="accent-blue">R</span><span className="accent-green">OKR</span>
+                </span>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-expanded="false" aria-label="Toggle Nav">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarContent">
+                    <ul className="navbar-nav ml-auto">
+                        {linkElements}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    );
+}
