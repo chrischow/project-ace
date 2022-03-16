@@ -27,10 +27,10 @@ function HomeCards(props) {
 
 function Home(props) {
     return (
-        <>
+        <div>
             <h3 className="mt-4">Placeholder for overview of RAiD achievement</h3>
             <h2 classname="mt-4">Teams</h2>
             <HomeCards teams={props.teams} />
-        </>
+        </div>
     );
 }
