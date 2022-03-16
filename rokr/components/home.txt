@@ -50,7 +50,7 @@ class Home extends React.Component {
                 <h3 className="mt-4">Overall Progress</h3>
                 <div id="overall_progress" className="progress-circle text-center mt-3"></div>
                 <h2 className="mt-4">Teams</h2>
-                <HomeCards teams={props.teams} />
+                <HomeCards teams={this.props.teams} />
             </div>
         )
     };
