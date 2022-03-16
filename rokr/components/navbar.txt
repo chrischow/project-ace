@@ -4,7 +4,7 @@ function Navbar(props) {
     var linkElements = teams.map(function(item) {
         return (
             <li className="nav-item">
-                <Link to={"/" + item.slug}>{item.teamName}</Link>
+                <Link className="nav-link" to={"/" + item.slug}>{item.teamName}</Link>
             </li>
         );
     });
