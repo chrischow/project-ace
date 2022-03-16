@@ -1,4 +1,6 @@
-// Navbar
+// * ----------------- *
+// | COMPONENT: NAVBAR |
+// * ----------------- *
 function Navbar(props) {
     var linkElements = props.teams.map(function(item) {
         return (
