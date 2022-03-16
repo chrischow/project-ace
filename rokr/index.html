@@ -52,6 +52,7 @@
             loadWords('react-dom.production.min', false);
             loadWords('react-router-dom.min', false);
             loadWords('babel-6.26.0.min', false);
+            loadWords('circle-progress.min', false);
             
             // Routing
             const BrowserRouter = ReactRouterDOM.HashRouter;
@@ -113,6 +114,7 @@
                     <BrowserRouter>
                         <Navbar teams={teams} />
                         <div className="container mt-5">
+                            <div id="comm-progress" class="progress-circle text-center"></div>
                             <Switch>
                                 <Route path='/' render={(props) => <Home teams={teams} />} exact />
                                 <Routes teams={teams} />
@@ -127,6 +129,37 @@
                 <App />,
                 document.getElementById('root')
             );
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var comm_progress = $('#comm-progress').circleProgress({
+                    value: 20 / 100,     // Completion here
+                    //value: 0.70,
+                    size: progressRingSize,
+                    startAngle: - Math.PI / 2,
+                    fill: {
+                        //gradient: ['#1B37DB', '#66fcf1']
+                        color: '#090637'
+                    }
+                });
+    
+                comm_progress.on('circle-animation-progress', function(e, v) {
+                    var obj = $(this).data('circle-progress'),
+                        ctx = obj.ctx,
+                        s = obj.size,
+                        sv = (20 / 100 * v).toFixed() + "%",
+                        fill = obj.arcFill;
+                        // fill = "#007bff"
+            
+                    ctx.save();
+                    ctx.font = progressRingFontSize;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = fill;
+                    ctx.fillText(sv, s / 2, s / 2);
+                    ctx.restore();
+                });
+            });
         </script>
     </body>
 </html>
