@@ -52,6 +52,11 @@
             loadWords('react-dom.production.min', false);
             loadWords('react-router-dom.min', false);
             loadWords('babel-6.26.0.min', false);
+            
+            // Routing
+            const BrowserRouter = ReactRouterDOM.HashRouter;
+            const Route = ReactRouterDOM.Route;
+            const Switch = ReactRouterDOM.Switch;
 
             // Load components
             loadComponent('navbar');
@@ -67,11 +72,6 @@
                     <h1>props.teamName</h1>
                 );
             }
-
-            // Routing
-            const BrowserRouter = ReactRouterDOM.BrowserRouter;
-            const Route = ReactRouterDOM.Route;
-            const Switch = ReactRouterDOM.Switch;
 
             // App
             function App() {
