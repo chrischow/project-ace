@@ -1,11 +1,6 @@
 // Navbar
 function Navbar(props) {
     var teams = props.teams;
-    var homeLink = (
-        <li className="nav-item">
-            <Link className="nav-link" href="/">Home</Link>
-        </li>
-    );
     var linkElements = teams.map(function(item) {
         return (
             <li className="nav-item">
