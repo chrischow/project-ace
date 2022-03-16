@@ -81,6 +81,9 @@
             // State
             //  - Query SPList everytime each Team page is reloaded?
             //  - This is in case updates were made --> Need to update
+            const progress = [
+                Math.random(), Math.random(), Math.random(), Math.random(), Math.random()
+            ];
 
             // Team page
             const Team = (props) => {
@@ -114,7 +117,6 @@
                     <BrowserRouter>
                         <Navbar teams={teams} />
                         <div className="container mt-5">
-                            <div id="overall_progress" class="progress-circle text-center"></div>
                             <Switch>
                                 <Route path='/' render={(props) => <Home teams={teams} />} exact />
                                 <Routes teams={teams} />
@@ -132,57 +134,42 @@
         </script>
         <script type="text/javascript">
             $(document).ready(function() {
-                var overall_progress = $('#overall_progress').circleProgress({
-                    value: 20 / 100,     // Completion here
-                    size: 250,
-                    startAngle: - Math.PI / 2,
-                    fill: {  color: '#27DDCB' },
-                    emptyFill: '#000718'
-                });
-    
-                overall_progress.on('circle-animation-progress', function(e, v) {
-                    var obj = $(this).data('circle-progress'),
-                        ctx = obj.ctx,
-                        s = obj.size,
-                        sv = (20 / 1 * v).toFixed() + "%",
-                        //fill = obj.arcFill;
-                        fill = "#27DDCB";
-            
-                    ctx.save();
-                    ctx.font = "30px 'Bahnschrift Light'";
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillStyle = fill;
-                    ctx.fillText(sv, s / 2, s / 2);
-                    ctx.restore();
-                });
-
-                for (i=0; i<teams.length; i++) {
-                    var slug = teams[i].slug;
+                function updateCircleProgress(slug, progress, size, fontSize, emptyFill) {
                     var team_progress = $('#' + slug).circleProgress({
-                        value: 20 / 100,     // Completion here
-                        size: 250,
+                        value: progress,     // Completion here
+                        size: size,     // Team: 150, overall: 250
                         startAngle: - Math.PI / 2,
                         fill: {  color: '#27DDCB' },
-                        emptyFill: '#010D1E'
+                        emptyFill: emptyFill    // Team: #010D1E, Overall: #000718
                     });
                 
                     team_progress.on('circle-animation-progress', function(e, v) {
                         var obj = $(this).data('circle-progress'),
                             ctx = obj.ctx,
                             s = obj.size,
-                            sv = (20 / 1 * v).toFixed() + "%",
-                            //fill = obj.arcFill;
+                            sv = (progress * 100 * v).toFixed() + "%",
                             fill = "#27DDCB";
+                            //fill = obj.arcFill;
                 
                         ctx.save();
-                        ctx.font = "20px 'Bahnschrift Light'";
+                        ctx.font = fontSize + " 'Bahnschrift Light'";    // Team: 25px, Overall: 35px
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
                         ctx.fillStyle = fill;
                         ctx.fillText(sv, s / 2, s / 2);
                         ctx.restore();
-                    });
+                    }); 
+                }
+                
+                // Update circles
+                updateCircleProgress('overall_progress', 0.2, 200, '35px', '#000718')
+                var slug;
+                var team_progress;
+
+                for (i=0; i<teams.length; i++) {
+                    slug = teams[i].slug;
+                    team_progress = Number(progress[i]);
+                    updateCircleProgress(slug, team_progress, 125, '25px', '#010D1E');
                 }
             });
         </script>
