@@ -38,7 +38,18 @@ class Home extends React.Component {
     }
 
     componentDidMount(){
+        // Load overall
         updateCircleProgress('overall_progress', 0.2, 200, '35px', '#000718');
+
+        // Load teams
+        var slug;
+        var team_progress;
+
+        for (i=0; i<teams.length; i++) {
+            slug = teams[i].slug;
+            team_progress = Number(progress[i]);
+            updateCircleProgress(slug, team_progress, 125, '25px', '#010D1E');
+        }
     }
 
     render() {
