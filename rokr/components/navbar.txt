@@ -4,7 +4,7 @@ function Navbar(props) {
     var linkElements = teams.map(function(item) {
         return (
             <li className="nav-item">
-                <Link className="nav-link" to={"/" + item.slug}>{item.teamName}</Link>
+                <Link to={"/" + item.slug}>{item.teamName}</Link>
             </li>
         );
     });
@@ -12,7 +12,7 @@ function Navbar(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
-                <Link className="navbar-brand" to="/">
+                <Link to="/">
                     <span className="accent-blue">R</span><span className="accent-green">OKR</span>
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-expanded="false" aria-label="Toggle Nav">
