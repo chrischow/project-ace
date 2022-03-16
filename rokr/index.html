@@ -2,9 +2,9 @@
 <html>
     <head>
         <title>ROKR - RAiD OKR Management Platform</title>
-        <link rel="stylesheet" href="https://raw.githubusercontent.com/chrischow/project-ace/main/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://raw.githubusercontent.com/chrischow/project-ace/main/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="styles.css">
 
         <!-- Load utils -->
         <script type="text/javascript">
@@ -19,7 +19,7 @@
                         var head = document.getElementsByTagName('head')[0];
                         head.appendChild(sTag);
                     }
-                }
+                };
                 var url = 'https://raw.githubusercontent.com/chrischow/project-ace/main/txt/' + filename + '.txt';
                 xhr.open('GET', url, asynch);
                 xhr.send();
@@ -31,14 +31,15 @@
                 xhr.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var sTag = document.createElement('script');
-                        sTag.type = 'text/javascript';
+                        sTag.type = 'text/babel';
                         sTag.innerHTML = this.responseText;
                         var head = document.getElementsByTagName('head')[0];
                         head.appendChild(sTag);
                     }
-                }
-                var url = 'https://raw.githubusercontent.com/chrischow/project-ace/main/rokr/components/' + filename + '.txt';
-                xhr.open('GET', url, asynch);
+                };
+                var url = 'https://raw.githubusercontent.com/chrischow/project-ace/main/rokr/components/' + component + '.txt';
+                
+                xhr.open('GET', url, false);
                 xhr.send();
             }
 
@@ -49,6 +50,7 @@
             loadWords('dataTables.bootstrap4-1.10.20.min', false);
             loadWords('react.production.min', false);
             loadWords('react-dom.production.min', false);
+            loadWords('react-router-dom.min', false);
             loadWords('babel-6.26.0.min', false);
 
             // Load components
@@ -61,7 +63,7 @@
             // Cards
             function Card(props) {
                 return (
-                    <div className="col-6 col-lg-3 card--outer">
+                    <div className="col-6 col-lg-4 card--outer">
                         <div className="col-11 card--inner text-center">
                             <h4 className="card--header">{props.entityName}</h4>
                             Placeholder for progress ring/bar
@@ -84,11 +86,13 @@
                     </div>
                 );
             }
-
+            
+            // Routing
+            const BrowserRouter = ReactRouterDOM.BrowserRouter
             // App
             function App() {
                 return (
-                    <div>
+                    <BrowserRouter>
                         <Navbar links={links} />
                         <div className="container">
                             <h1 className="mt-4">
@@ -98,18 +102,18 @@
                             <h2 classname="mt-4">Teams</h2>
                             <HomeCards cardData={cardData} />
                         </div>
-                    </div>
+                    </BrowserRouter>
                 )
             }
 
             // Data
             var links = [
-                {link: 'Home', '#'},
-                {link: 'HQ RAiD', '#'},
-                {link: 'SWiFT', '#'},
-                {link: 'RDO', '#'},
-                {link: 'CyDef', '#'},
-                {link: 'SES', '#'},
+                {link: 'Home', url: '#'},
+                {link: 'HQ RAiD', url: '#'},
+                {link: 'SWiFT', url: '#'},
+                {link: 'RDO', url: '#'},
+                {link: 'CyDef', url: '#'},
+                {link: 'SES', url: '#'},
             ];
 
             var cardData = [
