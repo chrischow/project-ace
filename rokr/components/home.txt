@@ -33,6 +33,7 @@ function HomeCards(props) {
 }
 
 function Home(props) {
+    updateCircleProgress('overall_progress', 0.2, 200, '35px', '#000718');
     return (
         <div>
             <h1>
