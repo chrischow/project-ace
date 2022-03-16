@@ -1,0 +1,36 @@
+// Cards
+function Card(props) {
+    return (
+        <div className="col-6 col-lg-4 card--outer">
+            <div className="col-11 card--inner text-center">
+                <h4 className="card--header">{props.entityName}</h4>
+                Placeholder for progress ring/bar
+            </div>
+        </div>
+    );
+}
+
+// HomeCards
+function HomeCards(props) {
+    var cards = props.cardData.map(function(item) {
+        return (
+            <Card entityName={item.entityName} />
+        );
+    });
+
+    return (
+        <div className="row align-items-center mt-4 container">
+            {cards}
+        </div>
+    );
+}
+
+function Home(props) {
+    return (
+        <div className="container">
+            <h3 className="mt-4">Placeholder for overview of RAiD achievement</h3>
+            <h2 classname="mt-4">Teams</h2>
+            <HomeCards cardData={props.cardData} />
+        </div>
+    )
+}

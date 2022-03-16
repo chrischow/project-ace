@@ -55,53 +55,28 @@
 
             // Load components
             loadComponent('navbar');
+            loadComponent('home');
         </script>
     </head>
     <body>
         <div id="root"></div>
         <script type="text/babel">
-            // Cards
-            function Card(props) {
-                return (
-                    <div className="col-6 col-lg-4 card--outer">
-                        <div className="col-11 card--inner text-center">
-                            <h4 className="card--header">{props.entityName}</h4>
-                            Placeholder for progress ring/bar
-                        </div>
-                    </div>
-                );
-            }
-
-            // HomeCards
-            function HomeCards(props) {
-                var cards = props.cardData.map(function(item) {
-                    return (
-                        <Card entityName={item.entityName} />
-                    );
-                });
-
-                return (
-                    <div className="row align-items-center mt-4 container">
-                        {cards}
-                    </div>
-                );
-            }
             
             // Routing
-            const BrowserRouter = ReactRouterDOM.BrowserRouter
+            const BrowserRouter = ReactRouterDOM.BrowserRouter;
+            const Route = ReactRouterDOM.Route;
+            const Switch = ReactRouterDOM.Switch;
+
             // App
             function App() {
                 return (
                     <BrowserRouter>
                         <Navbar links={links} />
-                        <div className="container">
-                            <h1 className="mt-4">
-                                <span className="accent-blue">R</span><span className="accent-green">OKR</span>
-                            </h1>
-                            <h3 className="mt-4">Placeholder for overview of RAiD achievement</h3>
-                            <h2 classname="mt-4">Teams</h2>
-                            <HomeCards cardData={cardData} />
-                        </div>
+                        <h1 className="mt-4">
+                            <span className="accent-blue">R</span><span className="accent-green">OKR</span>
+                        </h1>
+                        <Route path='/' render={(props) => <Home cardData={cardData} />} />
+                        
                     </BrowserRouter>
                 )
             }
