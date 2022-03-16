@@ -1,7 +1,6 @@
 // Navbar
 function Navbar(props) {
-    var teams = props.teams;
-    var linkElements = teams.map(function(item) {
+    var linkElements = props.teams.map(function(item) {
         return (
             <li className="nav-item">
                 <NavLink className="nav-link" to={"/" + item.slug}>{item.teamName}</NavLink>
