@@ -3,7 +3,7 @@ function Card(props) {
     return (
         <div className="col-6 col-lg-4 card--outer">
             <div className="col-11 card--inner text-center">
-                <h4 className="card--header">{props.entityName}</h4>
+                <h4 className="card--header">{props.teamName}</h4>
                 Placeholder for progress ring/bar
             </div>
         </div>
@@ -14,7 +14,7 @@ function Card(props) {
 function HomeCards(props) {
     var cards = props.cardData.map(function(item) {
         return (
-            <Card entityName={item.entityName} />
+            <Card teamName={item.teamName} />
         );
     });
 
@@ -32,5 +32,5 @@ function Home(props) {
             <h2 classname="mt-4">Teams</h2>
             <HomeCards cardData={props.cardData} />
         </div>
-    )
+    );
 }

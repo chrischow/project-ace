@@ -1,9 +1,15 @@
+// Navbar
 function Navbar(props) {
-    var links = props.links;
+    var links = props.teamName;
+    var homeLink = (
+        <li className="nav-item">
+            <a className="nav-link" href="/">Home</a>
+        </li>
+    );
     var linkElements = links.map(function(item) {
         return (
             <li className="nav-item">
-                <a className="nav-link" href={item.url}>{item.link}</a>
+                <a className="nav-link" href={"/" + item.slug}>{item.teamName}</a>
             </li>
         );
     });
@@ -19,7 +25,7 @@ function Navbar(props) {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarContent">
                     <ul className="navbar-nav ml-auto">
-                        {linkElements}
+                        {[...linkElements]}
                     </ul>
                 </div>
             </div>

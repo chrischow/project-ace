@@ -61,7 +61,13 @@
     <body>
         <div id="root"></div>
         <script type="text/babel">
-            
+            // Branch page
+            function Branch() {
+                return (
+                    <h1>Branch</h1>
+                );
+            }
+
             // Routing
             const BrowserRouter = ReactRouterDOM.BrowserRouter;
             const Route = ReactRouterDOM.Route;
@@ -71,18 +77,21 @@
             function App() {
                 return (
                     <BrowserRouter>
-                        <Navbar links={links} />
-                        <h1 className="mt-4">
-                            <span className="accent-blue">R</span><span className="accent-green">OKR</span>
-                        </h1>
-                        <Route path='/' render={(props) => <Home cardData={cardData} />} />
-                        
+                        <Navbar links={teams} />
+                        <div className="container">
+                            <h1 className="mt-4">
+                                <span className="accent-blue">R</span><span className="accent-green">OKR</span>
+                            </h1>
+                        </div>
+                        <Route path='/' render={(props) => <Home cardData={teams} />} />
+                        <Route path='/rdo' render={(props) => <Branch branchName="rdo" />} />
+
                     </BrowserRouter>
                 )
             }
 
             // Data
-            var links = [
+            var teams = [
                 {link: 'Home', url: '#'},
                 {link: 'HQ RAiD', url: '#'},
                 {link: 'SWiFT', url: '#'},
@@ -91,12 +100,12 @@
                 {link: 'SES', url: '#'},
             ];
 
-            var cardData = [
-                {entityName: 'HQ RAiD'},
-                {entityName: 'SWiFT'},
-                {entityName: 'RDO'},
-                {entityName: 'CyDef'},
-                {entityName: 'SES'}
+            var teams = [
+                {teamName: 'HQ RAiD', slug: 'hq-raid'},
+                {teamName: 'SWiFT', slug: 'swift'},
+                {teamName: 'RDO', slug: 'rdo'},
+                {teamName: 'CyDef', slug: 'cydef'},
+                {teamName: 'SES', slug: 'ses'}
             ];
 
             // Render
