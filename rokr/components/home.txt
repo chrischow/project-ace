@@ -21,7 +21,7 @@ function Card(props) {
 function HomeCards(props) {
     var cards = props.teams.map(function(item) {
         return (
-            <Card teamName={item.teamName} />
+            <Card teamName={item.teamName} slug={item.slug} />
         );
     });
 

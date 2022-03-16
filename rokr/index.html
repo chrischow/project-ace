@@ -114,7 +114,7 @@
                     <BrowserRouter>
                         <Navbar teams={teams} />
                         <div className="container mt-5">
-                            <div id="overall_progress" class="text-center"></div>
+                            <div id="overall_progress" class="progress-circle text-center"></div>
                             <Switch>
                                 <Route path='/' render={(props) => <Home teams={teams} />} exact />
                                 <Routes teams={teams} />
@@ -149,7 +149,7 @@
                         fill = "#27DDCB";
             
                     ctx.save();
-                    ctx.font = "2.0rem Bahnschrift Light";
+                    ctx.font = "30px 'Bahnschrift Light'";
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = fill;
@@ -164,9 +164,9 @@
                         size: 250,
                         startAngle: - Math.PI / 2,
                         fill: {  color: '#27DDCB' },
-                        emptyFill: '#000718'
+                        emptyFill: '#010D1E'
                     });
-        
+                
                     team_progress.on('circle-animation-progress', function(e, v) {
                         var obj = $(this).data('circle-progress'),
                             ctx = obj.ctx,
@@ -176,7 +176,7 @@
                             fill = "#27DDCB";
                 
                         ctx.save();
-                        ctx.font = "2.0rem Bahnschrift Light";
+                        ctx.font = "20px 'Bahnschrift Light'";
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
                         ctx.fillStyle = fill;
