@@ -17,15 +17,15 @@ function Navbar(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
-                <span className="navbar-brand">
+                <Link className="navbar-brand" to="/">
                     <span className="accent-blue">R</span><span className="accent-green">OKR</span>
-                </span>
+                </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-expanded="false" aria-label="Toggle Nav">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarContent">
                     <ul className="navbar-nav ml-auto">
-                        {[homeLink, ...linkElements]}
+                        {linkElements}
                     </ul>
                 </div>
             </div>
