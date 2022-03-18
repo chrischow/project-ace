@@ -46,7 +46,7 @@ function ProgressCard(props) {
                     <div className="row">
                         Objectives
                     </div>
-                    <hr>
+                    <hr />
                     <div className="row">
                         Key Results
                     </div>
