@@ -355,7 +355,7 @@ class TeamPageBody extends React.Component {
         const progressData = {
             objectiveCompletion: this.state.data.objectiveCompletion,
             keyResultCompletion: this.state.data.keyResultCompletion
-        },
+        };
 
         return (
             <div>
