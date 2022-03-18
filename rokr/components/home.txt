@@ -71,7 +71,9 @@ function ProgressCard(props) {
         <div>
             <div className="row justify-content-center align-items-center">
                 <div className="col-6">
-                    <div id={props.progressId} className="progress-circle text-center"></div>
+                    <div id={props.progressId} className="progress-circle text-center">
+                        <div className="progress-circle-value"></div>
+                    </div>
                     <div className={styleCircleText + " text-center mt-3"}>
                         AVG Objective Progress
                     </div>
