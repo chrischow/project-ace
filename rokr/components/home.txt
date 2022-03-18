@@ -30,11 +30,22 @@ function Card2(props) {
 
 // HomeCards
 function HomeCards(props) {
-    var cards = props.teams.map(function(item) {
-        return (
-            <Card teamName={item.teamName} slug={item.slug} />
-        );
-    });
+    var teams = props.teams;
+    // var progress = props.teamProgressData;
+    var cards = [];
+    for (i = 0; i < teams.length; i++) {
+        cards.push(
+            <Card 
+                teamName={teams[i].teamName}
+                slug={teams[i].slug}
+            />
+        )
+    }
+    // var cards = props.teams.map(function(item) {
+    //     return (
+    //         <Card teamName={item.teamName} slug={item.slug} />
+    //     );
+    // });
 
     return (
         <div className="row align-items-center mt-4 container">
