@@ -3,6 +3,32 @@
 // * ---------- *
 function TeamPage(props) {
     return (
-        <h1>{props.team.teamName}</h1>
+        <div>
+            <h1>{props.team.teamName}</h1>
+            <div className="mt-4">
+                <ul className="nav justify-content-center" role="tablist">
+                    <li className="nav-item">
+                        <a className="nav-link active" data-toggle="tab" role="tab" aria-selected="true" aria-controls="annual" href="#team-annual">Annual</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" data-toggle="tab" role="tab" aria-selected="false" aria-controls="quarterly" href="#team-quarterly">Quarterly</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" data-toggle="tab" role="tab" aria-selected="false" aria-controls="monthly" href="#team-monthly">Monthly</a>
+                    </li>
+                </ul>
+            </div>
+            <div className="tab-content" id="team-tabcontent">
+                <div className="tab-pane fade show active" id="#team-annual" role="tabpanel" aria-labelledby="annual-tab">
+                    <h3>Annual</h3>
+                </div>
+                <div className="tab-pane fade" id="#team-quarterly" role="tabpanel" aria-labelledby="quarterly-tab">
+                    <h3>Annual</h3>
+                </div>
+                <div className="tab-pane fade" id="#team-monthly" role="tabpanel" aria-labelledby="monthly-tab">
+                    <h3>Annual</h3>
+                </div>
+            </div>
+        </div>
     );
 }
