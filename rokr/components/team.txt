@@ -345,9 +345,10 @@ class TeamPageBody extends React.Component {
         });
 
         // Destroy circle
-        var teamProgressCircle = $('#team-progress').circleProgress();
-        $(teamProgressCircle.canvas).remove();
-        $('#team-progress').removeData('circle-progress');
+        var teamProgressCircle = $('#team-progress');
+        teamProgressCircle.circleProgress();
+        $(teamProgressCircle.data('circle-progress').canvas).remove();
+        teamProgressCircle.removeData('circle-progress');
 
         updateCircleProgress('team-progress', teamData[frequency].avgCompletion, 220, '50px', '#000718');
     }
