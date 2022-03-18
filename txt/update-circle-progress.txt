@@ -15,7 +15,7 @@ function updateCircleProgress(slug, progress, size, fontSize, emptyFill) {
             fill = "#27DDCB";
             //fill = obj.arcFill;
 
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.fillText('', s/2, s/2);
         ctx.save();
         ctx.font = fontSize + " 'Bahnschrift Light'";    // Team: 25px, Overall: 35px
         ctx.textAlign = 'center';
