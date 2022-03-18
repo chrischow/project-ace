@@ -4,7 +4,9 @@
 function ObjectiveCard(props) {
     const progress = Number(props.progress);
     const progressNow = Math.round(100 * progress);
-    const progressPct = String(progressNow) + '%';
+    const progressStyle = {
+        width: String(progressNow) + '%'
+    };
 
     return (
         <div className="objective-card">
@@ -45,6 +47,7 @@ function TeamPage(props) {
                 <ObjectiveCard 
                     title={o1.title}
                     description={o1.description}
+                    progress={o1.progress}
                 />
             </div>
         </div>

@@ -142,6 +142,7 @@ hr {
 .objective-card {
     background-color: #172334;
     padding: 40px 60px;
+    position: relative;
 }
 
 .objective-card--tag {
