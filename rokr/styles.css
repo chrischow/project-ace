@@ -107,7 +107,7 @@ hr {
 
 .progress-card--metric-between {
     color: #8497B0;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
 }
 
 /* Progress card - small */
@@ -136,7 +136,7 @@ hr {
 
 .progress-card--metric-between-sm {
     color: #8497B0;
-    font-size: 0.7rem;
+    font-size: 1.0rem;
 }
 
 /* Objective card */
@@ -184,7 +184,7 @@ hr {
     display: block;
     width: 0;
     height: 0;
-    left: 30px;
+    left: 37px;
     top: 69px;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
@@ -198,7 +198,7 @@ hr {
     width: 0;
     height: 0;
     left: 30px;
-    top: 65px;
+    top: 73px;
     border-right: 10px solid transparent;
     border-bottom: 10px solid transparent;
     border-left: 10px solid transparent;

@@ -125,6 +125,7 @@ function ObjectiveCard(props) {
     function updateArrow() {
         setIsClicked(!isClicked);
     }
+
     return (
         <button
             className="btn objective-card text-left"
@@ -133,7 +134,7 @@ function ObjectiveCard(props) {
             type="button"
             aria-expanded="false"
             aria-controls={objId}
-            onClick={updateArrow}
+            onChange={updateArrow}
         >
             <h4 className="objective-card--tag mb-3">Objective</h4>
             <div className={isClicked ? "arrow-down" : "arrow-right"}></div>
