@@ -63,11 +63,11 @@ function KeyResultCard(props) {
 function ObjectiveCard(props) {
     const objId = 'obj-' + props.objectiveId;
     return (
-        <a
+        <button
             className="objective-card text-left"
             data-toggle="collapse"
-            href={'#' + objId}
-            role="button"
+            data-target={'#' + objId}
+            type="button"
             aria-expanded="false"
             aria-controls={objId}
         >
@@ -80,7 +80,7 @@ function ObjectiveCard(props) {
                 {props.description}
             </p>
             <ProgressBar progress={props.progress} />
-        </a>
+        </button>
     );
 };
 
@@ -88,9 +88,7 @@ function ObjectiveCardGroup(props) {
     return (
         <div>
             <ObjectiveCard 
-                title={o1.title}
-                description={o1.description}
-                progress={o1.progress}
+                {...o1}
             />
             <div class="collapse" id="obj-1">
                 <KeyResultCard {...kr1} />
