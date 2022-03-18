@@ -76,7 +76,7 @@ function ProgressCard(props) {
                         AVG Objective Progress
                     </div>
                 </div>
-                <div className={props.isTeam ? "col-7" : "col-6"}>
+                <div className={(props.isTeam ? "col-7" : "col-6") + ' text-center'}>
                     <h4 className={styleHeaderText + " mb-3"}>Objectives</h4>
                     <div className="row mb-4 align-items-center justify-content-center">
                         <div className="col-5 text-center">
