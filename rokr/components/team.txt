@@ -1,7 +1,14 @@
 // * ---------- *
 // | PAGE: TEAM |
 // * ---------- *
-function ObjectiveCard(props) {
+// #FAKEDATA
+const o1 = {
+    title: 'Enhance the quality and volume of data collection and visibility',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat massa quis ornare rutrum. Pellentesque mattis neque malesuada volutpat ultricies. Maecenas sed vestibulum arcu. Aliquam in viverra nulla, non sodales.',
+    progress: 0.3
+};
+
+function ProgressBar(props) {
     const progressNow = Math.round(100 * Number(props.progress));
     const progressNowString = String(progressNow) + '%';
 
@@ -9,43 +16,41 @@ function ObjectiveCard(props) {
         width: progressNowString
     };
 
+    <div className="row align-items-center mt-3">
+        <div className="col-11">
+            <div className="progress">
+                <div
+                    className="progress-bar"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow={progressNow}
+                    style={progressStyle}
+                ></div>
+            </div>
+        </div>
+        <div className="col-1">
+            <span className="objective-card--progress-text">{progressNowString}</span>
+        </div>
+    </div>
+}
+
+function ObjectiveCard(props) {
+
     return (
         <div className="objective-card">
             <h4 className="objective-card--tag">Objective</h4>
             <div className="arrow-right"></div>
-            <h3 className="objective-card--title mt-1">
+            <h4 className="objective-card--title mt-2">
                 {props.title}
-            </h3>
+            </h4>
             <p className="objective-card--description mt-1">
                 {props.description}
             </p>
-            <div className="row align-items-center mt-3">
-                <div className="col-11">
-                    <div className="progress">
-                        <div
-                            className="progress-bar"
-                            role="progressbar"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            aria-valuenow={progressNow}
-                            style={progressStyle}
-                        ></div>
-                    </div>
-                </div>
-                <div className="col-1">
-                    <span className="objective-card--progress-text">{progressNowString}</span>
-                </div>
-            </div>
+            <ProgressBar progress={props.progress} />
         </div>
     )
 }
-
-// #FAKEDATA
-const o1 = {
-    title: 'Enhance the quality and volume of data collection and visibility',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat massa quis ornare rutrum. Pellentesque mattis neque malesuada volutpat ultricies. Maecenas sed vestibulum arcu. Aliquam in viverra nulla, non sodales.',
-    progress: 0.3
-};
 
 function TeamPage(props) {
     return (

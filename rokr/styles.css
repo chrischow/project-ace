@@ -117,7 +117,7 @@ hr {
 }
 
 .progress-card--header-text-sm {
-    font-size: 1.0rem;
+    font-size: 0.9rem;
     font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -142,7 +142,7 @@ hr {
 /* Objective card */
 .objective-card {
     background-color: #172334;
-    padding: 40px 60px;
+    padding: 30px 60px;
     position: relative;
 }
 
@@ -156,6 +156,7 @@ hr {
 
 .objective-card--title {
     color: #EAEAEA;
+    font-size: 1.4rem;
 }
 
 .objective-card--description {
@@ -173,7 +174,7 @@ hr {
     width: 0;
     height: 0;
     left: 30px;
-    top: 72px;
+    top: 61px;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
     border-left: 10px solid #27DDCB;
@@ -186,7 +187,7 @@ hr {
     width: 0;
     height: 0;
     left: 30px;
-    top: 72px;
+    top: 60px;
     border-right: 10px solid transparent;
     border-bottom: 10px solid transparent;
     border-left: 10px solid #27DDCB;
@@ -194,8 +195,10 @@ hr {
 
 .progress {
     background-color: #010D1E;
+    border-radius: 1.0rem;
 }
 
 .progress-bar {
     background-color: #27DDCB;
+    border-radius: 1.0rem;
 }
