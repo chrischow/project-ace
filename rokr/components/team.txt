@@ -119,7 +119,7 @@ function KeyResultCard(props) {
 }
 
 function ObjectiveCard(props) {
-    const [isClicked, setIsClicked] = React.useState(False);
+    const [isClicked, setIsClicked] = React.useState(false);
     const objId = 'obj-' + props.objectiveId;
 
     function updateArrow() {
