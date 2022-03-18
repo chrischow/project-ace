@@ -2,6 +2,9 @@ body {
     font-family: 'Bahnschrift Light', 'Segoe UI', sans-serif;
     color: #E9E9E9;
     background-color: #000C1D;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
 }
 
 .accent-blue {
@@ -148,6 +151,40 @@ hr {
 /* Frequency tabs */
 .frequency-tabs--link {
     color: #6B7E97;
+    transition: 0.3s;
+}
+
+.frequency-tabs--link:hover {
+    color: #27DDCB;
+    transition: 0.3s;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0;
+    transition: 0.4s;
+    position: relative;
+}
+
+.nav-pills .nav-link::after {
+    position: absolute;
+    content: "";
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #27DDCB;
+    transform: scaleX(0);
+    transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.nav-pills .nav-link:hover::after, .nav-pills .nav-link.active::after {
+    transform: scaleX(1);
+}
+
+.nav-pills .nav-link.active {
+    background-color: transparent;
+    border-bottom: 1px solid #27DDCB;
+    color: #27DDCB;
+    transition: 0.4s;
 }
 
 /* Objective card */
