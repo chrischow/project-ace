@@ -153,7 +153,7 @@ function ObjectiveCardGroup(props) {
     return (
         <div className="mt-4">
             <ObjectiveCard {...props} />
-            <div class="collapse" id={"obj-" + objId}>
+            <div class="collapse" id={objId}>
                 {keyResultCards}
             </div>
         </div>
