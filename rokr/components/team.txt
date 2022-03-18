@@ -87,10 +87,12 @@ function ProgressBar(props) {
         width: progressNowString
     };
 
+    const progressClass = props.isKeyResult ? "progress progress-keyresult" : "progress";
+
     return (
         <div className="row align-items-center mt-3">
             <div className="col-11">
-                <div className="progress">
+                <div className={progressClass}>
                     <div
                         className="progress-bar"
                         role="progressbar"
@@ -118,7 +120,7 @@ function KeyResultCard(props) {
             <p className="keyresult-card--description mt-1">
                 {props.description}
             </p>
-            <ProgressBar progress={props.progress} />
+            <ProgressBar progress={props.progress} isKeyResult={true} />
         </div>
     );
 }
@@ -199,7 +201,7 @@ class TeamPageBody extends React.Component {
     }
 
     componentDidMount() {
-        updateCircleProgress('team-progress', 0.2, 220, '50px', '#000718');
+        updateCircleProgress('team-progress', 0.26, 220, '50px', '#000718');
     }
 
     render() {
@@ -210,7 +212,7 @@ class TeamPageBody extends React.Component {
                 <div className="overall-panel mt-4">
                     <ProgressCard progressId="team-progress" data={teamOverallData} isTeam={false} />
                 </div>
-                <div className="mt-4">
+                <div className="mt-5">
                     <ObjectiveCardGroup {...o1} />
                     <ObjectiveCardGroup {...o2} />
                     <ObjectiveCardGroup {...o3} />
