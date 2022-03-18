@@ -2,6 +2,11 @@
 // | PAGE: TEAM |
 // * ---------- *
 // #FAKEDATA
+const teamOverallData = {
+    objective: { inProgress: 11, total: 15 },
+    keyResults: { inProgress: 33, total: 45 }
+};
+
 const o1 = {
     objectiveId: 1,
     title: 'Enhance the quality and volume of data collection and visibility',
@@ -193,7 +198,11 @@ function TeamPage(props) {
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
             <FrequencyTabs />
-            <div>
+            <div className="overall-panel mt-4">
+                <h3 className="mt-4">Team Progress</h3>
+                <ProgressCard progressId="team-progress" data={props.teamOverallData} isTeam={false} />
+            </div>
+            <div className="mt-4">
                 <ObjectiveCardGroup {...o1} />
                 <ObjectiveCardGroup {...o2} />
                 <ObjectiveCardGroup {...o3} />
