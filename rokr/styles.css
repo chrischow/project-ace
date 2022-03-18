@@ -60,7 +60,7 @@ hr {
     color: #EAEAEA;
     border-radius: 5px;
     transition: 0.3s;
-    padding: 25px 15px;
+    padding: 25px;
     margin-right: auto;
     margin-left: auto;
     width: 98%;
@@ -117,12 +117,12 @@ hr {
 
 .progress-card--metric-sm {
     color: #27DDCB;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
 }
 
 .progress-card--metric-title-sm {
     color: #8497B0;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
 }
 
 .progress-card--metric-between-sm {

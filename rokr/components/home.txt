@@ -64,13 +64,13 @@ function ProgressCard(props) {
     return (
         <div>
             <div className="row justify-content-center align-items-center">
-                <div className="col-6">
+                <div className={props.isTeam ? "col-5" : "col-6"}>
                     <div id={props.progressId} className="progress-circle text-center"></div>
                     <div className={styleCircleText + " text-center mt-3"}>
                         AVG Objective Progress
                     </div>
                 </div>
-                <div className="col-6">
+                <div className={props.isTeam ? "col-7" : "col-6"}>
                     <h4 className={styleHeaderText + " mb-3"}>Objectives</h4>
                     <div className="row mb-4 align-items-center justify-content-center">
                         <div className="col-5 text-center">
