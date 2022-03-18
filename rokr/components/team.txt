@@ -168,7 +168,7 @@ function ObjectiveCardGroup(props) {
     });
 
     return (
-        <div className="mt-4">
+        <div className="mt-5">
             <ObjectiveCard {...props} />
             <div class="collapse" id={objId}>
                 {keyResultCards}
@@ -212,7 +212,8 @@ class TeamPageBody extends React.Component {
                 <div className="overall-panel mt-4">
                     <ProgressCard progressId="team-progress" data={teamOverallData} isTeam={false} />
                 </div>
-                <div className="mt-5">
+                <h3 className="mt-5">Objectives & Key Results</h3>
+                <div className="mt-1">
                     <ObjectiveCardGroup {...o1} />
                     <ObjectiveCardGroup {...o2} />
                     <ObjectiveCardGroup {...o3} />

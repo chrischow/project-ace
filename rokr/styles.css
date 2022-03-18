@@ -50,7 +50,17 @@ hr {
     font-family: 'Bahnschrift'
 }
 
+.navbar-dark .navbar-nav .nav-link {
+    transition: 0.3s;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    transition: 0.3s;
+    color: #7B73F0;
+}
+
 .navbar-dark .navbar-nav .nav-link.active {
+    transition: 0.3s;
     font-weight: bold;
     color: #7B73F0;
 }
@@ -258,8 +268,9 @@ hr {
     border-radius: 1.0rem;
 }
 
-.progress .progress-keyresult {
-    height: 0.7rem;
+div.progress.progress-keyresult {
+    height: 0.7rem!important;
+    background-color: #0B1728;
 }
 
 .progress-bar {
