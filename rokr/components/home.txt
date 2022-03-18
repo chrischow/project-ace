@@ -126,7 +126,7 @@ class Home extends React.Component {
 
     componentDidMount(){
         // Load overall
-        updateCircleProgress('overall_progress', 0.2, 220, '40px', '#000718');
+        updateCircleProgress('overall_progress', 0.2, 220, '50px', '#000718');
 
         // Load teams
         var slug;
