@@ -121,7 +121,7 @@ class Home extends React.Component {
         for (var i=0; i<teams.length; i++) {
             slug = teams[i].slug;
             team_progress = Number(progress[i]);
-            updateCircleProgress(slug, team_progress, 160, '25px', '#010D1E');
+            updateCircleProgress(slug, team_progress, 160, '35px', '#010D1E');
         }
     }
 

@@ -1,7 +1,7 @@
 $.circleProgress.defaults.drawValue = function(v, fontSize) {
     var ctx = this.ctx,
         s = this.size,
-        sv = (100 * v).toFixed(),
+        sv = (100 * v).toFixed() + '%',
         fill = "#27DDCB";
 
     ctx.save();
@@ -22,23 +22,7 @@ function updateCircleProgress(slug, progress, size, fontSize, emptyFill) {
         fill: {  color: '#27DDCB' },
         emptyFill: "#010D1E"    // Team: #010D1E, Overall: #000718
     });
-
-    // team_progress.on('circle-animation-progress', function(e, v, s) {
-    //     var obj = $(this).data('circle-progress'),
-    //         ctx = obj.ctx,
-    //         s = obj.size,
-    //         sv = (progress * 100 * v).toFixed() + "%",
-    //         fill = "#27DDCB";
-    //         //fill = obj.arcFill;
-
-    //     ctx.save();
-    //     ctx.font = fontSize + " 'Bahnschrift Light'";    // Team: 25px, Overall: 35px
-    //     ctx.textAlign = 'center';
-    //     ctx.textBaseline = 'middle';
-    //     ctx.fillStyle = fill;
-    //     ctx.fillText(sv, s / 2, s / 2);
-    //     ctx.restore();
-    // });
+    
     team_progress.on('circle-animation-progress', function(event, progressValue, stepValue) {
         $(this).data('circle-progress').drawValue(stepValue, fontSize);
     });
