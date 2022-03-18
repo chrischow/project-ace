@@ -31,6 +31,11 @@ h1 {
     font-size: 3.3rem;
 }
 
+h4 {
+    font-family: 'Bahnschrift', 'Segoe UI', 'Segoe UI', sans-serif;
+    font-size: 1.3rem;
+}
+
 hr {
     background-color: #344051;
 }
@@ -80,7 +85,7 @@ hr {
 }
 
 .progress-card--header-text {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 
 .progress-card--metric {
@@ -90,9 +95,9 @@ hr {
 
 .progress-card--metric-title {
     color: #8497B0;
-    font-size: 1.1rem;
 }
 
 .progress-card--metric-between {
-    color: #27DDCB;
+    color: #8497B0;
+    font-size: 0.9rem;
 }
