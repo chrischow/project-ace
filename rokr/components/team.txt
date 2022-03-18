@@ -144,13 +144,16 @@ function ObjectiveCard(props) {
 
 function ObjectiveCardGroup(props) {
     // Create KR Cards
+    const objId = 'obj-' + props.objectiveId;
+
     const keyResultCards = props.keyResults.map(function(item) {
         return <KeyResultCard {...item} />
     });
+
     return (
-        <div>
+        <div className="mt-4">
             <ObjectiveCard {...props} />
-            <div class="collapse" id="obj-1">
+            <div class="collapse" id={"obj-" + objId}>
                 {keyResultCards}
             </div>
         </div>

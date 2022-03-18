@@ -153,7 +153,7 @@ hr {
     transition: 0.3s;
 }
 
-.objective-card .btn.focus, .objective-card .btn:focus {
+.btn.focus, .btn:focus {
     box-shadow: none;
 }
 
@@ -217,7 +217,7 @@ hr {
 
 /* Key Result card */
 .keyresult-card {
-    background-color: #212D3E;
+    background-color: #2C3849;
     padding: 20px 60px;
     position: relative;
     border-radius: 4px;
@@ -229,7 +229,7 @@ hr {
     font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: #51647D;
+    color: #6B7E97;
 }
 
 .keyresult-card--title {
