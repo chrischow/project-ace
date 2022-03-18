@@ -1,4 +1,4 @@
-$.circleProgress.defaults.drawValue = function(v) {
+$.circleProgress.defaults.drawValue = function(v, fontSize) {
     var ctx = this.ctx,
         s = this.size,
         sv = (100 * v).toFixed(),
@@ -40,6 +40,6 @@ function updateCircleProgress(slug, progress, size, fontSize, emptyFill) {
     //     ctx.restore();
     // });
     team_progress.on('circle-animation-progress', function(event, progressValue, stepValue) {
-        $(this).data('circle-progress').drawValue(stepValue);
+        $(this).data('circle-progress').drawValue(stepValue, fontSize);
     });
 }
