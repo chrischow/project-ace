@@ -112,6 +112,7 @@ hr {
 
 .progress-card--header-text-sm {
     font-size: 1.0rem;
+    font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
 }
 
 .progress-card--metric-sm {

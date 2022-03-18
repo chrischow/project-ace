@@ -90,6 +90,17 @@
                 Math.random(), Math.random(), Math.random(), Math.random(), Math.random()
             ];
 
+            const overallProgressData = {
+                objective: {
+                    inProgress: 11,
+                    total: 15
+                },
+                keyResults: {
+                    inProgress: 33,
+                    total: 45
+                }
+            };
+
             // Team page
             const Team = (props) => {
                 return (
@@ -116,6 +127,7 @@
                 );
             }
 
+
             // App
             function App() {
                 return (
@@ -123,7 +135,7 @@
                         <Navbar teams={teams} />
                         <div className="container mt-5">
                             <Switch>
-                                <Route path='/' render={(props) => <Home teams={teams} />} exact />
+                                <Route path='/' render={(props) => <Home teams={teams} overallData={overallProgressData}/>} exact />
                                 <Routes teams={teams} />
                             </Switch>
                         </div>

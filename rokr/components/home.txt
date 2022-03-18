@@ -72,12 +72,12 @@ function ProgressCard(props) {
                 </div>
                 <div className="col-6">
                     <h4 className={styleHeaderText + " mb-3"}>Objectives</h4>
-                    <div className="row mb-4 align-items-center">
+                    <div className="row mb-4 align-items-center justify-content-center">
                         <div className="col-5 text-center">
                             <div className={styleMetric}>{props.data.objective.inProgress}</div>
                             <div className={styleMetricTitle}>In Progress</div>
                         </div>
-                        <div className="col-2 text-center">
+                        <div className="col-1 text-center">
                             <div className={styleMetricBetween}>of</div>
                         </div>
                         <div className="col-5 text-center">
@@ -87,12 +87,12 @@ function ProgressCard(props) {
                     </div>
                     <hr />
                     <h4 className={styleHeaderText + " mt-4 mb-3"}>Key Results</h4>
-                    <div className="row mb-3 align-items-center">
+                    <div className="row mb-3 align-items-center justify-content-center">
                         <div className="col-5 text-center">
                             <div className={styleMetric}>{props.data.keyResults.inProgress}</div>
                             <div className={styleMetricTitle}>In Progress</div>
                         </div>
-                        <div className="col-2 text-center">
+                        <div className="col-1 text-center">
                             <div className={styleMetricBetween}>of</div>
                         </div>
                         <div className="col-5 text-center">
@@ -107,17 +107,6 @@ function ProgressCard(props) {
 }
 
 // #FAKEDATA
-const overallProgressData = {
-    objective: {
-        inProgress: 11,
-        total: 15
-    },
-    keyResults: {
-        inProgress: 33,
-        total: 45
-    }
-};
-
 const testData = {
     objective: {
         inProgress: 11,
@@ -137,7 +126,7 @@ class Home extends React.Component {
 
     componentDidMount(){
         // Load overall
-        updateCircleProgress('overall_progress', 0.2, 220, '35px', '#000718');
+        updateCircleProgress('overall_progress', 0.2, 220, '40px', '#000718');
 
         // Load teams
         var slug;
@@ -149,7 +138,7 @@ class Home extends React.Component {
             updateCircleProgress(slug, team_progress, 125, '25px', '#010D1E');
         }
 
-        updateCircleProgress("rdo2", 0.30, 140, '25px', '#010D1E');
+        updateCircleProgress("rdo2", 0.30, 140, '30px', '#010D1E');
     }
 
     render() {
@@ -158,7 +147,7 @@ class Home extends React.Component {
                 <h1><Brand /></h1>
                 <h2 className="mt-4">Overall Progress</h2>
                 <div className="overall-panel mt-4">
-                    <ProgressCard progressId="overall_progress" data={overallProgressData} isTeam={false} />
+                    <ProgressCard progressId="overall_progress" data={this.props.overallData} isTeam={false} />
                 </div>
                 <h2 className="mt-5">Teams</h2>
                 <HomeCards teams={this.props.teams} />
