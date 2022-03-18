@@ -8,7 +8,7 @@
 // Cards
 function Card(props) {
     return (
-        <div className="col-6 col-xl-4 card--outer">
+        <div className="col-6 card--outer">
             <div className="card--inner text-center">
                 <h4 className="card--header">{props.teamName}</h4>
                 <div id={props.slug} className="text-center mt-3"></div>
@@ -20,8 +20,8 @@ function Card(props) {
 function Card2(props) {
     return (
         <div className="col-6 col-xl-4 card--outer">
-            <div className="card--inner text-center">
-                <h4 className="card--header">{props.teamName}</h4>
+            <div className="card--inner">
+                <h4 className="card--header text-center">{props.teamName}</h4>
                 <ProgressCard progressId={props.slug} data={props.data} isTeam={true} />
             </div>
         </div>
@@ -149,7 +149,7 @@ class Home extends React.Component {
             updateCircleProgress(slug, team_progress, 125, '25px', '#010D1E');
         }
 
-        updateCircleProgress("rdo2", 0.30, 125, '25px', '#010D1E');
+        updateCircleProgress("rdo2", 0.30, 100, '22px', '#010D1E');
     }
 
     render() {

@@ -96,6 +96,7 @@ hr {
 
 .progress-card--metric-title {
     color: #8497B0;
+    font-size: 1.0rem;
 }
 
 .progress-card--metric-between {
@@ -110,7 +111,7 @@ hr {
 }
 
 .progress-card--header-text-sm {
-    font-size: 1.1rem;
+    font-size: 1.0rem;
 }
 
 .progress-card--metric-sm {
@@ -120,9 +121,10 @@ hr {
 
 .progress-card--metric-title-sm {
     color: #8497B0;
+    font-size: 0.8rem;
 }
 
 .progress-card--metric-between-sm {
     color: #8497B0;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
