@@ -193,20 +193,38 @@ function FrequencyTabs() {
     );
 }
 
+class TeamPageBody extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    componentDidMount() {
+        updateCircleProgress('team-progress', 0.2, 220, '50px', '#000718');
+    }
+
+    render() {
+        return (
+            <div>
+                <FrequencyTabs />
+                <h3 className="mt-4">Team Progress</h3>
+                <div className="overall-panel mt-4">
+                    <ProgressCard progressId="team-progress" data={teamOverallData} isTeam={false} />
+                </div>
+                <div className="mt-4">
+                    <ObjectiveCardGroup {...o1} />
+                    <ObjectiveCardGroup {...o2} />
+                    <ObjectiveCardGroup {...o3} />
+                </div>
+            </div>
+        );
+    }
+}
+
 function TeamPage(props) {
     return (
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
-            <FrequencyTabs />
-            <div className="overall-panel mt-4">
-                <h3 className="mt-4">Team Progress</h3>
-                <ProgressCard progressId="team-progress" data={teamOverallData} isTeam={false} />
-            </div>
-            <div className="mt-4">
-                <ObjectiveCardGroup {...o1} />
-                <ObjectiveCardGroup {...o2} />
-                <ObjectiveCardGroup {...o3} />
-            </div>
+            <TeamPageBody />
         </div>
     );
 };
