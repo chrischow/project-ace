@@ -31,6 +31,10 @@ h1 {
     font-size: 3.3rem;
 }
 
+hr {
+    background-color: #344051;
+}
+
 .navbar-brand {
     font-family: 'Bahnschrift'
 }
@@ -72,4 +76,23 @@ h1 {
 
 .progress-card--circle-text {
     color: #8497B0;
+    font-size: 1.2rem;
+}
+
+.progress-card--header-text {
+    font-size: 1.5rem;
+}
+
+.progress-card--metric {
+    color: #27DDCB;
+    font-size: 1.8rem;
+}
+
+.progress-card--metric-title {
+    color: #8497B0;
+    font-size: 1.1rem;
+}
+
+.progress-card--metric-between {
+    color: #27DDCB;
 }

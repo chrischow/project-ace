@@ -43,12 +43,23 @@ function ProgressCard(props) {
                     </div>
                 </div>
                 <div className="col-6">
-                    <div className="row">
-                        Objectives
+                    <div className="row mb-3">
+                        <div className="progress-card--header-text">Objectives</div>
+                        <div className="col-5">
+                            <div className="progress-card--metric">11</div>
+                            <div className="progress-card--metric-title">In Progress</div>
+                        </div>
+                        <div className="col-2">
+                            <div className="progress-card--metric-between">In Progress</div>
+                        </div>
+                        <div className="col-5">
+                            <div className="progress-card--metric">11</div>
+                            <div className="progress-card--metric-title">In Progress</div>
+                        </div>
                     </div>
                     <hr />
                     <div className="row">
-                        Key Results
+                        <div className="progress-card--header-text">Key Results</div>
                     </div>
                 </div>
             </div>
