@@ -141,11 +141,11 @@ hr {
 
 .objective-card {
     background-color: #172334;
-    padding: 30px;
+    padding: 40px 60px;
 }
 
 .objective-card--tag {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -154,4 +154,21 @@ hr {
 
 .objective-card--title {
     color: #EAEAEA;
+}
+
+.objective-card--description {
+    color: #8497B0;
+}
+
+.arrow-right {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    left: 30px;
+    top: 72px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #27DDCB;
 }

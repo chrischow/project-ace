@@ -4,24 +4,26 @@
 function ObjectiveCard(props) {
     const progress = Number(props.progress);
     const progressNow = Math.round(100 * progress);
+    const progressPct = String(progressNow) + '%';
 
     return (
         <div className="objective-card">
             <h4 className="objective-card--tag">Objective</h4>
-            <h3 className="objective-card--title">
+            <div className="arrow-right"></div>
+            <h3 className="objective-card--title mt-1">
                 {props.title}
             </h3>
-            <p className="objective-card--description">
+            <p className="objective-card--description mt-1">
                 {props.description}
             </p>
-            <div className="progress">
+            <div className="progress mt-3">
                 <div
                     className="progress-bar"
                     role="progressbar"
                     aria-valuemin="0"
                     aria-valuemax="100"
                     aria-valuenow={progressNow}
-                    style={{width: progressNow+'%'}}
+                    style={{width: {progressPct}}}
                 ></div>
             </div>
         </div>
