@@ -16,6 +16,20 @@ const kr1 = {
     progress: 0.17
 };
 
+const kr2 = {
+    objectiveId: 1,
+    title: 'Complete all 4 tracks of OCTANE',
+    description: 'To map out our landscape.',
+    progress: 0.05
+};
+
+const kr3 = {
+    objectiveId: 1,
+    title: 'Create MS Stack data catalogue and ingest 12 datasets',
+    description: 'To make data visible and accessible.',
+    progress: 0.42
+}
+
 function ProgressBar(props) {
     const progressNow = Math.round(100 * Number(props.progress));
     const progressNowString = String(progressNow) + '%';
@@ -64,14 +78,14 @@ function ObjectiveCard(props) {
     const objId = 'obj-' + props.objectiveId;
     return (
         <button
-            className="objective-card text-left"
+            className="btn objective-card text-left"
             data-toggle="collapse"
             data-target={'#' + objId}
             type="button"
             aria-expanded="false"
             aria-controls={objId}
         >
-            <h4 className="objective-card--tag">Objective</h4>
+            <h4 className="objective-card--tag mb-3">Objective</h4>
             <div className="arrow-right"></div>
             <h4 className="objective-card--title mt-2">
                 {props.title}
@@ -85,13 +99,14 @@ function ObjectiveCard(props) {
 };
 
 function ObjectiveCardGroup(props) {
+    // Map here
     return (
         <div>
-            <ObjectiveCard 
-                {...o1}
-            />
+            <ObjectiveCard {...o1} />
             <div class="collapse" id="obj-1">
                 <KeyResultCard {...kr1} />
+                <KeyResultCard {...kr2} />
+                <KeyResultCard {...kr3} />
             </div>
         </div>
     );

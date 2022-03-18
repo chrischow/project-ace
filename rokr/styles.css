@@ -147,12 +147,16 @@ hr {
     border-radius: 5px;
 }
 
+.objective-card .btn.focus, .objective-card .btn:focus {
+    box-shadow: none;
+}
+
 .objective-card--tag {
     font-size: 1.1rem;
     font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
     text-transform: uppercase;
     letter-spacing: 3px;
-    color: #51647D;
+    color: #958DFF;
 }
 
 .objective-card--title {
@@ -175,7 +179,7 @@ hr {
     width: 0;
     height: 0;
     left: 30px;
-    top: 61px;
+    top: 69px;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
     border-left: 10px solid #27DDCB;
@@ -188,10 +192,11 @@ hr {
     width: 0;
     height: 0;
     left: 30px;
-    top: 60px;
+    top: 65px;
     border-right: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-left: 10px solid #27DDCB;
+    border-left: 10px solid transparent;
+    border-top: 10px solid #27DDCB;
 }
 
 .progress {
@@ -206,8 +211,8 @@ hr {
 
 /* Key Result card */
 .keyresult-card {
-    background-color: #172334;
-    padding: 20px 40px;
+    background-color: #212D3E;
+    padding: 20px 60px;
     position: relative;
     border-radius: 4px;
 }
@@ -227,5 +232,5 @@ hr {
 
 .keyresult-card--description {
     color: #8497B0;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
 }
