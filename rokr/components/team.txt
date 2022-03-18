@@ -4,7 +4,7 @@
 // #FAKEDATA
 const annualOkrs = [
     {
-        objectiveId: 1, title: 'Annual O1', description: 'Annual O1 description', progress: 0.1,
+        objectiveId: 1, title: 'Annual O1', description: 'Annual O1 description', progress: 0.12,
         keyResults: [
             {title: 'Annual O1 KR1', description: 'Annual O1 KR1 description', progress: 0.11},
             {title: 'Annual O1 KR2', description: 'Annual O1 KR2 description', progress: 0.12},
@@ -12,7 +12,7 @@ const annualOkrs = [
         ]
     },
     {
-        objectiveId: 1, title: 'Annual O2', description: 'Annual O2 description', progress: 0.2,
+        objectiveId: 1, title: 'Annual O2', description: 'Annual O2 description', progress: 0.22,
         keyResults: [
             {title: 'Annual O2 KR1', description: 'Annual O2 KR1 description', progress: 0.21},
             {title: 'Annual O2 KR2', description: 'Annual O2 KR2 description', progress: 0.22},
@@ -20,7 +20,7 @@ const annualOkrs = [
         ]
     },
     {
-        objectiveId: 1, title: 'Annual O3', description: 'Annual O3 description', progress: 0.3,
+        objectiveId: 1, title: 'Annual O3', description: 'Annual O3 description', progress: 0.32,
         keyResults: [
             {title: 'Annual O3 KR1', description: 'Annual O3 KR1 description', progress: 0.31},
             {title: 'Annual O3 KR2', description: 'Annual O3 KR2 description', progress: 0.32},
@@ -31,72 +31,72 @@ const annualOkrs = [
 
 const quarterlyOkrs = [
     {
-        objectiveId: 1, title: 'Quarterly O1', description: 'Quarterly O1 description', progress: 0.1,
+        objectiveId: 1, title: 'Quarterly O1', description: 'Quarterly O1 description', progress: 0.42,
         keyResults: [
-            {title: 'Quarterly O1 KR1', description: 'Quarterly O1 KR1 description', progress: 0.11},
-            {title: 'Quarterly O1 KR2', description: 'Quarterly O1 KR2 description', progress: 0.12},
-            {title: 'Quarterly O1 KR3', description: 'Quarterly O1 KR3 description', progress: 0.13},
+            {title: 'Quarterly O1 KR1', description: 'Quarterly O1 KR1 description', progress: 0.41},
+            {title: 'Quarterly O1 KR2', description: 'Quarterly O1 KR2 description', progress: 0.42},
+            {title: 'Quarterly O1 KR3', description: 'Quarterly O1 KR3 description', progress: 0.43},
         ]
     },
     {
-        objectiveId: 1, title: 'Quarterly O2', description: 'Quarterly O2 description', progress: 0.2,
+        objectiveId: 1, title: 'Quarterly O2', description: 'Quarterly O2 description', progress: 0.52,
         keyResults: [
-            {title: 'Quarterly O2 KR1', description: 'Quarterly O2 KR1 description', progress: 0.21},
-            {title: 'Quarterly O2 KR2', description: 'Quarterly O2 KR2 description', progress: 0.22},
-            {title: 'Quarterly O2 KR3', description: 'Quarterly O2 KR3 description', progress: 0.23},
+            {title: 'Quarterly O2 KR1', description: 'Quarterly O2 KR1 description', progress: 0.51},
+            {title: 'Quarterly O2 KR2', description: 'Quarterly O2 KR2 description', progress: 0.52},
+            {title: 'Quarterly O2 KR3', description: 'Quarterly O2 KR3 description', progress: 0.53},
         ]
     },
     {
-        objectiveId: 1, title: 'Quarterly O3', description: 'Quarterly O3 description', progress: 0.3,
+        objectiveId: 1, title: 'Quarterly O3', description: 'Quarterly O3 description', progress: 0.62,
         keyResults: [
-            {title: 'Quarterly O3 KR1', description: 'Quarterly O3 KR1 description', progress: 0.31},
-            {title: 'Quarterly O3 KR2', description: 'Quarterly O3 KR2 description', progress: 0.32},
-            {title: 'Quarterly O3 KR3', description: 'Quarterly O3 KR3 description', progress: 0.33},
+            {title: 'Quarterly O3 KR1', description: 'Quarterly O3 KR1 description', progress: 0.61},
+            {title: 'Quarterly O3 KR2', description: 'Quarterly O3 KR2 description', progress: 0.62},
+            {title: 'Quarterly O3 KR3', description: 'Quarterly O3 KR3 description', progress: 0.63},
         ]
     },
 ];
 
 const monthlyOkrs = [
     {
-        objectiveId: 1, title: 'Monthly O1', description: 'Monthly O1 description', progress: 0.1,
+        objectiveId: 1, title: 'Monthly O1', description: 'Monthly O1 description', progress: 0.72,
         keyResults: [
-            {title: 'Monthly O1 KR1', description: 'Monthly O1 KR1 description', progress: 0.11},
-            {title: 'Monthly O1 KR2', description: 'Monthly O1 KR2 description', progress: 0.12},
-            {title: 'Monthly O1 KR3', description: 'Monthly O1 KR3 description', progress: 0.13},
+            {title: 'Monthly O1 KR1', description: 'Monthly O1 KR1 description', progress: 0.71},
+            {title: 'Monthly O1 KR2', description: 'Monthly O1 KR2 description', progress: 0.72},
+            {title: 'Monthly O1 KR3', description: 'Monthly O1 KR3 description', progress: 0.73},
         ]
     },
     {
-        objectiveId: 1, title: 'Monthly O2', description: 'Monthly O2 description', progress: 0.2,
+        objectiveId: 1, title: 'Monthly O2', description: 'Monthly O2 description', progress: 0.82,
         keyResults: [
-            {title: 'Monthly O2 KR1', description: 'Monthly O2 KR1 description', progress: 0.21},
-            {title: 'Monthly O2 KR2', description: 'Monthly O2 KR2 description', progress: 0.22},
-            {title: 'Monthly O2 KR3', description: 'Monthly O2 KR3 description', progress: 0.23},
+            {title: 'Monthly O2 KR1', description: 'Monthly O2 KR1 description', progress: 0.81},
+            {title: 'Monthly O2 KR2', description: 'Monthly O2 KR2 description', progress: 0.82},
+            {title: 'Monthly O2 KR3', description: 'Monthly O2 KR3 description', progress: 0.83},
         ]
     },
     {
-        objectiveId: 1, title: 'Monthly O3', description: 'Monthly O3 description', progress: 0.3,
+        objectiveId: 1, title: 'Monthly O3', description: 'Monthly O3 description', progress: 0.92,
         keyResults: [
-            {title: 'Monthly O3 KR1', description: 'Monthly O3 KR1 description', progress: 0.31},
-            {title: 'Monthly O3 KR2', description: 'Monthly O3 KR2 description', progress: 0.32},
-            {title: 'Monthly O3 KR3', description: 'Monthly O3 KR3 description', progress: 0.33},
+            {title: 'Monthly O3 KR1', description: 'Monthly O3 KR1 description', progress: 0.91},
+            {title: 'Monthly O3 KR2', description: 'Monthly O3 KR2 description', progress: 0.92},
+            {title: 'Monthly O3 KR3', description: 'Monthly O3 KR3 description', progress: 0.93},
         ]
     },
 ];
 
-const newTestData = {
+const teamData = {
     annual: {
         objectiveCompletion: {completed: 1, total: 3},
         keyResultCompletion: {completed: 3, total: 9},
         okrs: annualOkrs
     },
     quarterly: {
-        objectiveCompletion: {completed: 1, total: 3},
-        keyResultCompletion: {completed: 3, total: 9},
+        objectiveCompletion: {completed: 2, total: 6},
+        keyResultCompletion: {completed: 6, total: 18},
         okrs: quarterlyOkrs
     },
     monthly: {
-        objectiveCompletion: {completed: 1, total: 3},
-        keyResultCompletion: {completed: 3, total: 9},
+        objectiveCompletion: {completed: 3, total: 9},
+        keyResultCompletion: {completed: 9, total: 27},
         okrs: monthlyOkrs
     }
     
@@ -326,7 +326,6 @@ function FrequencyTabs(props) {
 }
 
 function TestPills(props) {
-    console.log(newTestData[props.frequency]);
     return (
         <h3>{props.frequency} selected</h3>
     )
@@ -335,11 +334,17 @@ function TestPills(props) {
 class TeamPageBody extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { 'frequency': 'annual' };
+        this.state = {
+            frequency: 'annual',
+            data: teamData['annual']
+        };
     }
 
     changeFrequency = (frequency) => {
-        this.setState({ 'frequency': frequency });
+        this.setState({
+            frequency: frequency,
+            data: teamData[frequency]
+        });
     }
 
     componentDidMount() {
@@ -347,6 +352,11 @@ class TeamPageBody extends React.Component {
     }
 
     render() {
+        const progressData = {
+            objectiveCompletion: this.state.data.objectiveCompletion,
+            keyResultCompletion: this.state.data.keyResultCompletion
+        },
+
         return (
             <div>
                 <FrequencyTabs changeFrequency={this.changeFrequency} />
@@ -355,7 +365,7 @@ class TeamPageBody extends React.Component {
                 </div>
                 <h3 className="mt-4">Team Progress</h3>
                 <div className="overall-panel mt-4">
-                    <ProgressCard progressId="team-progress" data={teamOverallData} isTeam={false} />
+                    <ProgressCard progressId="team-progress" data={progressData} isTeam={false} />
                 </div>
                 <h3 className="mt-5">Objectives & Key Results</h3>
                 <ObjectiveCardGroup {...o1} />
