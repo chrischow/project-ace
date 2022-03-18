@@ -119,7 +119,12 @@ function KeyResultCard(props) {
 }
 
 function ObjectiveCard(props) {
+    const [isClicked, setIsClicked] = React.useState(False);
     const objId = 'obj-' + props.objectiveId;
+
+    function updateArrow() {
+        setIsClicked(!isClicked);
+    }
     return (
         <button
             className="btn objective-card text-left"
@@ -128,9 +133,10 @@ function ObjectiveCard(props) {
             type="button"
             aria-expanded="false"
             aria-controls={objId}
+            onClick={updateArrow}
         >
             <h4 className="objective-card--tag mb-3">Objective</h4>
-            <div className="arrow-right"></div>
+            <div className={isClicked ? "arrow-down" : "arrow-right"}></div>
             <h4 className="objective-card--title mt-2">
                 {props.title}
             </h4>
