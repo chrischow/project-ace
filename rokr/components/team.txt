@@ -6,29 +6,73 @@ const o1 = {
     objectiveId: 1,
     title: 'Enhance the quality and volume of data collection and visibility',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat massa quis ornare rutrum. Pellentesque mattis neque malesuada volutpat ultricies. Maecenas sed vestibulum arcu. Aliquam in viverra nulla, non sodales.',
-    progress: 0.3
+    progress: 0.213,
+    keyResults: [
+        {
+            title: 'Proliferate 6 x MS Stack solutions',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0.17
+        },
+        {
+            title: 'Complete all 4 tracks of OCTANE',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0.05
+        },
+        {
+            title: 'Create a data catalogue and ingest 12 datasets',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0.42
+        }
+    ]
 };
 
-const kr1 = {
-    objectiveId: 1,
-    title: 'Proliferate 6 x MS Stack solutions',
-    description: 'To enhance data management.',
-    progress: 0.17
+const o2 = {
+    objectiveId: 2,
+    title: 'Enhance data-driven decision making in ground offices',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat massa quis ornare rutrum. Pellentesque mattis neque malesuada volutpat ultricies. Maecenas sed vestibulum arcu. Aliquam in viverra nulla, non sodales.',
+    progress: 0.3888,
+    keyResults: [
+        {
+            title: 'Complete 6 x office-level use cases',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0.17
+        },
+        {
+            title: 'Organise 6 x bi-monthly DA Boards',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0.6667
+        },
+        {
+            title: 'Improve 3 x dashboard reports',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0.333
+        }
+    ]
 };
 
-const kr2 = {
-    objectiveId: 1,
-    title: 'Complete all 4 tracks of OCTANE',
-    description: 'To map out our landscape.',
-    progress: 0.05
+const o3 = {
+    objectiveId: 3,
+    title: 'Improve the DM/DA toolkit',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat massa quis ornare rutrum. Pellentesque mattis neque malesuada volutpat ultricies. Maecenas sed vestibulum arcu. Aliquam in viverra nulla, non sodales.',
+    progress: 0.16667,
+    keyResults: [
+        {
+            title: 'Implement 2 x NLP use cases in the Lab',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0
+        },
+        {
+            title: 'Distribute a MS Stack Access template',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0
+        },
+        {
+            title: 'Deploy 2 x MS Stack 2.0 solutions',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            progress: 0.5
+        }
+    ]
 };
-
-const kr3 = {
-    objectiveId: 1,
-    title: 'Create MS Stack data catalogue and ingest 12 datasets',
-    description: 'To make data visible and accessible.',
-    progress: 0.42
-}
 
 function ProgressBar(props) {
     const progressNow = Math.round(100 * Number(props.progress));
@@ -99,14 +143,15 @@ function ObjectiveCard(props) {
 };
 
 function ObjectiveCardGroup(props) {
-    // Map here
+    // Create KR Cards
+    const keyResultCards = props.keyResults.map(function(item) {
+        return <KeyResultCard {...item} />
+    });
     return (
         <div>
-            <ObjectiveCard {...o1} />
+            <ObjectiveCard {...props} />
             <div class="collapse" id="obj-1">
-                <KeyResultCard {...kr1} />
-                <KeyResultCard {...kr2} />
-                <KeyResultCard {...kr3} />
+                {keyResultCards}
             </div>
         </div>
     );
@@ -117,7 +162,9 @@ function TeamPage(props) {
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
             <div >
-                <ObjectiveCardGroup />
+                <ObjectiveCardGroup {...o1} />
+                <ObjectiveCardGroup {...o2} />
+                <ObjectiveCardGroup {...o3} />
             </div>
         </div>
     );

@@ -145,6 +145,12 @@ hr {
     padding: 30px 60px;
     position: relative;
     border-radius: 5px;
+    transition: 0.3s;
+}
+
+.objective-card:hover {
+    background-color: #1C2839;
+    transition: 0.3s;
 }
 
 .objective-card .btn.focus, .objective-card .btn:focus {
@@ -215,6 +221,7 @@ hr {
     padding: 20px 60px;
     position: relative;
     border-radius: 4px;
+    margin: 10px 0;
 }
 
 .keyresult-card--tag {
