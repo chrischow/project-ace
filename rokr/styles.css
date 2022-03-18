@@ -29,6 +29,7 @@ body {
 h1 {
     font-family: 'Bahnschrift', 'Segoe UI', 'Segoe UI', sans-serif;
     font-size: 3.3rem;
+    font-weight: bold;
 }
 
 h4 {
@@ -136,4 +137,21 @@ hr {
 .progress-card--metric-between-sm {
     color: #8497B0;
     font-size: 0.7rem;
+}
+
+.objective-card {
+    background-color: #172334;
+    padding: 30px;
+}
+
+.objective-card--tag {
+    font-size: 1.2rem;
+    font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #51647D;
+}
+
+.objective-card--title {
+    color: #EAEAEA;
 }
