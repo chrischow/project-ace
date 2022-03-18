@@ -79,7 +79,7 @@ function ProgressCard(props) {
                 <div className="col-6 text-center">
                     <h4 className={styleHeaderText + " mb-3"}>Objectives</h4>
                     <div className="row align-items-center justify-content-center mb-1 text-center">
-                        <span className={styleMetric}>{props.data.objective.inProgress}</span>
+                        <span className={styleMetric}>{props.data.objective.completed}</span>
                         <span className={styleMetricBetween}>/</span>
                         <span className={styleMetric}>{props.data.objective.total}</span>
                     </div>
@@ -89,7 +89,7 @@ function ProgressCard(props) {
                     <hr className="mt-4 mb-4" />
                     <h4 className={styleHeaderText + " mb-3"}>Key Results</h4>
                     <div className="row align-items-center justify-content-center mb-1 text-center">
-                        <span className={styleMetric}>{props.data.keyResults.inProgress}</span>
+                        <span className={styleMetric}>{props.data.keyResults.completed}</span>
                         <span className={styleMetricBetween}>/</span>
                         <span className={styleMetric}>{props.data.keyResults.total}</span>
                     </div>

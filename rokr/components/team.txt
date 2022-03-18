@@ -3,8 +3,8 @@
 // * ---------- *
 // #FAKEDATA
 const teamOverallData = {
-    objective: { inProgress: 11, total: 15 },
-    keyResults: { inProgress: 33, total: 45 }
+    objective: { completed: 11, total: 15 },
+    keyResults: { completed: 33, total: 45 }
 };
 
 const o1 = {
@@ -168,7 +168,7 @@ function ObjectiveCardGroup(props) {
     });
 
     return (
-        <div className="mt-5">
+        <div className="mt-4">
             <ObjectiveCard {...props} />
             <div class="collapse" id={objId}>
                 {keyResultCards}
@@ -177,27 +177,68 @@ function ObjectiveCardGroup(props) {
     );
 };
 
-function FrequencyTabs() {
+function FrequencyTabs(props) {
     return (
         <div className="mt-4">
             <ul className="nav nav-pills justify-content-center" role="tablist">
                 <li className="nav-item">
-                    <a className="nav-link frequency-tabs--link active" data-toggle="tab" role="tab" aria-selected="true" aria-controls="annual" href="#team-annual">Annual</a>
+                    <a
+                        className="nav-link frequency-tabs--link active"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="annual"
+                        href="#team-annual"
+                        onClick={() => props.changeFrequency('annual')}
+                    >
+                            Annual
+                    </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link frequency-tabs--link" data-toggle="tab" role="tab" aria-selected="false" aria-controls="quarterly" href="#team-quarterly">Quarterly</a>
+                    <a
+                        className="nav-link frequency-tabs--link"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="quarterly"
+                        href="#team-quarterly"
+                        onClick={() => props.changeFrequency('quarterly')}
+                    >
+                            Quarterly
+                    </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link frequency-tabs--link" data-toggle="tab" role="tab" aria-selected="false" aria-controls="monthly" href="#team-monthly">Monthly</a>
+                    <a
+                        className="nav-link frequency-tabs--link"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="monthly"
+                        href="#team-monthly"
+                        onClick={() => props.changeFrequency('monthly')}
+                    >
+                            Monthly
+                    </a>
                 </li>
             </ul>
         </div>
     );
 }
 
+function TestPills(props) {
+    return (
+        <h1>{props.frequency}</h1>
+    )
+}
+
 class TeamPageBody extends React.Component {
     constructor(props) {
         super(props)
+        this.state = { 'frequency': 'annual' };
+    }
+
+    changeFrequency(frequency) {
+        this.setState({ 'frequency': frequency });
     }
 
     componentDidMount() {
@@ -207,12 +248,15 @@ class TeamPageBody extends React.Component {
     render() {
         return (
             <div>
-                <FrequencyTabs />
+                <FrequencyTabs changeFrequency={changeFrequency} />
+                <div className="tab-content" id="team-tabcontent">
+                    <TestPills frequency = {this.state.frequency} />
+                </div>
                 <h3 className="mt-4">Team Progress</h3>
                 <div className="overall-panel mt-4">
                     <ProgressCard progressId="team-progress" data={teamOverallData} isTeam={false} />
                 </div>
-                <h3 className="mt-5">Objectives & Key Results</h3>>
+                <h3 className="mt-5">Objectives & Key Results</h3>
                 <ObjectiveCardGroup {...o1} />
                 <ObjectiveCardGroup {...o2} />
                 <ObjectiveCardGroup {...o3} />

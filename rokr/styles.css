@@ -128,7 +128,7 @@ hr {
 
 .progress-card--metric-between {
     color: #8497B0;
-    font-size: 1.1rem;
+    font-size: 1.0rem;
 }
 
 /* Progress card - small */
@@ -157,7 +157,7 @@ hr {
 
 .progress-card--metric-between-sm {
     color: #8497B0;
-    font-size: 1.0rem;
+    font-size: 0.8rem;
 }
 
 /* Frequency tabs */
