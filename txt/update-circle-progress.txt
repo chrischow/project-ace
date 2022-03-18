@@ -25,4 +25,7 @@ function updateCircleProgress(slug, progress, size, fontSize, emptyFill) {
         ctx.fillText(sv, s / 2, s / 2);
         ctx.restore();
     });
+
+    // Remove callback
+    team_progress.on = null;
 }
