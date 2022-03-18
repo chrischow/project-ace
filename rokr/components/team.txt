@@ -248,7 +248,7 @@ class TeamPageBody extends React.Component {
     render() {
         return (
             <div>
-                <FrequencyTabs changeFrequency={changeFrequency} />
+                <FrequencyTabs changeFrequency={this.changeFrequency} />
                 <div className="tab-content" id="team-tabcontent">
                     <TestPills frequency = {this.state.frequency} />
                 </div>
