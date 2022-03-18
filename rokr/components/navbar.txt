@@ -14,7 +14,7 @@ function Navbar(props) {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
                 <NavLink className="navbar-brand" to="/">
-                    <span className="accent-blue">R</span><span className="accent-green">OKR</span>
+                    <Brand />
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-expanded="false" aria-label="Toggle Nav">
                     <span className="navbar-toggler-icon"></span>

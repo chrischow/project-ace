@@ -69,3 +69,7 @@ h1 {
     padding: 40px 20px;
     background-color: #0D192A;
 }
+
+.progress-card--circle-text {
+    color: #8497B0;
+}
