@@ -343,6 +343,8 @@ class TeamPageBody extends React.Component {
             frequency: frequency,
             data: teamData[frequency]
         });
+
+        updateCircleProgress('team-progress', this.state.data.avgCompletion, 220, '50px', '#000718');
     }
 
     componentDidMount() {
@@ -356,7 +358,7 @@ class TeamPageBody extends React.Component {
         };
 
         const objectiveCardGroups = this.state.data.okrs.map(function(item) {
-            <ObjectiveCardGroup {...item} />
+            return <ObjectiveCardGroup {...item} />
         });
 
         return (
