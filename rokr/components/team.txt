@@ -348,7 +348,6 @@ class TeamPageBody extends React.Component {
         var teamProgressCircle = $('#team-progress');
         teamProgressCircle.circleProgress();
         $(teamProgressCircle.data('circle-progress').canvas).remove();
-        teamProgressCircle.removeData('circle-progress');
 
         updateCircleProgress('team-progress', teamData[frequency].avgCompletion, 220, '50px', '#000718');
     }
