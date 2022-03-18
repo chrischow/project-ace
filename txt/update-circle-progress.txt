@@ -4,7 +4,7 @@ function updateCircleProgress(slug, progress, size, fontSize, emptyFill) {
         size: size,     // Team: 150, overall: 250
         startAngle: - Math.PI / 2,
         fill: {  color: '#27DDCB' },
-        emptyFill: emptyFill    // Team: #010D1E, Overall: #000718
+        emptyFill: "#010D1E"    // Team: #010D1E, Overall: #000718
     });
 
     team_progress.on('circle-animation-progress', function(e, v) {

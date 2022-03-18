@@ -45,6 +45,14 @@ hr {
     font-family: 'Bahnschrift'
 }
 
+/* Home Page */
+.overall-panel {
+    border-radius: 5px;
+    padding: 40px 20px;
+    background-color: #0D192A;
+    width: 100%;
+}
+
 .card--header {
     font-family: 'Bahnschrift Light';
     font-size: 1.7rem;
@@ -56,7 +64,7 @@ hr {
 }
 
 .card--inner {
-    background-color: #1A2637;
+    background-color: #0D192A;
     color: #EAEAEA;
     border-radius: 5px;
     transition: 0.3s;
@@ -67,17 +75,10 @@ hr {
 }
 
 .card--inner:hover {
-    background-color: #344051;
+    background-color: #172334;
     color: white;
     transition: 0.3s;
     cursor: pointer;
-}
-
-.overall-panel {
-    border-radius: 5px;
-    padding: 40px 20px;
-    background-color: #0D192A;
-    width: 100%;
 }
 
 .progress-card--circle-text {
