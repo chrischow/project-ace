@@ -124,8 +124,8 @@ function ObjectiveCard(props) {
     const objId = 'obj-' + props.objectiveId;
 
     function updateArrow() {
-        const clicked = document.getElementById('btn-' + objId).classList.contains('collapsed');
-        setIsClicked(!clicked);
+        $('#' + objId).on('show.bs.collapse', () => setIsClicked(true));
+        $('#' + objId).on('hide.bs.collapse', () => setIsClicked(false));
     }
 
     return (
@@ -170,11 +170,30 @@ function ObjectiveCardGroup(props) {
     );
 };
 
+function FrequencyTabs() {
+    return (
+        <div className="mt-4">
+            <ul className="nav justify-content-center" role="tablist">
+                <li className="nav-item">
+                    <a className="nav-link frequency-tabs--link active" data-toggle="tab" role="tab" aria-selected="true" aria-controls="annual" href="#team-annual">Annual</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link frequency-tabs--link" data-toggle="tab" role="tab" aria-selected="false" aria-controls="quarterly" href="#team-quarterly">Quarterly</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link frequency-tabs--link" data-toggle="tab" role="tab" aria-selected="false" aria-controls="monthly" href="#team-monthly">Monthly</a>
+                </li>
+            </ul>
+        </div>
+    );
+}
+
 function TeamPage(props) {
     return (
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
-            <div >
+            <FrequencyTabs />
+            <div>
                 <ObjectiveCardGroup {...o1} />
                 <ObjectiveCardGroup {...o2} />
                 <ObjectiveCardGroup {...o3} />

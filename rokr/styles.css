@@ -42,8 +42,14 @@ hr {
     background-color: #344051;
 }
 
+/* Navbar */
 .navbar-brand {
     font-family: 'Bahnschrift'
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+    font-weight: bold;
+    color: #7B73F0;
 }
 
 /* Home Page */
@@ -137,6 +143,11 @@ hr {
 .progress-card--metric-between-sm {
     color: #8497B0;
     font-size: 1.0rem;
+}
+
+/* Frequency tabs */
+.frequency-tabs--link {
+    color: #6B7E97;
 }
 
 /* Objective card */
@@ -241,3 +252,4 @@ hr {
     color: #8497B0;
     font-size: 0.95rem;
 }
+
