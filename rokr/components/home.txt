@@ -38,7 +38,7 @@ function ProgressCard(props) {
             <div className="row justify-content-center">
                 <div className="col-6">
                     <div id={props.progressId} className="progress-circle text-center"></div>
-                    <div className="progress-card--circle-text text-center">
+                    <div className="progress-card--circle-text text-center mt-3">
                         AVG Objective Progress
                     </div>
                 </div>
@@ -46,7 +46,7 @@ function ProgressCard(props) {
                     <div className="row">
                         Objectives
                     </div>
-                    <hr />
+                    <hr>
                     <div className="row">
                         Key Results
                     </div>
@@ -83,7 +83,9 @@ class Home extends React.Component {
             <div>
                 <h1><Brand /></h1>
                 <h2 className="mt-4">Overall Progress</h2>
-                <ProgressCard progressId="overall_progress" />
+                <div className="overall-panel mt-4">
+                    <ProgressCard progressId="overall_progress" />
+                </div>
                 <h2 className="mt-5">Teams</h2>
                 <HomeCards teams={this.props.teams} />
             </div>

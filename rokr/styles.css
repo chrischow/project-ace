@@ -63,11 +63,14 @@ h1 {
     cursor: pointer;
 }
 
-#overall_progress {
-    width: 100%;
+.overall-panel {
     border-radius: 5px;
     padding: 40px 20px;
     background-color: #0D192A;
+}
+
+#overall_progress {
+    width: 100%;
 }
 
 .progress-card--circle-text {
