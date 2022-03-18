@@ -33,7 +33,7 @@ function HomeCards(props) {
     var teams = props.teams;
     // var progress = props.teamProgressData;
     var cards = [];
-    for (i = 0; i < teams.length; i++) {
+    for (var i = 0; i < teams.length; i++) {
         cards.push(
             <Card 
                 teamName={teams[i].teamName}
