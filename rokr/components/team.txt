@@ -256,17 +256,17 @@ class TeamPageBody extends React.Component {
         super(props)
         this.state = {
             frequency: 'annual',
-            data: teamData['annual']
+            data: props.teamData['annual']
         };
     }
 
     changeFrequency = (frequency) => {
         this.setState({
             frequency: frequency,
-            data: teamData[frequency]
+            data: this.props.teamData[frequency]
         });
         
-        $('#team-progress').circleProgress('value', teamData[frequency].avgCompletion);
+        $('#team-progress').circleProgress('value', this.props.teamData[frequency].avgCompletion);
     }
 
     componentDidMount() {
@@ -301,7 +301,7 @@ function TeamPage(props) {
     return (
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
-            <TeamPageBody />
+            <TeamPageBody teamData={teamData} />
         </div>
     );
 };
