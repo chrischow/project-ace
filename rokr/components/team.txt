@@ -12,7 +12,7 @@ const annualOkrs = [
         ]
     },
     {
-        objectiveId: 1, title: 'Annual O2', description: 'Annual O2 description', progress: 0.22,
+        objectiveId: 2, title: 'Annual O2', description: 'Annual O2 description', progress: 0.22,
         keyResults: [
             {title: 'Annual O2 KR1', description: 'Annual O2 KR1 description', progress: 0.21},
             {title: 'Annual O2 KR2', description: 'Annual O2 KR2 description', progress: 0.22},
@@ -20,7 +20,7 @@ const annualOkrs = [
         ]
     },
     {
-        objectiveId: 1, title: 'Annual O3', description: 'Annual O3 description', progress: 0.32,
+        objectiveId: 3, title: 'Annual O3', description: 'Annual O3 description', progress: 0.32,
         keyResults: [
             {title: 'Annual O3 KR1', description: 'Annual O3 KR1 description', progress: 0.31},
             {title: 'Annual O3 KR2', description: 'Annual O3 KR2 description', progress: 0.32},
@@ -31,7 +31,7 @@ const annualOkrs = [
 
 const quarterlyOkrs = [
     {
-        objectiveId: 1, title: 'Quarterly O1', description: 'Quarterly O1 description', progress: 0.42,
+        objectiveId: 4, title: 'Quarterly O1', description: 'Quarterly O1 description', progress: 0.42,
         keyResults: [
             {title: 'Quarterly O1 KR1', description: 'Quarterly O1 KR1 description', progress: 0.41},
             {title: 'Quarterly O1 KR2', description: 'Quarterly O1 KR2 description', progress: 0.42},
@@ -39,7 +39,7 @@ const quarterlyOkrs = [
         ]
     },
     {
-        objectiveId: 1, title: 'Quarterly O2', description: 'Quarterly O2 description', progress: 0.52,
+        objectiveId: 5, title: 'Quarterly O2', description: 'Quarterly O2 description', progress: 0.52,
         keyResults: [
             {title: 'Quarterly O2 KR1', description: 'Quarterly O2 KR1 description', progress: 0.51},
             {title: 'Quarterly O2 KR2', description: 'Quarterly O2 KR2 description', progress: 0.52},
@@ -47,7 +47,7 @@ const quarterlyOkrs = [
         ]
     },
     {
-        objectiveId: 1, title: 'Quarterly O3', description: 'Quarterly O3 description', progress: 0.62,
+        objectiveId: 6, title: 'Quarterly O3', description: 'Quarterly O3 description', progress: 0.62,
         keyResults: [
             {title: 'Quarterly O3 KR1', description: 'Quarterly O3 KR1 description', progress: 0.61},
             {title: 'Quarterly O3 KR2', description: 'Quarterly O3 KR2 description', progress: 0.62},
@@ -58,7 +58,7 @@ const quarterlyOkrs = [
 
 const monthlyOkrs = [
     {
-        objectiveId: 1, title: 'Monthly O1', description: 'Monthly O1 description', progress: 0.72,
+        objectiveId: 7, title: 'Monthly O1', description: 'Monthly O1 description', progress: 0.72,
         keyResults: [
             {title: 'Monthly O1 KR1', description: 'Monthly O1 KR1 description', progress: 0.71},
             {title: 'Monthly O1 KR2', description: 'Monthly O1 KR2 description', progress: 0.72},
@@ -66,7 +66,7 @@ const monthlyOkrs = [
         ]
     },
     {
-        objectiveId: 1, title: 'Monthly O2', description: 'Monthly O2 description', progress: 0.82,
+        objectiveId: 8, title: 'Monthly O2', description: 'Monthly O2 description', progress: 0.82,
         keyResults: [
             {title: 'Monthly O2 KR1', description: 'Monthly O2 KR1 description', progress: 0.81},
             {title: 'Monthly O2 KR2', description: 'Monthly O2 KR2 description', progress: 0.82},
@@ -74,7 +74,7 @@ const monthlyOkrs = [
         ]
     },
     {
-        objectiveId: 1, title: 'Monthly O3', description: 'Monthly O3 description', progress: 0.92,
+        objectiveId: 9, title: 'Monthly O3', description: 'Monthly O3 description', progress: 0.92,
         keyResults: [
             {title: 'Monthly O3 KR1', description: 'Monthly O3 KR1 description', progress: 0.91},
             {title: 'Monthly O3 KR2', description: 'Monthly O3 KR2 description', progress: 0.92},
@@ -87,24 +87,22 @@ const teamData = {
     annual: {
         objectiveCompletion: {completed: 1, total: 3},
         keyResultCompletion: {completed: 3, total: 9},
+        avgCompletion: 0.22,
         okrs: annualOkrs
     },
     quarterly: {
         objectiveCompletion: {completed: 2, total: 6},
         keyResultCompletion: {completed: 6, total: 18},
+        avgCompletion: 0.52,
         okrs: quarterlyOkrs
     },
     monthly: {
         objectiveCompletion: {completed: 3, total: 9},
         keyResultCompletion: {completed: 9, total: 27},
+        avgCompletion: 0.82,
         okrs: monthlyOkrs
     }
     
-};
-
-const teamOverallData = {
-    objectiveCompletion: { completed: 11, total: 15 },
-    keyResultCompletion: { completed: 33, total: 45 }
 };
 
 const o1 = {
@@ -348,7 +346,7 @@ class TeamPageBody extends React.Component {
     }
 
     componentDidMount() {
-        updateCircleProgress('team-progress', 0.26, 220, '50px', '#000718');
+        updateCircleProgress('team-progress', this.state.data.avgCompletion, 220, '50px', '#000718');
     }
 
     render() {
@@ -356,6 +354,10 @@ class TeamPageBody extends React.Component {
             objectiveCompletion: this.state.data.objectiveCompletion,
             keyResultCompletion: this.state.data.keyResultCompletion
         };
+
+        const objectiveCardGroups = this.state.data.okrs.map(function(item) {
+            <ObjectiveCardGroup {...item} />
+        });
 
         return (
             <div>
@@ -368,9 +370,7 @@ class TeamPageBody extends React.Component {
                     <ProgressCard progressId="team-progress" data={progressData} isTeam={false} />
                 </div>
                 <h3 className="mt-5">Objectives & Key Results</h3>
-                <ObjectiveCardGroup {...o1} />
-                <ObjectiveCardGroup {...o2} />
-                <ObjectiveCardGroup {...o3} />
+                {objectiveCardGroups}
             </div>
         );
     }
