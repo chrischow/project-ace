@@ -56,7 +56,7 @@ function ProgressCard(props) {
     var styleHeaderText = 'progress-card--header-text';
     var styleMetric = 'progress-card--metric';
     var styleMetricTitle = 'progress-card--metric-title';
-    var styleMetricBetween = 'progress-card--metric-between';
+    var styleMetricBetween = 'pl-3 pr-3 progress-card--metric-between';
 
     // Add "-sm" suffix for Team cards
     if (props.isTeam) {
@@ -104,7 +104,7 @@ function ProgressCard(props) {
                 </div>
                 <div className="col-6">
                     <h4 className={styleHeaderText + " mb-3"}>Objectives</h4>
-                    <div className="mb-1 text-center">
+                    <div className="row align-items-center justify-content-center mb-1 text-center">
                         <span className={styleMetric}>{props.data.objective.inProgress}</span>
                         <span className={styleMetricBetween}>/</span>
                         <span className={styleMetric}>{props.data.objective.total}</span>
@@ -148,7 +148,7 @@ class Home extends React.Component {
             updateCircleProgress(slug, team_progress, 125, '25px', '#010D1E');
         }
 
-        updateCircleProgress("rdo2", 0.30, 140, '30px', '#010D1E');
+        updateCircleProgress("rdo2", 0.30, 160, '30px', '#010D1E');
     }
 
     render() {
