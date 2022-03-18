@@ -1,0 +1,8 @@
+// * ---------- *
+// | PAGE: TEAM |
+// * ---------- *
+function TeamPage(props) {
+    return (
+        <h1>{props.team.teamName}</h1>
+    );
+}

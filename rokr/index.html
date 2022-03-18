@@ -68,6 +68,7 @@
             loadComponent('brand');
             loadComponent('navbar');
             loadComponent('home');
+            loadComponent('team');
 
             // Configs
             var teams = [
@@ -124,13 +125,6 @@
                 },
             ];
 
-            // Team page
-            const Team = (props) => {
-                return (
-                    <h1>{props.team.teamName}</h1>
-                );
-            }
-
             // Routes
             const Routes = (props) => {
                 const routes = props.teams.map(function(team) {
@@ -139,7 +133,7 @@
                         <Route 
                             key={team.slug}
                             path={'/' + team.slug}
-                            render={(props) => <Team team={team} />}
+                            render={(props) => <TeamPage team={team} />}
                         />
                     );
                 });

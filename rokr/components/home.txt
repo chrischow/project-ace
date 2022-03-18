@@ -6,18 +6,18 @@
 //  - This is in case updates were made on the Team pages --> Need to update overall
 
 // Cards
-function Card(props) {
-    return (
-        <div className="col-6 card--outer">
-            <div className="card--inner text-center">
-                <h4 className="card--header mb-3">{props.teamName}</h4>
-                <div id={props.slug} className="text-center mt-3"></div>
-            </div>
-        </div>
-    );
-}
+// function Card(props) {
+//     return (
+//         <div className="col-6 card--outer">
+//             <div className="card--inner text-center">
+//                 <h4 className="card--header mb-3">{props.teamName}</h4>
+//                 <div id={props.slug} className="text-center mt-3"></div>
+//             </div>
+//         </div>
+//     );
+// }
 
-function Card2(props) {
+function Card(props) {
     return (
         <div className="col-6 card--outer">
             <div className="card--inner">
@@ -35,19 +35,13 @@ function HomeCards(props) {
     var cards = [];
     for (var i = 0; i < teams.length; i++) {
         cards.push(
-            <Card2 
+            <Card 
                 teamName={teams[i].teamName}
                 slug={teams[i].slug}
                 data={teamProgressData[i]}
             />
         )
     }
-    // var cards = props.teams.map(function(item) {
-    //     return (
-    //         <Card teamName={item.teamName} slug={item.slug} />
-    //     );
-    // });
-    // <Card2 teamName="RDO 2" slug="rdo2" data={testData} />
 
     return (
         <div className="row align-items-center mt-4 container mx-auto">
