@@ -344,9 +344,10 @@ class TeamPageBody extends React.Component {
             data: teamData[frequency]
         });
 
-        $('#team-progress').circleProgress('value', teamData[frequency].avgCompletion);
-        // Re-draw
-        $('#team-progress').circleProgress();
+        // $('#team-progress').circleProgress('value', teamData[frequency].avgCompletion);
+        // $('#team-progress').circleProgress();
+
+        updateCircleProgress('team-progress', this.state.data.avgCompletion, 220, '50px', '#000718');
     }
 
     componentDidMount() {
