@@ -3,9 +3,17 @@
 // * ---------- *
 // #FAKEDATA
 const o1 = {
+    objectiveId: 1,
     title: 'Enhance the quality and volume of data collection and visibility',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat massa quis ornare rutrum. Pellentesque mattis neque malesuada volutpat ultricies. Maecenas sed vestibulum arcu. Aliquam in viverra nulla, non sodales.',
     progress: 0.3
+};
+
+const kr1 = {
+    objectiveId: 1,
+    title: 'Proliferate 6 x MS Stack solutions',
+    description: 'To enhance data management.',
+    progress: 0.17
 };
 
 function ProgressBar(props) {
@@ -37,10 +45,32 @@ function ProgressBar(props) {
     );
 };
 
+function KeyResultCard(props) {
+    return (
+        <div className="keyresult-card">
+            <h4 className="keyresult-card--tag">Key Result</h4>
+            <h4 className="keyresult-card--title mt-2">
+                {props.title}
+            </h4>
+            <p className="keyresult-card--description mt-1">
+                {props.description}
+            </p>
+            <ProgressBar progress={props.progress} />
+        </div>
+    );
+}
+
 function ObjectiveCard(props) {
 
     return (
-        <div className="objective-card">
+        <button
+            className="objective-card"
+            type="button"
+            data-toggle="collapse"
+            data-target={'#obj-' + props.objectiveId}
+            aria-expanded="false"
+            aria-controls="collapseExample"
+        >
             <h4 className="objective-card--tag">Objective</h4>
             <div className="arrow-right"></div>
             <h4 className="objective-card--title mt-2">
@@ -50,15 +80,30 @@ function ObjectiveCard(props) {
                 {props.description}
             </p>
             <ProgressBar progress={props.progress} />
+        </button>
+    );
+};
+
+function ObjectiveCardGroup(props) {
+    return (
+        <div>
+            <ObjectiveCard 
+                title={o1.title}
+                description={o1.description}
+                progress={o1.progress}
+            />
+            <div class="collapse" id="obj-1">
+                <KeyResultCard {...kr1} />
+            </div>
         </div>
-    )
+    );
 };
 
 function TeamPage(props) {
     return (
         <div>
-            <h1>{props.team.teamName}</h1>
-            <div className="mt-3">
+            <h1 className="mb-3">{props.team.teamName}</h1>
+            <div >
                 <ObjectiveCard 
                     title={o1.title}
                     description={o1.description}

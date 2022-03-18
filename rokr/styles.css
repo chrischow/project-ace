@@ -144,6 +144,7 @@ hr {
     background-color: #172334;
     padding: 30px 60px;
     position: relative;
+    border-radius: 5px;
 }
 
 .objective-card--tag {
@@ -201,4 +202,30 @@ hr {
 .progress-bar {
     background-color: #27DDCB;
     border-radius: 1.0rem;
+}
+
+/* Key Result card */
+.keyresult-card {
+    background-color: #172334;
+    padding: 20px 40px;
+    position: relative;
+    border-radius: 4px;
+}
+
+.keyresult-card--tag {
+    font-size: 0.9rem;
+    font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #51647D;
+}
+
+.keyresult-card--title {
+    color: #EAEAEA;
+    font-size: 1.2rem;
+}
+
+.keyresult-card--description {
+    color: #8497B0;
+    font-size: 0.8rem;
 }
