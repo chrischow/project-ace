@@ -139,6 +139,7 @@ hr {
     font-size: 0.7rem;
 }
 
+/* Objective card */
 .objective-card {
     background-color: #172334;
     padding: 40px 60px;
@@ -161,6 +162,10 @@ hr {
     color: #8497B0;
 }
 
+.objective-card--progress-text {
+    color: #8497B0;
+}
+
 .arrow-right {
     content: "";
     position: absolute;
@@ -172,4 +177,12 @@ hr {
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
     border-left: 10px solid #27DDCB;
+}
+
+.progress {
+    background-color: #010D1E;
+}
+
+.progress-bar {
+    background-color: #27DDCB;
 }

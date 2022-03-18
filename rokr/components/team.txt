@@ -2,10 +2,11 @@
 // | PAGE: TEAM |
 // * ---------- *
 function ObjectiveCard(props) {
-    const progress = Number(props.progress);
-    const progressNow = Math.round(100 * progress);
+    const progressNow = Math.round(100 * Number(props.progress));
+    const progressNowString = String(progressNow) + '%';
+
     const progressStyle = {
-        width: String(progressNow) + '%'
+        width: progressNowString
     };
 
     return (
@@ -18,15 +19,22 @@ function ObjectiveCard(props) {
             <p className="objective-card--description mt-1">
                 {props.description}
             </p>
-            <div className="progress mt-3">
-                <div
-                    className="progress-bar"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow={progressNow}
-                    style={progressStyle}
-                ></div>
+            <div className="row align-items-center">
+                <div className="col-10">
+                    <div className="progress mt-3">
+                        <div
+                            className="progress-bar"
+                            role="progressbar"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow={progressNow}
+                            style={progressStyle}
+                        ></div>
+                    </div>
+                </div>
+                <div className="col-2">
+                    <span className="objective-card--progress-text">progressNowString</span>
+                </div>
             </div>
         </div>
     )
@@ -35,7 +43,7 @@ function ObjectiveCard(props) {
 // #FAKEDATA
 const o1 = {
     title: 'Enhance the quality and volume of data collection and visibility',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi aliquam neque vel magna tincidunt ultrices. Proin vitae ligula tristique, fermentum ante at, congue sem. Phasellus ut felis tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean rutrum, metus in dignissim venenatis, felis erat convallis.',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat massa quis ornare rutrum. Pellentesque mattis neque malesuada volutpat ultricies. Maecenas sed vestibulum arcu. Aliquam in viverra nulla, non sodales.',
     progress: 0.3
 };
 
