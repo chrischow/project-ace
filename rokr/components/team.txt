@@ -237,7 +237,7 @@ class TeamPageBody extends React.Component {
         this.state = { 'frequency': 'annual' };
     }
 
-    changeFrequency(frequency) {
+    changeFrequency = (frequency) => {
         console.log('Changing frequency to', frequency);
         this.setState({ 'frequency': frequency });
     }
