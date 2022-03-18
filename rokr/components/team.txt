@@ -25,7 +25,7 @@ function ObjectiveCard(props) {
                     aria-valuemin="0"
                     aria-valuemax="100"
                     aria-valuenow={progressNow}
-                    style={{width: {progressPct}}}
+                    style={progressStyle}
                 ></div>
             </div>
         </div>
