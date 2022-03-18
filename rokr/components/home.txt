@@ -10,7 +10,7 @@ function Card(props) {
     return (
         <div className="col-6 card--outer">
             <div className="card--inner text-center">
-                <h4 className="card--header">{props.teamName}</h4>
+                <h4 className="card--header mb-3">{props.teamName}</h4>
                 <div id={props.slug} className="text-center mt-3"></div>
             </div>
         </div>
@@ -21,7 +21,7 @@ function Card2(props) {
     return (
         <div className="col-6 card--outer">
             <div className="card--inner">
-                <h4 className="card--header text-center">{props.teamName}</h4>
+                <h4 className="card--header text-center mb-3">{props.teamName}</h4>
                 <ProgressCard progressId={props.slug} data={props.data} isTeam={true} />
             </div>
         </div>
@@ -64,13 +64,13 @@ function ProgressCard(props) {
     return (
         <div>
             <div className="row justify-content-center align-items-center">
-                <div className={props.isTeam ? "col-5" : "col-6"}>
+                <div className="col-6">
                     <div id={props.progressId} className="progress-circle text-center"></div>
                     <div className={styleCircleText + " text-center mt-3"}>
                         AVG Objective Progress
                     </div>
                 </div>
-                <div className={props.isTeam ? "col-7" : "col-6"}>
+                <div className="col-6">
                     <h4 className={styleHeaderText + " mb-3"}>Objectives</h4>
                     <div className="row mb-4 align-items-center">
                         <div className="col-5 text-center">
@@ -149,7 +149,7 @@ class Home extends React.Component {
             updateCircleProgress(slug, team_progress, 125, '25px', '#010D1E');
         }
 
-        updateCircleProgress("rdo2", 0.30, 100, '22px', '#010D1E');
+        updateCircleProgress("rdo2", 0.30, 110, '25px', '#010D1E');
     }
 
     render() {
