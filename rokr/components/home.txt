@@ -8,10 +8,21 @@
 // Cards
 function Card(props) {
     return (
-        <div className="col-6 col-lg-4 card--outer">
+        <div className="col-6 col-xl-4 card--outer">
             <div className="card--inner text-center">
                 <h4 className="card--header">{props.teamName}</h4>
                 <div id={props.slug} className="text-center mt-3"></div>
+            </div>
+        </div>
+    );
+}
+
+function Card2(props) {
+    return (
+        <div className="col-6 col-xl-4 card--outer">
+            <div className="card--inner text-center">
+                <h4 className="card--header">{props.teamName}</h4>
+                <ProgressCard progressId="props.slug" data={testData} isTeam={true} />
             </div>
         </div>
     );
@@ -33,43 +44,59 @@ function HomeCards(props) {
 }
 
 function ProgressCard(props) {
+    // Define styles
+    var styleCircleText = 'progress-card--circle-text';
+    var styleHeaderText = 'progress-card--header-text';
+    var styleMetric = 'progress-card--metric';
+    var styleMetricTitle = 'progress-card--metric-title';
+    var styleMetricBetween = 'progress-card--metric-between';
+
+    // Add "-sm" suffix for Team cards
+    if (props.isTeam) {
+        styleCircleText = styleCircleText + '-sm';
+        styleHeaderText = styleHeaderText + '-sm';
+        styleMetric = styleMetric + '-sm';
+        styleMetricTitle = styleMetricTitle + '-sm';
+        styleMetricBetween = styleMetricBetween + '-sm';
+    }
+
     return (
         <div>
-            <div className="row justify-content-center">
+            <div className="row justify-content-center align-items-center">
                 <div className="col-6">
                     <div id={props.progressId} className="progress-circle text-center"></div>
-                    <div className="progress-card--circle-text text-center mt-3">
+                    <div className={styleCircleText + " text-center mt-3"}>
                         AVG Objective Progress
                     </div>
                 </div>
                 <div className="col-6">
-                    <h4 className="progress-card--header-text">Objectives</h4>
+                    <h4 className={styleHeaderText + " mb-2"}>Objectives</h4>
                     <div className="row mb-3 align-items-center">
                         <div className="col-5 text-center">
-                            <div className="progress-card--metric">11</div>
-                            <div className="progress-card--metric-title">In Progress</div>
+                            <div className={styleMetric}>{props.data.objective.inProgress}</div>
+                            <div className={styleMetricTitle}>In Progress</div>
                         </div>
                         <div className="col-2 text-center">
-                            <div className="progress-card--metric-between">of</div>
+                            <div className={styleMetricBetween}>of</div>
                         </div>
                         <div className="col-5 text-center">
-                            <div className="progress-card--metric">15</div>
-                            <div className="progress-card--metric-title">Total</div>
+                            <div className={styleMetric}>{props.data.objective.total}</div>
+                            <div className={styleMetricTitle}>Total</div>
                         </div>
                     </div>
                     <hr />
-                    <h4 className="progress-card--header-text mt-2">Key Results</h4>
+                    <h4 className={styleHeaderText + " mt-3 mb-2"}>Key Results</h4>
                     <div className="row mb-3 align-items-center">
                         <div className="col-5 text-center">
-                            <div className="progress-card--metric">33</div>
-                            <div className="progress-card--metric-title">In Progress</div>
+                            <div className={styleMetric}>{props.data.keyResults.inProgress}</div>
+                            <div className={styleMetricTitle}>In Progress</div>
                         </div>
                         <div className="col-2 text-center">
-                            <div className="progress-card--metric-between">of</div>
+                            <div className={styleMetricBetween}>of</div>
                         </div>
                         <div className="col-5 text-center">
-                            <div className="progress-card--metric">45</div>
-                            <div className="progress-card--metric-title">Total</div>
+                            <div className={styleMetric}>{props.data.keyResults.total}</div>
+                            <div className={styleMetricTitle}>Total</div>
                         </div>
                     </div>
                 </div>
@@ -77,6 +104,29 @@ function ProgressCard(props) {
         </div>
     )
 }
+
+// #FAKEDATA
+const overallProgressData = {
+    objective: {
+        inProgress: 11,
+        total: 15
+    },
+    keyResults: {
+        inProgress: 33,
+        total: 45
+    }
+};
+
+const testData = {
+    objective: {
+        inProgress: 11,
+        total: 15
+    },
+    keyResults: {
+        inProgress: 33,
+        total: 45
+    }
+};
 
 // Home component - to be broken down further
 class Home extends React.Component {
@@ -97,8 +147,9 @@ class Home extends React.Component {
             team_progress = Number(progress[i]);
             updateCircleProgress(slug, team_progress, 125, '25px', '#010D1E');
         }
+
+        // updateCircleProgress("rdo2", 0.30, 125, '25px', '#010D1E');
     }
-    // <div id="overall_progress" className="progress-circle text-center mt-4"></div>
 
     render() {
         return (
@@ -106,7 +157,7 @@ class Home extends React.Component {
                 <h1><Brand /></h1>
                 <h2 className="mt-4">Overall Progress</h2>
                 <div className="overall-panel mt-4">
-                    <ProgressCard progressId="overall_progress" />
+                    <ProgressCard progressId="overall_progress" data={overallProgressData} isTeam={false} />
                 </div>
                 <h2 className="mt-5">Teams</h2>
                 <HomeCards teams={this.props.teams} />
