@@ -12,7 +12,7 @@ const annualOkrs = [
         ]
     },
     {
-        objectiveId: 2, title: 'Annual O2', description: 'Annual O2 description', progress: 0.22,
+        objectiveId: 2, title: 'Annual O2 - w/ empty description', description: '', progress: 0.22,
         keyResults: [
             {title: 'Annual O2 KR1', description: 'Annual O2 KR1 description', progress: 0.21},
             {title: 'Annual O2 KR2', description: 'Annual O2 KR2 description', progress: 0.22},
@@ -20,7 +20,7 @@ const annualOkrs = [
         ]
     },
     {
-        objectiveId: 3, title: 'Annual O3', description: 'Annual O3 description', progress: 0.32,
+        objectiveId: 3, title: 'Annual O3 - w/ no description at all', progress: 0.32,
         keyResults: [
             {title: 'Annual O3 KR1', description: 'Annual O3 KR1 description', progress: 0.31},
             {title: 'Annual O3 KR2', description: 'Annual O3 KR2 description', progress: 0.32},
@@ -249,9 +249,9 @@ function ObjectiveCard(props) {
             <h4 className="objective-card--title mt-2">
                 {props.title}
             </h4>
-            <p className="objective-card--description mt-1">
+            {props.description && <p className="objective-card--description mt-1">
                 {props.description}
-            </p>
+            </p>}
             <ProgressBar progress={props.progress} />
         </button>
     );
@@ -323,12 +323,6 @@ function FrequencyTabs(props) {
     );
 }
 
-function TestPills(props) {
-    return (
-        <h3>{props.frequency} selected</h3>
-    )
-}
-
 class TeamPageBody extends React.Component {
     constructor(props) {
         super(props)
@@ -343,8 +337,8 @@ class TeamPageBody extends React.Component {
             frequency: frequency,
             data: teamData[frequency]
         });
-
-        updateCircleProgress('team-progress', teamData[frequency].avgCompletion, 220, '50px', '#000718');
+        
+        $('#team-progress').circleProgress('value', teamData[frequency].avgCompletion);
     }
 
     componentDidMount() {
@@ -364,9 +358,6 @@ class TeamPageBody extends React.Component {
         return (
             <div>
                 <FrequencyTabs changeFrequency={this.changeFrequency} />
-                <div className="tab-content" id="team-tabcontent">
-                    <TestPills frequency={this.state.frequency} />
-                </div>
                 <h3 className="mt-4">Team Progress</h3>
                 <div className="overall-panel mt-4">
                     <ProgressCard progressId="team-progress" data={progressData} isTeam={false} />
