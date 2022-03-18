@@ -343,7 +343,7 @@ class TeamPageBody extends React.Component {
             frequency: frequency,
             data: teamData[frequency]
         });
-
+        console.log(this.state.data);
         updateCircleProgress('team-progress', this.state.data.avgCompletion, 220, '50px', '#000718');
     }
 

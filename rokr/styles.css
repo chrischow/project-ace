@@ -206,6 +206,7 @@ hr {
     position: relative;
     border-radius: 5px;
     transition: 0.3s;
+    width: 100%;
 }
 
 .objective-card:hover {
@@ -287,6 +288,7 @@ div.progress.progress-keyresult {
     position: relative;
     border-radius: 4px;
     margin: 7px 0;
+    width: 100%;
 }
 
 .keyresult-card--tag {
