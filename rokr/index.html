@@ -101,6 +101,29 @@
                 }
             };
 
+            const teamProgressData = [
+                {
+                    objective: { inProgress: 11, total: 15 },
+                    keyResults: { inProgress: 33, total: 45 }
+                },
+                {
+                    objective: { inProgress: 11, total: 15 },
+                    keyResults: { inProgress: 33, total: 45 }
+                },
+                {
+                    objective: { inProgress: 11, total: 15 },
+                    keyResults: { inProgress: 33, total: 45 }
+                },
+                {
+                    objective: { inProgress: 11, total: 15 },
+                    keyResults: { inProgress: 33, total: 45 }
+                },
+                {
+                    objective: { inProgress: 11, total: 15 },
+                    keyResults: { inProgress: 33, total: 45 }
+                },
+            ];
+
             // Team page
             const Team = (props) => {
                 return (
@@ -126,7 +149,16 @@
                     </div>
                 );
             }
-
+            
+            function renderHome(props) {
+                return (
+                    <Home
+                        teams={teams}
+                        overallData={overallProgressData}
+                        teamProgressData={teamProgressData}
+                    />
+                );
+            }
 
             // App
             function App() {
@@ -135,7 +167,12 @@
                         <Navbar teams={teams} />
                         <div className="container mt-5">
                             <Switch>
-                                <Route path='/' render={(props) => <Home teams={teams} overallData={overallProgressData}/>} exact />
+                                <Route 
+                                    path='/'
+                                    render={renderHome}
+                                    exact
+                                />
+
                                 <Routes teams={teams} />
                             </Switch>
                         </div>

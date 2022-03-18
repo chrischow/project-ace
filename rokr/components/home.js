@@ -31,13 +31,14 @@ function Card2(props) {
 // HomeCards
 function HomeCards(props) {
     var teams = props.teams;
-    // var progress = props.teamProgressData;
+    var teamProgressData = props.teamProgressData;
     var cards = [];
     for (var i = 0; i < teams.length; i++) {
         cards.push(
-            <Card 
+            <Card2 
                 teamName={teams[i].teamName}
                 slug={teams[i].slug}
+                data={teamProgressData[i]}
             />
         )
     }
@@ -46,11 +47,11 @@ function HomeCards(props) {
     //         <Card teamName={item.teamName} slug={item.slug} />
     //     );
     // });
+    // <Card2 teamName="RDO 2" slug="rdo2" data={testData} />
 
     return (
-        <div className="row align-items-center mt-4 container">
+        <div className="row align-items-center mt-4 container mx-auto">
             {cards}
-            <Card2 teamName="RDO 2" slug="rdo2" data={testData} />
         </div>
     );
 }
@@ -117,18 +118,6 @@ function ProgressCard(props) {
     )
 }
 
-// #FAKEDATA
-const testData = {
-    objective: {
-        inProgress: 11,
-        total: 15
-    },
-    keyResults: {
-        inProgress: 33,
-        total: 45
-    }
-};
-
 // Home component - to be broken down further
 class Home extends React.Component {
     constructor(props) {
@@ -161,7 +150,7 @@ class Home extends React.Component {
                     <ProgressCard progressId="overall_progress" data={this.props.overallData} isTeam={false} />
                 </div>
                 <h2 className="mt-5">Teams</h2>
-                <HomeCards teams={this.props.teams} />
+                <HomeCards teams={this.props.teams} teamProgressData={this.props.teamProgressData} />
             </div>
         )
     };

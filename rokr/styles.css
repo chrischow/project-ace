@@ -47,7 +47,7 @@ hr {
 
 .card--header {
     font-family: 'Bahnschrift Light';
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     letter-spacing: 2px;
 }
 
@@ -87,6 +87,10 @@ hr {
 
 .progress-card--header-text {
     font-size: 1.3rem;
+    font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #51647D;
 }
 
 .progress-card--metric {
@@ -113,6 +117,9 @@ hr {
 .progress-card--header-text-sm {
     font-size: 1.0rem;
     font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #51647D;
 }
 
 .progress-card--metric-sm {
