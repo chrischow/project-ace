@@ -120,10 +120,12 @@ function KeyResultCard(props) {
 
 function ObjectiveCard(props) {
     const [isClicked, setIsClicked] = React.useState(false);
+
     const objId = 'obj-' + props.objectiveId;
 
     function updateArrow() {
-        setIsClicked(!isClicked);
+        const clicked = document.getElementById('btn-' + objId).classList.contains('collapsed');
+        setIsClicked(!clicked);
     }
 
     return (
@@ -134,7 +136,8 @@ function ObjectiveCard(props) {
             type="button"
             aria-expanded="false"
             aria-controls={objId}
-            onChange={updateArrow}
+            onClick={updateArrow}
+            id={'btn-' + objId}
         >
             <h4 className="objective-card--tag mb-3">Objective</h4>
             <div className={isClicked ? "arrow-down" : "arrow-right"}></div>
