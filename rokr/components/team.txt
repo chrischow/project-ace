@@ -212,12 +212,10 @@ class TeamPageBody extends React.Component {
                 <div className="overall-panel mt-4">
                     <ProgressCard progressId="team-progress" data={teamOverallData} isTeam={false} />
                 </div>
-                <h3 className="mt-5">Objectives & Key Results</h3>
-                <div className="mt-1">
-                    <ObjectiveCardGroup {...o1} />
-                    <ObjectiveCardGroup {...o2} />
-                    <ObjectiveCardGroup {...o3} />
-                </div>
+                <h3 className="mt-5">Objectives & Key Results</h3>>
+                <ObjectiveCardGroup {...o1} />
+                <ObjectiveCardGroup {...o2} />
+                <ObjectiveCardGroup {...o3} />
             </div>
         );
     }
