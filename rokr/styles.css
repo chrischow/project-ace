@@ -179,6 +179,19 @@ hr {
     border-left: 10px solid #27DDCB;
 }
 
+.arrow-down {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    left: 30px;
+    top: 72px;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #27DDCB;
+}
+
 .progress {
     background-color: #010D1E;
 }
