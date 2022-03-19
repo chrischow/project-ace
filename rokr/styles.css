@@ -309,3 +309,19 @@ div.progress.progress-keyresult {
     font-size: 0.95rem;
 }
 
+
+.keyresult-row {
+    background-color: #2C3849;
+    padding: 20px 40px;
+    width: 100%;
+}
+
+.keyresult-row--title {
+    color: #EAEAEA;
+    font-size: 1.2rem;
+}
+
+.keyresult-row--description {
+    color: #8497B0;
+    font-size: 0.95rem;
+}

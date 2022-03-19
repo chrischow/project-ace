@@ -153,19 +153,21 @@ function KeyResultCard(props) {
 
 function KeyResultRow(props) {
     return (
-        <div className="keyresult-row row align-items-center">
-            <div className="keyresult-row--title col-3">
-                <h4>{props.title}</h4>
-            </div>
-            <div className="keyresult-row--description col-3">
-                {
-                    props.description && 
-                    <p className="keyresult-card--description mt-1">{props.description}</p>
-                }
-            </div>
-            <div className="keyresult-row--description col-2"><p>Owner</p></div>
-            <div className="keyresult-row--progress-bar col-4">
-                <ProgressBar progress={props.progress} isKeyResult={true} />
+        <div className="keyresult-row">
+            <div className="row align-items-center">
+                <div className="keyresult-row--title col-3">
+                    <h4>{props.title}</h4>
+                </div>
+                <div className="keyresult-row--description col-3">
+                    {
+                        props.description && 
+                        <p className="keyresult-card--description mt-1">{props.description}</p>
+                    }
+                </div>
+                <div className="keyresult-row--description col-2"><p>Owner</p></div>
+                <div className="keyresult-row--progress-bar col-4">
+                    <ProgressBar progress={props.progress} isKeyResult={true} />
+                </div>
             </div>
         </div>
     );
