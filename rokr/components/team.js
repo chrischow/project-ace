@@ -333,7 +333,6 @@ class TeamPageBody extends React.Component {
                     <ProgressCard progressId="team-progress" data={progressData} isTeam={false} />
                 </div>
                 <h3 className="mt-5">Objectives & Key Results</h3>
-                {objectiveCardGroups}
                 {objectiveCardRows}
             </div>
         );
