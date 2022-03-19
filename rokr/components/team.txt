@@ -151,6 +151,26 @@ function KeyResultCard(props) {
     );
 }
 
+function KeyResultRow(props) {
+    return (
+        <div className="keyresult-row row align-items-center">
+            <div className="keyresult-row--title col-3">
+                <h4>{props.title}</h4>
+            </div>
+            <div className="keyresult-row--description col-3">
+                {
+                    props.description && 
+                    <p className="keyresult-card--description mt-1">{props.description}</p>
+                }
+            </div>
+            <div className="keyresult-row--description col-2"><p>Owner</p></div>
+            <div className="keyresult-row--progress-bar col-4">
+                <ProgressBar progress={props.progress} isKeyResult={true} />
+            </div>
+        </div>
+    );
+};
+
 function ObjectiveCard(props) {
     const [isClicked, setIsClicked] = React.useState(false);
 
@@ -190,7 +210,7 @@ function ObjectiveCardGroup(props) {
     const objId = 'obj-' + props.objectiveId;
 
     const keyResultCards = props.keyResults.map(function(item) {
-        return <KeyResultCard {...item} />
+        return <KeyResultRow {...item} />
     });
 
     return (
@@ -305,16 +325,3 @@ function TeamPage(props) {
         </div>
     );
 };
-
-
-// <div className="tab-content" id="team-tabcontent">
-//     <div className="tab-pane fade show active" id="#team-annual" role="tabpanel" aria-labelledby="annual-tab">
-//         <h3>Annual</h3>
-//     </div>
-//     <div className="tab-pane fade" id="#team-quarterly" role="tabpanel" aria-labelledby="quarterly-tab">
-//         <h3>Quarterly</h3>
-//     </div>
-//     <div className="tab-pane fade" id="#team-monthly" role="tabpanel" aria-labelledby="monthly-tab">
-//         <h3>Monthly</h3>
-//     </div>
-// </div>
