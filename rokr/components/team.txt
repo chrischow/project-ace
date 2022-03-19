@@ -237,7 +237,7 @@ function ObjectiveCardGroup2(props) {
     return (
         <div className="mt-4">
             <ObjectiveCard {...props} />
-            <div class="collapse" id={objId}>
+            <div class="okr collapse" id={objId}>
                 {keyResultRows}
             </div>
         </div>
