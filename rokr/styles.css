@@ -235,10 +235,6 @@ hr {
     color: #8497B0;
 }
 
-.objective-card--progress-text {
-    color: #8497B0;
-}
-
 .arrow-right {
     content: "";
     position: absolute;
@@ -279,6 +275,10 @@ div.progress.progress-keyresult {
 .progress-bar {
     background-color: #27DDCB;
     border-radius: 1.0rem;
+}
+
+.progress-text {
+    color: #8497B0;
 }
 
 /* Key Result card */
@@ -327,6 +327,7 @@ div.progress.progress-keyresult {
 
 .keyresult-row--text {
     color: #8497B0;
+    font-size: 0.9rem;
     margin-top: 0px;
     margin-bottom: 0px;
 }

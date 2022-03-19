@@ -114,10 +114,12 @@ function ProgressBar(props) {
     };
 
     const progressClass = props.isKeyResult ? "progress progress-keyresult" : "progress";
+    const progressBarCol = props.isKeyResult ? "col-9": "col-11";
+    const progressTextCol = props.isKeyResult ? "col-3": "col-1";
 
     return (
         <div className="row align-items-center">
-            <div className="col-10">
+            <div className={progressBarCol}>
                 <div className={progressClass}>
                     <div
                         className="progress-bar"
@@ -129,8 +131,8 @@ function ProgressBar(props) {
                     ></div>
                 </div>
             </div>
-            <div className="col-2">
-                <span className="objective-card--progress-text">{progressNowString}</span>
+            <div className={progressTextCol}>
+                <span className="progress-text">{progressNowString}</span>
             </div>
         </div>
     );
@@ -158,11 +160,11 @@ function KeyResultRow(props) {
                 <div className="col-4">
                     <span className="keyresult-row--title">{props.title}</span>
                 </div>
-                <div className="text-left col-2">
-                    <span className="keyresult-row--text">31 Mar 2023</span>
-                </div>
                 <div className="text-center col-2">
                     <span className="keyresult-row--text ">Owner</span>
+                </div>
+                <div className="text-center col-2">
+                    <span className="keyresult-row--text">31 Mar 2023</span>
                 </div>
                 <div className="keyresult-row--progress-bar col-3">
                     <ProgressBar progress={props.progress} isKeyResult={true} />
