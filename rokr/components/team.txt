@@ -157,7 +157,7 @@ function KeyResultRow(props) {
     return (
         <div className="keyresult-row">
             <div className="row align-items-center">
-                <div className="col-4">
+                <div className="col-5">
                     <span className="keyresult-row--title">{props.title}</span>
                 </div>
                 <div className="text-center col-2">
@@ -219,7 +219,7 @@ function ObjectiveCardGroup(props) {
     return (
         <div className="mt-4">
             <ObjectiveCard {...props} />
-            <div class="collapse" id={objId}>
+            <div class="okr collapse" id={objId}>
                 {keyResultCards}
             </div>
         </div>
