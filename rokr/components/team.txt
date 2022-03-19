@@ -180,8 +180,8 @@ function ObjectiveCard(props) {
     const objId = 'obj-' + props.objectiveId;
 
     function updateArrow() {
-        $('#' + objId).on('show.bs.collapse', () => setIsClicked(true));
-        $('#' + objId).on('hide.bs.collapse', () => setIsClicked(false));
+        $('#' + objId).on('shown.bs.collapse', () => setIsClicked(true));
+        $('#' + objId).on('hidden.bs.collapse', () => setIsClicked(false));
     }
 
     return (
