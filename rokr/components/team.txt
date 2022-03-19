@@ -210,7 +210,7 @@ function ObjectiveCardGroup(props) {
     const objId = 'obj-' + props.objectiveId;
 
     const keyResultCards = props.keyResults.map(function(item) {
-        return <KeyResultRow {...item} />
+        return <KeyResultCard {...item} />
     });
 
     return (
@@ -218,6 +218,24 @@ function ObjectiveCardGroup(props) {
             <ObjectiveCard {...props} />
             <div class="collapse" id={objId}>
                 {keyResultCards}
+            </div>
+        </div>
+    );
+};
+
+function ObjectiveCardGroup2(props) {
+    // Create KR Cards
+    const objId = 'obj-' + props.objectiveId;
+
+    const keyResultRows = props.keyResults.map(function(item) {
+        return <KeyResultRow {...item} />
+    });
+
+    return (
+        <div className="mt-4">
+            <ObjectiveCard {...props} />
+            <div class="collapse" id={objId}>
+                {keyResultRows}
             </div>
         </div>
     );
@@ -303,6 +321,10 @@ class TeamPageBody extends React.Component {
             return <ObjectiveCardGroup {...item} />
         });
 
+        const objectiveCardRows = this.state.data.okrs.map(function(item) {
+            return <ObjectiveCardGroup2 {...item} />
+        });
+
         return (
             <div>
                 <FrequencyTabs changeFrequency={this.changeFrequency} />
@@ -312,6 +334,7 @@ class TeamPageBody extends React.Component {
                 </div>
                 <h3 className="mt-5">Objectives & Key Results</h3>
                 {objectiveCardGroups}
+                {objectiveCardRows}
             </div>
         );
     }
