@@ -155,17 +155,16 @@ function KeyResultRow(props) {
     return (
         <div className="keyresult-row">
             <div className="row align-items-center">
-                <div className="keyresult-row--title col-3">
-                    <h5>{props.title}</h5>
+                <div className="col-4">
+                    <span className="keyresult-row--title">{props.title}</span>
                 </div>
-                <div className="keyresult-row--description text-left col-3">
-                    {
-                        props.description && 
-                        <p className="keyresult-row--description">{props.description}</p>
-                    }
+                <div className="text-left col-2">
+                    <span className="keyresult-row--text">31 Mar 2023</span>
                 </div>
-                <div className="keyresult-row--owner col-2"><p>Owner</p></div>
-                <div className="keyresult-row--progress-bar col-4">
+                <div className="text-center col-2">
+                    <span className="keyresult-row--text ">Owner</span>
+                </div>
+                <div className="keyresult-row--progress-bar col-3">
                     <ProgressBar progress={props.progress} isKeyResult={true} />
                 </div>
             </div>

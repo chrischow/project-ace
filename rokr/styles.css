@@ -320,19 +320,12 @@ div.progress.progress-keyresult {
 
 .keyresult-row--title {
     color: #EAEAEA;
-    font-size: 1.2rem;
+    font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-.keyresult-row--description {
-    color: #8497B0;
-    font-size: 0.95rem;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-.keyresult-row--owner {
+.keyresult-row--text {
     color: #8497B0;
     margin-top: 0px;
     margin-bottom: 0px;
