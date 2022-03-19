@@ -117,7 +117,7 @@ function ProgressBar(props) {
 
     return (
         <div className="row align-items-center">
-            <div className="col-11">
+            <div className="col-10">
                 <div className={progressClass}>
                     <div
                         className="progress-bar"
@@ -129,7 +129,7 @@ function ProgressBar(props) {
                     ></div>
                 </div>
             </div>
-            <div className="col-1">
+            <div className="col-2">
                 <span className="objective-card--progress-text">{progressNowString}</span>
             </div>
         </div>
@@ -156,12 +156,12 @@ function KeyResultRow(props) {
         <div className="keyresult-row">
             <div className="row align-items-center">
                 <div className="keyresult-row--title col-3">
-                    <h4>{props.title}</h4>
+                    <h5>{props.title}</h5>
                 </div>
-                <div className="keyresult-row--description col-3">
+                <div className="keyresult-row--description text-left col-3">
                     {
                         props.description && 
-                        <p className="keyresult-card--description">{props.description}</p>
+                        <p className="keyresult-row--description">{props.description}</p>
                     }
                 </div>
                 <div className="keyresult-row--owner col-2"><p>Owner</p></div>

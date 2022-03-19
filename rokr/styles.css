@@ -315,11 +315,14 @@ div.progress.progress-keyresult {
     padding: 12px 40px;
     border-radius: 4px;
     width: 100%;
+    margin: 5px 0;
 }
 
 .keyresult-row--title {
     color: #EAEAEA;
     font-size: 1.2rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .keyresult-row--description {
