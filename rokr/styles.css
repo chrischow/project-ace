@@ -312,7 +312,8 @@ div.progress.progress-keyresult {
 
 .keyresult-row {
     background-color: #2C3849;
-    padding: 20px 40px;
+    padding: 12px 40px;
+    border-radius: 4px;
     width: 100%;
 }
 
@@ -324,4 +325,12 @@ div.progress.progress-keyresult {
 .keyresult-row--description {
     color: #8497B0;
     font-size: 0.95rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.keyresult-row--owner {
+    color: #8497B0;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }

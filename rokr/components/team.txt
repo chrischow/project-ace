@@ -116,7 +116,7 @@ function ProgressBar(props) {
     const progressClass = props.isKeyResult ? "progress progress-keyresult" : "progress";
 
     return (
-        <div className="row align-items-center mt-3">
+        <div className="row align-items-center">
             <div className="col-11">
                 <div className={progressClass}>
                     <div
@@ -161,10 +161,10 @@ function KeyResultRow(props) {
                 <div className="keyresult-row--description col-3">
                     {
                         props.description && 
-                        <p className="keyresult-card--description mt-1">{props.description}</p>
+                        <p className="keyresult-card--description">{props.description}</p>
                     }
                 </div>
-                <div className="keyresult-row--description col-2"><p>Owner</p></div>
+                <div className="keyresult-row--owner col-2"><p>Owner</p></div>
                 <div className="keyresult-row--progress-bar col-4">
                     <ProgressBar progress={props.progress} isKeyResult={true} />
                 </div>
