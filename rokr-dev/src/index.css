@@ -19,6 +19,30 @@ body {
   margin-top: 30px;
 }
 
+.btn-green {
+  background-color: #27DDCB;
+  color: white;
+  transition: 0.3s;
+}
+
+.btn-green:hover {
+  background-color: #0EC4B2;
+  color: #fafafa;
+  transition: 0.3s;
+}
+
+.btn-blue {
+  background-color: #7B73F0;
+  color: white;
+  transition: 0.3s;
+}
+
+.btn-blue:hover {
+  background-color: #625AD7;
+  color: #fafafa;
+  transition: 0.3s;
+}
+
 .bg-dark, .table > thead.thead-dark th {
   /* background-color: #000415!important; */
   background-color: #000718!important;
@@ -109,7 +133,7 @@ hr {
 }
 
 .progress-card--header-text {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
   text-transform: uppercase;
   letter-spacing: 4px;
@@ -118,7 +142,7 @@ hr {
 
 .progress-card--metric {
   color: #27DDCB;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
 }
 
 .progress-card--metric-title {
@@ -199,10 +223,23 @@ hr {
   transition: 0.4s;
 }
 
+/* OKR collapsibles */
+.btn-okr-toggle {
+  background-color: #6B7E97;
+  color: #EAEAEA;
+  transition: 0.3s;
+}
+
+.btn-okr-toggle:hover {
+  background-color: #00AA98;
+  color: #EAEAEA;
+  transition: 0.3s;
+}
+
 /* Objective card */
 .objective-card {
   background-color: #172334;
-  padding: 30px 60px;
+  padding: 15px 60px;
   position: relative;
   border-radius: 5px;
   transition: 0.3s;
@@ -228,38 +265,38 @@ hr {
 
 .objective-card--title {
   color: #EAEAEA;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
-.objective-card--description {
+.objective-card--text {
   color: #8497B0;
+  margin-top: 0px;
+  margin-top: 0px;
 }
 
-.arrow-right {
-  content: "";
+.arrow-div {
   position: absolute;
   display: block;
-  width: 0;
-  height: 0;
-  left: 37px;
-  top: 69px;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid #27DDCB;
+  left: 16px;
+  transition: 0.3s;
 }
 
-.arrow-down {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 0;
-  height: 0;
-  left: 30px;
-  top: 73px;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid transparent;
-  border-top: 10px solid #27DDCB;
+.btn-collapse {
+  transition: 0.3s;
+}
+
+.fa-caret-right {
+  font-size: 1.3rem;
+  color: #27DDCB;
+}
+
+.rotated {
+  transition: 0.4s;
+  transform-box: fill-box;
+  transform: rotate(90deg) translate(-2px, 2px);
+  transform-origin: 50% 50%;
 }
 
 .progress {
@@ -272,47 +309,28 @@ div.progress.progress-keyresult {
   background-color: #0B1728;
 }
 
-.progress-bar {
-  background-color: #27DDCB;
+div.progress-bar {
+  background-color: #7B73F0;
   border-radius: 1.0rem;
+}
+
+.progress-bar.progress-keyresult {
+  background-color: #27DDCB;
 }
 
 .progress-text {
   color: #8497B0;
 }
 
-/* Key Result card */
-.keyresult-card {
-  background-color: #2C3849;
-  padding: 20px 60px;
-  position: relative;
-  border-radius: 4px;
-  margin: 7px 0;
-  width: 100%;
-}
-
-.keyresult-card--tag {
-  font-size: 0.9rem;
-  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #6B7E97;
-}
-
-.keyresult-card--title {
-  color: #EAEAEA;
-  font-size: 1.2rem;
-}
-
-.keyresult-card--description {
+.progress-text-sm{
   color: #8497B0;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
-
+/* KeyResult row */
 .keyresult-row {
   background-color: #2C3849;
-  padding: 12px 40px;
+  padding: 10px 60px;
   border-radius: 4px;
   width: 100%;
   margin: 5px 0;
@@ -320,7 +338,7 @@ div.progress.progress-keyresult {
 
 .keyresult-row--title {
   color: #EAEAEA;
-  font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
+  font-family: 'Bahnschrift Light', 'Segoe UI', sans-serif;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -330,4 +348,153 @@ div.progress.progress-keyresult {
   font-size: 0.9rem;
   margin-top: 0px;
   margin-bottom: 0px;
+}
+
+/* Details / Edit */
+.btn-edit {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.edit-icon {
+  font-size: 0.9rem;
+  color: #8497B0;
+  transition: 0.3s;
+}
+
+.edit-icon:hover {
+  color: #27DDCB;
+  transition: 0.3s;
+}
+
+.modal-content {
+  background-color: #0D192A;
+}
+
+button.close {
+  color: white;
+  transition: 0.3s;
+}
+
+button.close:hover {
+  color: #fafafa;
+  transition: 0.3s;
+  transform: scale(1.1);
+}
+
+/* Forms */
+.form-dark, .form-dark:focus {
+  background-color: #0D192A;
+  color: white;
+  border: 0;
+  /* add back border */
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: none;
+}
+
+.form-dark:disabled {
+  background-color: #0D192A;
+  border: #2C3849;
+}
+
+.form-element {
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.form-element:after {
+  content: '';
+  display: block;
+  margin: 0;
+  height: 1px;
+  width: 0px;
+  background: transparent;
+  transition: width .5s ease, background-color .5s ease;
+}
+
+.form-element-open.form-element:after {
+  width: 100%;
+  background: #2C3849;
+}
+
+textarea.form-dark {
+  background-color: #0D192A;
+  min-height: 35px;
+  overflow: hidden;
+}
+
+.form--label {
+  font-size: 0.9rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #8497B0;
+  margin-bottom: 0;
+}
+
+/* The switch - the box around the slider */
+.form--switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+/* Hide default HTML checkbox */
+.form--switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.form--slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #2C3849;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.form--slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #EAEAEA;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .form--slider {
+  background-color: #7B73F0;
+}
+
+input:focus + .form--slider {
+  box-shadow: 0 0 1px #7B73F0;
+}
+
+input:checked + .form--slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+.form--slider.round {
+  border-radius: 34px;
+}
+
+.form--slider.round:before {
+  border-radius: 50%;
 }
