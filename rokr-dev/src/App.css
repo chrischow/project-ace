@@ -1,38 +1,333 @@
-.App {
-  text-align: center;
+body {
+  font-family: 'Bahnschrift Light', 'Segoe UI', sans-serif;
+  color: #E9E9E9;
+  background-color: #000C1D;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.accent-blue {
+  color: #7B73F0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.accent-green {
+  color: #27DDCB;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.top-header {
+  margin-top: 30px;
+}
+
+.bg-dark, .table > thead.thead-dark th {
+  /* background-color: #000415!important; */
+  background-color: #000718!important;
+}
+
+::selection {
+  background: #27DDCB;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+h1 {
+  font-family: 'Bahnschrift', 'Segoe UI', 'Segoe UI', sans-serif;
+  font-size: 3.3rem;
+  font-weight: bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h4 {
+  font-family: 'Bahnschrift', 'Segoe UI', 'Segoe UI', sans-serif;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+
+hr {
+  background-color: #344051;
+  min-width: 150px;
+  max-width: 80%;
+}
+
+/* Navbar */
+.navbar-brand {
+  font-family: 'Bahnschrift'
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  transition: 0.3s;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  transition: 0.3s;
+  color: #7B73F0;
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+  transition: 0.3s;
+  font-weight: bold;
+  color: #7B73F0;
+}
+
+/* Home Page */
+.overall-panel {
+  border-radius: 5px;
+  padding: 40px 20px;
+  background-color: #0D192A;
+  width: 100%;
+}
+
+.card--header {
+  font-family: 'Bahnschrift Light';
+  font-size: 1.7rem;
+  letter-spacing: 2px;
+}
+
+.card--outer {
+  padding: 10px 5px;
+}
+
+.card--inner {
+  background-color: #0D192A;
+  color: #EAEAEA;
+  border-radius: 5px;
+  transition: 0.3s;
+  padding: 25px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 98%;
+}
+
+.card--inner:hover {
+  background-color: #172334;
+  color: white;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.progress-card--circle-text {
+  color: #8497B0;
+  font-size: 1.2rem;
+}
+
+.progress-card--header-text {
+  font-size: 1.3rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #51647D;
+}
+
+.progress-card--metric {
+  color: #27DDCB;
+  font-size: 2.5rem;
+}
+
+.progress-card--metric-title {
+  color: #8497B0;
+  font-size: 1.0rem;
+}
+
+.progress-card--metric-between {
+  color: #8497B0;
+  font-size: 1.0rem;
+}
+
+/* Progress card - small */
+.progress-card--circle-text-sm {
+  color: #8497B0;
+  font-size: 0.9rem;
+}
+
+.progress-card--header-text-sm {
+  font-size: 0.9rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #51647D;
+}
+
+.progress-card--metric-sm {
+  color: #27DDCB;
+  font-size: 1.6rem;
+}
+
+.progress-card--metric-title-sm {
+  color: #8497B0;
+  font-size: 0.8rem;
+}
+
+.progress-card--metric-between-sm {
+  color: #8497B0;
+  font-size: 0.8rem;
+}
+
+/* Frequency tabs */
+.frequency-tabs--link {
+  color: #6B7E97;
+  transition: 0.3s;
+}
+
+.frequency-tabs--link:hover {
+  color: #27DDCB;
+  transition: 0.3s;
+}
+
+.nav-pills .nav-link {
+  border-radius: 0;
+  transition: 0.4s;
+  position: relative;
+}
+
+.nav-pills .nav-link::after {
+  position: absolute;
+  content: "";
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #27DDCB;
+  transform: scaleX(0);
+  transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.nav-pills .nav-link:hover::after, .nav-pills .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.nav-pills .nav-link.active {
+  background-color: transparent;
+  border-bottom: 1px solid #27DDCB;
+  color: #27DDCB;
+  transition: 0.4s;
+}
+
+/* Objective card */
+.objective-card {
+  background-color: #172334;
+  padding: 30px 60px;
+  position: relative;
+  border-radius: 5px;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.objective-card:hover {
+  background-color: #1C2839;
+  transition: 0.3s;
+}
+
+.btn.focus, .btn:focus {
+  box-shadow: none;
+}
+
+.objective-card--tag {
+  font-size: 1.1rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #958DFF;
+}
+
+.objective-card--title {
+  color: #EAEAEA;
+  font-size: 1.4rem;
+}
+
+.objective-card--description {
+  color: #8497B0;
+}
+
+.arrow-right {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  left: 37px;
+  top: 69px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #27DDCB;
+}
+
+.arrow-down {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  left: 30px;
+  top: 73px;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-top: 10px solid #27DDCB;
+}
+
+.progress {
+  background-color: #010D1E;
+  border-radius: 1.0rem;
+}
+
+div.progress.progress-keyresult {
+  height: 0.7rem!important;
+  background-color: #0B1728;
+}
+
+.progress-bar {
+  background-color: #27DDCB;
+  border-radius: 1.0rem;
+}
+
+.progress-text {
+  color: #8497B0;
+}
+
+/* Key Result card */
+.keyresult-card {
+  background-color: #2C3849;
+  padding: 20px 60px;
+  position: relative;
+  border-radius: 4px;
+  margin: 7px 0;
+  width: 100%;
+}
+
+.keyresult-card--tag {
+  font-size: 0.9rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #6B7E97;
+}
+
+.keyresult-card--title {
+  color: #EAEAEA;
+  font-size: 1.2rem;
+}
+
+.keyresult-card--description {
+  color: #8497B0;
+  font-size: 0.95rem;
+}
+
+
+.keyresult-row {
+  background-color: #2C3849;
+  padding: 12px 40px;
+  border-radius: 4px;
+  width: 100%;
+  margin: 5px 0;
+}
+
+.keyresult-row--title {
+  color: #EAEAEA;
+  font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.keyresult-row--text {
+  color: #8497B0;
+  font-size: 0.9rem;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
