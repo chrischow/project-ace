@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'jquery-circle-progress';
 
 $.circleProgress.defaults.drawValue = function(v, fontSize) {
     var ctx = this.ctx,

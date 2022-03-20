@@ -22,6 +22,7 @@ function HomeCards(props) {
         cards.push(
             <Card 
                 teamName={teams[i].teamName}
+                key={teams[i].slug}
                 slug={teams[i].slug}
                 data={teamProgressData[i]}
             />

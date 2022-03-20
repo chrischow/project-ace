@@ -4,7 +4,7 @@ import Brand from './Brand';
 export default function Navbar(props) {
     var linkElements = props.teams.map(function(item) {
         return (
-            <li className="nav-item">
+            <li key={'nav-' + item.slug} className="nav-item">
                 <NavLink className="nav-link" to={"/" + item.slug}>{item.teamName}</NavLink>
             </li>
         );

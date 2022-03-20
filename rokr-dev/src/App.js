@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import TeamPage from './components/Team';
@@ -43,15 +43,14 @@ function App() {
       <HashRouter>
           <Navbar teams={teams} />
           <div className="container mt-5">
-              <Routes>
+              <Switch>
                   <Route 
                       path='/'
                       render={renderHome}
                       exact
                   />
-
                   <TeamRoutes teams={teams} />
-              </Routes>
+              </Switch>
           </div>
       </HashRouter>
   )

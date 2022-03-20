@@ -233,13 +233,13 @@ function ObjectiveCardGroup2(props) {
     const objId = 'obj-' + props.objectiveId;
 
     const keyResultRows = props.keyResults.map(function(item) {
-        return <KeyResultRow {...item} />
+        return <KeyResultRow key={item.title} {...item} />
     });
 
     return (
         <div className="mt-4">
             <ObjectiveCard {...props} />
-            <div class="okr collapse" id={objId}>
+            <div className="okr collapse" id={objId}>
                 {keyResultRows}
             </div>
         </div>
