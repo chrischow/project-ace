@@ -75,7 +75,6 @@ function ObjectiveCard(props) {
     );
 };
 
-
 function OKRCollapse(props) {
     const [isClicked, setIsClicked] = React.useState(false);
 
