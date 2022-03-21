@@ -1,7 +1,7 @@
 // COMPONENT: Home
 function Home(props) {
 
-    useEffect(function() {
+    React.useEffect(function() {
         // Load overall
         updateCircleProgress('overall_progress', 0.2, 200, '50px', '#000718');
 
