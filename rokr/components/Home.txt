@@ -1,10 +1,4 @@
-// * ---------- *
-// | PAGE: HOME |
-// * ---------- *
-// State
-//  - Query SPList everytime the home page is reloaded
-//  - This is in case updates were made on the Team pages --> Need to update overall
-
+// COMPONENT: Home
 class Home extends React.Component {
     constructor(props) {
         super(props);

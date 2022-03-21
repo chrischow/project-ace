@@ -77,7 +77,7 @@ function ObjectiveCard(props) {
 
 
 function OKRCollapse(props) {
-    const [isClicked, setIsClicked] = useState(false);
+    const [isClicked, setIsClicked] = React.useState(false);
 
     // Create KR Cards
     const objId = 'obj-' + props.objectiveId;
@@ -86,7 +86,7 @@ function OKRCollapse(props) {
         return <KeyResultRow objId={objId} {...item} />
     });
 
-    useEffect(function() {
+    React.useEffect(function() {
         $('#' + objId).on('show.bs.collapse', () => setIsClicked(true));
         $('#' + objId).on('hide.bs.collapse', () => setIsClicked(false));
     });

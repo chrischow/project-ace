@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
 import ProgressCard from './ProgressCard';
@@ -94,76 +94,71 @@ function DetailModal(props) {
     );
 }
 
-class TeamPageBody extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
+function TeamPageBody(props) {
+    const [pageData, setPageData] = useState({
             frequency: 'annual',
             data: props.teamData['annual'],
             modalObjective: {},
             modalKeyResult: {},
-        };
-    }
+        });
     
-    handleModalObjective = (objectiveData) => {
-        this.setState({
-            ...this.state,
+    function handleModalObjective(objectiveData) {
+        setPageData({
+            ...pageData,
             modalObjective: objectiveData
         })
     }
 
-    handleModalKeyResult = (keyResultData) => {
-        this.setState({
-            ...this.state,
+    function handleModalKeyResult(keyResultData) {
+        setPageData({
+            ...pageData,
             modalObjective: keyResultData
         })
     }
 
-    changeFrequency = (frequency) => {
-        this.setState({
-            ...this.state,
+    function changeFrequency(frequency) {
+        setPageData({
+            ...pageData,
             frequency: frequency,
-            data: this.props.teamData[frequency]
+            data: props.teamData[frequency]
         });
         
-        $('#team-progress').circleProgress('value', this.props.teamData[frequency].avgCompletion);
+        $('#team-progress').circleProgress('value', props.teamData[frequency].avgCompletion);
     }
 
-    componentDidMount() {
-        updateCircleProgress('team-progress', this.state.data.avgCompletion, 200, '50px', '#000718');
-    }
+    useEffect(function() {
+        updateCircleProgress('team-progress', pageData.data.avgCompletion, 200, '50px', '#000718');
+    });
 
-    render() {
-        const progressData = {
-            objectiveCompletion: this.state.data.objectiveCompletion,
-            keyResultCompletion: this.state.data.keyResultCompletion
-        };
+    const progressData = {
+        objectiveCompletion: pageData.data.objectiveCompletion,
+        keyResultCompletion: pageData.data.keyResultCompletion
+    };
 
-        const objectiveCardRows = this.state.data.okrs.map((item) => {
-            return (
-                <OKRCollapse 
-                    {...item}
-                    handleModalObjective={this.handleModalObjective}
-                    handleModalKeyResult={this.handleModalKeyResult}
-                />
-            );
-        });
-
+    const objectiveCardRows = pageData.data.okrs.map((item) => {
         return (
-            <div>
-                <FrequencyTabs changeFrequency={this.changeFrequency} />
-                <h3 className="mt-4">Team Progress</h3>
-                <div className="overall-panel mt-4">
-                    <ProgressCard progressId="team-progress" data={progressData} isTeam={false} />
-                </div>
-                <h3 className="mt-5">Objectives & Key Results</h3>
-                <button className="btn btn-okr-toggle mt-2 mb-3" onClick={toggleOKRCards}>Expand/Collapse</button>
-                {objectiveCardRows}
-                <DetailModal type="objective" title="Objective" form={<ObjectiveForm />} />
-                <DetailModal type="keyresult" title="Key Result" />
-            </div>
+            <OKRCollapse 
+                {...item}
+                handleModalObjective={handleModalObjective}
+                handleModalKeyResult={handleModalKeyResult}
+            />
         );
-    }
+    });
+
+    return (
+        <div>
+            <FrequencyTabs changeFrequency={changeFrequency} />
+            <h3 className="mt-4">Team Progress</h3>
+            <div className="overall-panel mt-4">
+                <ProgressCard progressId="team-progress" data={progressData} isTeam={false} />
+            </div>
+            <h3 className="mt-5">Objectives & Key Results</h3>
+            <button className="btn btn-okr-toggle mt-2 mb-3" onClick={toggleOKRCards}>Expand/Collapse</button>
+            {objectiveCardRows}
+            <DetailModal type="objective" title="Objective" form={<ObjectiveForm />} />
+            <DetailModal type="keyresult" title="Key Result" />
+        </div>
+    );
 }
 
 export default function TeamPage(props) {
