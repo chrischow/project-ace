@@ -7,53 +7,51 @@ import './App.css';
 import { teams, allData } from './fakeData';
 
 // Data processing
-console.log(allData);
+// console.log(allData);
 
 // Join data
-var mergedData = [];
-var tempObj;
-var tempKRs = [];
-var tempOKR;
+// var mergedData = [];
+// var tempObj;
+// var tempKRs = [];
+// var tempOKR;
 
-for (var i = 0; i < allData.objectives.length; i++) {
-    tempObj = allData.objectives[i];
+// for (var i = 0; i < allData.objectives.length; i++) {
+//     tempObj = allData.objectives[i];
 
-    // Get objectives
-    tempKRs = allData.keyResults.filter(kr => {
-        return tempObj.objectiveId === kr.parentObjectiveId;
-    });
+//     // Get objectives
+//     tempKRs = allData.keyResults.filter(kr => {
+//         return tempObj.objectiveId === kr.parentObjectiveId;
+//     });
 
-    for (var j=0; j<tempKRs.length; j++) {
-        tempOKR = {
-            ...tempObj,
-            ...tempKRs[j]
-        };
-        mergedData.push(tempOKR);
-    }
-}
+//     for (var j=0; j<tempKRs.length; j++) {
+//         tempOKR = {
+//             ...tempObj,
+//             ...tempKRs[j]
+//         };
+//         mergedData.push(tempOKR);
+//     }
+// }
 
-// Sort data
-function sortData(a, b) {
-    if (a.objectiveId < b.objectiveId) {
-        return -1
-    } else if (a.objectiveId > b.objectiveId) {
-        return 1
-    } else {
-        if (a.krId < b.krId) {
-            return -1
-        } else if (a. krId > b.krId) {
-            return 1
-        }
-        return 0
-    }
-    return 0
-}
+// // Sort data
+// function sortData(a, b) {
+//     if (a.objectiveId < b.objectiveId) {
+//         return -1
+//     } else if (a.objectiveId > b.objectiveId) {
+//         return 1
+//     } else {
+//         if (a.krId < b.krId) {
+//             return -1
+//         } else if (a. krId > b.krId) {
+//             return 1
+//         }
+//         return 0
+//     }
+//     return 0
+// }
 
-mergedData.sort(sortData);
+// mergedData.sort(sortData);
 
-console.log(mergedData);
-
-
+// console.log(mergedData);
 
 // Complete KR completion
 function computeKrCompletion(data) {
@@ -127,33 +125,6 @@ var overallProgressData = {
     }
 };
 
-// Initialise object for overall progress for teams
-// var teamProgressData = {};
-// var teamName;
-// var tempObj;
-// var tempKR;
-// for (var i=0; i<teams.length; i++) {
-//     teamName = teams[i].teamName;
-//     tempObj = annualObjectives.filter(function(obj) {
-//         return obj.team === teamName;
-//     });
-//     tempKR = annualKRs.filter(function(kr) {
-//         return kr.parentObjectiveTeam === teamName;
-//     });
-//     tempObjCompletion = computeObjCompletion(tempObj, tempKR);
-//     teamProgressData = {
-//         ...teamProgressData,
-//         [teams[i].teamName]: {
-//             avgCompletion: tempObjCompletion.avgCompletion,
-//             keyResultCompletion: computeKrCompletion(tempKR),
-//             objectiveCompletion: {
-//                 completed: tempObjCompletion.completed,
-//                 total: tempObjCompletion.total,
-//             }
-//         }
-//     };
-// }
-
 // Split data
 function prepareTeamData() {
     var output = {};
@@ -203,8 +174,8 @@ const TeamRoutes = (props) => {
                 key={team.slug}
                 path={'/' + team.slug}
                 render={(props) => <TeamPage
-                team={team}
-                progressData={teamProgressData[team.teamName]}
+                    team={team}
+                    progressData={teamProgressData[team.teamName]}
                 />}
           />
       );

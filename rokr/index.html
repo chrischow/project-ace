@@ -211,7 +211,10 @@
                         <Route 
                             key={team.slug}
                             path={'/' + team.slug}
-                            render={(props) => <TeamPage team={team} />}
+                            render={(props) => <TeamPage
+                                team={team}
+                                progressData={teamProgressData[team.teamName]}
+                            />}
                         />
                     );
                 });
