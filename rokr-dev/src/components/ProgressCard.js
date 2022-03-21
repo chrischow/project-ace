@@ -17,7 +17,7 @@ export default function ProgressCard(props) {
         styleMetricTitle = styleMetricTitle + '-sm';
         styleMetricBetween = styleMetricBetween + '-sm';
     }
-
+    
     return (
         <div>
             <div className="row justify-content-center align-items-center">

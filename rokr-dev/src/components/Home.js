@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React from 'react';
 
 import Brand from './Brand';
 import ProgressCard from './ProgressCard';
@@ -7,19 +7,18 @@ import updateCircleProgress from '../utils/updateCircleProgress';
 
 // Home component - to be broken down further
 export default function Home(props) {
-
-    useEffect(function() {
+    React.useEffect(function() {
         // Load overall
-        updateCircleProgress('overall_progress', 0.2, 200, '50px', '#000718');
+        updateCircleProgress('overall_progress', props.overallData.avgCompletion, 200, '50px', '#000718');
 
         // Load teams
+        var teamName;
         var slug;
-        var team_progress;
 
         for (var i=0; i < props.teams.length; i++) {
+            teamName = props.teams[i].teamName;
             slug = props.teams[i].slug;
-            team_progress = Number(props.teamProgressData[i].progress);
-            updateCircleProgress(slug, team_progress, 160, '35px', '#010D1E');
+            updateCircleProgress(slug, props.teamProgressData[teamName].annual.avgCompletion, 160, '35px', '#010D1E');
         }
     });
 

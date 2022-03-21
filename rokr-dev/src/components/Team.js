@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import $ from 'jquery';
 
 import ProgressCard from './ProgressCard';
@@ -95,7 +95,7 @@ function DetailModal(props) {
 }
 
 function TeamPageBody(props) {
-    const [pageData, setPageData] = useState({
+    const [pageData, setPageData] = React.useState({
             frequency: 'annual',
             data: props.teamData['annual'],
             modalObjective: {},
@@ -126,7 +126,7 @@ function TeamPageBody(props) {
         $('#team-progress').circleProgress('value', props.teamData[frequency].avgCompletion);
     }
 
-    useEffect(function() {
+    React.useEffect(function() {
         updateCircleProgress('team-progress', pageData.data.avgCompletion, 200, '50px', '#000718');
     });
 
@@ -135,10 +135,24 @@ function TeamPageBody(props) {
         keyResultCompletion: pageData.data.keyResultCompletion
     };
 
-    const objectiveCardRows = pageData.data.okrs.map((item) => {
+    const objectiveCardRows = pageData.data.objectives.map((item) => {
+        var tempKRs;
+        var tempObjProgress = 0;
+        tempKRs = pageData.data.keyResults.filter(function(kr) {
+            return kr.parentObjectiveId === item.objectiveId;
+        });
+        for (var j=0; j < tempKRs.length; j++) {
+            tempKRs[j].progress = tempKRs[j].currentValue / tempKRs[j].maxValue;
+            tempObjProgress += tempKRs[j].progress;
+        }
+        var okr = {
+            ...item,
+            progress: tempObjProgress / tempKRs.length,
+            keyResults: tempKRs
+        };
         return (
             <OKRCollapse 
-                {...item}
+                {...okr}
                 handleModalObjective={handleModalObjective}
                 handleModalKeyResult={handleModalKeyResult}
             />
@@ -165,7 +179,8 @@ export default function TeamPage(props) {
     return (
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
-            <TeamPageBody teamData={teamData} />
+            {/* <TeamPageBody teamData={teamData} /> */}
+            <TeamPageBody teamData={props.progressData} />
         </div>
     );
 };

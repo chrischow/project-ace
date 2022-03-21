@@ -3,7 +3,7 @@
 //  - Row/card for key results
 //  - Wrapper to put these into a Bootstrap collapse component
 
-import { useState, useEffect } from 'react';
+import React from 'react';
 import $ from 'jquery';
 
 import EditIcon from './EditIcon';
@@ -11,13 +11,19 @@ import CaretIcon from './CaretIcon';
 import ProgressBar from './ProgressBar';
 
 function KeyResultRow(props) {
+    
     return (
         <div className="keyresult-row">
             <div className="row align-items-center">
                 <div className="col-5">
                     <span className="keyresult-row--title">
-                        {props.title}
-                        <button type="button" className="btn btn-edit ml-3" data-toggle="modal" data-target={'#modal-keyresult'}>
+                        {props.krTitle}
+                        <button
+                            type="button"
+                            className="btn btn-edit ml-3"
+                            data-toggle="modal"
+                            data-target={'#modal-keyresult'}
+                        >
                             <EditIcon />
                         </button>
                     </span>
@@ -40,8 +46,11 @@ function ObjectiveCard(props) {
     
     function populateForm(){
         $('input[name=objId').val(props.objectiveId);
-        $('input[name=objTitle').val(props.title);
-        $('textarea[name=objDescription').val(props.description);
+        $('input[name=objTitle').val(props.objectiveTitle);
+        $('textarea[name=objDescription').val(props.objectiveDescription);
+        $('input[name=objStartDate').val(props.objectiveStartDate);
+        $('input[name=objEndDate').val(props.objectiveEndDate);
+        $('input[name=objTeam').val(props.team);
     };
 
     return (
@@ -63,7 +72,7 @@ function ObjectiveCard(props) {
             <div className="row align-items-center mt-2">
                 <div className="col-7">
                     <h5 className="objective-card--title text-left">
-                        <span>{props.title}</span>
+                        <span>{props.objectiveTitle}</span>
                         <button 
                             type="button"
                             className="btn btn-edit ml-2"
@@ -88,16 +97,16 @@ function ObjectiveCard(props) {
 
 
 export default function OKRCollapse(props) {
-    const [isClicked, setIsClicked] = useState(false);
+    const [isClicked, setIsClicked] = React.useState(false);
 
     // Create KR Cards
     const objId = 'obj-' + props.objectiveId;
-
+    
     const keyResultRows = props.keyResults.map(function(item) {
         return <KeyResultRow objId={objId} {...item} />
     });
 
-    useEffect(function() {
+    React.useEffect(function() {
         $('#' + objId).on('show.bs.collapse', () => setIsClicked(true));
         $('#' + objId).on('hide.bs.collapse', () => setIsClicked(false));
     });

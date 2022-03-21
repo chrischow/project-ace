@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React from 'react';
 import $ from 'jquery';
 
 export function ObjectiveForm(props) {
-    const [isEditMode, setIsEditMode] = useState(false);
-    const [formData, setFormData] = useState({
+    const [isEditMode, setIsEditMode] = React.useState(false);
+    const [formData, setFormData] = React.useState({
         objId: 0,
         objTitle: "",
         objDescription: "",
