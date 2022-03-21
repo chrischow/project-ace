@@ -58,17 +58,22 @@
             loadWords('update-circle-progress', false);
             
             // Routing
-            const BrowserRouter = ReactRouterDOM.HashRouter;
+            const HashRouter = ReactRouterDOM.HashRouter;
             const Route = ReactRouterDOM.Route;
             const Switch = ReactRouterDOM.Switch;
             const Link = ReactRouterDOM.Link;
             const NavLink = ReactRouterDOM.NavLink;
 
             // Load components
-            loadComponent('brand');
-            loadComponent('navbar');
-            loadComponent('home');
-            loadComponent('team');
+            loadComponent('Brand');
+            loadComponent('Navbar');
+            loadComponent('ProgressCard');
+            loadComponent('HomeCards');
+            loadComponent('ProgressBar');
+            loadComponent('Home');
+            loadComponent('OKRCollapse');
+            loadComponent('Forms');
+            loadComponent('Team');
 
             // Configs
             var teams = [
@@ -87,37 +92,37 @@
             //  - Query SPList everytime each Team page is reloaded?
             //  - This is in case updates were made --> Need to update
             // #FAKEDATA
-            const progress = [
-                Math.random(), Math.random(), Math.random(), Math.random(), Math.random()
-            ];
+            // const progress = [
+            //     Math.random(), Math.random(), Math.random(), Math.random(), Math.random()
+            // ];
 
-            const overallProgressData = {
-                objectiveCompletion: { completed: 11, total: 15 },
-                keyResultCompletion: { completed: 33, total: 45 }
-            };
+            // const overallProgressData = {
+            //     objectiveCompletion: { completed: 11, total: 15 },
+            //     keyResultCompletion: { completed: 33, total: 45 }
+            // };
 
-            const teamProgressData = [
-                {
-                    objectiveCompletion: { completed: 11, total: 15 },
-                    keyResultCompletion: { completed: 33, total: 45 }
-                },
-                {
-                    objectiveCompletion: { completed: 11, total: 15 },
-                    keyResultCompletion: { completed: 33, total: 45 }
-                },
-                {
-                    objectiveCompletion: { completed: 11, total: 15 },
-                    keyResultCompletion: { completed: 33, total: 45 }
-                },
-                {
-                    objectiveCompletion: { completed: 11, total: 15 },
-                    keyResultCompletion: { completed: 33, total: 45 }
-                },
-                {
-                    objectiveCompletion: { completed: 11, total: 15 },
-                    keyResultCompletion: { completed: 33, total: 45 }
-                },
-            ];
+            // const teamProgressData = [
+            //     {
+            //         objectiveCompletion: { completed: 11, total: 15 },
+            //         keyResultCompletion: { completed: 33, total: 45 }
+            //     },
+            //     {
+            //         objectiveCompletion: { completed: 11, total: 15 },
+            //         keyResultCompletion: { completed: 33, total: 45 }
+            //     },
+            //     {
+            //         objectiveCompletion: { completed: 11, total: 15 },
+            //         keyResultCompletion: { completed: 33, total: 45 }
+            //     },
+            //     {
+            //         objectiveCompletion: { completed: 11, total: 15 },
+            //         keyResultCompletion: { completed: 33, total: 45 }
+            //     },
+            //     {
+            //         objectiveCompletion: { completed: 11, total: 15 },
+            //         keyResultCompletion: { completed: 33, total: 45 }
+            //     },
+            // ];
 
             // Routes
             const Routes = (props) => {
@@ -151,7 +156,7 @@
             // App
             function App() {
                 return (
-                    <BrowserRouter>
+                    <HashRouter>
                         <Navbar teams={teams} />
                         <div className="container mt-5">
                             <Switch>
@@ -164,7 +169,7 @@
                                 <Routes teams={teams} />
                             </Switch>
                         </div>
-                    </BrowserRouter>
+                    </HashRouter>
                 )
             }
 
