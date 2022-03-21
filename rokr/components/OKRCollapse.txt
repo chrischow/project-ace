@@ -85,7 +85,7 @@ function OKRCollapse(props) {
         return <KeyResultRow objId={objId} {...item} />
     });
 
-    useEffect(function() {
+    React.useEffect(function() {
         $('#' + objId).on('show.bs.collapse', () => setIsClicked(true));
         $('#' + objId).on('hide.bs.collapse', () => setIsClicked(false));
     });
