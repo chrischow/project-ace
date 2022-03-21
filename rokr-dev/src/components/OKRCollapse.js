@@ -6,6 +6,8 @@
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
+import EditIcon from './EditIcon';
+import CaretIcon from './CaretIcon';
 import ProgressBar from './ProgressBar';
 
 function KeyResultRow(props) {
@@ -15,8 +17,8 @@ function KeyResultRow(props) {
                 <div className="col-5">
                     <span className="keyresult-row--title">
                         {props.title}
-                        <button type="button" className="btn ml-3" data-toggle="modal" data-target={'#modal-keyresult'}>
-                            <i className="fas fa-edit edit-icon"></i>
+                        <button type="button" className="btn btn-edit ml-3" data-toggle="modal" data-target={'#modal-keyresult'}>
+                            <EditIcon />
                         </button>
                     </span>
                 </div>
@@ -55,7 +57,7 @@ function ObjectiveCard(props) {
                     aria-controls={props.objId}
                     id={'btn-' + props.objId}
                 >
-                    <i className="fa-solid fa-caret-right collapse-icon"></i>
+                    <CaretIcon />
                 </button>
             </div>
             <div className="row align-items-center mt-2">
@@ -69,7 +71,7 @@ function ObjectiveCard(props) {
                             data-target={'#modal-objective'}
                             onClick={populateForm}
                         >
-                            <i className="fas fa-edit edit-icon"></i>
+                            <EditIcon />
                         </button>
                     </h5>
                 </div>

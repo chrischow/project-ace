@@ -279,8 +279,13 @@ hr {
 .arrow-div {
   position: absolute;
   display: block;
-  left: 16px;
+  left: 10px;
   transition: 0.3s;
+}
+
+.collapse-icon {
+  height: 22px;
+  width: 22px;
 }
 
 .btn-collapse {
@@ -295,7 +300,7 @@ hr {
 .rotated {
   transition: 0.4s;
   transform-box: fill-box;
-  transform: rotate(90deg) translate(-2px, 2px);
+  transform: rotate(90deg) translate(-2px, -2px);
   transform-origin: 50% 50%;
 }
 
@@ -358,10 +363,24 @@ div.progress-bar {
   padding-bottom: 0;
 }
 
+.edit-icon-div {
+  height: 15px;
+  width: 15px;
+  margin: 0;
+  padding: 0;
+}
+
 .edit-icon {
   font-size: 0.9rem;
   color: #8497B0;
   transition: 0.3s;
+  height: 14px;
+  width: 14px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 6px;
+  padding: 0px;
 }
 
 .edit-icon:hover {
@@ -369,8 +388,28 @@ div.progress-bar {
   transition: 0.3s;
 }
 
+.modal-title {
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
 .modal-content {
   background-color: #0D192A;
+}
+
+.modal-header {
+  background-color: #000C1D;
+  padding: 1rem 2rem;
+  border-bottom: none;
+}
+
+.modal-body {
+  padding: 1rem 2rem;
+}
+
+.modal-footer {
+  border-top: none;
+  background-color: #000C1D;
 }
 
 button.close {

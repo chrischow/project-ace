@@ -73,7 +73,7 @@ function DetailModal(props) {
 
     return (
         <div className="modal fade" id={'modal-' + props.type} tabIndex="-1" role="dialog" aria-labelledby={'modal-' + props.type + '-label'} aria-hidden="true">
-            <div className="modal-dialog" role="document">
+            <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div className="modal-content">
                 <div className="modal-header">
                     <h5 className="modal-title" id={'modal-' + props.type + '-label'}>{typeTitle} Details</h5>

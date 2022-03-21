@@ -41,7 +41,7 @@ export function ObjectiveForm(props) {
             </div>
             <form className="form--group" id="objectiveForm">
                 <div className="form-element">
-                    <label for="objTitle" className="form--label">Title</label>
+                    <label htmlFor="objTitle" className="form--label">Title</label>
                     <input 
                         type="text"
                         name="objTitle"
@@ -52,7 +52,7 @@ export function ObjectiveForm(props) {
                     />
                 </div>
                 <div className="form-element">
-                    <label for="objDescription" className="form--label">Description</label>
+                    <label htmlFor="objDescription" className="form--label">Description</label>
                     <textarea
                         name="objDescription"
                         className={"form-control form-dark" + (isEditMode ? " form--edit": "")}
@@ -65,7 +65,7 @@ export function ObjectiveForm(props) {
                 <div className="row align-items-center">
                     <div className="col-6">
                         <div className="form-element">
-                            <label for="objStartDate" className="form--label">Start Date</label>
+                            <label htmlFor="objStartDate" className="form--label">Start Date</label>
                             <input
                                 type="text"
                                 name="objStartDate"
@@ -78,7 +78,7 @@ export function ObjectiveForm(props) {
                     </div>
                     <div className="col-6">
                         <div className="form-element">
-                            <label for="objEndDate" className="form--label">End Date</label>
+                            <label htmlFor="objEndDate" className="form--label">End Date</label>
                             <input
                                 type="text"
                                 name="objEndDate"
@@ -93,7 +93,7 @@ export function ObjectiveForm(props) {
                 <div className="row align-items-center">
                     <div className="col-6">
                         <div className="form-element">
-                            <label for="objTeam" className="form--label">Team</label>
+                            <label htmlFor="objTeam" className="form--label">Team</label>
                             <input
                                 type="text"
                                 name="objTeam"
@@ -106,7 +106,7 @@ export function ObjectiveForm(props) {
                     </div>
                     <div className="col-6">
                         <div className="form-element">
-                            <label for="objCategory" className="form--label">Category</label>
+                            <label htmlFor="objCategory" className="form--label">Category</label>
                             <input
                                 type="text"
                                 name="objCategory"
