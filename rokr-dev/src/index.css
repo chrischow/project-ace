@@ -387,13 +387,21 @@ button.close:hover {
 /* Forms */
 .form-dark, .form-dark:focus {
   background-color: #0D192A;
-  color: white;
+  color: #ddd;
   border: 0;
-  /* add back border */
-  border-radius: 0;
   padding-left: 0;
   padding-right: 0;
   box-shadow: none;
+  transition: 0.3s;
+}
+
+.form-dark:focus {
+  color: white;
+}
+
+.form--edit {
+  color: white;
+  transition: 0.3s;
 }
 
 .form-dark:disabled {

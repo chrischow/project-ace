@@ -40,19 +40,12 @@ export function ObjectiveForm(props) {
                 Edit
             </div>
             <form className="form--group" id="objectiveForm">
-                <input
-                    type="number"
-                    name="objId"
-                    value={props.objId}
-                    style={{display: "none"}}
-                    disabled
-                />
                 <div className="form-element">
                     <label for="objTitle" className="form--label">Title</label>
                     <input 
                         type="text"
                         name="objTitle"
-                        className="form-control form-dark"
+                        className={"form-control form-dark" + (isEditMode ? " form--edit": "")}
                         value={props.objTitle}
                         onChange={handleChange}
                         disabled={!isEditMode}
@@ -62,7 +55,7 @@ export function ObjectiveForm(props) {
                     <label for="objDescription" className="form--label">Description</label>
                     <textarea
                         name="objDescription"
-                        className="form-control form-dark"
+                        className={"form-control form-dark" + (isEditMode ? " form--edit": "")}
                         rows="1"
                         value={props.objDescription}
                         onChange={handleChange}
@@ -76,7 +69,7 @@ export function ObjectiveForm(props) {
                             <input
                                 type="text"
                                 name="objStartDate"
-                                className="form-control form-dark"
+                                className={"form-control form-dark" + (isEditMode ? " form--edit": "")}
                                 value={props.objStartDate}
                                 onChange={handleChange}
                                 disabled={!isEditMode}
@@ -89,7 +82,7 @@ export function ObjectiveForm(props) {
                             <input
                                 type="text"
                                 name="objEndDate"
-                                className="form-control form-dark"
+                                className={"form-control form-dark" + (isEditMode ? " form--edit": "")}
                                 value={props.objEndDate}
                                 onChange={handleChange}
                                 disabled={!isEditMode}
@@ -104,7 +97,7 @@ export function ObjectiveForm(props) {
                             <input
                                 type="text"
                                 name="objTeam"
-                                className="form-control form-dark"
+                                className={"form-control form-dark" + (isEditMode ? " form--edit": "")}
                                 value={props.objTeam}
                                 onChange={handleChange}
                                 disabled={!isEditMode}
@@ -117,7 +110,7 @@ export function ObjectiveForm(props) {
                             <input
                                 type="text"
                                 name="objCategory"
-                                className="form-control form-dark"
+                                className={"form-control form-dark" + (isEditMode ? " form--edit": "")}
                                 value={props.objCategory}
                                 onChange={handleChange}
                                 disabled={!isEditMode}
