@@ -126,10 +126,24 @@ function TeamPageBody(props) {
         keyResultCompletion: pageData.data.keyResultCompletion
     };
 
-    const objectiveCardRows = pageData.data.okrs.map((item) => {
+    const objectiveCardRows = pageData.data.objectives.map((item) => {
+        var tempKRs;
+        var tempObjProgress = 0;
+        tempKRs = pageData.data.keyResults.filter(function(kr) {
+            return kr.parentObjectiveId === item.objectiveId;
+        });
+        for (var j=0; j < tempKRs.length; j++) {
+            tempKRs[j].progress = tempKRs[j].currentValue / tempKRs[j].maxValue;
+            tempObjProgress += tempKRs[j].progress;
+        }
+        var okr = {
+            ...item,
+            progress: tempObjProgress / tempKRs.length,
+            keyResults: tempKRs
+        };
         return (
             <OKRCollapse 
-                {...item}
+                {...okr}
                 handleModalObjective={handleModalObjective}
                 handleModalKeyResult={handleModalKeyResult}
             />
@@ -156,7 +170,8 @@ function TeamPage(props) {
     return (
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
-            <TeamPageBody teamData={teamData} />
+            {/* <TeamPageBody teamData={teamData} /> */}
+            <TeamPageBody teamData={props.progressData} />
         </div>
     );
 };
