@@ -1,4 +1,5 @@
-export function ObjectiveForm(props) {
+// COMPONENTS: ObjectiveForm, KeyResultForm
+function ObjectiveForm(props) {
     const [isEditMode, setIsEditMode] = React.useState(false);
     const [formData, setFormData] = React.useState({
         objId: 0,

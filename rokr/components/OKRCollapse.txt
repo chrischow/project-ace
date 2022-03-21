@@ -76,7 +76,7 @@ function ObjectiveCard(props) {
 };
 
 
-export default function OKRCollapse(props) {
+function OKRCollapse(props) {
     const [isClicked, setIsClicked] = React.useState(false);
 
     // Create KR Cards
