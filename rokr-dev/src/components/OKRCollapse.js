@@ -45,12 +45,14 @@ function KeyResultRow(props) {
 function ObjectiveCard(props) {
     
     function populateForm(){
-        $('input[name=objId').val(props.objectiveId);
-        $('input[name=objTitle').val(props.objectiveTitle);
-        $('textarea[name=objDescription').val(props.objectiveDescription);
-        $('input[name=objStartDate').val(props.objectiveStartDate);
-        $('input[name=objEndDate').val(props.objectiveEndDate);
-        $('input[name=objTeam').val(props.team);
+        props.populateObjForm({
+            objId: props.objectiveId,
+            objTitle: props.objectiveTitle,
+            objDescription: props.objectiveDescription,
+            objStartDate: props.objectiveStartDate,
+            objEndDate: props.objectiveEndDate,
+            objTeam: props.team
+        });
     };
 
     return (

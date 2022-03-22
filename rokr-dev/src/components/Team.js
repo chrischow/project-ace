@@ -71,27 +71,8 @@ function toggleOKRCards() {
 function DetailModal(props) {
     const typeTitle = props.type === 'objective' ? 'Objective' : 'Key Result';
 
-    return (
-        <div className="modal fade" id={'modal-' + props.type} tabIndex="-1" role="dialog" aria-labelledby={'modal-' + props.type + '-label'} aria-hidden="true">
-            <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div className="modal-content">
-                <div className="modal-header">
-                    <h5 className="modal-title" id={'modal-' + props.type + '-label'}>{typeTitle} Details</h5>
-                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div className="modal-body">
-                    {props.form}
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-blue">Save changes</button>
-                </div>
-                </div>
-            </div>
-        </div>
-    );
+    return<ObjectiveForm teams={props.teams} formData={props.formData} type={props.type} />;
+                    
 }
 
 function TeamPageBody(props) {
@@ -101,6 +82,18 @@ function TeamPageBody(props) {
             modalObjective: {},
             modalKeyResult: {},
         });
+
+    // Intermediary state to transfer data from OKRCollapse up to TeamPageBody
+    // and down to DetailModal
+    const [objFormData, setObjFormData] = React.useState({
+        objId: 0,
+        objTitle: "",
+        objDescription: "",
+        objStartDate: "",
+        objEndDate: "",
+        objTeam: "",
+        objCategory: ""
+    });
     
     function handleModalObjective(objectiveData) {
         setPageData({
@@ -155,6 +148,7 @@ function TeamPageBody(props) {
                 {...okr}
                 handleModalObjective={handleModalObjective}
                 handleModalKeyResult={handleModalKeyResult}
+                populateObjForm={setObjFormData}
             />
         );
     });
@@ -169,8 +163,8 @@ function TeamPageBody(props) {
             <h3 className="mt-5">Objectives & Key Results</h3>
             <button className="btn btn-okr-toggle mt-2 mb-3" onClick={toggleOKRCards}>Expand/Collapse</button>
             {objectiveCardRows}
-            <DetailModal type="objective" title="Objective" form={<ObjectiveForm />} />
-            <DetailModal type="keyresult" title="Key Result" />
+            <DetailModal type="objective" title="Objective" teams={props.teams} formData={objFormData} />
+            {/* <DetailModal type="keyresult" title="Key Result" /> */}
         </div>
     );
 }
@@ -180,7 +174,7 @@ export default function TeamPage(props) {
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
             {/* <TeamPageBody teamData={teamData} /> */}
-            <TeamPageBody teamData={props.progressData} />
+            <TeamPageBody teamData={props.progressData} teams={props.teams} />
         </div>
     );
 };

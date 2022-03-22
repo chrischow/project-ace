@@ -167,7 +167,8 @@ var teamProgressData = prepareTeamData();
 
 // Routes
 const TeamRoutes = (props) => {
-  const routes = props.teams.map(function(team) {
+    var teams = props.teams;
+    const routes = props.teams.map(function(team) {
       
       return (
           <Route 
@@ -176,6 +177,7 @@ const TeamRoutes = (props) => {
                 render={(props) => <TeamPage
                     team={team}
                     progressData={teamProgressData[team.teamName]}
+                    teams={teams}
                 />}
           />
       );
