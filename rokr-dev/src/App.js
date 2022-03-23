@@ -58,7 +58,7 @@ function computeKrCompletion(data) {
     
     var krCompleted = data.map(function(entry) {
         var pct = entry.currentValue / entry.maxValue;
-        return pct == 1.0 ? 1 : 0;
+        return pct === 1.0 ? 1 : 0;
     }).reduce((prev, next) => prev + next, 0);
     
     return {
@@ -68,7 +68,7 @@ function computeKrCompletion(data) {
 }
 
 function computeObjCompletion(objectives, keyResults) {
-    var objCounts = {};
+    
     var total = objectives.length;
     var completed = 0;
     var filteredKRs;
@@ -132,17 +132,15 @@ function prepareTeamData() {
     var tempObj;
     var parentObj;
     var tempKR;
-    var tempData;
     var tempObjCompletion;
     for (var t=0; t < teams.length; t++) {
         output[teams[t].teamName] = {};
         for (var f=0; f < freqs.length; f++) {
-            tempData = {};
             tempObj = allData.objectives.filter(function(entry) {
                 return (entry.team === teams[t].teamName) && (entry.frequency === freqs[f]);
             })
             tempKR = allData.keyResults.filter(function(entry) {
-                var parentObj = allData.objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
+                parentObj = allData.objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
                 return (entry.parentObjectiveTeam === teams[t].teamName) && (
                     parentObj.frequency === freqs[f]
                 );
@@ -170,16 +168,16 @@ const TeamRoutes = (props) => {
     var teams = props.teams;
     const routes = props.teams.map(function(team) {
       
-      return (
-          <Route 
-                key={team.slug}
-                path={'/' + team.slug}
-                render={(props) => <TeamPage
-                    team={team}
-                    progressData={teamProgressData[team.teamName]}
-                    teams={teams}
-                />}
-          />
+    return (
+        <Route 
+            key={team.slug}
+            path={'/' + team.slug}
+            render={(props) => <TeamPage
+                team={team}
+                teams={teams}
+                progressData={teamProgressData[team.teamName]}
+            />}
+        />
       );
   });
 
@@ -192,13 +190,14 @@ const TeamRoutes = (props) => {
 
 // Home page
 function renderHome(props) {
-  return (
-      <Home
-          teams={teams}
-          overallData={overallProgressData}
-          teamProgressData={teamProgressData}
-      />
-  );
+        
+    return (
+        <Home
+            teams={teams}
+            overallProgressData={overallProgressData}
+            teamProgressData={teamProgressData}
+        />
+    );
 }
 
 // App

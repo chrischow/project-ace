@@ -6,8 +6,6 @@ import OKRCollapse from './OKRCollapse';
 import { ObjectiveForm } from './Forms'
 import updateCircleProgress from '../utils/updateCircleProgress';
 
-import { teamData } from '../fakeData';
-
 function FrequencyTabs(props) {
     return (
         <div className="mt-4">
@@ -69,20 +67,18 @@ function toggleOKRCards() {
 }
 
 function DetailModal(props) {
-    const typeTitle = props.type === 'objective' ? 'Objective' : 'Key Result';
+    // const typeTitle = props.type === 'objective' ? 'Objective' : 'Key Result';
 
-    return<ObjectiveForm teams={props.teams} formData={props.formData} type={props.type} />;
-                    
+    return <ObjectiveForm teams={props.teams} formData={props.formData} type={props.type} />;
+    
 }
 
 function TeamPageBody(props) {
     const [pageData, setPageData] = React.useState({
             frequency: 'annual',
             data: props.teamData['annual'],
-            modalObjective: {},
-            modalKeyResult: {},
         });
-
+    
     // Intermediary state to transfer data from OKRCollapse up to TeamPageBody
     // and down to DetailModal
     const [objFormData, setObjFormData] = React.useState({
@@ -94,20 +90,6 @@ function TeamPageBody(props) {
         objTeam: "",
         objCategory: ""
     });
-    
-    function handleModalObjective(objectiveData) {
-        setPageData({
-            ...pageData,
-            modalObjective: objectiveData
-        })
-    }
-
-    function handleModalKeyResult(keyResultData) {
-        setPageData({
-            ...pageData,
-            modalObjective: keyResultData
-        })
-    }
 
     function changeFrequency(frequency) {
         setPageData({
@@ -129,25 +111,14 @@ function TeamPageBody(props) {
     };
 
     const objectiveCardRows = pageData.data.objectives.map((item) => {
-        var tempKRs;
-        var tempObjProgress = 0;
-        tempKRs = pageData.data.keyResults.filter(function(kr) {
+        var tempKRs = pageData.data.keyResults.filter(function(kr) {
             return kr.parentObjectiveId === item.objectiveId;
         });
-        for (var j=0; j < tempKRs.length; j++) {
-            tempKRs[j].progress = tempKRs[j].currentValue / tempKRs[j].maxValue;
-            tempObjProgress += tempKRs[j].progress;
-        }
-        var okr = {
-            ...item,
-            progress: tempObjProgress / tempKRs.length,
-            keyResults: tempKRs
-        };
+
         return (
             <OKRCollapse 
-                {...okr}
-                handleModalObjective={handleModalObjective}
-                handleModalKeyResult={handleModalKeyResult}
+                objective={item}
+                keyResults={tempKRs}
                 populateObjForm={setObjFormData}
             />
         );
@@ -161,7 +132,9 @@ function TeamPageBody(props) {
                 <ProgressCard progressId="team-progress" data={progressData} isTeam={false} />
             </div>
             <h3 className="mt-5">Objectives & Key Results</h3>
-            <button className="btn btn-okr-toggle mt-2 mb-3" onClick={toggleOKRCards}>Expand/Collapse</button>
+            <button className="btn btn-okr-toggle mt-2 mb-3" onClick={toggleOKRCards}>
+                Expand/Collapse
+            </button>
             {objectiveCardRows}
             <DetailModal type="objective" title="Objective" teams={props.teams} formData={objFormData} />
             {/* <DetailModal type="keyresult" title="Key Result" /> */}

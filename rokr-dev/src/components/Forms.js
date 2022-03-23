@@ -38,7 +38,7 @@ export function ObjectiveForm(props) {
             }
         });
     };
-    console.log(formData);
+    
     function submitData(){
         closeForm();
         console.log('Submitting data:');

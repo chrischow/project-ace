@@ -101,11 +101,26 @@ function ObjectiveCard(props) {
 export default function OKRCollapse(props) {
     const [isClicked, setIsClicked] = React.useState(false);
 
+    // Calculate objective progress
+    var keyResults = [...props.keyResults];
+    var objProgress = 0;
+    for (var i=0; i < keyResults.length; i++) {
+        keyResults[i].progress = keyResults[i].currentValue / keyResults[i].maxValue;
+        objProgress += keyResults[i].progress;
+    }
+
+    objProgress = objProgress / keyResults.length;
+
     // Create KR Cards
-    const objId = 'obj-' + props.objectiveId;
+    const objId = 'obj-' + props.objective.objectiveId;
     
     const keyResultRows = props.keyResults.map(function(item) {
-        return <KeyResultRow objId={objId} {...item} />
+        return (
+            <KeyResultRow
+                objId={objId}
+                {...item}
+            />
+        );
     });
 
     React.useEffect(function() {
@@ -118,7 +133,9 @@ export default function OKRCollapse(props) {
             <ObjectiveCard 
                 isClicked={isClicked}
                 objId={objId}
-                {...props} />
+                progress={objProgress}
+                populateObjForm={props.populateObjForm}
+                {...props.objective} />
             <div className="okr collapse" id={objId}>
                 {keyResultRows}
             </div>
