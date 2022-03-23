@@ -9,49 +9,6 @@ import { teams, allData } from './fakeData';
 // Data processing
 // console.log(allData);
 
-// Join data
-// var mergedData = [];
-// var tempObj;
-// var tempKRs = [];
-// var tempOKR;
-
-// for (var i = 0; i < allData.objectives.length; i++) {
-//     tempObj = allData.objectives[i];
-
-//     // Get objectives
-//     tempKRs = allData.keyResults.filter(kr => {
-//         return tempObj.objectiveId === kr.parentObjectiveId;
-//     });
-
-//     for (var j=0; j<tempKRs.length; j++) {
-//         tempOKR = {
-//             ...tempObj,
-//             ...tempKRs[j]
-//         };
-//         mergedData.push(tempOKR);
-//     }
-// }
-
-// // Sort data
-// function sortData(a, b) {
-//     if (a.objectiveId < b.objectiveId) {
-//         return -1
-//     } else if (a.objectiveId > b.objectiveId) {
-//         return 1
-//     } else {
-//         if (a.krId < b.krId) {
-//             return -1
-//         } else if (a. krId > b.krId) {
-//             return 1
-//         }
-//         return 0
-//     }
-//     return 0
-// }
-
-// mergedData.sort(sortData);
-
-// console.log(mergedData);
 
 // Complete KR completion
 function computeKrCompletion(data) {
