@@ -58,23 +58,152 @@ function FrequencyTabs(props) {
     );
 }
 
-function toggleOKRCards() {
-    $('.okr.collapse').each(function() {
-        var collapsible = $(this);
-        collapsible.collapse('toggle');
-    });
+function DetailModal(props) {
+    const typeTitle = props.type === 'objective' ? 'Objective' : 'Key Result';
+    const [formData, setFormData] = React.useState({...props.objFormData});
+    const [isEditMode, setIsEditMode] = React.useState(false);
 
-    $('.btn-collapse').each(function() {
-        var caret = $(this);
-        caret.toggleClass('rotated');
-    })
+    React.useEffect(function() {
+        setFormData({...props.objFormData});
+    }, [props.objFormData]);
+
+    function toggleEdit(event) {
+        setIsEditMode(prev => !prev);
+        $('.form-element').each(function() {
+            var elem = $(this);
+            elem.toggleClass('form-element-open');
+        });
+    };
+
+    function closeForm(event) {
+        $('#modal-' + props.type).modal('hide');
+        $('input[type="checkbox"]')[0].checked = false;
+        setIsEditMode(false);
+        $('.form-element').each(function() {
+            var elem = $(this);
+            elem.removeClass('form-element-open');
+        });
+    };
+
+    function submitData(){
+        closeForm();
+        console.log('Submitting data:');
+        console.log(formData);
+    }
+
+    // Define form
+    var form;
+    if (props.type === 'objective') {
+        form = <ObjectiveForm
+            isEditMode={isEditMode}
+            setFormData={setFormData}
+            type={props.type}
+            formData={props.okrFormData}
+            teams={props.teams}
+        />;
+    } else {
+        form = 'hello';
+    }
+
+    return (
+        <div className="modal fade" id={'modal-' + props.type} tabIndex="-1" role="dialog" aria-labelledby={'modal-' + props.type + '-label'} aria-hidden="true">
+            <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id={'modal-' + props.type + '-label'}>{typeTitle} Details</h5>
+                        <button type="button" className="close" onClick={closeForm} aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <div className="text-right mb-2">
+                            <label className="form--switch">
+                                <input type="checkbox" onClick={toggleEdit} />
+                                <span className="form--slider round"></span>
+                            </label>
+                            Edit
+                        </div>
+                        {form}
+                        
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" onClick={closeForm}>Close</button>
+                        <button type="button" className="btn btn-blue" onClick={submitData} data-dismiss="modal">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
 
-function DetailModal(props) {
-    // const typeTitle = props.type === 'objective' ? 'Objective' : 'Key Result';
+export function TeamProgress(props) {
+    return (
+        <div>
+            <h3 className="mt-4">Team Progress</h3>
+            <div className="overall-panel mt-4">
+                <ProgressCard progressId="team-progress" data={props.progressData} isTeam={false} />
+            </div>
+        </div>
+    );
+}
 
-    return <ObjectiveForm teams={props.teams} formData={props.formData} type={props.type} />;
+export function TeamOKRs(props) {
+    // Intermediary state to transfer data between OKRCollapse and DetailModal
+    const [objFormData, setObjFormData] = React.useState({
+        objId: 0,
+        objTitle: "",
+        objDescription: "",
+        objStartDate: "",
+        objEndDate: "",
+        objTeam: "",
+        objCategory: ""
+    });
+
+    function toggleOKRCards() {
+        $('.okr.collapse').each(function() {
+            var collapsible = $(this);
+            collapsible.collapse('toggle');
+        });
     
+        $('.btn-collapse').each(function() {
+            var caret = $(this);
+            caret.toggleClass('rotated');
+        })
+    }
+
+    const objectiveCardRows = props.pageData.data.objectives.map((item) => {
+        var tempKRs = props.pageData.data.keyResults.filter(function(kr) {
+            return kr.parentObjectiveId === item.objectiveId;
+        });
+
+        return (
+            <OKRCollapse 
+                objective={item}
+                keyResults={tempKRs}
+                populateObjForm={setObjFormData}
+            />
+        );
+    });
+
+    return (
+        <div>
+            <h3 className="mt-5">Objectives & Key Results</h3>
+            <button className="btn btn-okr-toggle mt-2 mb-3" onClick={toggleOKRCards}>
+                Expand/Collapse
+            </button>
+            {objectiveCardRows}
+            <DetailModal
+                type="objective"
+                teams={props.teams}
+                okrFormData={objFormData}
+            />
+            {/* <DetailModal
+                type="keyResult"
+                teams={props.teams}
+                okrFormData={krFormData}
+            /> */}
+        </div>
+    );
 }
 
 export default function TeamPage(props) {
@@ -88,20 +217,8 @@ export default function TeamPage(props) {
     
     // Set state
     const [pageData, setPageData] = React.useState({
-            frequency: 'annual',
-            data: teamProgressData['annual'],
-        });
-    
-    // Intermediary state to transfer data from OKRCollapse up to TeamPageBody
-    // and down to DetailModal
-    const [objFormData, setObjFormData] = React.useState({
-        objId: 0,
-        objTitle: "",
-        objDescription: "",
-        objStartDate: "",
-        objEndDate: "",
-        objTeam: "",
-        objCategory: ""
+        frequency: 'annual',
+        data: teamProgressData['annual'],
     });
 
     function changeFrequency(frequency) {
@@ -124,35 +241,15 @@ export default function TeamPage(props) {
         keyResultCompletion: pageData.data.keyResultCompletion
     };
 
-    const objectiveCardRows = pageData.data.objectives.map((item) => {
-        var tempKRs = pageData.data.keyResults.filter(function(kr) {
-            return kr.parentObjectiveId === item.objectiveId;
-        });
-
-        return (
-            <OKRCollapse 
-                objective={item}
-                keyResults={tempKRs}
-                populateObjForm={setObjFormData}
-            />
-        );
-    });
-
     return (
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
             <FrequencyTabs changeFrequency={changeFrequency} />
-            <h3 className="mt-4">Team Progress</h3>
-            <div className="overall-panel mt-4">
-                <ProgressCard progressId="team-progress" data={progressData} isTeam={false} />
-            </div>
-            <h3 className="mt-5">Objectives & Key Results</h3>
-            <button className="btn btn-okr-toggle mt-2 mb-3" onClick={toggleOKRCards}>
-                Expand/Collapse
-            </button>
-            {objectiveCardRows}
-            <DetailModal type="objective" title="Objective" teams={props.teams} formData={objFormData} />
-            {/* <DetailModal type="keyresult" title="Key Result" /> */}
+            <TeamProgress progressData={progressData} />
+            <TeamOKRs 
+                pageData={pageData}
+                teams={props.teams}
+            />
         </div>
     );
 }

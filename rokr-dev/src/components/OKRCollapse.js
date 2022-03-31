@@ -20,7 +20,7 @@ function KeyResultRow(props) {
                         {props.krTitle}
                         <button
                             type="button"
-                            className="btn btn-edit ml-3"
+                            className="btn btn-edit"
                             data-toggle="modal"
                             data-target={'#modal-keyresult'}
                         >
@@ -77,7 +77,7 @@ function ObjectiveCard(props) {
                         <span>{props.objectiveTitle}</span>
                         <button 
                             type="button"
-                            className="btn btn-edit ml-2"
+                            className="btn btn-edit"
                             data-toggle="modal"
                             data-target={'#modal-objective'}
                             onClick={populateForm}
