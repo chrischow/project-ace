@@ -110,13 +110,13 @@ export default function TeamPage(props) {
             frequency: frequency,
             data: teamProgressData[frequency]
         });
-        
-        $('#team-progress').circleProgress('value', teamProgressData[frequency].avgCompletion);
+        const avgCompletion = teamProgressData[frequency].avgCompletion;
+        $('#team-progress').circleProgress('value', avgCompletion ? avgCompletion : 0.0);
     }
 
     React.useEffect(function() {
-
-        updateCircleProgress('team-progress', pageData.data.avgCompletion, 200, '50px', '#000718');
+        const avgCompletion = pageData.data.avgCompletion;
+        updateCircleProgress('team-progress', avgCompletion ? avgCompletion : 0, 200, '50px', '#000718');
     });
     
     const progressData = {

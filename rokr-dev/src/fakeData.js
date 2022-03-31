@@ -145,7 +145,8 @@ const teamData = {
 };
 
 function generateData(teams){
-    var freqs = ['annual', 'quarterly', 'monthly'];
+    // var freqs = ['annual', 'quarterly', 'monthly'];
+    var freqs = ['annual'];
     var counter = 1;
     var objs = [];
     var objName;

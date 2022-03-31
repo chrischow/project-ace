@@ -8,6 +8,7 @@ export default function ProgressCard(props) {
     var styleMetric = 'progress-card--metric';
     var styleMetricTitle = 'progress-card--metric-title';
     var styleMetricBetween = 'pl-3 pr-3 progress-card--metric-between';
+    var styleCircleFont = 'progress-circle-font';
 
     // Add "-sm" suffix for Team cards
     if (props.isTeam) {
@@ -16,14 +17,15 @@ export default function ProgressCard(props) {
         styleMetric = styleMetric + '-sm';
         styleMetricTitle = styleMetricTitle + '-sm';
         styleMetricBetween = styleMetricBetween + '-sm';
+        styleCircleFont = styleCircleFont + '-sm';
     }
     
     return (
         <div>
             <div className="row justify-content-center align-items-center">
-                <div className="col-6">
+                <div className="col-6 text-center">
                     <div id={props.progressId} className="progress-circle text-center">
-                        <div className="progress-circle-value"></div>
+                        <div className={styleCircleFont + " progress-circle-value"}></div>
                     </div>
                     <div className={styleCircleText + " text-center mt-3"}>
                         AVG Objective Progress

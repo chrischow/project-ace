@@ -27,6 +27,7 @@ export default function updateCircleProgress(slug, progress, size, fontSize, emp
     });
     
     team_progress.on('circle-animation-progress', function(event, progressValue, stepValue) {
-        $(this).data('circle-progress').drawValue(stepValue, fontSize);
+        // $(this).data('circle-progress').drawValue(stepValue, fontSize);
+        $(this).find('.progress-circle-value').text((100*stepValue).toFixed(0) + '%');
     });
 }

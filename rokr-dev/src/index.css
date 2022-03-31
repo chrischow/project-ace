@@ -132,6 +132,27 @@ hr {
   font-size: 1.2rem;
 }
 
+.progress-circle {
+  position: relative;
+}
+
+.progress-circle-value {
+  position: absolute;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', sans-serif;
+  color: #27DDCB;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+}
+
+.progress-circle-font {
+  font-size: 45px;
+}
+
+.progress-circle-font-sm {
+  font-size: 35px;
+}
+
 .progress-card--header-text {
   font-size: 1.1rem;
   font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
@@ -281,6 +302,8 @@ hr {
   display: block;
   left: 10px;
   transition: 0.3s;
+  top: 50%;
+  transform: translate(0, -45%);
 }
 
 .collapse-icon {

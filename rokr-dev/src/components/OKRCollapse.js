@@ -58,20 +58,20 @@ function ObjectiveCard(props) {
     return (
         
         <div className="objective-card">
-            <div className="arrow-div">
-                <button
-                    className={"btn btn-collapse text-center" + (props.isClicked ? " rotated" : "")}
-                    data-toggle="collapse"
-                    data-target={'#' + props.objId}
-                    type="button"
-                    aria-expanded="false"
-                    aria-controls={props.objId}
-                    id={'btn-' + props.objId}
-                >
-                    <CaretIcon />
-                </button>
-            </div>
             <div className="row align-items-center mt-2">
+                <div className="arrow-div">
+                    <button
+                        className={"btn btn-collapse text-center" + (props.isClicked ? " rotated" : "")}
+                        data-toggle="collapse"
+                        data-target={'#' + props.objId}
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls={props.objId}
+                        id={'btn-' + props.objId}
+                    >
+                        <CaretIcon />
+                    </button>
+                </div>
                 <div className="col-7">
                     <h5 className="objective-card--title text-left">
                         <span>{props.objectiveTitle}</span>
