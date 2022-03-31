@@ -5,6 +5,10 @@ import ProgressCard from './ProgressCard';
 import OKRCollapse from './OKRCollapse';
 import { ObjectiveForm } from './Forms'
 import updateCircleProgress from '../utils/updateCircleProgress';
+import { prepareTeamData } from '../utils/processData';
+
+// Simulated
+import { allData } from '../fakeData';
 
 function FrequencyTabs(props) {
     return (
@@ -73,10 +77,19 @@ function DetailModal(props) {
     
 }
 
-function TeamPageBody(props) {
+export default function TeamPage(props) {
+    
+    // Query data - simulated
+    const allObjectives = allData.objectives;
+    const allKeyResults = allData.keyResults;
+
+    // Process data
+    const teamProgressData = prepareTeamData(props.team.teamName, allObjectives, allKeyResults);
+    
+    // Set state
     const [pageData, setPageData] = React.useState({
             frequency: 'annual',
-            data: props.teamData['annual'],
+            data: teamProgressData['annual'],
         });
     
     // Intermediary state to transfer data from OKRCollapse up to TeamPageBody
@@ -95,16 +108,17 @@ function TeamPageBody(props) {
         setPageData({
             ...pageData,
             frequency: frequency,
-            data: props.teamData[frequency]
+            data: teamProgressData[frequency]
         });
         
-        $('#team-progress').circleProgress('value', props.teamData[frequency].avgCompletion);
+        $('#team-progress').circleProgress('value', teamProgressData[frequency].avgCompletion);
     }
 
     React.useEffect(function() {
+
         updateCircleProgress('team-progress', pageData.data.avgCompletion, 200, '50px', '#000718');
     });
-
+    
     const progressData = {
         objectiveCompletion: pageData.data.objectiveCompletion,
         keyResultCompletion: pageData.data.keyResultCompletion
@@ -126,6 +140,7 @@ function TeamPageBody(props) {
 
     return (
         <div>
+            <h1 className="mb-3">{props.team.teamName}</h1>
             <FrequencyTabs changeFrequency={changeFrequency} />
             <h3 className="mt-4">Team Progress</h3>
             <div className="overall-panel mt-4">
@@ -141,13 +156,3 @@ function TeamPageBody(props) {
         </div>
     );
 }
-
-export default function TeamPage(props) {
-    return (
-        <div>
-            <h1 className="mb-3">{props.team.teamName}</h1>
-            {/* <TeamPageBody teamData={teamData} /> */}
-            <TeamPageBody teamData={props.progressData} teams={props.teams} />
-        </div>
-    );
-};

@@ -17,9 +17,8 @@ function Card(props) {
 // HomeCards
 export default function HomeCards(props) {
     var teams = props.teams;
-    var teamProgressData = props.teamProgressData;
+    var allTeamsProgressData = props.allTeamsProgressData;
     var cards = [];
-
     for (var i = 0; i < teams.length; i++) {
         var teamName = props.teams[i].teamName;
         cards.push(
@@ -27,7 +26,7 @@ export default function HomeCards(props) {
                 teamName={teams[i].teamName}
                 key={teams[i].slug}
                 slug={teams[i].slug}
-                data={teamProgressData[teamName].annual}
+                data={allTeamsProgressData[teamName]}
             />
         )
     }
