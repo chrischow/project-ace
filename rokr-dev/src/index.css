@@ -448,7 +448,9 @@ button.close:hover {
 
 /* Forms */
 .form-dark, .form-dark:focus {
-  background-color: #0D192A;
+  /* background-color: #0D192A; */
+  background-color: #000C1D;
+  font-size: 1.2rem;
   color: #ddd;
   border: 0;
   padding-left: 0;
@@ -467,7 +469,8 @@ button.close:hover {
 }
 
 .form-dark:disabled {
-  background-color: #0D192A;
+  /* background-color: #0D192A; */
+  background-color: #000C1D;
   border: #2C3849;
 }
 
@@ -492,7 +495,8 @@ button.close:hover {
 }
 
 textarea.form-dark {
-  background-color: #0D192A;
+  /* background-color: #0D192A; */
+  background-color: #000C1D;
   min-height: 35px;
   overflow: hidden;
 }
@@ -567,4 +571,80 @@ input:checked + .form--slider:before {
 
 .form--slider.round:before {
   border-radius: 50%;
+}
+
+/* Objective Page */
+.objpage--header-panel {
+  border-radius: 8px;
+  padding: 40px 40px;
+  background-color: #0D192A;
+  width: 100%;
+}
+
+.objpage--subheader {
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  margin-top: -5px;
+  margin-bottom: 15px;
+  margin-right: 8px;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  background-color: #1C2839;
+  color: #7B73F0;
+}
+
+.objpage--title {
+  color: #B7CAE3;
+}
+
+.objpage--description {
+  color: #8497B0;
+}
+
+.objpage--metric {
+  color: #27DDCB;
+  font-size: 2.8rem;
+}
+
+.objpage--main-col {
+  border-right: 1px solid #344051;
+}
+
+.objpage--kr-panel {
+  border-radius: 8px;
+  padding: 30px 40px;
+  background-color: #172334;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.objpage--kr-header-text {
+  font-size: 1.0rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #51647D;
+}
+
+.objpage--kr-light-panel {
+  background-color: #313D4E;
+  border-radius: 5px;
+  padding: 10px 15px;
+  display: inline-block;
+  color: #27DDCB;
+  text-transform: capitalize;
+}
+
+.objpage--kr-subheader {
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  margin-top: -5px;
+  margin-bottom: 15px;
+  margin-right: 8px;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  background-color: #243041;
+  color: #7B73F0;
 }

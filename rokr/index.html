@@ -8,6 +8,31 @@
         <link rel="stylesheet" type="text/css" href="../css/dataTables.bootstrap4.min.css">
         <link rel="stylesheet" type="text/css" href="styles.css">
 
+        <!-- Configs -->
+        <script type="text/javascript">
+            // Configs
+            const teams = [
+                {teamName: 'HQ RAiD', slug: 'hq-raid'},
+                {teamName: 'PAB', slug: 'pab'},
+                {teamName: 'SWiFT', slug: 'swift'},
+                {teamName: 'RDO', slug: 'rdo'},
+                {teamName: 'CyDef', slug: 'cydef'},
+                {teamName: 'SES', slug: 'ses'}
+            ];
+
+            // URLs
+            const txtUrl = 'https://raw.githubusercontent.com/chrischow/project-ace/main/txt/';
+            const appUrl = 'https://raw.githubusercontent.com/chrischow/project-ace/main/rokr/components/';
+
+            // List IDs
+            const objListId = 'cca0eabc-f2bd-4866-ba60-a3009004066d';
+            const  krListId = '08572e86-a0aa-4173-ba18-79bab1ee3890';
+
+            // List item entity types - use the getListItemEntityType utility;
+            const objListItemEntityTypeFullName = 'SP.Data.ROKR_x0020_ObjectivesListItem';
+            const krListItemEntityTypeFullName = 'SP.Data.RokrKeyResultsListItem';
+        </script>
+
         <!-- Load utils -->
         <script type="text/javascript">
             function loadWords(filename, asynch) {
@@ -22,7 +47,7 @@
                         head.appendChild(sTag);
                     }
                 };
-                var url = 'https://raw.githubusercontent.com/chrischow/project-ace/main/txt/' + filename + '.txt';
+                var url = txtUrl + filename + '.txt';
                 xhr.open('GET', url, asynch);
                 xhr.send();
             };
@@ -39,7 +64,7 @@
                         head.appendChild(sTag);
                     }
                 };
-                var url = 'https://raw.githubusercontent.com/chrischow/project-ace/main/rokr/components/' + component + '.txt';
+                var url = appUrl + component + '.txt';
                 
                 xhr.open('GET', url, false);
                 xhr.send();
@@ -77,15 +102,6 @@
             loadComponent('OKRCollapse');
             loadComponent('Forms');
             loadComponent('Team');
-
-            // Configs
-            var teams = [
-                {teamName: 'HQ RAiD', slug: 'hq-raid'},
-                {teamName: 'SWiFT', slug: 'swift'},
-                {teamName: 'RDO', slug: 'rdo'},
-                {teamName: 'CyDef', slug: 'cydef'},
-                {teamName: 'SES', slug: 'ses'}
-            ];
         </script>
     </head>
     <body>

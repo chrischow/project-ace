@@ -1,4 +1,4 @@
-// Complete KR completion
+// Compute KR completion
 export function computeKrCompletion(data) {
     
     var krCompleted = data.map(function(entry) {
@@ -10,6 +10,17 @@ export function computeKrCompletion(data) {
         completed: krCompleted,
         total: data.length
     };
+}
+
+// Compute KR percentages
+export function computeKrPercentage(data){
+    var count = 0;
+    var total = 0.0;
+    for (var i=0; i < data.length; i++){
+        total += data[i].currentValue / data[i].maxValue;
+        count += 1
+    }
+    return total/count;
 }
 
 // Compute Objective completion
@@ -143,4 +154,14 @@ export function prepareTeamData(team, objectives, keyResults) {
     }
 
     return output;
+}
+
+export function formatDate(dateStr) {
+    if (dateStr) {
+        var date = new Date(dateStr);
+        var y = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+        var m = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
+        var d = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+        return d + ' ' + m + ' ' + y;
+    }
 }

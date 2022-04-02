@@ -9,6 +9,7 @@ import $ from 'jquery';
 import EditIcon from './EditIcon';
 import CaretIcon from './CaretIcon';
 import ProgressBar from './ProgressBar';
+import { Link } from 'react-router-dom';
 
 function KeyResultRow(props) {
     
@@ -18,14 +19,6 @@ function KeyResultRow(props) {
                 <div className="col-5">
                     <span className="keyresult-row--title">
                         {props.krTitle}
-                        <button
-                            type="button"
-                            className="btn btn-edit"
-                            data-toggle="modal"
-                            data-target={'#modal-keyresult'}
-                        >
-                            <EditIcon />
-                        </button>
                     </span>
                 </div>
                 <div className="text-center col-2">
@@ -74,16 +67,8 @@ function ObjectiveCard(props) {
                 </div>
                 <div className="col-7">
                     <h5 className="objective-card--title text-left">
-                        <span>{props.objectiveTitle}</span>
-                        <button 
-                            type="button"
-                            className="btn btn-edit"
-                            data-toggle="modal"
-                            data-target={'#modal-objective'}
-                            onClick={populateForm}
-                        >
-                            <EditIcon />
-                        </button>
+                        <span className="mr-3">{props.objectiveTitle}</span>
+                        <Link to={'/o/' + props.objectiveId} className='objective-card--title'>(Details)</Link>
                     </h5>
                 </div>
                 <div className="text-center col-2">
