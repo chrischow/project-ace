@@ -236,9 +236,77 @@ function generateData(teams){
         }
     }
 
+    var updates = [];
+    const updateTexts = [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "Mauris blandit metus eget urna blandit, vitae malesuada dui euismod.",
+        "Pellentesque vulputate diam sit amet lectus ultricies efficitur.",
+        "Aenean congue nulla nec sapien finibus tristique.",
+        "Phasellus sit amet sapien venenatis, euismod nisl eu, venenatis tellus.",
+        "Nulla euismod libero quis velit fringilla accumsan.",
+        "Nulla nec ipsum sodales, scelerisque nibh at, semper lorem.",
+        "Pellentesque sit amet orci pulvinar metus bibendum elementum vel nec ex.",
+        "Sed finibus risus condimentum orci pulvinar volutpat.",
+        "Vivamus vehicula lacus eu nunc sagittis porta.",
+        "Nullam scelerisque mi vitae ante mollis fermentum.",
+        "Pellentesque ultricies ante et blandit bibendum.",
+        "In bibendum tortor quis commodo pharetra.",
+        "Duis pretium augue id luctus porttitor.",
+        "Vivamus viverra diam ut tempor aliquam.",
+        "Aenean pretium lacus sagittis finibus molestie.",
+        "Proin vel nisl in urna vehicula dapibus vel id mauris.",
+        "Proin mollis lacus hendrerit felis euismod consequat.",
+        "Etiam volutpat sapien quis lectus fringilla fermentum.",
+        "Donec dignissim justo eu ante rutrum dictum.",
+        "Morbi accumsan eros ut efficitur iaculis.",
+        "In feugiat nunc a dolor vestibulum, a varius urna interdum.",
+        "Nunc in lectus eu turpis fermentum egestas.",
+        "Vivamus cursus dolor nec mauris ornare tempus.",
+        "Curabitur quis mauris ullamcorper, aliquet tortor id, aliquet augue.",
+        "Etiam tempor arcu vitae aliquam auctor.",
+        "Nullam ut sapien posuere, suscipit ante ultricies, semper lectus.",
+        "Vestibulum sed augue placerat, pretium sem a, interdum tellus.",
+        "In et diam facilisis, suscipit justo quis, molestie felis.",
+        "Pellentesque nec erat pharetra, bibendum justo quis, cursus nulla.",
+        "Morbi ornare augue quis lorem maximus, quis placerat metus venenatis.",
+        "Donec ac lorem nec nunc faucibus dictum eu sed lorem.",
+        "Phasellus ultrices neque ac dolor tempus, vel tempus risus elementum.",
+        "Nunc id nulla vel ex viverra tempus.",
+        "Mauris hendrerit sapien ut ante fermentum, eu interdum libero dictum.",
+        "Vestibulum cursus leo vitae aliquet pulvinar.",
+        "Curabitur tincidunt neque sit amet mi porttitor, nec mattis orci ultricies.",
+        "Praesent tempor enim efficitur tincidunt mollis."
+    ];
+
+    const dates = [
+        '2022-01-01', '2022-01-03', '2022-01-05', '2022-01-07', '2022-01-09',
+        '2022-01-11', '2022-01-13', '2022-01-15', '2022-01-17', '2022-01-19',
+        '2022-01-21', '2022-01-23', '2022-01-25', '2022-01-27', '2022-01-29',
+        '2022-02-01', '2022-02-03', '2022-02-05', '2022-02-07', '2022-02-09',
+        '2022-02-11', '2022-02-13', '2022-02-15', '2022-02-17', '2022-02-19',
+        '2022-02-21', '2022-02-23', '2022-02-25', '2022-02-27',
+        '2022-03-01', '2022-03-03', '2022-03-05', '2022-03-07', '2022-03-09',
+        '2022-03-11', '2022-03-13', '2022-03-15', '2022-03-17'
+        
+    ]
 
 
-    return { 'objectives': objs, 'keyResults': krs };
+    counter = 1
+    for (i=0; i < krs.length; i++) {
+        for (var j=0; j < 20; j++) {
+            randIdx = Math.floor(Math.random() * updateTexts.length);
+            updates.push({
+                updateId: counter,
+                updateText: krs[i].krTitle + ' ' + updateTexts[randIdx],
+                updateDate: dates[Math.floor(Math.random() * dates.length)],
+                parentKrId: krs[i].krId
+            });
+            counter++
+        }
+    }
+
+
+    return { 'objectives': objs, 'keyResults': krs, 'updates': updates };
 }
 
 const allData = generateData(teams);

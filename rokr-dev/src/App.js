@@ -62,11 +62,11 @@ function renderHome(props) {
     );
 }
 
-function renderObjectivePage(props) {
-    return (
-        <ObjectivePage teams={teams} />
-    );
-}
+// function renderObjectivePage(props) {
+//     return (
+//         <ObjectivePage teams={teams} />
+//     );
+// }
 
 // App
 function App() {
@@ -76,7 +76,7 @@ function App() {
           <div className="container mt-5">
               <Switch>
                   <Route path='/' render={renderHome} exact />
-                  <Route path='/o/:id' render={renderObjectivePage} />
+                  {/* <Route path='/o/:id' render={renderObjectivePage} /> */}
                   <TeamRoutes teams={teams} />
               </Switch>
           </div>

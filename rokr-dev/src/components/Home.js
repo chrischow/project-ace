@@ -7,7 +7,7 @@ import updateCircleProgress from '../utils/updateCircleProgress';
 import { computeAnnualMetrics, computeTeamsAnnualMetrics } from '../utils/processData';
 
 // Simulated
-import { allData } from '../fakeData';
+import { allData } from '../utils/fakeData';
 
 // Home component - to be broken down further
 export default function Home(props) {

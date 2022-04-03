@@ -1,6 +1,4 @@
 // UTILS FOR QUERYING DATA
-import { allData } from '../fakeData';
-
 function getDate(date) {
     const rawDate = new Date(date);
     const z = rawDate.getTimezoneOffset() * 60 * 1000;
