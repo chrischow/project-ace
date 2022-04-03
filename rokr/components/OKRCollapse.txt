@@ -1,27 +1,38 @@
 // COMPONENT: OKR Collapse
 function KeyResultRow(props) {
     
+    function toggleModal() {
+        props.setKrData({
+            krTitle: props.krTitle,
+            krDescription: props.krDescription,
+            krStartDate: props.krStartDate,
+            krEndDate: props.krEndDate,
+            minValue: props.minValue,
+            maxValue: props.maxValue,
+            currentValue: props.currentValue,
+            krId: props.krId,
+            owner: props.owner,
+            parentObjectiveId: props.parentObjectiveId,
+            parentObjectiveTeam: props.parentObjectiveTeam
+        });
+
+        $('#kr-modal').modal('toggle');
+    }
+
     return (
         <div className="keyresult-row">
             <div className="row align-items-center">
-                <div className="col-5">
+                <div className="col-5 keyresult-row--info-link" onClick={toggleModal}>
                     <span className="keyresult-row--title">
                         {props.krTitle}
-                        <button
-                            type="button"
-                            className="btn btn-edit ml-3"
-                            data-toggle="modal"
-                            data-target={'#modal-keyresult'}
-                        >
-                            <EditIcon />
-                        </button>
                     </span>
+                    <InfoIcon />
                 </div>
                 <div className="text-center col-2">
-                    <span className="keyresult-row--text ">Owner</span>
+                    <span className="keyresult-row--text ">{props.owner}</span>
                 </div>
                 <div className="text-center col-2">
-                    <span className="keyresult-row--text">31 Mar 2023</span>
+                    <span className="keyresult-row--text">{props.krEndDate}</span>
                 </div>
                 <div className="keyresult-row--progress-bar col-3">
                     <ProgressBar progress={props.progress} isKeyResult={true} />
@@ -47,33 +58,25 @@ function ObjectiveCard(props) {
     return (
         
         <div className="objective-card">
-            <div className="arrow-div">
-                <button
-                    className={"btn btn-collapse text-center" + (props.isClicked ? " rotated" : "")}
-                    data-toggle="collapse"
-                    data-target={'#' + props.objId}
-                    type="button"
-                    aria-expanded="false"
-                    aria-controls={props.objId}
-                    id={'btn-' + props.objId}
-                >
-                    <CaretIcon />
-                </button>
-            </div>
-            <div className="row align-items-center mt-2">
+            <div className="row align-items-top mt-2">
+                <div className="arrow-div">
+                    <button
+                        className={"btn btn-collapse text-center" + (props.isClicked ? " rotated" : "")}
+                        data-toggle="collapse"
+                        data-target={'#' + props.objId}
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls={props.objId}
+                        id={'btn-' + props.objId}
+                    >
+                        <CaretIcon />
+                    </button>
+                </div>
                 <div className="col-7">
                     <h5 className="objective-card--title text-left">
-                        <span>{props.objectiveTitle}</span>
-                        <button 
-                            type="button"
-                            className="btn btn-edit ml-2"
-                            data-toggle="modal"
-                            data-target={'#modal-objective'}
-                            onClick={populateForm}
-                        >
-                            <EditIcon />
-                        </button>
+                        <span className="mr-3">{props.objectiveTitle}</span>
                     </h5>
+                    {props.isClicked && <div className="kr-modal--description">{props.objectiveDescription}</div>}
                 </div>
                 <div className="text-center col-2">
                     <span className="objective-card--text">31 Mar 2023</span>
@@ -107,6 +110,7 @@ function OKRCollapse(props) {
         return (
             <KeyResultRow
                 objId={objId}
+                setKrData={props.setKrData}
                 {...item}
             />
         );
@@ -124,7 +128,8 @@ function OKRCollapse(props) {
                 objId={objId}
                 progress={objProgress}
                 populateObjForm={props.populateObjForm}
-                {...props.objective} />
+                {...props.objective}
+            />
             <div className="okr collapse" id={objId}>
                 {keyResultRows}
             </div>

@@ -132,6 +132,27 @@ hr {
   font-size: 1.2rem;
 }
 
+.progress-circle {
+  position: relative;
+}
+
+.progress-circle-value {
+  position: absolute;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', sans-serif;
+  color: #27DDCB;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+}
+
+.progress-circle-font {
+  font-size: 45px;
+}
+
+.progress-circle-font-sm {
+  font-size: 35px;
+}
+
 .progress-card--header-text {
   font-size: 1.1rem;
   font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
@@ -281,6 +302,8 @@ hr {
   display: block;
   left: 10px;
   transition: 0.3s;
+  top: 31px;
+  transform: translate(0, -45%);
 }
 
 .collapse-icon {
@@ -342,10 +365,21 @@ div.progress-bar {
 }
 
 .keyresult-row--title {
-  color: #EAEAEA;
-  font-family: 'Bahnschrift Light', 'Segoe UI', sans-serif;
   margin-top: 0px;
   margin-bottom: 0px;
+  margin-right: 10px;
+}
+
+.keyresult-row--info-link:hover {
+  color: #7B73F0;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.keyresult-row--info-link {
+  color: #D1E4FD;
+  font-family: 'Bahnschrift Light', 'Segoe UI', sans-serif;
+  transition: 0.3s;
 }
 
 .keyresult-row--text {
@@ -425,7 +459,9 @@ button.close:hover {
 
 /* Forms */
 .form-dark, .form-dark:focus {
-  background-color: #0D192A;
+  /* background-color: #0D192A; */
+  background-color: #000C1D;
+  font-size: 1.2rem;
   color: #ddd;
   border: 0;
   padding-left: 0;
@@ -444,7 +480,8 @@ button.close:hover {
 }
 
 .form-dark:disabled {
-  background-color: #0D192A;
+  /* background-color: #0D192A; */
+  background-color: #000C1D;
   border: #2C3849;
 }
 
@@ -469,7 +506,8 @@ button.close:hover {
 }
 
 textarea.form-dark {
-  background-color: #0D192A;
+  /* background-color: #0D192A; */
+  background-color: #000C1D;
   min-height: 35px;
   overflow: hidden;
 }
@@ -544,4 +582,136 @@ input:checked + .form--slider:before {
 
 .form--slider.round:before {
   border-radius: 50%;
+}
+
+/* KR Modal */
+.modal-backdrop {
+  opacity: 0.6!important;
+}
+
+.kr-modal--panel {
+  border-radius: 8px;
+  padding: 30px 40px;
+  background-color: #172334;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.kr-modal--title {
+  /* color: #B7CAE3; */
+  color: #27DDCB;
+}
+
+.kr-modal--subheader {
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  color: #7B73F0;
+  margin-bottom: 15px;
+}
+
+.kr-modal--description {
+  color: #8497B0;
+}
+
+.kr-modal--update-panel {
+  font-size: 0.9rem;
+  color: #D1E4FD;
+  border-radius: 8px;
+  padding: 30px 40px;
+  background-color: #2C3849;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.kr-modal--main-col {
+  border-right: 1px solid #344051;
+}
+
+.kr-modal--update-header {
+  font-family: 'Bahnschrift Light', 'Segoe UI', sans-serif;
+  margin-bottom: 10px;
+}
+
+.kr-modal--tag-text {
+  font-size: 1.0rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #8497B0;
+}
+
+.kr-modal--table-border {
+  margin-top: 10px;
+  border-bottom: 1px solid #8497B0;
+}
+
+.kr-modal--table {
+  color: #D1E4FD;
+  font-size: 0.9rem;
+}
+
+.table-dark {
+  background-color: #2C3849;
+  border-color: #8497B0;
+}
+
+.table-dark thead, .table-dark th, .table-dark td {
+  border-color: #8497B0!important;
+}
+
+.dataTables_filter {
+  background-color: #2C3849;
+}
+
+li.paginate_button.page-item.disabled > a.page-link, li.paginate_button.page-item.previous.disabled > a.page-link,
+li.paginate_button.page-item.next.disabled > a.page-link {
+  background-color: #172334;
+  color: #2C3849;
+}
+
+li.paginate_button.page-item > a, li.paginate_button.page-item.previous > a {
+  background-color: #172334;
+  color: #8497B0;
+  transition: 0.3s;
+}
+
+li.paginate_button.page-item > a:hover, li.paginate_button.page-item.previous > a:hover {
+  color: #D1E4FD;
+  transition: 0.3s;
+}
+
+li.paginate_button.page-item.active > a {
+  background-color: #8497B0;
+  color: white;
+  transition: 0.3s;
+}
+
+li.paginate_button.page-item.active > a:hover {
+  background-color: #9EB1CA;
+  transition: 0.3s;
+}
+
+li.paginate_button.page-item.active  > a:focus,
+li.paginate_button.page-item.previous > a:focus,
+li.paginate_button.page-item.next > a:focus {
+  box-shadow: none;
+}
+
+ul.pagination > li > a {
+  border: none;
+}
+
+div.dataTables_length > label > select {
+  background-color: #ddd;
+  color: #172334;
+}
+
+div.dataTables_length > label > select option {
+  background-color: #ddd;
+  color: #172334;
+}
+
+input[type="search"], input[type="search"]:focus {
+  background-color: #ddd;
+  color: #172334;
 }

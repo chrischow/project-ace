@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="index.css">
 
         <!-- Configs -->
         <script type="text/javascript">
@@ -25,12 +25,12 @@
             const appUrl = 'https://raw.githubusercontent.com/chrischow/project-ace/main/rokr/components/';
 
             // List IDs
-            const objListId = 'cca0eabc-f2bd-4866-ba60-a3009004066d';
-            const  krListId = '08572e86-a0aa-4173-ba18-79bab1ee3890';
+            // const objListId = 'cca0eabc-f2bd-4866-ba60-a3009004066d';
+            // const  krListId = '08572e86-a0aa-4173-ba18-79bab1ee3890';
 
             // List item entity types - use the getListItemEntityType utility;
-            const objListItemEntityTypeFullName = 'SP.Data.ROKR_x0020_ObjectivesListItem';
-            const krListItemEntityTypeFullName = 'SP.Data.RokrKeyResultsListItem';
+            // const objListItemEntityTypeFullName = 'SP.Data.ROKR_x0020_ObjectivesListItem';
+            // const krListItemEntityTypeFullName = 'SP.Data.RokrKeyResultsListItem';
         </script>
 
         <!-- Load utils -->
@@ -80,7 +80,10 @@
             loadWords('react-router-dom.min', false);
             loadWords('babel-6.26.0.min', false);
             loadWords('circle-progress.min', false);
-            loadWords('update-circle-progress', false);
+            loadWords('updateCircleProgress', false);
+            loadWords('fakeData');
+            loadWords('processData');
+            loadWords('queryData');
             
             // Routing
             const HashRouter = ReactRouterDOM.HashRouter;
@@ -90,17 +93,14 @@
             const NavLink = ReactRouterDOM.NavLink;
 
             // Load components
-            loadComponent('fake-data');
             loadComponent('Brand');
             loadComponent('Navbar');
             loadComponent('ProgressCard');
             loadComponent('HomeCards');
             loadComponent('ProgressBar');
             loadComponent('Home');
-            loadComponent('CaretIcon');
-            loadComponent('EditIcon');
+            loadComponent('Icons');
             loadComponent('OKRCollapse');
-            loadComponent('Forms');
             loadComponent('Team');
         </script>
     </head>
