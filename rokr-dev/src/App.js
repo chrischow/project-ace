@@ -32,34 +32,26 @@ const krListItemEntityTypeFullName = 'SP.Data.RokrKeyResultsListItem';
 // Routes
 const TeamRoutes = (props) => {
     var teams = props.teams;
-    const routes = props.teams.map(function(team) {
-      
-    return (
-        <Route 
-            key={team.slug}
-            path={'/' + team.slug}
-            render={(props) => <TeamPage
-                team={team}
-                teams={teams}
-                // progressData={teamProgressData[team.teamName]}
-            />}
-        />
-      );
-  });
+    const routes = props.teams.map(function(team) {  
+        return (
+            <Route 
+                key={team.slug}
+                path={'/' + team.slug}
+                render={(props) => <TeamPage
+                    team={team}
+                    teams={teams}
+                    // progressData={teamProgressData[team.teamName]}
+                />}
+            />
+        );
+    });
 
-  return (
-      <div>
-      {routes}
-      </div>
-  );
+    return <div>{routes}</div>;
 }
 
 // Home page
 function renderHome(props) {
-        
-    return (
-        <Home teams={teams} />
-    );
+    return <Home teams={teams} />;
 }
 
 // function renderObjectivePage(props) {

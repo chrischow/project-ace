@@ -1,12 +1,3 @@
-// Configs
-var teams = [
-    {teamName: 'HQ RAiD', slug: 'hq-raid'},
-    {teamName: 'SWiFT', slug: 'swift'},
-    {teamName: 'RDO', slug: 'rdo'},
-    {teamName: 'CyDef', slug: 'cydef'},
-    {teamName: 'SES', slug: 'ses'}
-];
-
 // #FAKEDATA
 const overallProgressData = {
     objectiveCompletion: { completed: 11, total: 15 },

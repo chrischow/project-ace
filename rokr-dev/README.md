@@ -1,12 +1,9 @@
 # ROKR
 
 ## ROKR-Dev to ROKR
-
-In copying contents, remember to **remove imports and exports**.
-
 Copy contents of the following:
 
-1. `index.css` to `index.css`
+1. Styles: `index.css`
 2. Utils:
     - updateCircleProgress
     - fakeData
@@ -22,3 +19,6 @@ Copy contents of the following:
     - ProgressBar
     - ProgressCard
     - Team
+    - `App.js` to `index.html`
+
+In copying contents, remember to **remove imports and exports**.
