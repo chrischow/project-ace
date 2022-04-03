@@ -1,3 +1,13 @@
+// Configs
+var fakeDataTeams = [
+    {teamName: 'HQ RAiD', slug: 'hq-raid'},
+    {teamName: 'PAB', slug: 'pab'},
+    {teamName: 'SWiFT', slug: 'swift'},
+    {teamName: 'RDO', slug: 'rdo'},
+    {teamName: 'CyDef', slug: 'cydef'},
+    {teamName: 'SES', slug: 'ses'}
+];
+
 // #FAKEDATA
 const overallProgressData = {
     objectiveCompletion: { completed: 11, total: 15 },
@@ -300,4 +310,4 @@ function generateData(teams){
     return { 'objectives': objs, 'keyResults': krs, 'updates': updates };
 }
 
-const allData = generateData(teams);
+const allData = generateData(fakeDataTeams);

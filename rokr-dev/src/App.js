@@ -11,6 +11,7 @@ import './App.css';
 // Configs
 var teams = [
     {teamName: 'HQ RAiD', slug: 'hq-raid'},
+    {teamName: 'PAB', slug: 'pab'},
     {teamName: 'SWiFT', slug: 'swift'},
     {teamName: 'RDO', slug: 'rdo'},
     {teamName: 'CyDef', slug: 'cydef'},
