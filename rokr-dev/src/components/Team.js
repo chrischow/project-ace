@@ -105,6 +105,8 @@ function KRModal(props) {
                     {width: '82%', name: 'updateText', targets: 1, data: 'updateText'},
                 ]
             });
+
+            table.DataTable().rows.add(updateData).draw();
         } else {
             
             table.DataTable().clear();
