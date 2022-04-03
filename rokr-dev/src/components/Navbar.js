@@ -22,6 +22,9 @@ export default function Navbar(props) {
                 <div className="collapse navbar-collapse" id="navbarContent">
                     <ul className="navbar-nav ml-auto">
                         {linkElements}
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/directory">Directory</NavLink>
+                        </li>
                     </ul>
                 </div>
             </div>

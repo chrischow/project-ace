@@ -80,15 +80,6 @@ function KRModal(props) {
         };
     });
 
-    const updates = updateData.map(function(data) {
-        return (
-            <tr>
-                <td className="text-center">{data.updateDate}</td>
-                <td>{data.updateText}</td>
-            </tr>
-        );
-    });
-
     const table = $('#kr-modal-table');
     $(function() {
         if (! $.fn.dataTable.isDataTable( '#kr-modal-table' )) {

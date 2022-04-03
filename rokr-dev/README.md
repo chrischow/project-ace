@@ -19,6 +19,7 @@ Copy contents of the following:
     - ProgressBar
     - ProgressCard
     - Team
-    - `App.js` to `index.html`
+3. Others:
+    - Configs and main components from `App.js` to `index.html`
 
 In copying contents, remember to **remove imports and exports**.

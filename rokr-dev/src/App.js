@@ -2,6 +2,7 @@ import { HashRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import TeamPage from './components/Team';
+import DirectoryPage from './components/Directory';
 import ObjectivePage from './components/ObjectivePage';
 import './App.css';
 
@@ -69,6 +70,7 @@ function App() {
           <div className="container mt-5">
               <Switch>
                   <Route path='/' render={renderHome} exact />
+                  <Route path='/directory' component={DirectoryPage} />
                   {/* <Route path='/o/:id' render={renderObjectivePage} /> */}
                   <TeamRoutes teams={teams} />
               </Switch>
