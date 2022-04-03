@@ -146,6 +146,7 @@
                     <div className="container mt-5">
                         <Switch>
                             <Route path='/' render={renderHome} exact />
+                            <Route path='/directory' component={DirectoryPage} />
                             {/* <Route path='/o/:id' render={renderObjectivePage} /> */}
                             <TeamRoutes teams={teams} />
                         </Switch>

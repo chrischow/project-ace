@@ -1,0 +1,75 @@
+// COMPONENT: DIRECTORY
+function DirectoryPage() {
+
+    React.useEffect(function() {
+
+        // Query update data
+        var krData = allData.keyResults;
+    
+        var krRows = krData.map(function(kr) {
+            return {
+                title: kr.krTitle,
+                description: kr.krDescription,
+                owner: kr.owner,
+                team: kr.parentObjectiveTeam,
+                due: kr.krEndDate,
+                progress: (100 * Number(kr.currentValue) / Number(kr.maxValue)).toFixed(0) + '%'
+            };
+        });
+    
+        const table = $('#directory-table');
+        $(function() {
+            if (! $.fn.dataTable.isDataTable( '#directory-table' )) {
+                // table.DataTable().destroy();
+                table.DataTable({
+                    autoWidth: false,
+                    pageLength: 25,
+                    displayStart: 0,
+                    lengthMenu: [10, 25, 50, 75, 100],
+                    order: [
+                        [4, 'asc'],
+                        [5, 'asc'],
+                    ],
+                    fixedColumns: true,
+                    columnDefs: [
+                        {width: '25%', name: 'title', targets: 0, data: 'title', className: "directory--table-text-sm"},
+                        {width: '35%', name: 'description', targets: 1, data: 'description', className: "directory--table-text-sm"},
+                        {width: '13%', name: 'owner', targets: 2, data: 'owner', className: 'text-center'},
+                        {width: '10%', name: 'team', targets: 3, data: 'team', className: 'text-center'},
+                        {width: '12%', name: 'due', targets: 4, data: 'due', className: 'text-center'},
+                        {width: '10%', name: 'progress', targets: 5, data: 'progress', className: 'text-center'},
+                    ]
+                });
+    
+                table.DataTable().rows.add(krRows).draw();
+            } else {
+                table.DataTable().clear();
+                table.DataTable().rows.add(krRows).draw();
+            }
+        });
+    });
+    
+
+    return (
+        <div>
+            <h1 className="mb-2">Key Results Directory</h1>
+            <p className="directory--text mb-5">Find others with compatible KRs to collaborate with.</p>
+            <div className="directory--container">
+                <table className="table table-dark directory--table w-100" id="directory-table">
+                    <thead>
+                        <tr>
+                            <th className="text-center">Title</th>
+                            <th className="text-center">Description</th>
+                            <th className="text-center">Owner</th>
+                            <th className="text-center">Team</th>
+                            <th className="text-center">Due</th>
+                            <th className="text-center">Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody className="align-items-center">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+}

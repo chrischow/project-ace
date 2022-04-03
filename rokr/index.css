@@ -659,7 +659,7 @@ input:checked + .form--slider:before {
   border-color: #8497B0!important;
 }
 
-.dataTables_filter {
+#kr-modal-table_filter {
   background-color: #2C3849;
 }
 
@@ -714,4 +714,62 @@ div.dataTables_length > label > select option {
 input[type="search"], input[type="search"]:focus {
   background-color: #ddd;
   color: #172334;
+}
+
+.table-dark thead tr th {
+  font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
+  font-weight: normal;
+}
+
+
+/* Directory */
+.directory--container {
+  border-radius: 15px;
+  background-color: #0D192A;
+  padding: 25px;
+}
+
+.directory--text {
+  color: #D1E4FD;
+  font-size: 1.2rem;
+}
+
+.directory--table.table-dark {
+  background-color: #0D192A;
+  border-color: #8497B0;
+  color: #D1E4FD;
+  font-size: 0.9rem;
+}
+
+.directory--table.table-dark thead, .directory--table.table-dark th, .directory--table.table-dark td {
+  border-color: #8497B0!important;
+}
+
+#directory-table_filter {
+  background-color: #0D192A;
+}
+
+input[type="search"][aria-controls="directory-table"], input[type="search"][aria-controls="directory-table"]:focus {
+  background-color: #172334;
+  border: none;
+  color: #8497B0;
+}
+
+div.dataTables_length > label > select[name="directory-table_length"], select[name="directory-table_length"]:focus {
+  background-color: #172334;
+  border: none;
+  color: #8497B0;
+}
+
+div.dataTables_length > label > select[name="directory-table_length"] option {
+  background-color: #172334;
+  color: #8497B0;
+}
+
+th.directory--table-text-sm {
+  font-size: inherit;
+}
+
+.directory--table-text-sm {
+  font-size: 0.85rem;
 }
