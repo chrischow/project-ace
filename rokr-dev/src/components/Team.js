@@ -6,7 +6,7 @@ import OKRCollapse from './OKRCollapse';
 import { EditIcon } from './Icons';
 import updateCircleProgress from '../utils/updateCircleProgress';
 import { prepareTeamData, formatDate } from '../utils/processData';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import 'datatables.net-bs4';
 import '../dataTables.bootstrap4.min.css';
 
@@ -110,7 +110,14 @@ function KRModal(props) {
 
     // Revert to table page
     function resetTableView() {
-        $('#kr-modal-table').DataTable().page(0).draw(true);
+        table.DataTable().page.len(5).draw(true);
+        table.DataTable().page(0);
+    }
+    
+    const history = useHistory();
+    function editKR() {
+        $('#kr-modal').modal('hide');
+        return history.push('/edit/kr/' + props.krData.krId);
     }
 
     return (
@@ -129,7 +136,9 @@ function KRModal(props) {
                                 <div className="col-9 kr-modal--main-col">
                                     <h3>
                                         <span className="mr-3 kr-modal--title">{props.krData.krTitle}</span>
-                                        <EditIcon />
+                                        <div style={{display: 'inline-block', cursor: 'pointer', transition: "0.3s"}} onClick={editKR}>
+                                            <EditIcon />
+                                        </div>
                                     </h3>
                                     <div className="kr-modal--subheader">{startDate} - {endDate}</div>
                                     <div className="kr-modal--description">{props.krData.krDescription}</div>

@@ -7,6 +7,13 @@ body {
   overflow-y: scroll;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+div::-webkit-scrollbar {
+  display: none;
+}
+
 .accent-blue {
   color: #7B73F0;
 }
@@ -486,7 +493,7 @@ button.close:hover {
 }
 
 .form-element {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   padding: 0;
 }
 
@@ -495,21 +502,8 @@ button.close:hover {
   display: block;
   margin: 0;
   height: 1px;
-  width: 0px;
-  background: transparent;
-  transition: width .5s ease, background-color .5s ease;
-}
-
-.form-element-open.form-element:after {
   width: 100%;
   background: #2C3849;
-}
-
-textarea.form-dark {
-  /* background-color: #0D192A; */
-  background-color: #000C1D;
-  min-height: 35px;
-  overflow: hidden;
 }
 
 .form--label {
@@ -521,67 +515,75 @@ textarea.form-dark {
   margin-bottom: 0;
 }
 
-/* The switch - the box around the slider */
-.form--switch {
-  position: relative;
-  display: inline-block;
-  width: 45px;
-  height: 25px;
-  margin-right: 10px;
+span.form--slider-value {
+  color: #27DDCB;
+  background-color: #0D192A;
+  padding: 5px;
+  border-radius: 5px;
 }
 
-/* Hide default HTML checkbox */
-.form--switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+/* Slider */
+.custom-range {
+  margin-top: 6px;
+  margin-bottom: 6px;
+  height: 30px;
+  border: none;
+  box-shadow: none;
 }
 
-/* The slider */
-.form--slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #2C3849;
-  -webkit-transition: .4s;
-  transition: .4s;
+input[type="range"]::-webkit-slider-runnable-track {
+  border: none;
+}
+input[type="range"]::-webkit-slider-runnable-track:active {
+  border: none;
+}
+input[type="range"]::-webkit-slider-runnable-track:focus {
+  border: none;
 }
 
-.form--slider:before {
-  position: absolute;
-  content: "";
-  height: 17px;
-  width: 17px;
-  left: 4px;
-  bottom: 4px;
-  background-color: #EAEAEA;
-  -webkit-transition: .4s;
-  transition: .4s;
+.custom-range::-webkit-slider-runnable-track {
+  background: #2C3849;
 }
 
-input:checked + .form--slider {
-  background-color: #7B73F0;
+.custom-range::-moz-range-progress {
+  background: #2C3849;
 }
 
-input:focus + .form--slider {
-  box-shadow: 0 0 1px #7B73F0;
+.custom-range::-ms-fill-lower {
+  background: #2C3849;
+}
+.custom-range::-ms-fill-upper {
+  background: #2C3849;
 }
 
-input:checked + .form--slider:before {
-  -webkit-transform: translateX(20px);
-  -ms-transform: translateX(20px);
-  transform: translateX(20px);
+.custom-range::-webkit-slider-thumb {
+  background: #8497B0;
+  border: none;
 }
 
-.form--slider.round {
-  border-radius: 34px;
+.custom-range::-webkit-slider-thumb:active, .custom-range::-webkit-slider-thumb:focus {
+  background: #27DDCB;
+  box-shadow: none;
 }
 
-.form--slider.round:before {
-  border-radius: 50%;
+.custom-range::-moz-range-thumb {
+  background: #8497B0;
+  border: none;
+}
+
+.custom-range::-moz-range-thumb:active, .custom-range::-moz-range-thumb:focus {
+  background: #27DDCB;
+  box-shadow: none;
+}
+
+.custom-range::-ms-thumb {
+  background: #8497B0;
+  border: none;
+}
+
+.custom-range::-ms-thumb:active, .custom-range::-ms-thumb:active {
+  background: #27DDCB;
+  box-shadow: none;
 }
 
 /* KR Modal */

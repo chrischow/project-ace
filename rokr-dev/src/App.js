@@ -3,7 +3,8 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import TeamPage from './components/Team';
 import DirectoryPage from './components/Directory';
-import ObjectivePage from './components/ObjectivePage';
+import ObjectiveForm from './components/ObjectiveForm';
+import KRForm from './components/KRForm';
 import './App.css';
 
 // Load configs
@@ -56,11 +57,17 @@ function renderHome(props) {
     return <Home teams={teams} />;
 }
 
-// function renderObjectivePage(props) {
-//     return (
-//         <ObjectivePage teams={teams} />
-//     );
-// }
+function renderObjectiveForm(props) {
+    return (
+        <ObjectiveForm teams={teams} />
+    );
+}
+
+function renderKRForm(props) {
+    return (
+        <KRForm teams={teams} />
+    );
+}
 
 // App
 function App() {
@@ -71,7 +78,8 @@ function App() {
               <Switch>
                   <Route path='/' render={renderHome} exact />
                   <Route path='/directory' component={DirectoryPage} />
-                  {/* <Route path='/o/:id' render={renderObjectivePage} /> */}
+                  <Route path='/edit/obj/:id' render={renderObjectiveForm} />
+                  <Route path='/edit/kr/:id' render={renderKRForm} />
                   <TeamRoutes teams={teams} />
               </Switch>
           </div>

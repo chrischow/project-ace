@@ -6,9 +6,9 @@
 import React from 'react';
 import $ from 'jquery';
 
-import { CaretIcon, InfoIcon } from './Icons';
+import { CaretIcon, EditIcon, InfoIcon } from './Icons';
 import ProgressBar from './ProgressBar';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 function KeyResultRow(props) {
     
@@ -66,6 +66,11 @@ function ObjectiveCard(props) {
         });
     };
 
+    var history = useHistory();
+    function editObjective() {
+        return history.push('/edit/obj/' + props.objectiveId);
+    }
+
     return (
         
         <div className="objective-card">
@@ -86,6 +91,12 @@ function ObjectiveCard(props) {
                 <div className="col-7">
                     <h5 className="objective-card--title text-left">
                         <span className="mr-3">{props.objectiveTitle}</span>
+                        {
+                            props.isClicked && 
+                            <div style={{display: 'inline-block', cursor: 'pointer'}} onClick={editObjective}>
+                                <EditIcon />
+                            </div>
+                        }
                     </h5>
                     {props.isClicked && <div className="kr-modal--description">{props.objectiveDescription}</div>}
                 </div>
