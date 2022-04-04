@@ -101,6 +101,8 @@
             loadComponent('ProgressBar');
             loadComponent('Home');
             loadComponent('Icons');
+            loadComponent('ObjectiveForm');
+            loadComponent('KRForm');
             loadComponent('OKRCollapse');
             loadComponent('Team');
             loadComponent('Directory');
@@ -134,27 +136,34 @@
                 return <Home teams={teams} />;
             }
 
-            // function renderObjectivePage(props) {
-            //     return (
-            //         <ObjectivePage teams={teams} />
-            //     );
-            // }
+            function renderObjectiveForm(props) {
+                return (
+                    <ObjectiveForm teams={teams} />
+                );
+            }
+
+            function renderKRForm(props) {
+                return (
+                    <KRForm teams={teams} />
+                );
+            }
 
             // App
             function App() {
-            return (
-                <HashRouter>
-                    <Navbar teams={teams} />
-                    <div className="container mt-5">
-                        <Switch>
-                            <Route path='/' render={renderHome} exact />
-                            <Route path='/directory' component={DirectoryPage} />
-                            {/* <Route path='/o/:id' render={renderObjectivePage} /> */}
-                            <TeamRoutes teams={teams} />
-                        </Switch>
-                    </div>
-                </HashRouter>
-            )
+                return (
+                    <HashRouter>
+                        <Navbar teams={teams} />
+                        <div className="container mt-5">
+                            <Switch>
+                                <Route path='/' render={renderHome} exact />
+                                <Route path='/directory' component={DirectoryPage} />
+                                <Route path='/edit/obj/:id' render={renderObjectiveForm} />
+                                <Route path='/edit/kr/:id' render={renderKRForm} />
+                                <TeamRoutes teams={teams} />
+                            </Switch>
+                        </div>
+                    </HashRouter>
+                )
             }
 
             // Render

@@ -55,6 +55,11 @@ function ObjectiveCard(props) {
         });
     };
 
+    var history = useHistory();
+    function editObjective() {
+        return history.push('/edit/obj/' + props.objectiveId);
+    }
+
     return (
         
         <div className="objective-card">
@@ -75,6 +80,12 @@ function ObjectiveCard(props) {
                 <div className="col-7">
                     <h5 className="objective-card--title text-left">
                         <span className="mr-3">{props.objectiveTitle}</span>
+                        {
+                            props.isClicked && 
+                            <div style={{display: 'inline-block', cursor: 'pointer'}} onClick={editObjective}>
+                                <EditIcon />
+                            </div>
+                        }
                     </h5>
                     {props.isClicked && <div className="kr-modal--description">{props.objectiveDescription}</div>}
                 </div>
