@@ -1,7 +1,7 @@
 // COMPONENT: KRForm
 function KRForm(props) {
     // Extract objective ID from URL parameter
-    const params = useParams();
+    const params = ReactRouterDOM.useParams();
 
     function queryData() {
         // Query data - simulated
@@ -15,7 +15,7 @@ function KRForm(props) {
     }
 
     const initData = queryData();
-    const history = useHistory();
+    const history = ReactRouterDOM.useHistory();
     const team = props.teams.filter(function(item) {
         return item.teamName === initData.parentObjectiveTeam;
     });
