@@ -20,7 +20,7 @@ Copy contents of the following:
     - ProgressCard
     - Team
 3. Others:
-    - Configs and main components from `App.js` to `index.html`
+    - Configs and main components from `App.js` to `index.html`. Remember to make any imports **synchronous**.
 
 After moving over:
 - Remember to remove imports and exports of JS functions/objects
