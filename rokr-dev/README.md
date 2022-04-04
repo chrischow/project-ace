@@ -22,4 +22,23 @@ Copy contents of the following:
 3. Others:
     - Configs and main components from `App.js` to `index.html`
 
-In copying contents, remember to **remove imports and exports**.
+After moving over:
+- Remember to remove imports and exports of JS functions/objects
+- Remember to add `React.` and `ReactRouterDOM.` to any functions imported from React and React-Router e.g.
+    - React.useEffect
+    - React.useHistory
+
+## Dependencies
+From [Pluralsight](https://www.pluralsight.com/guides/using-react-router-with-cdn-links):
+
+```html
+<head>
+    <meta charset='UTF-8'>
+    <script src='https://unpkg.com/react@16.3.1/umd/react.production.min.js'></script>
+    <script src='https://unpkg.com/react-dom@16.3.1/umd/react-dom.production.min.js'>    </script>
+    <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js'></script>
+    <script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
+</head>
+```
+
+- ReactRouter v5.2.0: This exports `useHistory`. v5.0.0 does not.

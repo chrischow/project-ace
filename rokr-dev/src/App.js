@@ -65,7 +65,7 @@ function renderObjectiveForm(props) {
 
 function renderKRForm(props) {
     return (
-        <KRForm teams={teams} />
+        <KRForm teams={teams} history={props.history} />
     );
 }
 
