@@ -55,7 +55,7 @@ function ObjectiveCard(props) {
         });
     };
 
-    var history = useHistory();
+    var history = ReactRouterDOM.useHistory();
     function editObjective() {
         return history.push('/edit/obj/' + props.objectiveId);
     }
