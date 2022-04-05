@@ -20,22 +20,19 @@ export default function KRForm(props) {
     }
 
     const initData = queryData();
-    // const history = useHistory();
+    const history = useHistory();
     const team = props.teams.filter(function(item) {
         return item.teamName === initData.parentObjectiveTeam;
     });
     
     function redirectBack() {
-        // return history.push('/' + team[0].slug);
-        // history.goBack();
-        console.log(this.context);
-        return 'hello';
+        return history.push('/' + team[0].slug);
     }
 
     function submitForm() {
         console.log('Submitting form:');
         console.log(formData);
-        // history.push('/' + team[0].slug);
+        history.push('/' + team[0].slug);
     }
 
     const [formData, setFormData] = React.useState(initData);

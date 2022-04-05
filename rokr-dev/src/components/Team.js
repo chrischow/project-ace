@@ -120,6 +120,11 @@ function KRModal(props) {
         return history.push('/edit/kr/' + props.krData.krId);
     }
 
+    function editUpdate() {
+        $('#kr-modal').modal('hide');
+        return history.push('/edit/update/' + props.krData.krId);
+    }
+
     return (
         <div className="modal fade" id={'kr-modal'} tabIndex="-1" role="dialog" aria-labelledby={'kr-modal-label'} aria-hidden="true">
             <div className="modal-dialog modal-xl" role="document">
@@ -135,7 +140,7 @@ function KRModal(props) {
                             <div className="row align-items-center">
                                 <div className="col-9 kr-modal--main-col">
                                     <h3>
-                                        <span className="mr-3 kr-modal--title">{props.krData.krTitle}</span>
+                                        <span className="mr-3 text-green">{props.krData.krTitle}</span>
                                         <div style={{display: 'inline-block', cursor: 'pointer', transition: "0.3s"}} onClick={editKR}>
                                             <EditIcon />
                                         </div>
@@ -156,7 +161,12 @@ function KRModal(props) {
                             </div>
                         </div>
                         <div className="kr-modal--update-panel">
-                            <h3 className="kr-modal--tag-text mb-4">Updates</h3>
+                            <h3 className="kr-modal--tag-text mb-3">
+                                <span className="mr-3">Updates</span>
+                                <div style={{display: 'inline-block', cursor: 'pointer', transition: "0.3s"}} onClick={editUpdate}>
+                                    <EditIcon />
+                                </div>
+                            </h3>
                             <table className="table table-dark kr-modal--table w-100" id="kr-modal-table">
                                 <thead>
                                     <tr>

@@ -5,6 +5,7 @@ import TeamPage from './components/Team';
 import DirectoryPage from './components/Directory';
 import ObjectiveForm from './components/ObjectiveForm';
 import KRForm from './components/KRForm';
+import UpdatesForm from './components/UpdatesForm';
 import './App.css';
 
 // Load configs
@@ -65,8 +66,12 @@ function renderObjectiveForm(props) {
 
 function renderKRForm(props) {
     return (
-        <KRForm teams={teams} history={props.history} />
+        <KRForm teams={teams} />
     );
+}
+
+function renderUpdatesForm(props){
+    return <UpdatesForm teams={teams} />
 }
 
 // App
@@ -80,6 +85,7 @@ function App() {
                   <Route path='/directory' component={DirectoryPage} />
                   <Route path='/edit/obj/:id' render={renderObjectiveForm} />
                   <Route path='/edit/kr/:id' render={renderKRForm} />
+                  <Route path='/edit/update/:id' render={renderUpdatesForm} />
                   <TeamRoutes teams={teams} />
               </Switch>
           </div>

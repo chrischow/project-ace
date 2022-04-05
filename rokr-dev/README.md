@@ -25,8 +25,13 @@ Copy contents of the following:
 After moving over:
 - Remember to remove imports and exports of JS functions/objects
 - Remember to add `React.` and `ReactRouterDOM.` to any functions imported from React and React-Router e.g.
-    - React.useEffect
-    - React.useHistory
+    - `React.useEffect`
+    - `React.useHistory`
+- Current components that use `useHistory` / `useParams`:
+    - Team
+    - KRForm
+    - ObjectiveForm
+    - UpdatesForm
 
 ## Dependencies
 From [Pluralsight](https://www.pluralsight.com/guides/using-react-router-with-cdn-links):
@@ -41,4 +46,4 @@ From [Pluralsight](https://www.pluralsight.com/guides/using-react-router-with-cd
 </head>
 ```
 
-- ReactRouter v5.2.0: This exports `useHistory`. v5.0.0 does not.
+- ReactRouter v5.2.0: This exports `useHistory`. v5.0.0 does not. Remember to amend the URL for the source map in the final line of the ReactRouter v5.2.0 file.

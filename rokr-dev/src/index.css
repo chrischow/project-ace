@@ -94,7 +94,7 @@ hr {
 
 .navbar-dark .navbar-nav .nav-link.active {
   transition: 0.3s;
-  font-weight: bold;
+  font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
   color: #7B73F0;
 }
 
@@ -599,8 +599,7 @@ input[type="range"]::-webkit-slider-runnable-track:focus {
   margin-bottom: 10px;
 }
 
-.kr-modal--title {
-  /* color: #B7CAE3; */
+.text-green {
   color: #27DDCB;
 }
 
@@ -635,11 +634,17 @@ input[type="range"]::-webkit-slider-runnable-track:focus {
 }
 
 .kr-modal--tag-text {
-  font-size: 1.0rem;
+  font-size: 1.2rem;
   font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
   text-transform: uppercase;
   letter-spacing: 4px;
   color: #8497B0;
+}
+
+.kr-modal--edit-icon {
+  /* display: 'inline-block'; */
+  cursor: 'pointer';
+  transition: "0.3s"
 }
 
 .kr-modal--table-border {
@@ -774,4 +779,16 @@ th.directory--table-text-sm {
 
 .directory--table-text-sm {
   font-size: 0.85rem;
+}
+
+/* Update Form */
+.update-form--table-header {
+  font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #8497B0;
+}
+.update-form--table-text {
+  color: #D1E4FD;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
