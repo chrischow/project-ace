@@ -46,7 +46,7 @@ function UpdatesForm(props){
         });
     }
 
-    useEffect(function() {
+    React.useEffect(function() {
         setUpdates(updateData);
     }, []);
 

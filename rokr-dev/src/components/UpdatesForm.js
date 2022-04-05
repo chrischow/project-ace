@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams, useHistory } from "react-router-dom";
 import { EditIcon } from './Icons';
 
@@ -52,7 +52,7 @@ export default function UpdatesForm(props){
         });
     }
 
-    useEffect(function() {
+    React.useEffect(function() {
         setUpdates(updateData);
     }, []);
 
