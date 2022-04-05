@@ -103,6 +103,7 @@
             loadComponent('Icons');
             loadComponent('ObjectiveForm');
             loadComponent('KRForm');
+            loadComponent('UpdatesForm');
             loadComponent('OKRCollapse');
             loadComponent('Team');
             loadComponent('Directory');
@@ -148,6 +149,10 @@
                 );
             }
 
+            function renderUpdatesForm(props){
+                return <UpdatesForm teams={teams} />
+            }
+
             // App
             function App() {
                 return (
@@ -159,6 +164,7 @@
                                 <Route path='/directory' component={DirectoryPage} />
                                 <Route path='/edit/obj/:id' render={renderObjectiveForm} />
                                 <Route path='/edit/kr/:id' render={renderKRForm} />
+                                <Route path='/edit/update/:id' render={renderUpdatesForm} />
                                 <TeamRoutes teams={teams} />
                             </Switch>
                         </div>

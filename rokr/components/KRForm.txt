@@ -21,8 +21,7 @@ function KRForm(props) {
     });
     
     function redirectBack() {
-        // return history.push('/' + team[0].slug);
-        history.goBack();
+        return history.push('/' + team[0].slug);
     }
 
     function submitForm() {
