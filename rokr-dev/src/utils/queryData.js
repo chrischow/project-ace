@@ -1,5 +1,7 @@
 // UTILS FOR QUERYING DATA
-function getDate(date) {
+import $ from 'jquery';
+
+export function getDate(date) {
     const rawDate = new Date(date);
     const z = rawDate.getTimezoneOffset() * 60 * 1000;
     const localDate = new Date(rawDate - z);
@@ -57,7 +59,7 @@ function getKRData(listId, team) {
 
     var rawData = $.ajax({
         url: "https://portal.mis.defence.gov.sg/rsaf/RDO/private/_api/web/Lists(guid'" +
-            listId + "')/items?" + queryColuns + (queryFilter ? '&' : '') + queryFilter,
+            listId + "')/items?" + queryColumns + (queryFilter ? '&' : '') + queryFilter,
         method: 'GET',
         headers: {
             'Accept': 'application/json; odata=verbose'

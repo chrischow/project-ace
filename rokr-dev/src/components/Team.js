@@ -126,8 +126,8 @@ function KRModal(props) {
     }
 
     return (
-        <div className="modal fade" id={'kr-modal'} tabIndex="-1" role="dialog" aria-labelledby={'kr-modal-label'} aria-hidden="true">
-            <div className="modal-dialog modal-xl" role="document">
+        <div className="modal fade" id='kr-modal' tabIndex="-1" role="dialog" aria-labelledby={'kr-modal-label'} aria-hidden="true">
+            <div className="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id={'kr-modal-label'}>{props.krData.parentObjectiveTeam} Key Result</h5>
@@ -228,7 +228,7 @@ export function TeamOKRs(props) {
             return kr.parentObjectiveId === item.objectiveId;
         });
 
-        return <OKRCollapse objective={item} keyResults={tempKRs} setKrData={setKrData} />;
+        return <OKRCollapse key={item.objectiveId} objective={item} keyResults={tempKRs} setKrData={setKrData} />;
     });
 
     return (
@@ -239,10 +239,10 @@ export function TeamOKRs(props) {
                     Expand/Collapse
                 </button>
                 <div className="float-right">
-                    <button className="btn btn-blue mr-3" onClick={newObjective}>
+                    <button className="btn btn-green mr-3" onClick={newObjective}>
                         Add Objective
                     </button>
-                    <button className="btn btn-blue mr-3" onClick={newKeyResult}>
+                    <button className="btn btn-green mr-3" onClick={newKeyResult}>
                         Add Key Result
                     </button>
                 </div>

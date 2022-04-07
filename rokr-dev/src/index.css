@@ -427,6 +427,7 @@ div.progress-bar {
 .edit-icon:hover {
   color: #27DDCB;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .modal-title {
@@ -478,6 +479,22 @@ button.close:hover {
 }
 
 .form-dark:focus {
+  color: white;
+}
+
+.form-semi-dark, .form-semi-dark:focus {
+  /* background-color: #0D192A; */
+  background-color: #0D192A;
+  font-size: 1.2rem;
+  color: #ddd;
+  border: 0;
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: none;
+  transition: 0.3s;
+}
+
+.form-semi-dark:focus {
   color: white;
 }
 
@@ -584,6 +601,48 @@ input[type="range"]::-webkit-slider-runnable-track:focus {
 .custom-range::-ms-thumb:active, .custom-range::-ms-thumb:active {
   background: #27DDCB;
   box-shadow: none;
+}
+
+textarea {
+  overflow-y: hidden;
+}
+
+.selectbox-text {
+  font-size: 1.0rem;
+}
+
+/* Datepicker */
+.datepicker-days, .datepicker-months, .datepicker-years, .datepicker-decades, .datepicker-centuries {
+  background-color: #0D192A;
+  color: #eee;
+}
+
+.dropdown-menu {
+  background-color: #0D192A;
+}
+
+.datepicker .datepicker-switch:hover, .datepicker .next:hover, .datepicker .prev:hover, .datepicker tfoot tr th:hover {
+  background: #172334;
+}
+
+.datepicker table tr td.day.focused, .datepicker table tr td.day:hover {
+  background: #3D495A;
+}
+
+.datepicker table tr td.active, .datepicker table tr td.active.disabled, 
+.datepicker table tr td.active.disabled:hover, .datepicker table tr td.active:hover,
+.datepicker table tr td span.active, .datepicker table tr td span.active.disabled, 
+.datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active:hover {
+  background-color: #8497B0;
+  background-image: linear-gradient(to bottom, #9EB1CA,#8497B0);
+}
+
+.datepicker table tr td span.active.active, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled.disabled, .datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active.disabled:hover.active, .datepicker table tr td span.active.disabled:hover.disabled, .datepicker table tr td span.active.disabled:hover:active, .datepicker table tr td span.active.disabled:hover:hover, .datepicker table tr td span.active.disabled:hover[disabled], .datepicker table tr td span.active.disabled[disabled], .datepicker table tr td span.active:active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active:hover.active, .datepicker table tr td span.active:hover.disabled, .datepicker table tr td span.active:hover:active, .datepicker table tr td span.active:hover:hover, .datepicker table tr td span.active:hover[disabled], .datepicker table tr td span.active[disabled] {
+  background-color: #8497B0;
+}
+
+.datepicker table tr td span.focused, .datepicker table tr td span:hover {
+  background: #3D495A;
 }
 
 /* KR Modal */
@@ -728,7 +787,6 @@ input[type="search"], input[type="search"]:focus {
   font-weight: normal;
 }
 
-
 /* Directory */
 .directory--container {
   border-radius: 15px;
@@ -787,8 +845,10 @@ th.directory--table-text-sm {
   padding-bottom: 7px;
   border-bottom: 1px solid #8497B0;
 }
+
 .update-form--table-text {
   color: #D1E4FD;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #8497B0;
 }

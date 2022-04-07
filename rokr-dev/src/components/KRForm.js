@@ -1,5 +1,8 @@
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import React from 'react';
+import $ from 'jquery';
+
+import { getDate } from '../utils/queryData';
 
 // Simulated
 import { allData } from '../utils/fakeData';
@@ -12,19 +15,9 @@ export default function KRForm(props) {
     function queryData() {
         // Query data - simulated
         const allKeyResults = allData.keyResults;
-        const allObjectives = allData.objectives;
 
         const currKr = allKeyResults.filter(function(kr) {
             return Number(kr.krId) === Number(params.id);
-        });
-
-        const team = currKr[0].parentObjectiveTeam;
-        const objectives = allObjectives.filter(function(obj) {
-            return obj.team === team;
-        });
-
-        const selectObjective = objectives.map(function(obj) {
-            return <option value={obj.objectiveId}>{obj.objectiveTitle}</option>
         });
 
         return currKr[0];
@@ -70,7 +63,15 @@ export default function KRForm(props) {
         });
 
         const selectObjective = objectives.map(function(obj) {
-            return <option value={obj.objectiveId}>{obj.objectiveTitle}</option>
+            return (
+                <option
+                    key={obj.objectiveId}
+                    value={obj.objectiveId}
+                    className="selectbox-text"
+                >
+                    [{obj.frequency.charAt(0).toUpperCase() + obj.frequency.slice(1)}] {obj.objectiveTitle}
+                </option>
+            );
         });
 
         const startId = objectives.length > 0 ? objectives[0].objectiveId : 0;
@@ -112,6 +113,38 @@ export default function KRForm(props) {
             }
         });
     }
+
+    React.useEffect(function() {
+        $(function() {
+            var startDatePicker = $('#krStartDate');
+            startDatePicker.datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            startDatePicker.on('changeDate', function(){
+                setFormData(prevData => {
+                    return {
+                        ...prevData,
+                        krStartDate: getDate(startDatePicker.datepicker('getDate'))
+                    };
+                })
+            });
+
+            var endDatePicker = $('#krEndDate');
+            endDatePicker.datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            endDatePicker.on('changeDate', function(){
+                setFormData(prevData => {
+                    return {
+                        ...prevData,
+                        krEndDate: getDate(endDatePicker.datepicker('getDate'))
+                    };
+                })
+            });
+        });
+    });
     
     return (
         <div>
@@ -143,8 +176,9 @@ export default function KRForm(props) {
                             <label htmlFor="krStartDate" className="form--label">Start Date</label>
                             <input
                                 type="text"
+                                id="krStartDate"
                                 name="krStartDate"
-                                className="form-control form-dark form--edit"
+                                className="form-control form-dark form--edit datepicker"
                                 value={formData.krStartDate}
                                 onChange={handleLocalChange}
                             />
@@ -155,8 +189,9 @@ export default function KRForm(props) {
                             <label htmlFor="krEndDate" className="form--label">End Date</label>
                             <input
                                 type="text"
+                                id="krEndDate"
                                 name="krEndDate"
-                                className="form-control form-dark form--edit"
+                                className="form-control form-dark form--edit datepicker"
                                 value={formData.krEndDate}
                                 onChange={handleLocalChange}
                             />

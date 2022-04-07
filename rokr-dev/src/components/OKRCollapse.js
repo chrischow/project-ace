@@ -131,6 +131,7 @@ export default function OKRCollapse(props) {
     const keyResultRows = props.keyResults.map(function(item) {
         return (
             <KeyResultRow
+                key={item.krId}
                 objId={objId}
                 setKrData={props.setKrData}
                 {...item}

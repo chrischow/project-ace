@@ -1,5 +1,7 @@
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import React from 'react';
+import $ from 'jquery';
+import { getDate } from '../utils/queryData';
 
 // Simulated
 import { allData } from '../utils/fakeData';
@@ -71,9 +73,41 @@ export default function ObjectiveForm(props) {
     }
 
     var teams = props.teams.map(function(team) {
-        return <option value={team.teamName}>{team.teamName}</option>
+        return <option key={team.slug} value={team.teamName}>{team.teamName}</option>
     });
     
+    React.useEffect(function() {
+        $(function() {
+            var startDatePicker = $('#objectiveStartDate');
+            startDatePicker.datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            startDatePicker.on('changeDate', function(){
+                setFormData(prevData => {
+                    return {
+                        ...prevData,
+                        objectiveStartDate: getDate(startDatePicker.datepicker('getDate'))
+                    };
+                })
+            });
+
+            var endDatePicker = $('#objectiveEndDate');
+            endDatePicker.datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            endDatePicker.on('changeDate', function(){
+                setFormData(prevData => {
+                    return {
+                        ...prevData,
+                        objectiveEndDate: getDate(endDatePicker.datepicker('getDate'))
+                    };
+                })
+            });
+        });
+    });
+
     return (
         <div>
             <h1 className="mb-4">{mode} Objective</h1>
@@ -104,8 +138,9 @@ export default function ObjectiveForm(props) {
                             <label htmlFor="objectiveStartDate" className="form--label">Start Date</label>
                             <input
                                 type="text"
+                                id="objectiveStartDate"
                                 name="objectiveStartDate"
-                                className="form-control form-dark form--edit"
+                                className="form-control form-dark form--edit datepicker"
                                 value={formData.objectiveStartDate}
                                 onChange={handleLocalChange}
                             />
@@ -116,8 +151,9 @@ export default function ObjectiveForm(props) {
                             <label htmlFor="objectiveEndDate" className="form--label">End Date</label>
                             <input
                                 type="text"
+                                id="objectiveEndDate"
                                 name="objectiveEndDate"
-                                className="form-control form-dark form--edit"
+                                className="form-control form-dark form--edit datepicker"
                                 value={formData.objectiveEndDate}
                                 onChange={handleLocalChange}
                             />

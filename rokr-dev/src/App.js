@@ -58,18 +58,6 @@ function renderHome(props) {
     return <Home teams={teams} />;
 }
 
-function renderObjectiveForm(mode) {
-    return (
-        <ObjectiveForm teams={teams} mode={mode} />
-    );
-}
-
-function renderKRForm(props) {
-    return (
-        <KRForm teams={teams} />
-    );
-}
-
 function renderUpdatesForm(props){
     return <UpdatesForm teams={teams} />
 }
