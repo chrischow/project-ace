@@ -93,7 +93,11 @@ export default function KRForm(props) {
     }
 
     function submitForm() {
-        console.log('Submitting form:');
+        if (props.mode === 'edit') {
+            console.log('Updating entry:');
+        } else {
+            console.log('Creating entry:')
+        }
         console.log(formData);
         history.push('/' + team[0].slug);
     }
