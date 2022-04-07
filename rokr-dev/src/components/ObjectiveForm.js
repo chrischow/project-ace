@@ -1,4 +1,4 @@
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import React from 'react';
 
 // Simulated
@@ -7,23 +7,47 @@ import { allData } from '../utils/fakeData';
 export default function ObjectiveForm(props) {
     // Extract objective ID from URL parameter
     const params = useParams();
+    const urlParams = new URLSearchParams(useLocation().search);
 
     function queryData() {
         // Query data - simulated
         const allObjectives = allData.objectives;
 
         const currObj = allObjectives.filter(function(obj) {
-            return obj.objectiveId == params.id;
+            return Number(obj.objectiveId) === Number(params.id);
         });
 
         return currObj[0];
     }
 
-    const initData = queryData();
+    // Initialise form
+    var mode;
+    var initData;
+    var team;
+
+    if (props.mode === 'edit') {
+        mode = 'Edit';
+        initData = queryData();
+        team = props.teams.filter(function(item) {
+            return item.teamName === initData.team;
+        })
+    } else {
+        mode = 'New';
+        team = props.teams.filter(function(item) {
+            return item.teamName === urlParams.get('team');
+        });
+
+        initData = {
+            objectiveTitle: "",
+            objectiveDescription: "",
+            objectiveStartDate: "",
+            objectiveEndDate: "",
+            frequency: urlParams.get('frequency'),
+            team: urlParams.get('team')
+        }
+    }
+
     const history = useHistory();
-    const team = props.teams.filter(function(item) {
-        return item.teamName === initData.team;
-    });
 
     function redirectBack() {
         return history.push('/' + team[0].slug);
@@ -52,7 +76,7 @@ export default function ObjectiveForm(props) {
     
     return (
         <div>
-            <h1 className="mb-4">Edit Objective</h1>
+            <h1 className="mb-4">{mode} Objective</h1>
             <form className="form--group" id="objectiveForm">
                 <div className="form-element">
                     <label htmlFor="objectiveTitle" className="form--label">Title</label>
@@ -103,11 +127,11 @@ export default function ObjectiveForm(props) {
                 <div className="row align-items-center">
                     <div className="col-6">
                         <div className="form-element">
-                            <label htmlFor="objectiveTeam" className="form--label">Team</label>
+                            <label htmlFor="team" className="form--label">Team</label>
                             <select
-                                name="objectiveTeam"
+                                name="team"
                                 className="form-control form-dark form--edit"
-                                value={formData.objectiveTeam}
+                                value={formData.team}
                                 onChange={handleLocalChange}
                             >
                                 {teams}

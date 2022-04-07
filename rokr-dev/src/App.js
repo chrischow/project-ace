@@ -58,9 +58,9 @@ function renderHome(props) {
     return <Home teams={teams} />;
 }
 
-function renderObjectiveForm(props) {
+function renderObjectiveForm(mode) {
     return (
-        <ObjectiveForm teams={teams} />
+        <ObjectiveForm teams={teams} mode={mode} />
     );
 }
 
@@ -83,8 +83,10 @@ function App() {
               <Switch>
                   <Route path='/' render={renderHome} exact />
                   <Route path='/directory' component={DirectoryPage} />
-                  <Route path='/edit/obj/:id' render={renderObjectiveForm} />
-                  <Route path='/edit/kr/:id' render={renderKRForm} />
+                  <Route path='/new/obj' render={() => <ObjectiveForm teams={teams} mode='new' /> } />
+                  <Route path='/new/kr' render={() => <KRForm teams={teams} mode='new' /> } />
+                  <Route path='/edit/obj/:id' render={() => <ObjectiveForm teams={teams} mode='edit' /> } />
+                  <Route path='/edit/kr/:id' render={() => <KRForm teams={teams} mode='edit' />} />
                   <Route path='/edit/update/:id' render={renderUpdatesForm} />
                   <TeamRoutes teams={teams} />
               </Switch>

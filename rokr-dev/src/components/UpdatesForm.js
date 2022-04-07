@@ -53,7 +53,7 @@ export default function UpdatesForm(props){
     }
 
     React.useEffect(function() {
-        setUpdates(updateData);
+        setUpdates([...updateData]);
     }, []);
 
     const updateRows = updates.map(function(item) {
@@ -81,6 +81,7 @@ export default function UpdatesForm(props){
                 <div className="col-1 text-center">Edit</div>
             </div>
             {updateRows}
+
         </div>
     );
 }

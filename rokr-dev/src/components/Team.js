@@ -70,7 +70,7 @@ function KRModal(props) {
     
     // Query update data
     var updateData = allData.updates.filter(function(update) {
-        return update.parentKrId == props.krData.krId;
+        return update.parentKrId === props.krData.krId;
     });
     
     updateData = updateData.map(function(item) {
@@ -213,6 +213,15 @@ export function TeamOKRs(props) {
             caret.toggleClass('rotated');
         })
     }
+    
+    var history = useHistory();
+    function newObjective() {
+        return history.push('/new/obj?team=' + props.team.teamName + '&frequency=' + props.pageData.frequency);
+    }
+
+    function newKeyResult() {
+        return history.push('/new/kr?team=' + props.team.teamName + '&frequency=' + props.pageData.frequency);
+    }
 
     const objectiveCardRows = props.pageData.data.objectives.map((item) => {
         var tempKRs = props.pageData.data.keyResults.filter(function(kr) {
@@ -225,9 +234,19 @@ export function TeamOKRs(props) {
     return (
         <div>
             <h3 className="mt-5">Objectives & Key Results</h3>
-            <button className="btn btn-okr-toggle mt-2 mb-3" onClick={toggleOKRCards}>
-                Expand/Collapse
-            </button>
+            <div className="mb-4 mt-3">
+                <button className="btn btn-okr-toggle mr-3" onClick={toggleOKRCards}>
+                    Expand/Collapse
+                </button>
+                <div className="float-right">
+                    <button className="btn btn-blue mr-3" onClick={newObjective}>
+                        Add Objective
+                    </button>
+                    <button className="btn btn-blue mr-3" onClick={newKeyResult}>
+                        Add Key Result
+                    </button>
+                </div>
+            </div>
             {objectiveCardRows}
             <KRModal id="kr-modal" krData={krData} />
         </div>
@@ -277,6 +296,7 @@ export default function TeamPage(props) {
             <TeamOKRs 
                 pageData={pageData}
                 teams={props.teams}
+                team={props.team}
             />
         </div>
     );
