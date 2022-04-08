@@ -46,4 +46,4 @@ From [Pluralsight](https://www.pluralsight.com/guides/using-react-router-with-cd
 </head>
 ```
 
-- ReactRouter v5.2.0: This exports `useHistory`. v5.0.0 does not. Remember to amend the URL for the source map in the final line of the ReactRouter v5.2.0 file.
+- ReactRouterDOM v5.2.0: This exports `useHistory`. v5.0.0 does not. Remember to amend the URL for the source map in the final line of the ReactRouter v5.2.0 file.

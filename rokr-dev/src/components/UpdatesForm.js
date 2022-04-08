@@ -271,7 +271,7 @@ export default function UpdatesForm(props){
                 <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="editUpdateModalLabel">Edit Update</h5>
+                            <h5 className="modal-title" id="editUpdateModalLabel">{mode === 'edit' ? 'Edit' : 'Add'} Update</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
