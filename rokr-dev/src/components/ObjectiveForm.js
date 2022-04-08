@@ -7,9 +7,10 @@ import { getDate } from '../utils/queryData';
 import { allData } from '../utils/fakeData';
 
 export default function ObjectiveForm(props) {
-    // Extract objective ID from URL parameter
+    // Extract URL parameters
     const params = useParams();
     const urlParams = new URLSearchParams(useLocation().search);
+    const history = useHistory();
 
     function queryData() {
         // Query data - simulated
@@ -22,7 +23,7 @@ export default function ObjectiveForm(props) {
         return currObj[0];
     }
 
-    // Initialise form
+    // Initialise form based on mode
     var mode;
     var initData;
     var team;
@@ -49,25 +50,10 @@ export default function ObjectiveForm(props) {
         }
     }
 
-    const history = useHistory();
-
-    function redirectBack() {
-        return history.push('/' + team[0].slug);
-    }
-
-    function submitForm() {
-        if (props.mode === 'edit') {
-            console.log('Updating entry:');
-        } else {
-            console.log('Creating entry:')
-        }
-        console.log(formData);
-        history.push('/' + team[0].slug);
-    }
-
+    // Initialise controlled form
     const [formData, setFormData] = React.useState(initData);
 
-    function handleLocalChange(event) {
+    function handleChange(event) {
         setFormData(prevData => {
             return {
                 ...prevData,
@@ -76,10 +62,12 @@ export default function ObjectiveForm(props) {
         });
     }
 
+    // Prepare select input options
     var teams = props.teams.map(function(team) {
         return <option key={team.slug} value={team.teamName}>{team.teamName}</option>
     });
     
+    // Enable form datepicker utility
     React.useEffect(function() {
         $(function() {
             var startDatePicker = $('#objectiveStartDate');
@@ -112,6 +100,96 @@ export default function ObjectiveForm(props) {
         });
     });
 
+    // Cancel: Go back
+    function redirectBack() {
+        return history.push('/' + team[0].slug);
+    }
+
+    // Submit: Check form and add to errors first
+    const [formErrors, setFormErrors] = React.useState([]);
+    const formErrorsList = formErrors.map(function(item) {
+        return <li key={item}>{item}</li>;
+    });
+
+    function submitForm() {
+        // Clear previous errors
+        setFormErrors([]);
+
+        // Extract mandatory form inputs
+        const inputTitle = formData.objectiveTitle;
+        const inputStartDate = formData.objectiveStartDate;
+        const inputEndDate = formData.objectiveEndDate;
+        
+        var validStartDate = false;
+        var validEndDate = false;
+
+        if (inputStartDate) {
+            try {
+                var checkStartDate = new Date(inputStartDate);
+                if (!checkStartDate.getDate()) {
+                    throw 'Not a proper date.'
+                }
+                validStartDate = true;
+            } catch(err){
+                validStartDate = false;
+            }
+        }
+
+        if (inputEndDate) {
+            try {
+                var checkEndDate = new Date(inputEndDate);
+                if (!checkEndDate.getDate()) {
+                    throw 'Not a proper date.'
+                }
+                validEndDate = true;
+            } catch(err){
+                validEndDate = false;
+            }
+        }
+
+        // Form ok
+        if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
+            if (props.mode === 'edit') {
+                console.log('Updating entry:');
+                console.log(formData);
+            } else {
+                console.log('Creating entry:')
+                console.log(formData);
+            }
+            history.push('/' + team[0].slug);
+        } else {
+            if (!inputTitle) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Input a title.'];
+                })
+            }
+
+            if (!inputStartDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set a start date.'];
+                })
+            }
+
+            if (!inputEndDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set an end date.'];
+                })
+            }
+
+            if (inputStartDate && !validStartDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set a valid start date.'];
+                })
+            }
+
+            if (inputEndDate && !validEndDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Please set a valid end date.'];
+                })
+            }
+        }
+    }
+
     return (
         <div>
             <h1 className="mb-4">{mode} Objective</h1>
@@ -123,7 +201,7 @@ export default function ObjectiveForm(props) {
                         name="objectiveTitle"
                         className="form-control form-dark form--edit"
                         value={formData.objectiveTitle}
-                        onChange={handleLocalChange}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="form-element">
@@ -133,7 +211,7 @@ export default function ObjectiveForm(props) {
                         className="form-control form-dark form--edit"
                         rows="1"
                         value={formData.objectiveDescription}
-                        onChange={handleLocalChange}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="row align-items-center">
@@ -146,7 +224,7 @@ export default function ObjectiveForm(props) {
                                 name="objectiveStartDate"
                                 className="form-control form-dark form--edit datepicker"
                                 value={formData.objectiveStartDate}
-                                onChange={handleLocalChange}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -159,7 +237,7 @@ export default function ObjectiveForm(props) {
                                 name="objectiveEndDate"
                                 className="form-control form-dark form--edit datepicker"
                                 value={formData.objectiveEndDate}
-                                onChange={handleLocalChange}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -172,7 +250,7 @@ export default function ObjectiveForm(props) {
                                 name="team"
                                 className="form-control form-dark form--edit"
                                 value={formData.team}
-                                onChange={handleLocalChange}
+                                onChange={handleChange}
                             >
                                 {teams}
                             </select>
@@ -185,7 +263,7 @@ export default function ObjectiveForm(props) {
                                 name="frequency"
                                 className="form-control form-dark form--edit"
                                 value={formData.frequency}
-                                onChange={handleLocalChange}
+                                onChange={handleChange}
                             >
                                 <option value="annual">Annual</option>
                                 <option value="quarterly">Quarterly</option>
@@ -199,6 +277,10 @@ export default function ObjectiveForm(props) {
                 <button type="button" className="btn btn-secondary mr-2" onClick={redirectBack}>Cancel</button>
                 <button className="btn btn-blue" onClick={submitForm}>Submit</button>
             </div>
+            {formErrorsList.length > 0 && <div className="form-errors mt-4">
+                <p>Please resolve the following errors:</p>
+                <ul>{formErrorsList}</ul>
+            </div>}
         </div>
     );
 }

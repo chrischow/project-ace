@@ -55,14 +55,6 @@ export default function UpdatesForm(props){
     }
 
     updateData.sort(sortByDate);
-    
-    function redirectBack() {
-        return history.push('/' + team[0].slug);
-    }
-
-    function addUpdate() {
-        return
-    }
 
     function handleChange(event){
         setFormData(prevData => {
@@ -136,7 +128,21 @@ export default function UpdatesForm(props){
             });
         });
     });
-    
+
+    // Functions to add vs. edit
+    const [mode, setMode] = React.useState('');
+
+    function addUpdate() {
+        setFormData({
+            updateId: 0,
+            updateDate: '',
+            updateText: '',
+            parentKrId: krData.krId
+        });
+        setMode('new');
+        $('#editUpdateModal').modal('toggle');
+    }
+
     function editUpdate(update){
         setFormData(prevData => {
             return {
@@ -146,14 +152,81 @@ export default function UpdatesForm(props){
                 updateText: update.updateText
             };
         });
+        setMode('edit');
         $('#editUpdateModal').modal('toggle');
     }
+    
+    // Back to Team Page
+    function redirectBack() {
+        return history.push('/' + team[0].slug);
+    }
+
+    // Submit: Check form and add to errors first
+    const [formErrors, setFormErrors] = React.useState([]);
+    const formErrorsList = formErrors.map(function(item) {
+        return <li key={item}>{item}</li>;
+    });
 
     function submitForm() {
-        $('#editUpdateModal').modal('hide');
-        console.log('Submitting form:');
-        console.log(formData);
-        history.push('/' + team[0].slug);
+        // Clear previous errors
+        setFormErrors([]);
+
+        // Extract mandatory form inputs
+        const inputText = formData.updateText;
+        const inputDate = formData.updateDate;
+
+        var validDate = false;
+
+        if (inputDate) {
+            try {
+                var checkDate = new Date(inputDate);
+                if (!checkDate.getDate()) {
+                    throw 'Not a proper date.'
+                }
+                validDate = true;
+            } catch(err) {
+                validDate = false;
+            }
+        }
+
+        if (inputText && inputDate && validDate){
+            // Form ok
+            if (mode === 'edit') {
+                console.log('Updating entry:');
+                console.log(formData);
+            } else if (mode === 'new') {
+                console.log('Creating entry:');
+                console.log(formData);
+            }
+            $('#editUpdateModal').modal('hide');
+        } else {
+            // Form not ok
+            if (!inputText) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Provide an update.'];
+                })
+            }
+
+            if (!inputDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Input a date.'];
+                })
+            }
+
+            if (inputDate && !validDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Input a valid date.'];
+                })
+            }
+        }
+    }
+
+    function confirmDelete() {
+        if (window.confirm('Hit OK to confirm deletion of update. This cannot be undone.')) {
+            console.log('Delete entry:');
+            console.log(formData);
+            $('#editUpdateModal').modal('hide');
+        };
     }
 
     const updateRows = updates.map(function(item) {
@@ -233,9 +306,14 @@ export default function UpdatesForm(props){
                                 </div>
                             </form>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-blue" onClick={submitForm}>Save changes</button>
+                        {formErrorsList.length > 0 && <div className="pr-5 pl-5 mb-4"><div className="form-errors-update mt-2">
+                            <p>Please resolve the following errors:</p>
+                            <ul>{formErrorsList}</ul>
+                        </div></div>}
+                        <div className="modal-footer-custom text-right">
+                            {mode === 'edit' && <button type="button" className="btn btn-danger ml-3 float-left" onClick={confirmDelete}>Delete</button>}
+                            <button type="button" className="btn btn-secondary mr-3" onClick={() => setFormErrors([])} data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-blue mr-3" onClick={submitForm}>Save changes</button>
                         </div>
                     </div>
                 </div>
