@@ -8,50 +8,77 @@ import { computeAnnualMetrics, computeTeamsAnnualMetrics } from '../utils/proces
 
 // Simulated
 import { allData } from '../utils/fakeData';
+import { getObjectiveDataIDB, getKeyResultDataIDB } from '../utils/queryData';
 
 // Home component - to be broken down further
 export default function Home(props) {
-    // Query data - simulated
-    const allObjectives = allData.objectives;
-    const allKeyResults = allData.keyResults;
+    // Initialise states for raw data and computed metrics
+    const [data, setData] = React.useState({});
+    const [metrics, setMetrics] = React.useState({});
 
-    // Process data
-    const overallProgressData = computeAnnualMetrics(allObjectives, allKeyResults);
-    const allTeamsProgressData = computeTeamsAnnualMetrics(props.teams, allObjectives, allKeyResults);
+    // Callback functions to update respective items in raw data state
+    // To be passed to async query to database
+    function updateObjectives(data) {
+        setData(prevData => {return {...prevData, allObjectives: data}});
+    }
 
+    function updateKeyResults(data) {
+        setData(prevData => {return {...prevData, allKeyResults: data}});
+    }
+    
+    // Run once - to trigger query
     React.useEffect(function() {
-
         // Query data - simulated
-        const allObjectives = allData.objectives;
-        const allKeyResults = allData.keyResults;
-        
-        // Process data
-        const overallProgressData = computeAnnualMetrics(allObjectives, allKeyResults);
-        const allTeamsProgressData = computeTeamsAnnualMetrics(props.teams, allObjectives, allKeyResults);
+        getObjectiveDataIDB(updateObjectives);
+        getKeyResultDataIDB(updateKeyResults)
+    }, [])
 
-        // Load overall
-        updateCircleProgress('overall_progress', overallProgressData.avgCompletion, 200, '50px', '#000718');
+    // Computes progress card metrics every time there is a change to the raw data state
+    React.useEffect(function() {
+        if (data.allObjectives && data.allKeyResults) {
+            setMetrics(prevData => {
+                return {
+                    ...prevData,
+                    overallProgressData: computeAnnualMetrics(data.allObjectives, data.allKeyResults),
+                    allTeamsProgressData: computeTeamsAnnualMetrics(props.teams, data.allObjectives, data.allKeyResults)
+                };
+            });
+        }
+    }, [data])
+
+    // Renders progress cards every time there is a change to the metrics
+    React.useEffect(function() {
+        if (metrics.overallProgressData) {
+            updateCircleProgress('overall_progress', metrics.overallProgressData.avgCompletion, 200, '50px', '#000718');
+        }
 
         // Load teams
         var teamName;
         var slug;
-
-        for (var i=0; i < props.teams.length; i++) {
-            teamName = props.teams[i].teamName;
-            slug = props.teams[i].slug;
-            updateCircleProgress(slug, allTeamsProgressData[teamName].avgCompletion, 160, '35px', '#010D1E');
+        if (metrics.allTeamsProgressData) {
+            for (var i=0; i < props.teams.length; i++) {
+                teamName = props.teams[i].teamName;
+                slug = props.teams[i].slug;
+                updateCircleProgress(slug, metrics.allTeamsProgressData[teamName].avgCompletion, 160, '35px', '#010D1E');
+            }
         }
-    });
+    }, [metrics]);
 
     return (
         <div>
             <h1><Brand /></h1>
             <h2 className="mt-4">Overall Progress</h2>
-            <div className="overall-panel mt-4">
-                <ProgressCard progressId="overall_progress" data={overallProgressData} isTeam={false} />
-            </div>
+            {metrics.overallProgressData && <div className="overall-panel mt-4">
+                <ProgressCard progressId="overall_progress" data={metrics.overallProgressData} isTeam={false} />
+            </div>}
+            {!metrics.overallProgressData && <div className="overall-panel mt-4 text-center align-items-center">
+                <span className="no-data">No data to display.</span>
+            </div>}
             <h2 className="mt-5">Teams</h2>
-            <HomeCards teams={props.teams} allTeamsProgressData={allTeamsProgressData} />
+            {metrics.allTeamsProgressData && <HomeCards teams={props.teams} allTeamsProgressData={metrics.allTeamsProgressData} />}
+            {!metrics.allTeamsProgressData && <div className="overall-panel mt-4 text-center align-items-center">
+                <span className="no-data">No data to display.</span>
+            </div>}
         </div>
     );
 }

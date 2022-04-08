@@ -8,8 +8,10 @@ import KRForm from './components/KRForm';
 import UpdatesForm from './components/UpdatesForm';
 import './App.css';
 
-// Load configs
-// import { teams } from './fakeData';
+// Simulated data
+import { setupDB, allData } from './utils/fakeData';
+
+setupDB(allData);
 
 // Configs
 var teams = [

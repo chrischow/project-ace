@@ -90,3 +90,112 @@ function getKRData(listId, team) {
 
     return output;
 }
+
+export function getObjectiveDataIDB(callback) {
+    // window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
+    //     window.webkitIndexedDB || window.msIndexedDB;
+    
+    let request = window.indexedDB.open('rokr', 1),
+        db,
+        tx,
+        store,
+        data;
+    
+    request.onsuccess = function(e) {
+        db = request.result;
+
+        // Load Objectives
+        tx = db.transaction('ObjectivesStore', 'readonly');
+        store = tx.objectStore('ObjectivesStore');
+
+        data = store.getAll();
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved Objectives. Closing connection to DB.')
+            db.close()
+        }
+    }
+
+    return data;
+}
+
+export function getKeyResultDataIDB(callback) {
+    // window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
+    //     window.webkitIndexedDB || window.msIndexedDB;
+    
+    let request = window.indexedDB.open('rokr', 1),
+        db,
+        tx,
+        store,
+        data;
+    
+    request.onsuccess = function(e) {
+        db = request.result;
+
+        // Load Objectives
+        tx = db.transaction('KeyResultsStore', 'readonly');
+        store = tx.objectStore('KeyResultsStore');
+
+        data = store.getAll();
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved Key Results. Closing connection to DB.')
+            db.close()
+        }
+    }
+}
+
+export function getTeamObjectiveDataIBD(teamName, callback){
+    let request = window.indexedDB.open('rokr', 1);
+    request.onerror = function(e) {
+        console.log('Error in query. Error code:', e.target.errorCode);
+    };
+
+    request.onsuccess = function(e) {
+        var db = request.result;
+
+        // Load team Objectives
+        var tx = db.transaction('ObjectivesStore', 'readonly');
+        var store = tx.objectStore('ObjectivesStore');
+        var teamIndex = store.index(['teamIndex']);
+        
+        var data = teamIndex.getAll(teamName);
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved team Objectives. Closing connection to DB.')
+            db.close()
+        };
+
+        tx.onerror = function(e) {
+            console.log('Error in query. Error code:', e.target.errorCode);
+        };
+    };
+}
+
+export function getTeamKeyResultDataIBD(teamName, callback){
+    let request = window.indexedDB.open('rokr', 1);
+    
+    request.onsuccess = function(e) {
+        var db = request.result;
+
+        // Load team Key Results
+        var tx = db.transaction('KeyResultsStore', 'readonly');
+        var store = tx.objectStore('KeyResultsStore');
+        var teamIndex = store.index('teamIndex');
+
+        var data = teamIndex.getAll(teamName);
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved team Key Results. Closing connection to DB.')
+            db.close()
+        }
+    }
+}

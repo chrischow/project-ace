@@ -12,6 +12,7 @@ import '../dataTables.bootstrap4.min.css';
 
 // Simulated
 import { allData } from '../utils/fakeData';
+import { getTeamObjectiveDataIBD, getTeamKeyResultDataIBD } from '../utils/queryData';
 
 // const $ = require('jquery');
 $.DataTable = require('datatables.net');
@@ -104,9 +105,6 @@ function KRModal(props) {
             table.DataTable().rows.add(updateData).draw();
         }
     });
-
-    // React.useEffect(function() {
-    // });
 
     // Revert to table page
     function resetTableView() {
@@ -254,50 +252,92 @@ export function TeamOKRs(props) {
 }
 
 export default function TeamPage(props) {
-    
-    // Query data - simulated
-    const allObjectives = allData.objectives;
-    const allKeyResults = allData.keyResults;
 
-    // Process data
-    const teamProgressData = prepareTeamData(props.team.teamName, allObjectives, allKeyResults);
+    // Initialise states for raw team data and processed data
+    const [teamData, setTeamData] = React.useState({});
+    const [processedData, setProcessedData] = React.useState({});
+    const [pageData, setPageData] = React.useState({});
+    const [progressData, setProgressData] = React.useState({});
     
-    // Set state
-    const [pageData, setPageData] = React.useState({
-        frequency: 'annual',
-        data: teamProgressData['annual'],
-    });
+    // Callback functions to update respective items in raw data state
+    // To be passed to async query to database
+    function updateObjectives(data) {
+        setTeamData(prevData => {return {...prevData, allObjectives: data}});
+    }
+
+    function updateKeyResults(data) {
+        setTeamData(prevData => {return {...prevData, allKeyResults: data}});
+    }
+
+    // Run once - to trigger query
+    React.useEffect(function() {
+        // Query data - simulated
+        getTeamObjectiveDataIBD(props.team.teamName, updateObjectives);
+        getTeamKeyResultDataIBD(props.team.teamName, updateKeyResults);
+    }, []);
+
+    // Processes data and updates page data every time there is a change to the 
+    // raw data state
+    React.useEffect(function() {
+        if (teamData.allObjectives && teamData.allKeyResults) {
+            const teamProgressData = prepareTeamData(
+                props.team.teamName,
+                teamData.allObjectives,
+                teamData.allKeyResults
+            );
+
+            setProcessedData(prevData => {
+                return {
+                    ...prevData,
+                    teamProgressData: teamProgressData
+                };
+            });
+            
+            setPageData({
+                frequency: 'annual',
+                data: teamProgressData['annual']
+            });
+        }
+    }, [teamData])
+
+    // Computes progress metrics for progress card every time the frequency changes
+    React.useEffect(function() {
+        if (pageData.data) {
+            setProgressData({
+                objectiveCompletion: pageData.data.objectiveCompletion,
+                keyResultCompletion: pageData.data.keyResultCompletion
+            });
+        }
+    }, [pageData]);
+
+    // Initialise circle progress the moment progressData changes
+    React.useEffect(function() {
+        if (pageData.data) {
+            const avgCompletion = pageData.data.avgCompletion;
+            updateCircleProgress('team-progress', avgCompletion ? avgCompletion : 0, 200, '50px', '#000718');
+        }
+    }, [progressData]);
 
     function changeFrequency(frequency) {
         setPageData({
             ...pageData,
             frequency: frequency,
-            data: teamProgressData[frequency]
+            data: processedData.teamProgressData[frequency]
         });
-        const avgCompletion = teamProgressData[frequency].avgCompletion;
+        const avgCompletion = processedData.teamProgressData[frequency].avgCompletion;
         $('#team-progress').circleProgress('value', avgCompletion ? avgCompletion : 0.0);
     }
-
-    React.useEffect(function() {
-        const avgCompletion = pageData.data.avgCompletion;
-        updateCircleProgress('team-progress', avgCompletion ? avgCompletion : 0, 200, '50px', '#000718');
-    });
-    
-    const progressData = {
-        objectiveCompletion: pageData.data.objectiveCompletion,
-        keyResultCompletion: pageData.data.keyResultCompletion
-    };
 
     return (
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
             <FrequencyTabs changeFrequency={changeFrequency} />
-            <TeamProgress progressData={progressData} />
-            <TeamOKRs 
+            {progressData.objectiveCompletion && <TeamProgress progressData={progressData} />}
+            {pageData.data && <TeamOKRs 
                 pageData={pageData}
                 teams={props.teams}
                 team={props.team}
-            />
+            />}
         </div>
     );
 }

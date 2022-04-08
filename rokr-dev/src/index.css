@@ -684,6 +684,11 @@ textarea {
   color: #27DDCB;
 }
 
+.no-data {
+  color: #8497B0;
+  font-size: 1.4rem;
+}
+
 .kr-modal--subheader {
   font-size: 0.9rem;
   text-transform: capitalize;

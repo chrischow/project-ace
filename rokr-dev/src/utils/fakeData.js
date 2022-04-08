@@ -312,10 +312,106 @@ function generateData(teams){
 
 const allData = generateData(fakeDataTeams);
 
+// IndexedDB functions
+function setupDB(allData) {
+    window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
+        window.webkitIndexedDB || window.msIndexedDB;
+    
+    let request = window.indexedDB.open('rokr', 1),
+        db,
+        tx,
+        store,
+        index;
+    
+    request.onupgradeneeded = function(e) {
+        let db = request.result;
+        
+        db.onerror = function() {
+            console.log('Error creating database. Error code: ', e.target.errorCode);
+        }
+
+        // Create Objectives object store
+        var store = db.createObjectStore('ObjectivesStore', {
+            keyPath: 'objectiveId', autoIncrement: true
+        });
+        var index = store.createIndex('objectiveIdIndex', 'objectiveId', {unique: true});
+        index = store.createIndex('teamIndex', 'team', {unique: false});
+
+        // Create KeyResults object store
+        store = db.createObjectStore('KeyResultsStore', {
+            keyPath: 'krId', autoIncrement: true
+        });
+        index = store.createIndex('krIdIndex', 'krId', {unique: true});
+        index = store.createIndex('teamIndex', 'parentObjectiveTeam', {unique: false});
+
+        // Create Updates object store
+        store = db.createObjectStore('UpdatesStore', {
+            keyPath: 'updateId', autoIncrement: true
+        });
+        index = store.createIndex('updateIdIndex', 'updateId', {unique: true});
+
+        // Load Objectives
+        tx = db.transaction('ObjectivesStore', 'readwrite');
+        store = tx.objectStore('ObjectivesStore');
+        store.clear();
+
+        for (var i=0; i < allData.objectives.length; i++) {
+            var {objectiveId, ...newData} = allData.objectives[i];
+            store.put(newData);
+        }
+
+        tx.oncomplete = function() {
+            console.log('Loaded Objectives.');
+        }
+
+        // Load Key Results
+        tx = db.transaction('KeyResultsStore', 'readwrite');
+        store = tx.objectStore('KeyResultsStore');
+        store.clear();
+
+        for (var i=0; i < allData.keyResults.length; i++) {
+            var {krId, ...newData} = allData.keyResults[i];
+            store.put(newData);
+        }
+
+        tx.oncomplete = function() {
+            console.log('Loaded Key Results.')
+        }
+
+        // Load Updates
+        tx = db.transaction('UpdatesStore', 'readwrite');
+        store = tx.objectStore('UpdatesStore');
+        store.clear();
+
+        for (var i=0; i < allData.updates.length; i++) {
+            var {objectiveId, ...newData} = allData.updates[i];
+            store.put(newData);
+        }
+
+        tx.oncomplete = function() {
+            console.log('Loaded Updates.')
+            console.log('Closing connection to DB.')
+            db.close()
+        }
+
+    }
+    
+    request.onerror = function(e) {
+        console.log('Error opening database. Error code: ', e.target.errorCode);
+    };
+    
+    request.onsuccess = function(e) {
+        db = request.result;
+        console.log('Database ok.');
+    }
+}
+
+
 module.exports = {
     fakeDataTeams,
     overallProgressData,
     teamProgressData,
     teamData,
-    allData
+    allData,
+    setupDB
 };
