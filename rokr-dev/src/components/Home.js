@@ -44,7 +44,7 @@ export default function Home(props) {
                 };
             });
         }
-    }, [data])
+    }, [data, props.teams])
 
     // Renders progress cards every time there is a change to the metrics
     React.useEffect(function() {
@@ -62,7 +62,7 @@ export default function Home(props) {
                 updateCircleProgress(slug, metrics.allTeamsProgressData[teamName].avgCompletion, 160, '35px', '#010D1E');
             }
         }
-    }, [metrics]);
+    }, [metrics, props.teams]);
 
     return (
         <div>

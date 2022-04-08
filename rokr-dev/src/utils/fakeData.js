@@ -183,7 +183,7 @@ function generateData(teams){
     var staff = {};
     var currTeam;
 
-    for (var t=0; t<teams.length; t++) {
+    for (t=0; t<teams.length; t++) {
         currTeam = teams[t].teamName;
         staff = {
             ...staff,
@@ -204,7 +204,7 @@ function generateData(teams){
     var randIdxStaff;
     var randStaff;
 
-    for (var i=0; i<objs.length; i++) {
+    for (i=0; i<objs.length; i++) {
         for (var kr=0; kr < 3; kr++){
             krName = objs[i].objectiveTitle + ' KR ' + (kr+1);
             randIdx = Math.floor(Math.random() * maxs.length);
@@ -319,9 +319,9 @@ function setupDB(allData) {
     
     let request = window.indexedDB.open('rokr', 1),
         db,
-        tx,
         store,
-        index;
+        index,
+        tx;
     
     request.onupgradeneeded = function(e) {
         let db = request.result;
@@ -341,59 +341,62 @@ function setupDB(allData) {
         store = db.createObjectStore('KeyResultsStore', {
             keyPath: 'krId', autoIncrement: true
         });
-        index = store.createIndex('krIdIndex', 'krId', {unique: true});
-        index = store.createIndex('teamIndex', 'parentObjectiveTeam', {unique: false});
+        store.createIndex('krIdIndex', 'krId', {unique: true});
+        store.createIndex('teamIndex', 'parentObjectiveTeam', {unique: false});
 
         // Create Updates object store
         store = db.createObjectStore('UpdatesStore', {
             keyPath: 'updateId', autoIncrement: true
         });
-        index = store.createIndex('updateIdIndex', 'updateId', {unique: true});
+        store.createIndex('updateIdIndex', 'updateId', {unique: true});
 
-        // Load Objectives
-        tx = db.transaction('ObjectivesStore', 'readwrite');
-        store = tx.objectStore('ObjectivesStore');
-        store.clear();
+        e.target.transaction.oncomplete = function() {
+            // Run the code below for the FIRST TIME only
+            console.log('Initialisation of database: loading data.')
+            // Load Objectives
+            tx = db.transaction('ObjectivesStore', 'readwrite');
+            store = tx.objectStore('ObjectivesStore');
+            store.clear();
 
-        for (var i=0; i < allData.objectives.length; i++) {
-            var {objectiveId, ...newData} = allData.objectives[i];
-            store.put(newData);
-        }
+            for (var i=0; i < allData.objectives.length; i++) {
+                var {objectiveId, ...newData} = allData.objectives[i];
+                store.put(newData);
+            }
 
-        tx.oncomplete = function() {
-            console.log('Loaded Objectives.');
-        }
+            tx.oncomplete = function() {
+                console.log('Loaded Objectives.');
+            }
 
-        // Load Key Results
-        tx = db.transaction('KeyResultsStore', 'readwrite');
-        store = tx.objectStore('KeyResultsStore');
-        store.clear();
+            // Load Key Results
+            tx = db.transaction('KeyResultsStore', 'readwrite');
+            store = tx.objectStore('KeyResultsStore');
+            store.clear();
+            
+            for (i=0; i < allData.keyResults.length; i++) {
+                var {krId, ...newData} = allData.keyResults[i];
+                store.put(newData);
+            }
 
-        for (var i=0; i < allData.keyResults.length; i++) {
-            var {krId, ...newData} = allData.keyResults[i];
-            store.put(newData);
-        }
+            tx.oncomplete = function() {
+                console.log('Loaded Key Results.')
+            }
 
-        tx.oncomplete = function() {
-            console.log('Loaded Key Results.')
-        }
+            // Load Updates
+            tx = db.transaction('UpdatesStore', 'readwrite');
+            store = tx.objectStore('UpdatesStore');
+            store.clear();
 
-        // Load Updates
-        tx = db.transaction('UpdatesStore', 'readwrite');
-        store = tx.objectStore('UpdatesStore');
-        store.clear();
+            for (i=0; i < allData.updates.length; i++) {
+                var {objectiveId, ...newData} = allData.updates[i];
+                store.put(newData);
+            }
 
-        for (var i=0; i < allData.updates.length; i++) {
-            var {objectiveId, ...newData} = allData.updates[i];
-            store.put(newData);
-        }
-
-        tx.oncomplete = function() {
-            console.log('Loaded Updates.')
-            console.log('Closing connection to DB.')
-            db.close()
-        }
-
+            tx.oncomplete = function() {
+                console.log('Loaded Updates.')
+                console.log('Closing connection to DB.')
+                db.close()
+            }
+        };
     }
     
     request.onerror = function(e) {

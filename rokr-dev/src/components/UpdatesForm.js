@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useHistory } from "react-router-dom";
-import { EditIcon, editIconString } from './Icons';
+import { EditIcon } from './Icons';
 import $ from 'jquery';
 
 import { getDate } from '../utils/queryData';
@@ -20,7 +20,7 @@ export default function UpdatesForm(props){
         const allKeyResults = allData.keyResults;
 
         const currKr = allKeyResults.filter(function(kr) {
-            return kr.krId == params.id;
+            return Number(kr.krId) === Number(params.id);
         });
 
         return currKr[0];
@@ -42,7 +42,7 @@ export default function UpdatesForm(props){
     });
     
     const updateData = allData.updates.filter(function(update) {
-        return update.parentKrId == krData.krId;
+        return Number(update.parentKrId) === Number(krData.krId);
     });
 
     function sortByDate(a, b) {
@@ -181,7 +181,7 @@ export default function UpdatesForm(props){
             try {
                 var checkDate = new Date(inputDate);
                 if (!checkDate.getDate()) {
-                    throw 'Not a proper date.'
+                    throw new Error('Not a proper date.');
                 }
                 validDate = true;
             } catch(err) {

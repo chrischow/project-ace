@@ -54,17 +54,6 @@ function KeyResultRow(props) {
 };
 
 function ObjectiveCard(props) {
-    
-    function populateForm(){
-        props.populateObjForm({
-            objId: props.objectiveId,
-            objTitle: props.objectiveTitle,
-            objDescription: props.objectiveDescription,
-            objStartDate: props.objectiveStartDate,
-            objEndDate: props.objectiveEndDate,
-            objTeam: props.team
-        });
-    };
 
     var history = useHistory();
     function editObjective() {

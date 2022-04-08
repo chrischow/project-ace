@@ -24,16 +24,16 @@ var teams = [
 ]
 
 // URLs
-const txtUrl = 'https://raw.githubusercontent.com/chrischow/project-ace/main/txt/';
-const appUrl = 'https://raw.githubusercontent.com/chrischow/project-ace/main/rokr/components/';
+// const txtUrl = 'https://raw.githubusercontent.com/chrischow/project-ace/main/txt/';
+// const appUrl = 'https://raw.githubusercontent.com/chrischow/project-ace/main/rokr/components/';
 
 // List IDs
-const objListId = 'cca0eabc-f2bd-4866-ba60-a3009004066d';
-const  krListId = '08572e86-a0aa-4173-ba18-79bab1ee3890';
+// const objListId = 'cca0eabc-f2bd-4866-ba60-a3009004066d';
+// const  krListId = '08572e86-a0aa-4173-ba18-79bab1ee3890';
 
 // List item entity types - use the getListItemEntityType utility;
-const objListItemEntityTypeFullName = 'SP.Data.ROKR_x0020_ObjectivesListItem';
-const krListItemEntityTypeFullName = 'SP.Data.RokrKeyResultsListItem';
+// const objListItemEntityTypeFullName = 'SP.Data.ROKR_x0020_ObjectivesListItem';
+// const krListItemEntityTypeFullName = 'SP.Data.RokrKeyResultsListItem';
 
 // Routes
 const TeamRoutes = (props) => {

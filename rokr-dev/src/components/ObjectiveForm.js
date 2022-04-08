@@ -127,7 +127,7 @@ export default function ObjectiveForm(props) {
             try {
                 var checkStartDate = new Date(inputStartDate);
                 if (!checkStartDate.getDate()) {
-                    throw 'Not a proper date.'
+                    throw new Error('Not a proper date.');
                 }
                 validStartDate = true;
             } catch(err){
@@ -139,7 +139,7 @@ export default function ObjectiveForm(props) {
             try {
                 var checkEndDate = new Date(inputEndDate);
                 if (!checkEndDate.getDate()) {
-                    throw 'Not a proper date.'
+                    throw new Error('Not a proper date.');
                 }
                 validEndDate = true;
             } catch(err){
