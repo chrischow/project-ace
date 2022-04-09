@@ -137,25 +137,6 @@ export default function UpdatesForm(props){
         }
     }, [krData]);
 
-    // DataTable settings
-    const dataTableSettings = {
-        autoWidth: false,
-        pageLength: 10,
-        displayStart: 0,
-        lengthMenu: [10, 25, 50, 75, 100],
-        order: [
-            [0, 'desc']
-        ],
-        fixedColumns: true,
-        columnDefs: [
-            {width: '15%', name: 'date', targets: 0, data: 'updateDate', className: "text-center"},
-            {
-                width: '75%', name: 'text', targets: 1, data: 'updateText',
-                className: "directory--table-text-sm", sortable: false},
-            {width: '10%', name: 'edit', targets: 2, className: 'text-center', sortable: false}
-        ]
-    };
-
     // One time: ensure textarea expands and initialise datepicker
     useEffect(function() {
 
@@ -239,11 +220,14 @@ export default function UpdatesForm(props){
             // Form ok
             var {updateId, ...newData} = formData;
             if (mode === 'edit') {
-                putIBD('UpdatesStore', formData);
+                putIBD('UpdatesStore', formData, () => {
+                    getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+                });
             } else if (mode === 'new') {
-                putIBD('UpdatesStore', newData);
+                putIBD('UpdatesStore', newData, () => {
+                    getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+                });
             }
-            getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             $('#editUpdateModal').modal('hide');
         } else {
             // Form not ok
@@ -270,8 +254,9 @@ export default function UpdatesForm(props){
     function confirmDelete() {
         if (window.confirm('Hit OK to confirm deletion of update. This cannot be undone.')) {
             console.log('Delete entry:');
-            deleteIBD('UpdatesStore', formData.updateId);
-            getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+            deleteIBD('UpdatesStore', formData.updateId, () => {
+                getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+            });
             $('#editUpdateModal').modal('hide');
         };
     }

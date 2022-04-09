@@ -229,7 +229,7 @@ export function getOneIBD(objectStore, id, callback) {
     }
 }
 
-export function putIBD(objectStore, data) {
+export function putIBD(objectStore, data, callback) {
     let request = window.indexedDB.open('rokr', 1);
     request.onsuccess = function(e) {
         var db = request.result;
@@ -237,13 +237,16 @@ export function putIBD(objectStore, data) {
         var store = tx.objectStore(objectStore);
         store.put(data);
         tx.oncomplete = function() {
+            if (callback) {
+                callback();
+            }
             console.log('Put 1 entry for ' + objectStore + '. Closing connection to DB.');
             db.close();
         }
     }
 }
 
-export function deleteIBD(objectStore, key) {
+export function deleteIBD(objectStore, key, callback) {
     let request = window.indexedDB.open('rokr', 1);
     request.onsuccess = function(e) {
         var db = request.result;
@@ -251,6 +254,9 @@ export function deleteIBD(objectStore, key) {
         var store = tx.objectStore(objectStore);
         store.delete(key);
         tx.oncomplete = function() {
+            if (callback) {
+                callback();
+            }
             console.log('Deleted 1 entry for ' + objectStore + '. Closing connection to DB.');
             db.close();
         }

@@ -118,12 +118,11 @@ export default function ObjectiveForm(props) {
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
             if (props.mode === 'edit') {
-                putIBD('ObjectivesStore', formData);
+                putIBD('ObjectivesStore', formData, () => history.push('/' + team.slug) );
             } else {
                 var {objectiveId, ...newData} = formData;
-                putIBD('ObjectivesStore', newData);
+                putIBD('ObjectivesStore', newData, () => history.push('/' + team.slug) );
             }
-            history.push('/' + team.slug);
         } else {
             if (!inputTitle) {
                 setFormErrors(prevData => {

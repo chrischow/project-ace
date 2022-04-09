@@ -163,12 +163,11 @@ export default function KRForm(props) {
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
             if (props.mode === 'edit') {
-                putIBD('KeyResultsStore', formData)
+                putIBD('KeyResultsStore', formData, () => history.push('/' + team.slug))
             } else {
                 var {krId, ...newData} = formData;
-                putIBD('KeyResultsStore', newData);
+                putIBD('KeyResultsStore', newData, () => history.push('/' + team.slug));
             }
-            history.push('/' + team.slug);
         } else {
             if (!inputTitle) {
                 setFormErrors(prevData => {
