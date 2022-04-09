@@ -12,7 +12,7 @@ import '../dataTables.bootstrap4.min.css';
 
 // Simulated
 import { allData } from '../utils/fakeData';
-import { getTeamObjectiveDataIBD, getTeamKeyResultDataIBD } from '../utils/queryData';
+import { getTeamObjectiveDataIBD, getTeamKeyResultDataIBD, getTeamUpdatesDataIBD } from '../utils/queryData';
 
 // const $ = require('jquery');
 $.DataTable = require('datatables.net');
@@ -69,42 +69,45 @@ function KRModal(props) {
     const startDate = formatDate(props.krData.krStartDate);
     const endDate = formatDate(props.krData.krEndDate);
     
-    // Query update data - simulated
-    var updateData = allData.updates.filter(function(update) {
-        return update.parentKrId === props.krData.krId;
-    });
-    
-    updateData = updateData.map(function(item) {
-        return {
-            updateDate: item.updateDate,
-            updateText: item.updateText
-        };
-    });
-
+    // Initialise states for raw team data and processed data
+    const [updateData, setUpdateData] = React.useState([]);
+    const history = useHistory();
     const table = $('#kr-modal-table');
-    $(function() {
-        if (! $.fn.dataTable.isDataTable( '#kr-modal-table' )) {
-            table.DataTable().destroy();
-            table.DataTable({
-                autoWidth: false,
-                pageLength: 5,
-                displayStart: 0,
-                lengthMenu: [5, 10, 25, 50],
-                order: [[0, 'desc']],
-                fixedColumns: true,
-                columnDefs: [
-                    {width: '18%', name: 'updateDate', targets: 0, data: 'updateDate', className: 'text-center'},
-                    {width: '82%', name: 'updateText', targets: 1, data: 'updateText'},
-                ]
-            });
-
-            table.DataTable().rows.add(updateData).draw();
-        } else {
-            
-            table.DataTable().clear();
-            table.DataTable().rows.add(updateData).draw();
+    
+    // Trigger once props are in
+    React.useEffect(function() {
+        if (props.krData.krId) {
+            // Query update data - simulated
+            getTeamUpdatesDataIBD(props.krData.krId, setUpdateData);
         }
-    });
+    }, [props.krData]);
+
+
+    // Update table everytime the table is populated
+    React.useEffect(function() {
+        $(function() {
+            if (! $.fn.dataTable.isDataTable( '#kr-modal-table' )) {
+                table.DataTable().destroy();
+                table.DataTable({
+                    autoWidth: false,
+                    pageLength: 5,
+                    displayStart: 0,
+                    lengthMenu: [5, 10, 25, 50],
+                    order: [[0, 'desc']],
+                    fixedColumns: true,
+                    columnDefs: [
+                        {width: '18%', name: 'updateDate', targets: 0, data: 'updateDate', className: 'text-center'},
+                        {width: '82%', name: 'updateText', targets: 1, data: 'updateText'},
+                    ]
+                });
+    
+                table.DataTable().rows.add(updateData).draw();
+            } else {
+                table.DataTable().clear();
+                table.DataTable().rows.add(updateData).draw();
+            }
+        });
+    }, [updateData]);
 
     // Revert to table page
     function resetTableView() {
@@ -112,7 +115,6 @@ function KRModal(props) {
         table.DataTable().page(0);
     }
     
-    const history = useHistory();
     function editKR() {
         $('#kr-modal').modal('hide');
         return history.push('/edit/kr/' + props.krData.krId);
@@ -159,13 +161,13 @@ function KRModal(props) {
                             </div>
                         </div>
                         <div className="kr-modal--update-panel">
-                            <h3 className="kr-modal--tag-text mb-3">
-                                <span className="mr-3">Updates</span>
-                                <div style={{display: 'inline-block', cursor: 'pointer', transition: "0.3s"}} onClick={editUpdate}>
-                                    <EditIcon />
-                                </div>
+                            <h3 className="kr-modal--tag-text mb-4 align-items-center">
+                                <span className="mr-4">Updates</span>
+                                <button className="btn kr-modal--edit-button kr-modal--edit-text" onClick={editUpdate}>
+                                    <span className="kr-modal--edit-text">Manage</span>
+                                </button>
                             </h3>
-                            <table className="table table-dark kr-modal--table w-100" id="kr-modal-table">
+                            <table className="table table-dark table-striped kr-modal--table w-100" id="kr-modal-table">
                                 <thead>
                                     <tr>
                                         <th className="text-center">Date</th>
@@ -240,7 +242,7 @@ export function TeamOKRs(props) {
                     <button className="btn btn-green mr-3" onClick={newObjective}>
                         Add Objective
                     </button>
-                    <button className="btn btn-green mr-3" onClick={newKeyResult}>
+                    <button className="btn btn-green" onClick={newKeyResult}>
                         Add Key Result
                     </button>
                 </div>

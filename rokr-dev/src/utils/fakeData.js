@@ -349,6 +349,7 @@ function setupDB(allData) {
             keyPath: 'updateId', autoIncrement: true
         });
         store.createIndex('updateIdIndex', 'updateId', {unique: true});
+        store.createIndex('parentKrIdIndex', 'parentKrId', {unique: false});
 
         e.target.transaction.oncomplete = function() {
             // Run the code below for the FIRST TIME only

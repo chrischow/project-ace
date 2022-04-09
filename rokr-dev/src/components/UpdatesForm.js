@@ -3,10 +3,80 @@ import { useParams, useHistory } from "react-router-dom";
 import { EditIcon } from './Icons';
 import $ from 'jquery';
 
-import { getDate } from '../utils/queryData';
+import { getDate, getOneKeyResultIBD, getTeamUpdatesDataIBD, putUpdateIBD,
+    deleteUpdateIBD } from '../utils/queryData';
 
 // Simulated
 import { allData } from '../utils/fakeData';
+
+function UpdatesTable(props) {
+    const dataTableSettings = {
+        autoWidth: false,
+        pageLength: 10,
+        displayStart: 0,
+        lengthMenu: [10, 25, 50, 75, 100],
+        order: [
+            [0, 'desc']
+        ],
+        fixedColumns: true,
+        columnDefs: [
+            {width: '15%', name: 'date', targets: 0, data: 'updateDate', className: "text-center"},
+            {
+                width: '75%', name: 'text', targets: 1, data: 'updateText',
+                className: "directory--table-text-sm", sortable: false},
+            {width: '10%', name: 'edit', targets: 2, className: 'text-center', sortable: false}
+        ]
+    };
+
+    const updateRows = props.updateData.map(function(item) {
+        return (
+        <tr key={item.updateId}>
+            <td className="text-center">{item.updateDate}</td>
+            <td>{item.updateText}</td>
+            <td className="text-center">
+                <div onClick={() => {
+                    props.editUpdate(item);
+                }}>
+                    <EditIcon />
+                </div>
+            </td>
+        </tr>
+        );
+    });
+
+    React.useEffect(function() {
+        $(function() {
+            // Render datatable
+            const table = $('#updates-table');
+            table.DataTable().destroy();
+
+            if (! $.fn.dataTable.isDataTable( '#updates-table' )) {
+                table.DataTable(dataTableSettings);
+    
+                table.DataTable().draw();
+            } else {
+                console.log('SHAG');
+                // table.DataTable().destroy();
+                // table.DataTable().draw();
+            }
+        });
+    }, []);
+
+    return (
+        <table className="table table-dark table-striped directory--table w-100" id="updates-table">
+            <thead>
+                <tr>
+                    <th className="text-center">Date</th>
+                    <th className="text-center">Description</th>
+                    <th className="text-center">Edit</th>
+                </tr>
+            </thead>
+            <tbody className="align-items-center">
+                {updateRows}
+            </tbody>
+        </table>
+    );
+}
 
 export default function UpdatesForm(props){
 
@@ -14,35 +84,22 @@ export default function UpdatesForm(props){
     const params = useParams();
     const history = useHistory();
 
-    // Get KR
-    function queryData() {
-        // Query data - simulated
-        const allKeyResults = allData.keyResults;
+    // Initialise states for page data
+    const [krData, setKrData] = React.useState({});
+    const [updateData, setUpdateData] = React.useState([]);
+    const [team, setTeam] = React.useState('');
 
-        const currKr = allKeyResults.filter(function(kr) {
-            return Number(kr.krId) === Number(params.id);
-        });
-
-        return currKr[0];
-    }
-
-    const krData = queryData();
-
-    // State
-    const [updates, setUpdates] = React.useState([]);
+    // Initialise states for form
+    const [mode, setMode] = React.useState('');
     const [formData, setFormData] = React.useState({
-        updateId: 0,
+        updateId: -1,
         updateDate: '',
         updateText: '',
-        parentKrId: krData.krId
+        parentKrId: -1
     });
-
-    const team = props.teams.filter(function(item) {
-        return item.teamName === krData.parentObjectiveTeam;
-    });
-    
-    const updateData = allData.updates.filter(function(update) {
-        return Number(update.parentKrId) === Number(krData.krId);
+    const [formErrors, setFormErrors] = React.useState([]);
+    const formErrorsList = formErrors.map(function(item) {
+        return <li key={item}>{item}</li>;
     });
 
     function sortByDate(a, b) {
@@ -54,20 +111,55 @@ export default function UpdatesForm(props){
         return 0;
     }
 
-    updateData.sort(sortByDate);
-
-    function handleChange(event){
-        setFormData(prevData => {
-            return {
-                ...prevData,
-                [event.target.name]: event.target.value
-            }
-        });
+    function sortAndSetUpdates(data) {
+        data.sort(sortByDate);
+        setUpdateData(data);
     }
 
+    // Query update data - simulated
     React.useEffect(function() {
-        // Set updates
-        setUpdates([...updateData]);
+        getOneKeyResultIBD(Number(params.id), (data) => {
+            setKrData(data);
+        });
+        getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+    }, []);
+
+    // Update team based on KR Data
+    React.useEffect(function() {
+        if (krData.parentObjectiveTeam) {
+            const team = props.teams.filter(function(item) {
+                return item.teamName === krData.parentObjectiveTeam;
+            });
+            setTeam(team);
+            setFormData(prevData => {
+                return {
+                    parentKrId: krData.krId
+                };
+            })
+        }
+    }, [krData]);
+
+    // DataTable settings
+    const dataTableSettings = {
+        autoWidth: false,
+        pageLength: 10,
+        displayStart: 0,
+        lengthMenu: [10, 25, 50, 75, 100],
+        order: [
+            [0, 'desc']
+        ],
+        fixedColumns: true,
+        columnDefs: [
+            {width: '15%', name: 'date', targets: 0, data: 'updateDate', className: "text-center"},
+            {
+                width: '75%', name: 'text', targets: 1, data: 'updateText',
+                className: "directory--table-text-sm", sortable: false},
+            {width: '10%', name: 'edit', targets: 2, className: 'text-center', sortable: false}
+        ]
+    };
+
+    // One time: ensure textarea expands and initialise datepicker
+    React.useEffect(function() {
 
         const updateTextArea = $('#updateTextArea');
         updateTextArea.on('change input', function () {
@@ -79,67 +171,40 @@ export default function UpdatesForm(props){
             updateTextArea.height('');
             updateTextArea.height(updateTextArea.prop('scrollHeight') + 'px');
         });
+
+        var datePicker = $('#updateDate');
+        datePicker.datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+        datePicker.on('changeDate', function(){
+            setFormData(prevData => {
+                return {
+                    ...prevData,
+                    updateDate: getDate(datePicker.datepicker('getDate'))
+                };
+            })
+        });
     }, []);
 
-    React.useEffect(function() {
-        const table = $('#updates-table');
-        $(function() {
-            // Render datatable
-            if (! $.fn.dataTable.isDataTable( '#updates-table' )) {
-                table.DataTable({
-                    autoWidth: false,
-                    pageLength: 10,
-                    displayStart: 0,
-                    lengthMenu: [10, 25, 50, 75, 100],
-                    order: [
-                        [0, 'desc']
-                    ],
-                    fixedColumns: true,
-                    columnDefs: [
-                        {width: '15%', name: 'date', targets: 0, data: 'updateDate', className: "text-center"},
-                        {
-                            width: '75%', name: 'text', targets: 1, data: 'updateText',
-                            className: "directory--table-text-sm", sortable: false},
-                        {width: '10%', name: 'edit', targets: 2, className: 'text-center', sortable: false}
-                    ]
-                });
-    
-                table.DataTable().draw();
-            } else {
-                table.DataTable().draw();
+    function handleChange(event){
+        setFormData(prevData => {
+            return {
+                ...prevData,
+                [event.target.name]: event.target.value
             }
         });
-    });
-
-    React.useEffect(function() {
-        $(function() {
-            var datePicker = $('#updateDate');
-            datePicker.datepicker({
-                format: 'yyyy-mm-dd'
-            });
-
-            datePicker.on('changeDate', function(){
-                setFormData(prevData => {
-                    return {
-                        ...prevData,
-                        updateDate: getDate(datePicker.datepicker('getDate'))
-                    };
-                })
-            });
-        });
-    });
-
-    // Functions to add vs. edit
-    const [mode, setMode] = React.useState('');
+    }
 
     function addUpdate() {
         setFormData({
             updateId: 0,
-            updateDate: '',
+            updateDate: getDate(new Date()),
             updateText: '',
             parentKrId: krData.krId
         });
         setMode('new');
+        $('#updateDate').datepicker('setDate', new Date());
         $('#editUpdateModal').modal('toggle');
     }
 
@@ -153,6 +218,7 @@ export default function UpdatesForm(props){
             };
         });
         setMode('edit');
+        $('#updateDate').datepicker('setDate', new Date(update.updateDate));
         $('#editUpdateModal').modal('toggle');
     }
     
@@ -160,12 +226,6 @@ export default function UpdatesForm(props){
     function redirectBack() {
         return history.push('/' + team[0].slug);
     }
-
-    // Submit: Check form and add to errors first
-    const [formErrors, setFormErrors] = React.useState([]);
-    const formErrorsList = formErrors.map(function(item) {
-        return <li key={item}>{item}</li>;
-    });
 
     function submitForm() {
         // Clear previous errors
@@ -191,13 +251,13 @@ export default function UpdatesForm(props){
 
         if (inputText && inputDate && validDate){
             // Form ok
+            var {updateId, ...newData} = formData;
             if (mode === 'edit') {
-                console.log('Updating entry:');
-                console.log(formData);
+                putUpdateIBD(formData);
             } else if (mode === 'new') {
-                console.log('Creating entry:');
-                console.log(formData);
+                putUpdateIBD(newData);
             }
+            getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             $('#editUpdateModal').modal('hide');
         } else {
             // Form not ok
@@ -224,48 +284,22 @@ export default function UpdatesForm(props){
     function confirmDelete() {
         if (window.confirm('Hit OK to confirm deletion of update. This cannot be undone.')) {
             console.log('Delete entry:');
-            console.log(formData);
+            deleteUpdateIBD(formData.updateId);
+            getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             $('#editUpdateModal').modal('hide');
         };
     }
 
-    const updateRows = updates.map(function(item) {
-        return (
-            <tr key={item.updateId}>
-                <td className="text-center">{item.updateDate}</td>
-                <td>{item.updateText}</td>
-                <td className="text-center">
-                    <div onClick={() => {
-                        editUpdate(item);
-                    }}>
-                        <EditIcon />
-                    </div>
-                </td>
-            </tr>
-        );
-    });
-
     return (
         <div>
             <h1 className="mb-2">Key Result Updates</h1>
-            <h2 className="mb-4">{krData.krTitle} - <span className="text-green">{krData.parentObjectiveTeam}</span></h2>
+            {krData.krTitle && <h2 className="mb-4">{krData.krTitle} - <span className="text-green">{krData.parentObjectiveTeam}</span></h2>}
             <div className="mb-4">
                 <button className="btn btn-blue mr-3" onClick={addUpdate}>Add Update</button>
                 <button className="btn btn-secondary float-right" onClick={redirectBack}>Back to Team Page</button>
             </div>
             <div className="directory--container">
-                <table className="table table-dark directory--table w-100" id="updates-table">
-                    <thead>
-                        <tr>
-                            <th className="text-center">Date</th>
-                            <th className="text-center">Description</th>
-                            <th className="text-center">Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody className="align-items-center">
-                        {updateRows}
-                    </tbody>
-                </table>
+                {updateData.length > 0 && <UpdatesTable updateData={updateData} editUpdate={editUpdate} />}
             </div>
             <div className="modal fade" id="editUpdateModal" tabIndex="-1" aria-labelledby="editUpdateModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg modal-dialog-centered">

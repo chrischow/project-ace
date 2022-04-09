@@ -199,3 +199,74 @@ export function getTeamKeyResultDataIBD(teamName, callback){
         }
     }
 }
+
+export function getTeamUpdatesDataIBD(krId, callback){
+    let request = window.indexedDB.open('rokr', 1);
+    
+    request.onsuccess = function(e) {
+        var db = request.result;
+
+        // Load team Key Results
+        var tx = db.transaction('UpdatesStore', 'readonly');
+        var store = tx.objectStore('UpdatesStore');
+        var parentKrIdIndex = store.index('parentKrIdIndex');
+
+        var data = parentKrIdIndex.getAll(krId);
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved team Updates. Closing connection to DB.')
+            db.close()
+        }
+    }
+}
+
+export function getOneKeyResultIBD(krId, callback) {
+    let request = window.indexedDB.open('rokr', 1);
+    
+    request.onsuccess = function(e) {
+        var db = request.result;
+
+        // Load team Key Results
+        var tx = db.transaction('KeyResultsStore', 'readonly');
+        var store = tx.objectStore('KeyResultsStore');
+
+        var data = store.get(krId);
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved Key Result. Closing connection to DB.')
+            db.close()
+        }
+    }
+}
+
+export function putUpdateIBD(data) {
+    let request = window.indexedDB.open('rokr', 1);
+    request.onsuccess = function(e) {
+        var db = request.result;
+        var tx = db.transaction('UpdatesStore', 'readwrite');
+        var store = tx.objectStore('UpdatesStore');
+        store.put(data);
+        tx.oncomplete = function() {
+            console.log('Put update. Closing connection to DB.');
+            db.close();
+        }
+    }
+}
+
+export function deleteUpdateIBD(key) {
+    let request = window.indexedDB.open('rokr', 1);
+    request.onsuccess = function(e) {
+        var db = request.result;
+        var tx = db.transaction('UpdatesStore', 'readwrite');
+        var store = tx.objectStore('UpdatesStore');
+        store.delete(key);
+        tx.oncomplete = function() {
+            console.log('Deleted update. Closing connection to DB.');
+            db.close();
+        }
+    }
+}

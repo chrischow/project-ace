@@ -253,7 +253,7 @@ hr {
 
 /* OKR collapsibles */
 .btn-okr-toggle {
-  background-color: #6B7E97;
+  background-color: #8497B0;
   color: #EAEAEA;
   transition: 0.3s;
 }
@@ -471,6 +471,16 @@ button.close:hover {
   color: #fafafa;
   transition: 0.3s;
   transform: scale(1.1);
+}
+
+.btn-secondary {
+  background-color: #8497B0!important;
+  color: white!important;
+}
+
+.btn-secondary:hover {
+  background-color: #6B7E97!important;
+  color: #ddd!important;
 }
 
 /* Forms */
@@ -720,11 +730,31 @@ textarea {
 }
 
 .kr-modal--tag-text {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
   text-transform: uppercase;
   letter-spacing: 4px;
   color: #8497B0;
+}
+
+.kr-modal--edit-text {
+  font-size: 0.75rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.kr-modal--edit-button {
+  padding: 3px 7px;
+  background-color: #7B73F0;
+  color: white;
+  cursor: 'pointer';
+  transition: "0.3s";
+}
+
+.kr-modal--edit-button:hover {
+  background-color: #625AD7;
+  color: #ddd;
 }
 
 .kr-modal--edit-icon {

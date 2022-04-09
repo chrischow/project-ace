@@ -69,7 +69,7 @@ function App() {
   return (
       <HashRouter>
           <Navbar teams={teams} />
-          <div className="container mt-5">
+          <div className="container mt-5 mb-5">
               <Switch>
                   <Route path='/' render={renderHome} exact />
                   <Route path='/directory' component={DirectoryPage} />

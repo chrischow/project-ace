@@ -102,7 +102,7 @@ function ObjectiveCard(props) {
 
 
 export default function OKRCollapse(props) {
-    const [isClicked, setIsClicked] = React.useState(false);
+    const [isClicked, setIsClicked] = React.useState(true);
 
     // Calculate objective progress
     var keyResults = [...props.keyResults];
@@ -142,7 +142,7 @@ export default function OKRCollapse(props) {
                 populateObjForm={props.populateObjForm}
                 {...props.objective}
             />
-            <div className="okr collapse" id={objId}>
+            <div className="okr collapse show" id={objId}>
                 {keyResultRows}
             </div>
         </div>
