@@ -322,8 +322,8 @@ export default function UpdatesForm(props){
                         </div></div>}
                         <div className="modal-footer-custom text-right">
                             {mode === 'edit' && <button type="button" className="btn btn-danger ml-3 float-left" onClick={confirmDelete}>Delete</button>}
-                            <button type="button" className="btn btn-secondary mr-3" onClick={() => setFormErrors([])} data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-blue mr-3" onClick={submitForm}>Save changes</button>
+                            <button type="button" className="btn btn-secondary mr-3" onClick={() => setFormErrors([])} data-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-green mr-3" onClick={submitForm}>Submit</button>
                         </div>
                     </div>
                 </div>

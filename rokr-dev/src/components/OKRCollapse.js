@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
-import { CaretIcon, EditIcon, EditIconText, InfoIcon } from './Icons';
+import { CaretIcon, EditIcon, EditIconText, InfoIcon, LaunchIcon } from './Icons';
 import ProgressBar from './ProgressBar';
 import { useHistory } from 'react-router-dom';
 
@@ -43,11 +43,11 @@ function KeyResultRow(props) {
                     <span className="keyresult-row--title">
                         {props.krTitle}
                     </span>
-                    <InfoIcon />
+                    <LaunchIcon />
                 </div>
                 <div className="keyresult-row--updates text-center col-2" onClick={goToUpdates}>
-                    <EditIconText className="keyresult-row--icon" />
                     <span className="ml-1">Updates </span>
+                    <LaunchIcon className="keyresult-row--icon" />
                 </div>
                 {/* <div className="text-center col-2">
                     <span className="keyresult-row--text ">{props.owner}</span>
@@ -89,7 +89,7 @@ function ObjectiveCard(props) {
                 </div>
                 <div className="col-7">
                     <h5 className="objective-card--title text-left">
-                        <span className="mr-3">{props.objectiveTitle}</span>
+                        <span className="mr-2">{props.objectiveTitle}</span>
                         {
                             props.isClicked && 
                             <div style={{display: 'inline-block', cursor: 'pointer'}} onClick={editObjective}>

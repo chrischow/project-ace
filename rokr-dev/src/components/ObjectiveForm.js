@@ -237,7 +237,7 @@ export default function ObjectiveForm(props) {
             </form>
             <div className="text-right mt-2">
                 <button type="button" className="btn btn-secondary mr-2" onClick={redirectBack}>Back to Team Page</button>
-                <button className="btn btn-blue" onClick={submitForm}>Submit</button>
+                <button className="btn btn-green" onClick={submitForm}>Submit</button>
             </div>
             {formErrorsList.length > 0 && <div className="form-errors mt-4">
                 <p>Please resolve the following errors:</p>
