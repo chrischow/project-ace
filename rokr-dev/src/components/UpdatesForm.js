@@ -279,13 +279,18 @@ export default function UpdatesForm(props){
     return (
         <div>
             <h1 className="mb-2">Key Result Updates</h1>
-            {krData.krTitle && <h2 className="mb-4">{krData.krTitle} - <span className="text-green">{krData.parentObjectiveTeam}</span></h2>}
+            {krData.krTitle && <h2 className="mb-4">
+                {krData.krTitle} - <span className="text-green">{krData.parentObjectiveTeam}</span>
+            </h2>}
             <div className="mb-4">
                 <button className="btn btn-blue mr-3" onClick={addUpdate}>Add Update</button>
                 <button className="btn btn-secondary float-right" onClick={redirectBack}>Back to Team Page</button>
             </div>
             <div className="directory--container">
                 {updateData.length > 0 && <UpdatesTable updateData={updateData} editUpdate={editUpdate} />}
+                {updateData.length === 0 && <div className="text-center">
+                    <span className="no-data">No data to display.</span>
+                </div>}
             </div>
             <div className="modal fade" id="editUpdateModal" tabIndex="-1" aria-labelledby="editUpdateModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg modal-dialog-centered">
