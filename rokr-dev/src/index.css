@@ -394,6 +394,29 @@ div.progress-bar {
   font-size: 0.9rem;
   margin-top: 0px;
   margin-bottom: 0px;
+  transition: 0.3s;
+}
+
+.keyresult-row--updates {
+  color: #8497B0;
+  font-size: 0.9rem;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.keyresult-row--updates:hover, .keyresult-row--updates:hover svg {
+  transition: 0.3s;
+  color: #7B73F0;
+}
+
+.keyresult-row--icon {
+  color: #8497B0;
+  height: 12px;
+  width: 12px;
+  margin-bottom: 3px;
+  transition: 0.3s;
 }
 
 /* Details / Edit */

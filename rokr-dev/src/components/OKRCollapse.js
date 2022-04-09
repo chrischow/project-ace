@@ -6,12 +6,14 @@
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
-import { CaretIcon, EditIcon, InfoIcon } from './Icons';
+import { CaretIcon, EditIcon, EditIconText, InfoIcon } from './Icons';
 import ProgressBar from './ProgressBar';
 import { useHistory } from 'react-router-dom';
 
 function KeyResultRow(props) {
     
+    const history = useHistory();
+
     function toggleModal() {
         props.setKrData({
             krTitle: props.krTitle,
@@ -30,6 +32,10 @@ function KeyResultRow(props) {
         $('#kr-modal').modal('toggle');
     }
 
+    function goToUpdates() {
+        history.push('/edit/update/' + props.krId);
+    }
+
     return (
         <div className="keyresult-row">
             <div className="row align-items-center">
@@ -39,9 +45,13 @@ function KeyResultRow(props) {
                     </span>
                     <InfoIcon />
                 </div>
-                <div className="text-center col-2">
-                    <span className="keyresult-row--text ">{props.owner}</span>
+                <div className="keyresult-row--updates text-center col-2" onClick={goToUpdates}>
+                    <EditIconText className="keyresult-row--icon" />
+                    <span className="ml-1">Updates </span>
                 </div>
+                {/* <div className="text-center col-2">
+                    <span className="keyresult-row--text ">{props.owner}</span>
+                </div> */}
                 <div className="text-center col-2">
                     <span className="keyresult-row--text">{props.krEndDate}</span>
                 </div>

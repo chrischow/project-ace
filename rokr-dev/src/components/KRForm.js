@@ -262,7 +262,7 @@ export default function KRForm(props) {
                     </div>
                 </div>
                 <div className="row align-items-center">
-                    <div className="col-4">
+                    <div className="col-6">
                         <div className="form-element">
                             <label htmlFor="krStartDate" className="form--label">Start Date</label>
                             <input
@@ -275,7 +275,7 @@ export default function KRForm(props) {
                             />
                         </div>
                     </div>
-                    <div className="col-4">
+                    <div className="col-6">
                         <div className="form-element">
                             <label htmlFor="krEndDate" className="form--label">End Date</label>
                             <input
@@ -288,7 +288,7 @@ export default function KRForm(props) {
                             />
                         </div>
                     </div>
-                    <div className="col-4">
+                    {/* <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="frequency" className="form--label">Frequency</label>
                             <select
@@ -302,7 +302,7 @@ export default function KRForm(props) {
                                 <option value="monthly">Monthly</option>
                             </select>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="row align-items-center">
                     <div className="col-4">
