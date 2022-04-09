@@ -20,7 +20,6 @@ export default function KRForm(props) {
         const currKr = allKeyResults.filter(function(kr) {
             return Number(kr.krId) === Number(params.id);
         });
-
         return currKr[0];
     }
     
@@ -38,6 +37,7 @@ export default function KRForm(props) {
     } else {
         mode = 'New';
         initData = {
+            krId: -1,
             krTitle: "",
             krDescription: "",
             krStartDate: "2022-04-01",
@@ -46,7 +46,7 @@ export default function KRForm(props) {
             maxValue: 1,
             currentValue: 0,
             owner: "",
-            parentObjectiveId: 0,
+            parentObjectiveId: -1,
             parentObjectiveTeam: urlParams.get('team')
         }
         team = props.teams.filter(function(item) {

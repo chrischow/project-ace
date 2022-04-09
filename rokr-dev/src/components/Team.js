@@ -3,7 +3,7 @@ import $ from 'jquery';
 
 import ProgressCard from './ProgressCard';
 import OKRCollapse from './OKRCollapse';
-import { EditIcon } from './Icons';
+import { EditIcon, EditIconText } from './Icons';
 import updateCircleProgress from '../utils/updateCircleProgress';
 import { prepareTeamData, formatDate } from '../utils/processData';
 import { useHistory } from 'react-router-dom';
@@ -145,7 +145,15 @@ function KRModal(props) {
                                             <EditIcon />
                                         </div>
                                     </h3>
-                                    <div className="kr-modal--subheader">{startDate} - {endDate}</div>
+                                    <div className="kr-modal--subheader">
+                                        <span>{startDate} - {endDate}</span>
+                                        {props.krData.owner ? (
+                                            <span>
+                                                <span className="mr-3 ml-3">|</span>
+                                                <span>{props.krData.owner}</span>
+                                            </span>
+                                        ) : null}
+                                    </div>
                                     <div className="kr-modal--description">{props.krData.krDescription}</div>
                                 </div>
                                 <div className="col-3 pl-4 text-center">
@@ -163,8 +171,11 @@ function KRModal(props) {
                         <div className="kr-modal--update-panel">
                             <h3 className="kr-modal--tag-text mb-4 align-items-center">
                                 <span className="mr-4">Updates</span>
-                                <button className="btn kr-modal--edit-button kr-modal--edit-text" onClick={editUpdate}>
-                                    <span className="kr-modal--edit-text">Manage</span>
+                                <button className="btn kr-modal--edit-button" onClick={editUpdate}>
+                                    <span className="kr-modal--edit-text mr-1">
+                                        Edit
+                                    </span>
+                                    <EditIconText className="kr-modal--edit-icon" />
                                 </button>
                             </h3>
                             <table className="table table-dark table-striped kr-modal--table w-100" id="kr-modal-table">
