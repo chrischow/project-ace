@@ -9,6 +9,20 @@ export function getDate(date) {
     return localDateISO;
 }
 
+export function checkDate(date) {
+    var dateIsValid = false;
+    try {
+        var checkDate = new Date(date);
+        if (!checkDate.getDate()) {
+            throw new Error('Not a proper date.');
+        }
+        dateIsValid = /\d{4}-\d{2}-\d{2}/.test(date) ? true : false;
+    } catch(err){
+        dateIsValid = false;
+    }
+    return dateIsValid;
+}
+
 function getObjectiveData(listId, team) {
     const queryColumns = '$select=Id,Title,objectiveDescription,objectiveStartDate,objectiveStartDate,objectiveEndDate,frequency,team';
     var queryFilter = '';
@@ -91,7 +105,7 @@ function getKRData(listId, team) {
     return output;
 }
 
-export function getObjectiveDataIDB(callback) {
+export function getAllIDB(objectStore, callback) {
     // window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
     //     window.webkitIndexedDB || window.msIndexedDB;
     
@@ -105,48 +119,20 @@ export function getObjectiveDataIDB(callback) {
         db = request.result;
 
         // Load Objectives
-        tx = db.transaction('ObjectivesStore', 'readonly');
-        store = tx.objectStore('ObjectivesStore');
+        tx = db.transaction(objectStore, 'readonly');
+        store = tx.objectStore(objectStore);
 
         data = store.getAll();
 
         tx.oncomplete = function() {
             data = data.result;
             callback(data);
-            console.log('Retrieved Objectives. Closing connection to DB.')
+            console.log('Retrieved all entries from ' + objectStore + '. Closing connection to DB.')
             db.close()
         }
     }
 
     return data;
-}
-
-export function getKeyResultDataIDB(callback) {
-    // window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
-    //     window.webkitIndexedDB || window.msIndexedDB;
-    
-    let request = window.indexedDB.open('rokr', 1),
-        db,
-        tx,
-        store,
-        data;
-    
-    request.onsuccess = function(e) {
-        db = request.result;
-
-        // Load Objectives
-        tx = db.transaction('KeyResultsStore', 'readonly');
-        store = tx.objectStore('KeyResultsStore');
-
-        data = store.getAll();
-
-        tx.oncomplete = function() {
-            data = data.result;
-            callback(data);
-            console.log('Retrieved Key Results. Closing connection to DB.')
-            db.close()
-        }
-    }
 }
 
 export function getTeamObjectiveDataIBD(teamName, callback){
@@ -222,50 +208,50 @@ export function getTeamUpdatesDataIBD(krId, callback){
     }
 }
 
-export function getOneKeyResultIBD(krId, callback) {
+export function getOneIBD(objectStore, id, callback) {
     let request = window.indexedDB.open('rokr', 1);
     
     request.onsuccess = function(e) {
         var db = request.result;
 
         // Load team Key Results
-        var tx = db.transaction('KeyResultsStore', 'readonly');
-        var store = tx.objectStore('KeyResultsStore');
+        var tx = db.transaction(objectStore, 'readonly');
+        var store = tx.objectStore(objectStore);
 
-        var data = store.get(krId);
+        var data = store.get(id);
 
         tx.oncomplete = function() {
             data = data.result;
             callback(data);
-            console.log('Retrieved Key Result. Closing connection to DB.')
+            console.log('Retrieved 1 entry from ' + objectStore + '. Closing connection to DB.')
             db.close()
         }
     }
 }
 
-export function putUpdateIBD(data) {
+export function putIBD(objectStore, data) {
     let request = window.indexedDB.open('rokr', 1);
     request.onsuccess = function(e) {
         var db = request.result;
-        var tx = db.transaction('UpdatesStore', 'readwrite');
-        var store = tx.objectStore('UpdatesStore');
+        var tx = db.transaction(objectStore, 'readwrite');
+        var store = tx.objectStore(objectStore);
         store.put(data);
         tx.oncomplete = function() {
-            console.log('Put update. Closing connection to DB.');
+            console.log('Put 1 entry for ' + objectStore + '. Closing connection to DB.');
             db.close();
         }
     }
 }
 
-export function deleteUpdateIBD(key) {
+export function deleteIBD(objectStore, key) {
     let request = window.indexedDB.open('rokr', 1);
     request.onsuccess = function(e) {
         var db = request.result;
-        var tx = db.transaction('UpdatesStore', 'readwrite');
-        var store = tx.objectStore('UpdatesStore');
+        var tx = db.transaction(objectStore, 'readwrite');
+        var store = tx.objectStore(objectStore);
         store.delete(key);
         tx.oncomplete = function() {
-            console.log('Deleted update. Closing connection to DB.');
+            console.log('Deleted 1 entry for ' + objectStore + '. Closing connection to DB.');
             db.close();
         }
     }

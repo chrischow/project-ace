@@ -2,7 +2,8 @@ import { useParams, useHistory, useLocation } from "react-router-dom";
 import React from 'react';
 import $ from 'jquery';
 
-import { getDate } from '../utils/queryData';
+import { getDate, checkDate, getOneIBD, getTeamObjectiveDataIBD,
+    putIBD } from '../utils/queryData';
 
 // Simulated
 import { allData } from '../utils/fakeData';
@@ -12,83 +13,81 @@ export default function KRForm(props) {
     const params = useParams();
     const urlParams = new URLSearchParams(useLocation().search);
     const history = useHistory();
-
-    function queryData() {
-        // Query data - simulated
-        const allKeyResults = allData.keyResults;
-
-        const currKr = allKeyResults.filter(function(kr) {
-            return Number(kr.krId) === Number(params.id);
-        });
-        return currKr[0];
-    }
     
-    // Initialise form based on mode
-    var mode;
-    var initData;
-    var team;
+    // Initialise state for form
+    const [formData, setFormData] = React.useState({});
+    const [team, setTeam] = React.useState({});
+    const [objectives, setObjectives] = React.useState([]);
 
-    if (props.mode === 'edit') {
-        mode = 'Edit';
-        initData = queryData();
-        team = props.teams.filter(function(item) {
-            return item.teamName === initData.parentObjectiveTeam;
-        });
-    } else {
-        mode = 'New';
-        initData = {
-            krId: -1,
-            krTitle: "",
-            krDescription: "",
-            krStartDate: "2022-04-01",
-            krEndDate: "",
-            minValue: 0,
-            maxValue: 1,
-            currentValue: 0,
-            owner: "",
-            parentObjectiveId: -1,
-            parentObjectiveTeam: urlParams.get('team')
+    const mode = props.mode === 'edit' ? 'Edit' : 'New';
+
+    // Run once - query Key Result
+    React.useEffect(function() {
+        if (props.mode === 'edit') {
+            getOneIBD('KeyResultsStore', Number(params.id), setFormData);
+        } else {
+            var teamInfo = props.teams.filter(function(item) {
+                return item.teamName === urlParams.get('team');
+            });
+            setTeam(teamInfo[0]);
+
+            // Query objectives
+            getTeamObjectiveDataIBD(teamInfo[0].teamName, setObjectives);
+            
+            // Set form data
+            setFormData({
+                krId: -1,
+                krTitle: "",
+                krDescription: "",
+                krStartDate: "2022-04-01",
+                krEndDate: "",
+                minValue: 0,
+                maxValue: 1,
+                currentValue: 0,
+                owner: "",
+                parentObjectiveId: -1,
+                parentObjectiveTeam: urlParams.get('team')
+            });
         }
-        team = props.teams.filter(function(item) {
-            return item.teamName === urlParams.get('team');
-        });
+    }, []);
+
+    // Update team (mainly for edit mode) and query objectives based on KR data
+    React.useEffect(function() {
+        if (formData.parentObjectiveTeam && props.mode === 'edit') {
+            // Get team info
+            var teamInfo = props.teams.filter(function(item) {
+                return item.teamName === formData.parentObjectiveTeam;
+            });
+            setTeam(teamInfo[0]);
+            
+            // Get objectives
+            getTeamObjectiveDataIBD(teamInfo[0].teamName, setObjectives);
+        }
+    }, [formData]);
+
+    // Update options based on Objectives
+    React.useEffect(function() {
+        if (props.mode === 'new') {
+            setFormData(prevData => {
+                return {
+                    ...prevData,
+                    parentObjectiveId: objectives.length > 0 ? objectives[0].objectiveId : 0
+                };
+            });
+        }
+    }, [objectives]);
+
+    function objectivesToOptions(obj) {
+        return (
+            <option
+                key={obj.objectiveId}
+                value={obj.objectiveId}
+                className="selectbox-text"
+            >
+                [{obj.frequency.charAt(0).toUpperCase() + obj.frequency.slice(1)}] {obj.objectiveTitle}
+            </option>
+        );
     }
-
-    // Retrieve objectives for this team - for select box and parent objective
-    function queryObjectives() {
-        // Query data - simulated
-        const allObjectives = allData.objectives;
-
-        const objectives = allObjectives.filter(function(obj) {
-            return obj.team === team[0].teamName;
-        });
-
-        const selectObjective = objectives.map(function(obj) {
-            return (
-                <option
-                    key={obj.objectiveId}
-                    value={obj.objectiveId}
-                    className="selectbox-text"
-                >
-                    [{obj.frequency.charAt(0).toUpperCase() + obj.frequency.slice(1)}] {obj.objectiveTitle}
-                </option>
-            );
-        });
-
-        const startId = objectives.length > 0 ? objectives[0].objectiveId : 0;
-        return [selectObjective, startId];
-    }
-    
-    const [selectObjective, startId] = queryObjectives();
-    if (props.mode === 'new') {
-        initData = {
-            ...initData,
-            parentObjectiveId: startId
-        };
-    }
-    
-    // Initialise controlled form
-    const [formData, setFormData] = React.useState(initData);
 
     function handleChange(event) {
         const name = event.target.name;
@@ -139,7 +138,7 @@ export default function KRForm(props) {
 
     // Cancel: Go back
     function redirectBack() {
-        return history.push('/' + team[0].slug);
+        return history.push('/' + team.slug);
     }
 
     // Submit: Check form and add to errors first
@@ -158,43 +157,18 @@ export default function KRForm(props) {
         const inputStartDate = formData.krStartDate;
         const inputEndDate = formData.krEndDate;
         
-        var validStartDate = false;
-        var validEndDate = false;
-
-        if (inputStartDate) {
-            try {
-                var checkStartDate = new Date(inputStartDate);
-                if (!checkStartDate.getDate()) {
-                    throw new Error('Not a proper date.');
-                }
-                validStartDate = true;
-            } catch(err){
-                validStartDate = false;
-            }
-        }
-
-        if (inputEndDate) {
-            try {
-                var checkEndDate = new Date(inputEndDate);
-                if (!checkEndDate.getDate()) {
-                    throw new Error('Not a proper date.');
-                }
-                validEndDate = true;
-            } catch(err){
-                validEndDate = false;
-            }
-        }
+        var validStartDate = inputStartDate ? checkDate(inputStartDate) : false;;
+        var validEndDate = inputEndDate ? checkDate(inputEndDate) : false;;
 
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
             if (props.mode === 'edit') {
-                console.log('Updating entry:');
-                console.log(formData);
+                putIBD('KeyResultsStore', formData)
             } else {
-                console.log('Creating entry:')
-                console.log(formData);
+                var {krId, ...newData} = formData;
+                putIBD('KeyResultsStore', newData);
             }
-            history.push('/' + team[0].slug);
+            history.push('/' + team.slug);
         } else {
             if (!inputTitle) {
                 setFormErrors(prevData => {
@@ -206,21 +180,17 @@ export default function KRForm(props) {
                 setFormErrors(prevData => {
                     return [...prevData, 'Set a start date.'];
                 })
+            } else if (!validStartDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set a valid start date.'];
+                })
             }
 
             if (!inputEndDate) {
                 setFormErrors(prevData => {
                     return [...prevData, 'Set an end date.'];
                 })
-            }
-
-            if (inputStartDate && !validStartDate) {
-                setFormErrors(prevData => {
-                    return [...prevData, 'Set a valid start date.'];
-                })
-            }
-
-            if (inputEndDate && !validEndDate) {
+            } else if (!validEndDate) {
                 setFormErrors(prevData => {
                     return [...prevData, 'Please set a valid end date.'];
                 })
@@ -262,7 +232,7 @@ export default function KRForm(props) {
                                 value={formData.parentObjectiveId}
                                 onChange={handleChange}
                             >
-                                {selectObjective}
+                                {objectives.map(objectivesToOptions)}
                             </select>
                         </div>
                     </div>

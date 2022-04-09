@@ -8,7 +8,7 @@ import { computeAnnualMetrics, computeTeamsAnnualMetrics } from '../utils/proces
 
 // Simulated
 import { allData } from '../utils/fakeData';
-import { getObjectiveDataIDB, getKeyResultDataIDB } from '../utils/queryData';
+import { getAllIDB } from '../utils/queryData';
 
 // Home component - to be broken down further
 export default function Home(props) {
@@ -29,8 +29,8 @@ export default function Home(props) {
     // Run once - to trigger query
     React.useEffect(function() {
         // Query data - simulated
-        getObjectiveDataIDB(updateObjectives);
-        getKeyResultDataIDB(updateKeyResults)
+        getAllIDB('ObjectivesStore', updateObjectives);
+        getAllIDB('KeyResultsStore', updateKeyResults)
     }, [])
 
     // Computes progress card metrics every time there is a change to the raw data state

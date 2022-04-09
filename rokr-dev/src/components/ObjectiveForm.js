@@ -1,7 +1,7 @@
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import React from 'react';
 import $ from 'jquery';
-import { getDate } from '../utils/queryData';
+import { getDate, checkDate, getOneIBD, putIBD } from '../utils/queryData';
 
 // Simulated
 import { allData } from '../utils/fakeData';
@@ -12,47 +12,48 @@ export default function ObjectiveForm(props) {
     const urlParams = new URLSearchParams(useLocation().search);
     const history = useHistory();
 
-    function queryData() {
-        // Query data - simulated
-        const allObjectives = allData.objectives;
+    // Initialise state for form
+    const [formData, setFormData] = React.useState({});
+    const [team, setTeam] = React.useState({});
+    const [formErrors, setFormErrors] = React.useState([]);
+    const formErrorsList = formErrors.map(function(item) {
+        return <li key={item}>{item}</li>;
+    });
 
-        const currObj = allObjectives.filter(function(obj) {
-            return Number(obj.objectiveId) === Number(params.id);
-        });
+    const mode = props.mode === 'edit' ? 'Edit' : 'New';
+    
+    // Query data - simulated
+    React.useEffect(function() {
+        if (props.mode === 'edit') {
+            getOneIBD('ObjectivesStore', Number(params.id), setFormData);
+        } else {
+            var teamInfo = props.teams.filter(function(item) {
+                return item.teamName === urlParams.get('team');
+            });
 
-        return currObj[0];
-    }
+            setTeam(teamInfo[0])
 
-    // Initialise form based on mode
-    var mode;
-    var initData;
-    var team;
-
-    if (props.mode === 'edit') {
-        mode = 'Edit';
-        initData = queryData();
-        team = props.teams.filter(function(item) {
-            return item.teamName === initData.team;
-        })
-    } else {
-        mode = 'New';
-        team = props.teams.filter(function(item) {
-            return item.teamName === urlParams.get('team');
-        });
-
-        initData = {
-            objectiveTitle: "",
-            objectiveDescription: "",
-            objectiveStartDate: "",
-            objectiveEndDate: "",
-            frequency: urlParams.get('frequency'),
-            team: urlParams.get('team')
+            setFormData({
+                objectiveId: -1,
+                objectiveTitle: "",
+                objectiveDescription: "",
+                objectiveStartDate: getDate(new Date()),
+                objectiveEndDate: getDate(new Date()),
+                frequency: urlParams.get('frequency'),
+                team: urlParams.get('team')
+            });
         }
-    }
+    }, []);
 
-    // Initialise controlled form
-    const [formData, setFormData] = React.useState(initData);
-
+    React.useEffect(function() {
+        if (formData.team && props.mode === 'edit') {
+            var teamInfo = props.teams.filter(function(item) {
+                return item.teamName === formData.team;
+            });
+            setTeam(teamInfo[0]);
+        }
+    }, [formData]);
+    
     function handleChange(event) {
         setFormData(prevData => {
             return {
@@ -102,14 +103,8 @@ export default function ObjectiveForm(props) {
 
     // Cancel: Go back
     function redirectBack() {
-        return history.push('/' + team[0].slug);
+        return history.push('/' + team.slug);
     }
-
-    // Submit: Check form and add to errors first
-    const [formErrors, setFormErrors] = React.useState([]);
-    const formErrorsList = formErrors.map(function(item) {
-        return <li key={item}>{item}</li>;
-    });
 
     function submitForm() {
         // Clear previous errors
@@ -120,43 +115,18 @@ export default function ObjectiveForm(props) {
         const inputStartDate = formData.objectiveStartDate;
         const inputEndDate = formData.objectiveEndDate;
         
-        var validStartDate = false;
-        var validEndDate = false;
-
-        if (inputStartDate) {
-            try {
-                var checkStartDate = new Date(inputStartDate);
-                if (!checkStartDate.getDate()) {
-                    throw new Error('Not a proper date.');
-                }
-                validStartDate = true;
-            } catch(err){
-                validStartDate = false;
-            }
-        }
-
-        if (inputEndDate) {
-            try {
-                var checkEndDate = new Date(inputEndDate);
-                if (!checkEndDate.getDate()) {
-                    throw new Error('Not a proper date.');
-                }
-                validEndDate = true;
-            } catch(err){
-                validEndDate = false;
-            }
-        }
+        var validStartDate = inputStartDate ? checkDate(inputStartDate) : false;
+        var validEndDate = inputEndDate ? checkDate(inputEndDate) : false;
 
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
             if (props.mode === 'edit') {
-                console.log('Updating entry:');
-                console.log(formData);
+                putIBD('ObjectivesStore', formData);
             } else {
-                console.log('Creating entry:')
-                console.log(formData);
+                var {objectiveId, ...newData} = formData;
+                putIBD('ObjectivesStore', newData);
             }
-            history.push('/' + team[0].slug);
+            history.push('/' + team.slug);
         } else {
             if (!inputTitle) {
                 setFormErrors(prevData => {
@@ -168,21 +138,17 @@ export default function ObjectiveForm(props) {
                 setFormErrors(prevData => {
                     return [...prevData, 'Set a start date.'];
                 })
+            } else if (!validStartDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set a valid start date.'];
+                })
             }
 
             if (!inputEndDate) {
                 setFormErrors(prevData => {
                     return [...prevData, 'Set an end date.'];
                 })
-            }
-
-            if (inputStartDate && !validStartDate) {
-                setFormErrors(prevData => {
-                    return [...prevData, 'Set a valid start date.'];
-                })
-            }
-
-            if (inputEndDate && !validEndDate) {
+            } else if (!validEndDate) {
                 setFormErrors(prevData => {
                     return [...prevData, 'Please set a valid end date.'];
                 })

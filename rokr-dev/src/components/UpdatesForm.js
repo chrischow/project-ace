@@ -3,8 +3,8 @@ import { useParams, useHistory } from "react-router-dom";
 import { EditIcon } from './Icons';
 import $ from 'jquery';
 
-import { getDate, getOneKeyResultIBD, getTeamUpdatesDataIBD, putUpdateIBD,
-    deleteUpdateIBD } from '../utils/queryData';
+import { getDate, checkDate, getOneIBD, getTeamUpdatesDataIBD, 
+    putIBD, deleteIBD } from '../utils/queryData';
 
 // Simulated
 import { allData } from '../utils/fakeData';
@@ -118,9 +118,7 @@ export default function UpdatesForm(props){
 
     // Query update data - simulated
     React.useEffect(function() {
-        getOneKeyResultIBD(Number(params.id), (data) => {
-            setKrData(data);
-        });
+        getOneIBD('KeyResultsStore', Number(params.id), setKrData);
         getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
     }, []);
 
@@ -235,27 +233,15 @@ export default function UpdatesForm(props){
         const inputText = formData.updateText;
         const inputDate = formData.updateDate;
 
-        var validDate = false;
-
-        if (inputDate) {
-            try {
-                var checkDate = new Date(inputDate);
-                if (!checkDate.getDate()) {
-                    throw new Error('Not a proper date.');
-                }
-                validDate = true;
-            } catch(err) {
-                validDate = false;
-            }
-        }
-
+        var validDate = inputDate ? checkDate(inputDate) : false;
+        
         if (inputText && inputDate && validDate){
             // Form ok
             var {updateId, ...newData} = formData;
             if (mode === 'edit') {
-                putUpdateIBD(formData);
+                putIBD('UpdatesStore', formData);
             } else if (mode === 'new') {
-                putUpdateIBD(newData);
+                putIBD('UpdatesStore', newData);
             }
             getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             $('#editUpdateModal').modal('hide');
@@ -284,7 +270,7 @@ export default function UpdatesForm(props){
     function confirmDelete() {
         if (window.confirm('Hit OK to confirm deletion of update. This cannot be undone.')) {
             console.log('Delete entry:');
-            deleteUpdateIBD(formData.updateId);
+            deleteIBD('UpdatesStore', formData.updateId);
             getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             $('#editUpdateModal').modal('hide');
         };

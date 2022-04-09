@@ -1,6 +1,6 @@
 export default function ProgressBar(props) {
     const progressNow = Math.round(100 * Number(props.progress));
-    const progressNowString = String(progressNow) + '%';
+    const progressNowString = String(progressNow ? progressNow: 0) + '%';
 
     const progressStyle = {
         width: progressNowString
