@@ -1,5 +1,5 @@
+import { useState, useEffect } from 'react';
 import { useParams, useHistory, useLocation } from "react-router-dom";
-import React from 'react';
 import $ from 'jquery';
 
 import { getDate, checkDate, getOneIBD, getTeamObjectiveDataIBD,
@@ -15,14 +15,14 @@ export default function KRForm(props) {
     const history = useHistory();
     
     // Initialise state for form
-    const [formData, setFormData] = React.useState({});
-    const [team, setTeam] = React.useState({});
-    const [objectives, setObjectives] = React.useState([]);
+    const [formData, setFormData] = useState({});
+    const [team, setTeam] = useState({});
+    const [objectives, setObjectives] = useState([]);
 
     const mode = props.mode === 'edit' ? 'Edit' : 'New';
 
     // Run once - query Key Result
-    React.useEffect(function() {
+    useEffect(function() {
         if (props.mode === 'edit') {
             getOneIBD('KeyResultsStore', Number(params.id), setFormData);
         } else {
@@ -52,7 +52,7 @@ export default function KRForm(props) {
     }, []);
 
     // Update team (mainly for edit mode) and query objectives based on KR data
-    React.useEffect(function() {
+    useEffect(function() {
         if (formData.parentObjectiveTeam && props.mode === 'edit') {
             // Get team info
             var teamInfo = props.teams.filter(function(item) {
@@ -66,7 +66,7 @@ export default function KRForm(props) {
     }, [formData]);
 
     // Update options based on Objectives
-    React.useEffect(function() {
+    useEffect(function() {
         if (props.mode === 'new') {
             setFormData(prevData => {
                 return {
@@ -104,7 +104,7 @@ export default function KRForm(props) {
     }
 
     // Enable form datepicker utility
-    React.useEffect(function() {
+    useEffect(function() {
         $(function() {
             var startDatePicker = $('#krStartDate');
             startDatePicker.datepicker({
@@ -142,7 +142,7 @@ export default function KRForm(props) {
     }
 
     // Submit: Check form and add to errors first
-    const [formErrors, setFormErrors] = React.useState([]);
+    const [formErrors, setFormErrors] = useState([]);
     const formErrorsList = formErrors.map(function(item) {
         return <li key={item}>{item}</li>;
     });

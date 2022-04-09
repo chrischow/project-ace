@@ -1,4 +1,5 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import $ from 'jquery';
 
 import ProgressCard from './ProgressCard';
@@ -6,12 +7,10 @@ import OKRCollapse from './OKRCollapse';
 import { EditIcon, EditIconText } from './Icons';
 import updateCircleProgress from '../utils/updateCircleProgress';
 import { prepareTeamData, formatDate } from '../utils/processData';
-import { useHistory } from 'react-router-dom';
 import 'datatables.net-bs4';
 import '../dataTables.bootstrap4.min.css';
 
 // Simulated
-import { allData } from '../utils/fakeData';
 import { getTeamObjectiveDataIBD, getTeamKeyResultDataIBD, getTeamUpdatesDataIBD } from '../utils/queryData';
 
 // const $ = require('jquery');
@@ -70,12 +69,12 @@ function KRModal(props) {
     const endDate = formatDate(props.krData.krEndDate);
     
     // Initialise states for raw team data and processed data
-    const [updateData, setUpdateData] = React.useState([]);
+    const [updateData, setUpdateData] = useState([]);
     const history = useHistory();
     const table = $('#kr-modal-table');
     
     // Trigger once props are in
-    React.useEffect(function() {
+    useEffect(function() {
         if (props.krData.krId) {
             // Query update data - simulated
             getTeamUpdatesDataIBD(props.krData.krId, setUpdateData);
@@ -84,7 +83,7 @@ function KRModal(props) {
 
 
     // Update table everytime the table is populated
-    React.useEffect(function() {
+    useEffect(function() {
         $(function() {
             if (! $.fn.dataTable.isDataTable( '#kr-modal-table' )) {
                 table.DataTable().destroy();
@@ -211,7 +210,7 @@ export function TeamProgress(props) {
 }
 
 export function TeamOKRs(props) {
-    const [krData, setKrData] = React.useState({});
+    const [krData, setKrData] = useState({});
 
     function toggleOKRCards() {
         $('.okr.collapse').each(function() {
@@ -267,9 +266,9 @@ export function TeamOKRs(props) {
 export default function TeamPage(props) {
 
     // Initialise states for raw team data and processed data
-    const [teamData, setTeamData] = React.useState({});
-    const [processedData, setProcessedData] = React.useState({});
-    const [pageData, setPageData] = React.useState({});
+    const [teamData, setTeamData] = useState({});
+    const [processedData, setProcessedData] = useState({});
+    const [pageData, setPageData] = useState({});
     
     // Callback functions to update respective items in raw data state
     // To be passed to async query to database
@@ -282,7 +281,7 @@ export default function TeamPage(props) {
     }
 
     // Run once - to trigger query
-    React.useEffect(function() {
+    useEffect(function() {
         // Query data - simulated
         getTeamObjectiveDataIBD(props.team.teamName, updateObjectives);
         getTeamKeyResultDataIBD(props.team.teamName, updateKeyResults);
@@ -290,7 +289,7 @@ export default function TeamPage(props) {
 
     // Processes data and updates page data every time there is a change to the 
     // raw data state
-    React.useEffect(function() {
+    useEffect(function() {
         if (teamData.allObjectives && teamData.allKeyResults) {
             const teamProgressData = prepareTeamData(
                 props.team.teamName,
@@ -310,7 +309,7 @@ export default function TeamPage(props) {
     }, [teamData, props.team.teamName])
 
     // Computes progress metrics for progress card every time the frequency changes
-    React.useEffect(function() {
+    useEffect(function() {
         if (pageData.data) {
             const avgCompletion = pageData.data.avgCompletion;
             updateCircleProgress('team-progress', avgCompletion ? avgCompletion : 0, 200, '50px', '#000718');

@@ -1,10 +1,7 @@
 import { useParams, useHistory, useLocation } from "react-router-dom";
-import React from 'react';
+import { useState, useEffect } from 'react';
 import $ from 'jquery';
 import { getDate, checkDate, getOneIBD, putIBD } from '../utils/queryData';
-
-// Simulated
-import { allData } from '../utils/fakeData';
 
 export default function ObjectiveForm(props) {
     // Extract URL parameters
@@ -13,9 +10,9 @@ export default function ObjectiveForm(props) {
     const history = useHistory();
 
     // Initialise state for form
-    const [formData, setFormData] = React.useState({});
-    const [team, setTeam] = React.useState({});
-    const [formErrors, setFormErrors] = React.useState([]);
+    const [formData, setFormData] = useState({});
+    const [team, setTeam] = useState({});
+    const [formErrors, setFormErrors] = useState([]);
     const formErrorsList = formErrors.map(function(item) {
         return <li key={item}>{item}</li>;
     });
@@ -23,7 +20,7 @@ export default function ObjectiveForm(props) {
     const mode = props.mode === 'edit' ? 'Edit' : 'New';
     
     // Query data - simulated
-    React.useEffect(function() {
+    useEffect(function() {
         if (props.mode === 'edit') {
             getOneIBD('ObjectivesStore', Number(params.id), setFormData);
         } else {
@@ -45,7 +42,7 @@ export default function ObjectiveForm(props) {
         }
     }, []);
 
-    React.useEffect(function() {
+    useEffect(function() {
         if (formData.team && props.mode === 'edit') {
             var teamInfo = props.teams.filter(function(item) {
                 return item.teamName === formData.team;
@@ -69,7 +66,7 @@ export default function ObjectiveForm(props) {
     });
     
     // Enable form datepicker utility
-    React.useEffect(function() {
+    useEffect(function() {
         $(function() {
             var startDatePicker = $('#objectiveStartDate');
             startDatePicker.datepicker({

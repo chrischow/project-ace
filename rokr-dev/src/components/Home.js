@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 import Brand from './Brand';
 import ProgressCard from './ProgressCard';
@@ -13,8 +13,8 @@ import { getAllIDB } from '../utils/queryData';
 // Home component - to be broken down further
 export default function Home(props) {
     // Initialise states for raw data and computed metrics
-    const [data, setData] = React.useState({});
-    const [metrics, setMetrics] = React.useState({});
+    const [data, setData] = useState({});
+    const [metrics, setMetrics] = useState({});
 
     // Callback functions to update respective items in raw data state
     // To be passed to async query to database
@@ -27,14 +27,14 @@ export default function Home(props) {
     }
     
     // Run once - to trigger query
-    React.useEffect(function() {
+    useEffect(function() {
         // Query data - simulated
         getAllIDB('ObjectivesStore', updateObjectives);
-        getAllIDB('KeyResultsStore', updateKeyResults)
+        getAllIDB('KeyResultsStore', updateKeyResults);
     }, [])
 
     // Computes progress card metrics every time there is a change to the raw data state
-    React.useEffect(function() {
+    useEffect(function() {
         if (data.allObjectives && data.allKeyResults) {
             setMetrics(prevData => {
                 return {
@@ -47,7 +47,7 @@ export default function Home(props) {
     }, [data, props.teams])
 
     // Renders progress cards every time there is a change to the metrics
-    React.useEffect(function() {
+    useEffect(function() {
         if (metrics.overallProgressData) {
             updateCircleProgress('overall_progress', metrics.overallProgressData.avgCompletion, 200, '50px', '#000718');
         }

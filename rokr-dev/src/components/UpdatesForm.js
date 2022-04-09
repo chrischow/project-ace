@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useHistory } from "react-router-dom";
 import { EditIcon } from './Icons';
 import $ from 'jquery';
@@ -44,7 +44,7 @@ function UpdatesTable(props) {
         );
     });
 
-    React.useEffect(function() {
+    useEffect(function() {
         $(function() {
             // Render datatable
             const table = $('#updates-table');
@@ -85,19 +85,19 @@ export default function UpdatesForm(props){
     const history = useHistory();
 
     // Initialise states for page data
-    const [krData, setKrData] = React.useState({});
-    const [updateData, setUpdateData] = React.useState([]);
-    const [team, setTeam] = React.useState('');
+    const [krData, setKrData] = useState({});
+    const [updateData, setUpdateData] = useState([]);
+    const [team, setTeam] = useState('');
 
     // Initialise states for form
-    const [mode, setMode] = React.useState('');
-    const [formData, setFormData] = React.useState({
+    const [mode, setMode] = useState('');
+    const [formData, setFormData] = useState({
         updateId: -1,
         updateDate: '',
         updateText: '',
         parentKrId: -1
     });
-    const [formErrors, setFormErrors] = React.useState([]);
+    const [formErrors, setFormErrors] = useState([]);
     const formErrorsList = formErrors.map(function(item) {
         return <li key={item}>{item}</li>;
     });
@@ -117,13 +117,13 @@ export default function UpdatesForm(props){
     }
 
     // Query update data - simulated
-    React.useEffect(function() {
+    useEffect(function() {
         getOneIBD('KeyResultsStore', Number(params.id), setKrData);
         getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
     }, []);
 
     // Update team based on KR Data
-    React.useEffect(function() {
+    useEffect(function() {
         if (krData.parentObjectiveTeam) {
             const team = props.teams.filter(function(item) {
                 return item.teamName === krData.parentObjectiveTeam;
@@ -157,7 +157,7 @@ export default function UpdatesForm(props){
     };
 
     // One time: ensure textarea expands and initialise datepicker
-    React.useEffect(function() {
+    useEffect(function() {
 
         const updateTextArea = $('#updateTextArea');
         updateTextArea.on('change input', function () {

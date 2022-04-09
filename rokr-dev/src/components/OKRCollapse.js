@@ -3,7 +3,7 @@
 //  - Row/card for key results
 //  - Wrapper to put these into a Bootstrap collapse component
 
-import React from 'react';
+import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
 import { CaretIcon, EditIcon, InfoIcon } from './Icons';
@@ -102,7 +102,7 @@ function ObjectiveCard(props) {
 
 
 export default function OKRCollapse(props) {
-    const [isClicked, setIsClicked] = React.useState(true);
+    const [isClicked, setIsClicked] = useState(true);
 
     // Calculate objective progress
     var keyResults = [...props.keyResults];
@@ -128,7 +128,7 @@ export default function OKRCollapse(props) {
         );
     });
 
-    React.useEffect(function() {
+    useEffect(function() {
         $('#' + objId).on('show.bs.collapse', () => setIsClicked(true));
         $('#' + objId).on('hide.bs.collapse', () => setIsClicked(false));
     });
