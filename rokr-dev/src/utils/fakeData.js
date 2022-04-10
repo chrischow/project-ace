@@ -178,8 +178,8 @@ const allData = generateData(fakeDataTeams);
 
 // IndexedDB functions
 function setupDB(allData) {
-    window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
-        window.webkitIndexedDB || window.msIndexedDB;
+    // window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
+    //     window.webkitIndexedDB || window.msIndexedDB;
     
     let request = window.indexedDB.open('rokr', 1),
         db,
