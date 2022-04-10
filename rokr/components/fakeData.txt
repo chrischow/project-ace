@@ -1,5 +1,4 @@
 // Configs
-// Configs
 var fakeDataTeams = [
     {teamName: 'HQ RAiD', slug: 'hq-raid'},
     {teamName: 'PAB', slug: 'pab'},

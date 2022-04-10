@@ -1,0 +1,2594 @@
+// Configs
+// Configs
+var fakeDataTeams = [
+    {teamName: 'HQ RAiD', slug: 'hq-raid'},
+    {teamName: 'PAB', slug: 'pab'},
+    {teamName: 'SWiFT', slug: 'swift'},
+    {teamName: 'RDO', slug: 'rdo'},
+    {teamName: 'CyDef', slug: 'cydef'},
+    {teamName: 'SES', slug: 'ses'}
+];
+
+// #FAKEDATA
+function generateData(teams){
+    // var freqs = ['annual', 'quarterly', 'monthly'];
+    var freqs = ['annual'];
+    var counter = 1;
+    var objs = [];
+    var objName;
+    var endDate;
+    
+    for (var t=0; t < teams.length; t++) {
+        for (var f=0; f < freqs.length; f++) {
+            for (var i=0; i < 3; i++) {
+                objName = teams[t].teamName + ' O' + (i+1) + ' ' + freqs[f];
+
+                if (freqs[f] === 'annual'){
+                    endDate = '2023-03-31';
+                } else if (freqs[f] === 'quarterly') {
+                    endDate = '2022-06-30';
+                } else {
+                    endDate = '2022-04-30';
+                }
+
+                objs.push({
+                    objectiveId: counter,
+                    objectiveTitle: objName,
+                    objectiveDescription: objName + ' description',
+                    objectiveStartDate: '2022-04-01',
+                    objectiveEndDate: endDate,
+                    team: teams[t].teamName,
+                    frequency: freqs[f]
+                });
+                counter++;
+            }
+        }
+    }
+
+    var staff = {};
+    var currTeam;
+
+    for (t=0; t<teams.length; t++) {
+        currTeam = teams[t].teamName;
+        staff = {
+            ...staff,
+            [currTeam]: []
+        };
+
+        for (var s=0; s<4; s++) {
+            staff[currTeam].push(currTeam + ' Staff ' + (s+1));
+        }
+    }
+
+    var maxs = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    var krs = [];
+    var krName;
+    counter = 1;
+    var randIdx;
+    var randMax;
+    var randIdxStaff;
+    var randStaff;
+
+    for (i=0; i<objs.length; i++) {
+        for (var kr=0; kr < 3; kr++){
+            krName = objs[i].objectiveTitle + ' KR ' + (kr+1);
+            randIdx = Math.floor(Math.random() * maxs.length);
+            randMax = maxs[randIdx];
+            randIdxStaff = Math.floor(Math.random() * 4);
+            randStaff = staff[objs[i].team][randIdxStaff];
+
+            if (freqs[f] === 'annual'){
+                endDate = '2023-03-31';
+            } else if (freqs[f] === 'quarterly') {
+                endDate = '2022-06-30';
+            } else {
+                endDate = '2022-04-30';
+            }
+            
+            krs.push({
+                krId: counter,
+                krTitle: krName,
+                krDescription: krName + ' description',
+                krStartDate: '2022-04-01',
+                krEndDate: endDate,
+                minValue: 0,
+                maxValue: randMax,
+                currentValue: Math.random() > 0.6 ? Math.floor(Math.random() * randMax) : randMax,
+                parentObjectiveId: objs[i].objectiveId,
+                parentObjectiveTeam: objs[i].team,
+                owner: randStaff
+            });
+            counter ++;
+        }
+    }
+
+    var updates = [];
+    const updateTexts = [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "Mauris blandit metus eget urna blandit, vitae malesuada dui euismod.",
+        "Pellentesque vulputate diam sit amet lectus ultricies efficitur.",
+        "Aenean congue nulla nec sapien finibus tristique.",
+        "Phasellus sit amet sapien venenatis, euismod nisl eu, venenatis tellus.",
+        "Nulla euismod libero quis velit fringilla accumsan.",
+        "Nulla nec ipsum sodales, scelerisque nibh at, semper lorem.",
+        "Pellentesque sit amet orci pulvinar metus bibendum elementum vel nec ex.",
+        "Sed finibus risus condimentum orci pulvinar volutpat.",
+        "Vivamus vehicula lacus eu nunc sagittis porta.",
+        "Nullam scelerisque mi vitae ante mollis fermentum.",
+        "Pellentesque ultricies ante et blandit bibendum.",
+        "In bibendum tortor quis commodo pharetra.",
+        "Duis pretium augue id luctus porttitor.",
+        "Vivamus viverra diam ut tempor aliquam.",
+        "Aenean pretium lacus sagittis finibus molestie.",
+        "Proin vel nisl in urna vehicula dapibus vel id mauris.",
+        "Proin mollis lacus hendrerit felis euismod consequat.",
+        "Etiam volutpat sapien quis lectus fringilla fermentum.",
+        "Donec dignissim justo eu ante rutrum dictum.",
+        "Morbi accumsan eros ut efficitur iaculis.",
+        "In feugiat nunc a dolor vestibulum, a varius urna interdum.",
+        "Nunc in lectus eu turpis fermentum egestas.",
+        "Vivamus cursus dolor nec mauris ornare tempus.",
+        "Curabitur quis mauris ullamcorper, aliquet tortor id, aliquet augue.",
+        "Etiam tempor arcu vitae aliquam auctor.",
+        "Nullam ut sapien posuere, suscipit ante ultricies, semper lectus.",
+        "Vestibulum sed augue placerat, pretium sem a, interdum tellus.",
+        "In et diam facilisis, suscipit justo quis, molestie felis.",
+        "Pellentesque nec erat pharetra, bibendum justo quis, cursus nulla.",
+        "Morbi ornare augue quis lorem maximus, quis placerat metus venenatis.",
+        "Donec ac lorem nec nunc faucibus dictum eu sed lorem.",
+        "Phasellus ultrices neque ac dolor tempus, vel tempus risus elementum.",
+        "Nunc id nulla vel ex viverra tempus.",
+        "Mauris hendrerit sapien ut ante fermentum, eu interdum libero dictum.",
+        "Vestibulum cursus leo vitae aliquet pulvinar.",
+        "Curabitur tincidunt neque sit amet mi porttitor, nec mattis orci ultricies.",
+        "Praesent tempor enim efficitur tincidunt mollis."
+    ];
+
+    const dates = [
+        '2022-01-01', '2022-01-03', '2022-01-05', '2022-01-07', '2022-01-09',
+        '2022-01-11', '2022-01-13', '2022-01-15', '2022-01-17', '2022-01-19',
+        '2022-01-21', '2022-01-23', '2022-01-25', '2022-01-27', '2022-01-29',
+        '2022-02-01', '2022-02-03', '2022-02-05', '2022-02-07', '2022-02-09',
+        '2022-02-11', '2022-02-13', '2022-02-15', '2022-02-17', '2022-02-19',
+        '2022-02-21', '2022-02-23', '2022-02-25', '2022-02-27',
+        '2022-03-01', '2022-03-03', '2022-03-05', '2022-03-07', '2022-03-09',
+        '2022-03-11', '2022-03-13', '2022-03-15', '2022-03-17'
+        
+    ]
+
+
+    counter = 1
+    for (i=0; i < krs.length; i++) {
+        for (var j=0; j < 20; j++) {
+            randIdx = Math.floor(Math.random() * updateTexts.length);
+            updates.push({
+                updateId: counter,
+                updateText: krs[i].krTitle + ' ' + updateTexts[randIdx],
+                updateDate: dates[Math.floor(Math.random() * dates.length)],
+                parentKrId: krs[i].krId
+            });
+            counter++
+        }
+    }
+
+
+    return { 'objectives': objs, 'keyResults': krs, 'updates': updates };
+}
+
+const allData = generateData(fakeDataTeams);
+
+// IndexedDB functions
+function setupDB(allData) {
+    // window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
+    //     window.webkitIndexedDB || window.msIndexedDB;
+    
+    let request = window.indexedDB.open('rokr', 1),
+        db,
+        store,
+        index,
+        tx;
+    
+    request.onupgradeneeded = function(e) {
+        let db = request.result;
+        
+        db.onerror = function() {
+            console.log('Error creating database. Error code: ', e.target.errorCode);
+        }
+
+        // Create Objectives object store
+        var store = db.createObjectStore('ObjectivesStore', {
+            keyPath: 'objectiveId', autoIncrement: true
+        });
+        var index = store.createIndex('objectiveIdIndex', 'objectiveId', {unique: true});
+        index = store.createIndex('teamIndex', 'team', {unique: false});
+
+        // Create KeyResults object store
+        store = db.createObjectStore('KeyResultsStore', {
+            keyPath: 'krId', autoIncrement: true
+        });
+        store.createIndex('krIdIndex', 'krId', {unique: true});
+        store.createIndex('teamIndex', 'parentObjectiveTeam', {unique: false});
+
+        // Create Updates object store
+        store = db.createObjectStore('UpdatesStore', {
+            keyPath: 'updateId', autoIncrement: true
+        });
+        store.createIndex('updateIdIndex', 'updateId', {unique: true});
+        store.createIndex('parentKrIdIndex', 'parentKrId', {unique: false});
+
+        e.target.transaction.oncomplete = function() {
+            // Run the code below for the FIRST TIME only
+            console.log('Initialisation of database: loading data.')
+            // Load Objectives
+            tx = db.transaction('ObjectivesStore', 'readwrite');
+            store = tx.objectStore('ObjectivesStore');
+            store.clear();
+
+            for (var i=0; i < allData.objectives.length; i++) {
+                var {objectiveId, ...newData} = allData.objectives[i];
+                store.put(newData);
+            }
+
+            tx.oncomplete = function() {
+                console.log('Loaded Objectives.');
+            }
+
+            // Load Key Results
+            tx = db.transaction('KeyResultsStore', 'readwrite');
+            store = tx.objectStore('KeyResultsStore');
+            store.clear();
+            
+            for (i=0; i < allData.keyResults.length; i++) {
+                var {krId, ...newData} = allData.keyResults[i];
+                store.put(newData);
+            }
+
+            tx.oncomplete = function() {
+                console.log('Loaded Key Results.')
+            }
+
+            // Load Updates
+            tx = db.transaction('UpdatesStore', 'readwrite');
+            store = tx.objectStore('UpdatesStore');
+            store.clear();
+
+            for (i=0; i < allData.updates.length; i++) {
+                var {objectiveId, ...newData} = allData.updates[i];
+                store.put(newData);
+            }
+
+            tx.oncomplete = function() {
+                console.log('Loaded Updates.')
+                console.log('Closing connection to DB.')
+                db.close()
+            }
+        };
+    }
+    
+    request.onerror = function(e) {
+        console.log('Error opening database. Error code: ', e.target.errorCode);
+    };
+    
+    request.onsuccess = function(e) {
+        db = request.result;
+        console.log('Database ok.');
+    }
+}
+
+// Compute KR completion
+function computeKrCompletion(data) {
+    
+    var krCompleted = data.map(function(entry) {
+        var pct = entry.currentValue / entry.maxValue;
+        return pct === 1.0 ? 1 : 0;
+    }).reduce((prev, next) => prev + next, 0);
+    
+    return {
+        completed: krCompleted,
+        total: data.length
+    };
+}
+
+// Compute KR percentages
+function computeKrPercentage(data){
+    var count = 0;
+    var total = 0.0;
+    for (var i=0; i < data.length; i++){
+        total += data[i].currentValue / data[i].maxValue;
+        count += 1
+    }
+    return total/count;
+}
+
+// Compute Objective completion
+function computeObjCompletion(objectives, keyResults) {
+    
+    var total = objectives.length;
+    var completed = 0;
+    var filteredKRs;
+    var completedKRs;
+    var numKRs;
+    var pctCompletion;
+    var avgCompletion = 0;
+    for (var i=0; i<objectives.length; i++) {
+        
+        // Filter KRs for each objective
+        filteredKRs = keyResults.filter(function(kr) {
+            return kr.parentObjectiveId === objectives[i].objectiveId;
+        });
+        numKRs = filteredKRs.length;
+
+        // Compute average completion
+        pctCompletion = filteredKRs.map(function(kr) {
+            return kr.currentValue / kr.maxValue;
+        })
+        avgCompletion += pctCompletion.reduce(function(a, b) { return a + b }, 0) / numKRs;
+        completedKRs = filteredKRs.filter(function(kr) {
+            return kr.currentValue === kr.maxValue;
+        });
+
+        if (numKRs === completedKRs.length) {
+            completed ++;
+        }
+    }
+
+    avgCompletion /= total;
+
+    return { completed, total, avgCompletion };
+}
+
+
+// Compute overall annual metrics
+function computeAnnualMetrics(objectives, keyResults) {
+
+    const annualObjectives = objectives.filter(function(obj) {
+        return obj.frequency === 'annual';
+    });
+    
+    const annualKRs = keyResults.filter(function(kr) {
+        const objs = annualObjectives.filter(function(obj) {
+            return obj.objectiveId === kr.parentObjectiveId;
+        });
+        return objs.length > 0;
+    });
+
+    const tempObjCompletion = computeObjCompletion(annualObjectives, annualKRs);
+    const output = {
+        avgCompletion: tempObjCompletion.avgCompletion,
+        keyResultCompletion: computeKrCompletion(annualKRs),
+        objectiveCompletion: {
+            completed: tempObjCompletion.completed,
+            total: tempObjCompletion.total,
+        }
+    };
+
+    return output;
+}
+
+
+// Prepare data for teams
+function computeTeamsAnnualMetrics(teams, objectives, keyResults) {
+    var output = {};
+    var tempObj;
+    var parentObj;
+    var tempKR;
+    var tempObjCompletion;
+    for (var t=0; t < teams.length; t++) {
+        output[teams[t].teamName] = {};
+        tempObj = objectives.filter(function(entry) {
+            return (entry.team === teams[t].teamName) && (entry.frequency === 'annual');
+        })
+        tempKR = keyResults.filter(function(entry) {
+            parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
+            return (entry.parentObjectiveTeam === teams[t].teamName) && (
+                parentObj.frequency === 'annual'
+            );
+        })
+        tempObjCompletion = computeObjCompletion(tempObj, tempKR);
+        output[teams[t].teamName] = {
+            avgCompletion: tempObjCompletion.avgCompletion,
+            keyResultCompletion: computeKrCompletion(tempKR),
+            objectiveCompletion: {
+                completed: tempObjCompletion.completed,
+                total: tempObjCompletion.total,
+            }
+        };
+    }
+    return output;
+}
+
+function prepareTeamData(team, objectives, keyResults) {
+    var output = {};
+    var freqs = ['annual', 'quarterly', 'monthly'];
+    var tempObj;
+    var parentObj;
+    var tempKR;
+    var tempObjCompletion;
+    for (var f=0; f < freqs.length; f++) {
+        tempObj = objectives.filter(function(entry) {
+            return (entry.team === team) && (entry.frequency === freqs[f]);
+        })
+
+        tempKR = keyResults.filter(function(entry) {
+            parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
+            return (entry.parentObjectiveTeam === team) && (
+                parentObj.frequency === freqs[f]
+            );
+        })
+        
+        tempObjCompletion = computeObjCompletion(tempObj, tempKR);
+
+        output[freqs[f]] = {
+            avgCompletion: tempObjCompletion.avgCompletion,
+            keyResultCompletion: computeKrCompletion(tempKR),
+            objectiveCompletion: {
+                completed: tempObjCompletion.completed,
+                total: tempObjCompletion.total,
+            },
+            objectives: tempObj,
+            keyResults: tempKR
+        };
+    }
+
+    return output;
+}
+
+function formatDate(dateStr) {
+    if (dateStr) {
+        var date = new Date(dateStr);
+        var y = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+        var m = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
+        var d = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+        return d + ' ' + m + ' ' + y;
+    }
+}
+// UTILS FOR QUERYING DATA
+function getDate(date) {
+    const rawDate = new Date(date);
+    const z = rawDate.getTimezoneOffset() * 60 * 1000;
+    const localDate = new Date(rawDate - z);
+    const localDateISO = localDate.toISOString().slice(0, 10);
+    return localDateISO;
+}
+
+function checkDate(date) {
+    var dateIsValid = false;
+    try {
+        var checkDate = new Date(date);
+        if (!checkDate.getDate()) {
+            throw new Error('Not a proper date.');
+        }
+        dateIsValid = /\d{4}-\d{2}-\d{2}/.test(date) ? true : false;
+    } catch(err){
+        dateIsValid = false;
+    }
+    return dateIsValid;
+}
+
+function getObjectiveData(listId, team) {
+    const queryColumns = '$select=Id,Title,objectiveDescription,objectiveStartDate,objectiveStartDate,objectiveEndDate,frequency,team';
+    var queryFilter = '';
+    if (team !== 'all') {
+        queryFilter = "&$filter=team eq '" + team + "'";
+    }
+
+    var rawData = $.ajax({
+        url: "https://portal.mis.defence.gov.sg/rsaf/RDO/private_api/web/Lists(guid'" +
+            listId + "')/items?" + queryColumns + (queryFilter ? '&' : '') + queryFilter,
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json; odata=verbose'
+        },
+        async: false,
+        success: function(data) {
+            return data;
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+
+    rawData = rawData.responseJSON.d.results;
+
+    const output = rawData.map(function(entry) {
+        return {
+            objectiveId: entry.Id,
+            objectiveTitle: entry.Title,
+            objectiveDescription: entry.objectiveDescription,
+            objectiveStartDate: getDate(entry.objectiveStartDate),
+            objectiveEndDate: getDate(entry.objectiveEndDate),
+            frequency: entry.frequency,
+            team: entry.team
+        };
+    });
+
+    return output
+}
+
+function getKRData(listId, team) {
+    const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,parentObjective/Id,parentObjective/team&$expand=parentObjective';
+    var queryFilter = '';
+
+    if (team !== 'all') {
+        queryFilter = "&$filter=parentObjective/team eq '" + team + "'";
+    }
+
+    var rawData = $.ajax({
+        url: "https://portal.mis.defence.gov.sg/rsaf/RDO/private/_api/web/Lists(guid'" +
+            listId + "')/items?" + queryColumns + (queryFilter ? '&' : '') + queryFilter,
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json; odata=verbose'
+        },
+        async: false,
+        success: function(data) {
+            return data;
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+
+    const output = rawData.map(function(entry) {
+        return {
+            krId: entry.Id,
+            krTitle: entry.title,
+            krDescription: entry.krDescription,
+            krStartDate: getDate(entry.krStartDate),
+            krEndDate: getDate(entry.krEndDate),
+            minValue: entry.minValue,
+            maxValue: entry.maxValue,
+            currentValue: entry.currentValue,
+            parentObjectiveId: entry.parentObjective.Id,
+            parentObjectiveTeam: entry.parentObjective.team
+        };
+    });
+
+    return output;
+}
+
+function getAllIDB(objectStore, callback) {
+    // window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
+    //     window.webkitIndexedDB || window.msIndexedDB;
+    
+    let request = window.indexedDB.open('rokr', 1),
+        db,
+        tx,
+        store,
+        data;
+    
+    request.onsuccess = function(e) {
+        db = request.result;
+
+        // Load Objectives
+        tx = db.transaction(objectStore, 'readonly');
+        store = tx.objectStore(objectStore);
+
+        data = store.getAll();
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved all entries from ' + objectStore + '. Closing connection to DB.')
+            db.close()
+        }
+    }
+
+    return data;
+}
+
+function getTeamObjectiveDataIBD(teamName, callback){
+    let request = window.indexedDB.open('rokr', 1);
+    request.onerror = function(e) {
+        console.log('Error in query. Error code:', e.target.errorCode);
+    };
+
+    request.onsuccess = function(e) {
+        var db = request.result;
+
+        // Load team Objectives
+        var tx = db.transaction('ObjectivesStore', 'readonly');
+        var store = tx.objectStore('ObjectivesStore');
+        var teamIndex = store.index(['teamIndex']);
+        
+        var data = teamIndex.getAll(teamName);
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved team Objectives. Closing connection to DB.')
+            db.close()
+        };
+
+        tx.onerror = function(e) {
+            console.log('Error in query. Error code:', e.target.errorCode);
+        };
+    };
+}
+
+function getTeamKeyResultDataIBD(teamName, callback){
+    let request = window.indexedDB.open('rokr', 1);
+    
+    request.onsuccess = function(e) {
+        var db = request.result;
+
+        // Load team Key Results
+        var tx = db.transaction('KeyResultsStore', 'readonly');
+        var store = tx.objectStore('KeyResultsStore');
+        var teamIndex = store.index('teamIndex');
+
+        var data = teamIndex.getAll(teamName);
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved team Key Results. Closing connection to DB.')
+            db.close()
+        }
+    }
+}
+
+function getTeamUpdatesDataIBD(krId, callback){
+    let request = window.indexedDB.open('rokr', 1);
+    
+    request.onsuccess = function(e) {
+        var db = request.result;
+
+        // Load team Key Results
+        var tx = db.transaction('UpdatesStore', 'readonly');
+        var store = tx.objectStore('UpdatesStore');
+        var parentKrIdIndex = store.index('parentKrIdIndex');
+
+        var data = parentKrIdIndex.getAll(krId);
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved team Updates. Closing connection to DB.')
+            db.close()
+        }
+    }
+}
+
+function getOneIBD(objectStore, id, callback) {
+    let request = window.indexedDB.open('rokr', 1);
+    
+    request.onsuccess = function(e) {
+        var db = request.result;
+
+        // Load team Key Results
+        var tx = db.transaction(objectStore, 'readonly');
+        var store = tx.objectStore(objectStore);
+
+        var data = store.get(id);
+
+        tx.oncomplete = function() {
+            data = data.result;
+            callback(data);
+            console.log('Retrieved 1 entry from ' + objectStore + '. Closing connection to DB.')
+            db.close()
+        }
+    }
+}
+
+function putIBD(objectStore, data, callback) {
+    let request = window.indexedDB.open('rokr', 1);
+    request.onsuccess = function(e) {
+        var db = request.result;
+        var tx = db.transaction(objectStore, 'readwrite');
+        var store = tx.objectStore(objectStore);
+        store.put(data);
+        tx.oncomplete = function() {
+            if (callback) {
+                callback();
+            }
+            console.log('Put 1 entry for ' + objectStore + '. Closing connection to DB.');
+            db.close();
+        }
+    }
+}
+
+function deleteIBD(objectStore, key, callback) {
+    let request = window.indexedDB.open('rokr', 1);
+    request.onsuccess = function(e) {
+        var db = request.result;
+        var tx = db.transaction(objectStore, 'readwrite');
+        var store = tx.objectStore(objectStore);
+        store.delete(key);
+        tx.oncomplete = function() {
+            if (callback) {
+                callback();
+            }
+            console.log('Deleted 1 entry for ' + objectStore + '. Closing connection to DB.');
+            db.close();
+        }
+    }
+}
+
+// COMPONENT: Brand
+function Brand(){
+    return (
+        <div>
+            <span style={{fontFamily: "Bahnschrift, 'Segoe UI'"}}><span className="accent-blue">R</span><span className="accent-green">OKR</span></span>
+        </div>
+    )
+}
+// COMPONENT: Navbar
+function Navbar(props) {
+    var linkElements = props.teams.map(function(item) {
+        return (
+            <li key={'nav-' + item.slug} className="nav-item">
+                <NavLink className="nav-link" to={"/" + item.slug}>{item.teamName}</NavLink>
+            </li>
+        );
+    });
+
+    return (
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className="container">
+                <NavLink className="navbar-brand" to="/">
+                    <Brand />
+                </NavLink>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-expanded="false" aria-label="Toggle Nav">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarContent">
+                    <ul className="navbar-nav ml-auto">
+                        {linkElements}
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/directory">Directory</NavLink>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    );
+}
+
+// COMPONENT: ProgressCard
+function ProgressCard(props) {
+    // Define styles
+    var styleCircleText = 'progress-card--circle-text';
+    var styleHeaderText = 'progress-card--header-text';
+    var styleMetric = 'progress-card--metric';
+    var styleMetricTitle = 'progress-card--metric-title';
+    var styleMetricBetween = 'pl-3 pr-3 progress-card--metric-between';
+    var styleCircleFont = 'progress-circle-font';
+
+    // Add "-sm" suffix for Team cards
+    if (props.isTeam) {
+        styleCircleText = styleCircleText + '-sm';
+        styleHeaderText = styleHeaderText + '-sm';
+        styleMetric = styleMetric + '-sm';
+        styleMetricTitle = styleMetricTitle + '-sm';
+        styleMetricBetween = styleMetricBetween + '-sm';
+        styleCircleFont = styleCircleFont + '-sm';
+    }
+    
+    return (
+        <div>
+            <div className="row justify-content-center align-items-center">
+                <div className="col-6 text-center">
+                    <div id={props.progressId} className="progress-circle text-center">
+                        <div className={styleCircleFont + " progress-circle-value"}></div>
+                    </div>
+                    <div className={styleCircleText + " text-center mt-3"}>
+                        AVG Objective Progress
+                    </div>
+                </div>
+                <div className="col-6 text-center">
+                    <h4 className={styleHeaderText + " mb-2"}>Objectives</h4>
+                    <div className="row align-items-center justify-content-center text-center">
+                        <span className={styleMetric}>{props.data.objectiveCompletion.completed}</span>
+                        <span className={styleMetricBetween}>/</span>
+                        <span className={styleMetric}>{props.data.objectiveCompletion.total}</span>
+                    </div>
+                    <div className="text-center">
+                        <span className={styleMetricTitle}>Completed</span>
+                    </div>
+                    <hr className="mt-4 mb-4" />
+                    <h4 className={styleHeaderText + " mb-2"}>Key Results</h4>
+                    <div className="row align-items-center justify-content-center text-center">
+                        <span className={styleMetric}>{props.data.keyResultCompletion.completed}</span>
+                        <span className={styleMetricBetween}>/</span>
+                        <span className={styleMetric}>{props.data.keyResultCompletion.total}</span>
+                    </div>
+                    <div className="text-center">
+                        <span className={styleMetricTitle}>Completed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+// COMPONENT: HomeCards and Card
+function Card(props) {
+    const history = useHistory();
+    function goToTeamPage() {
+        return history.push('/' + props.slug);
+    }
+
+    return (
+        <div className="col-6 card--outer" onClick={goToTeamPage}>
+            <div className="card--inner">
+                <h4 className="card--header text-center mb-3">{props.teamName}</h4>
+                <ProgressCard progressId={props.slug} data={props.data} isTeam={true} />
+            </div>
+        </div>
+    );
+}
+
+// HomeCards
+function HomeCards(props) {
+    var cards = props.teams.map(function(team) {
+        return (
+            <Card
+                teamName={team.teamName}
+                key={team.slug}
+                slug={team.slug}
+                data={props.allTeamsProgressData[team.teamName]}
+            />
+        );
+    });
+
+    return (
+        <div className="row align-items-center mt-3 mx-auto">
+            {cards}
+        </div>
+    );
+}
+
+// COMPONENT: ProgressBar
+function ProgressBar(props) {
+    const progressNow = Math.round(100 * Number(props.progress));
+    const progressNowString = String(progressNow ? progressNow: 0) + '%';
+
+    const progressStyle = {
+        width: progressNowString
+    };
+
+    const progressClass = props.isKeyResult ? "progress progress-keyresult" : "progress";
+    const progressBarClass = props.isKeyResult ? "progress-bar progress-keyresult" : "progress-bar";
+    const progressBarText = props.isKeyResult? "progress-text-sm" : 'progress-text';
+
+    return (
+        <div className="row align-items-center">
+            <div className="col-9">
+                <div className={progressClass}>
+                    <div
+                        className={progressBarClass}
+                        role="progressbar"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow={progressNow}
+                        style={progressStyle}
+                    ></div>
+                </div>
+            </div>
+            <div className="col-3 text-center">
+                <span className={progressBarText}>{progressNowString}</span>
+            </div>
+        </div>
+    );
+}
+
+// COMPONENT: Home
+function Home(props) {
+    // Initialise states for raw data and computed metrics
+    const [data, setData] = useState({});
+    const [metrics, setMetrics] = useState({});
+
+    // Callback functions to update respective items in raw data state
+    // To be passed to async query to database
+    function updateObjectives(data) {
+        setData(prevData => {return {...prevData, allObjectives: data}});
+    }
+
+    function updateKeyResults(data) {
+        setData(prevData => {return {...prevData, allKeyResults: data}});
+    }
+    
+    // Run once - to trigger query
+    useEffect(function() {
+        // Query data - simulated
+        getAllIDB('ObjectivesStore', updateObjectives);
+        getAllIDB('KeyResultsStore', updateKeyResults);
+    }, [])
+
+    // Computes progress card metrics every time there is a change to the raw data state
+    useEffect(function() {
+        if (data.allObjectives && data.allKeyResults) {
+            setMetrics(prevData => {
+                return {
+                    ...prevData,
+                    overallProgressData: computeAnnualMetrics(data.allObjectives, data.allKeyResults),
+                    allTeamsProgressData: computeTeamsAnnualMetrics(props.teams, data.allObjectives, data.allKeyResults)
+                };
+            });
+        }
+    }, [data, props.teams])
+
+    // Renders progress cards every time there is a change to the metrics
+    useEffect(function() {
+        if (metrics.overallProgressData) {
+            updateCircleProgress('overall_progress', metrics.overallProgressData.avgCompletion, 200, '50px', '#000718');
+        }
+
+        // Load teams
+        var teamName;
+        var slug;
+        if (metrics.allTeamsProgressData) {
+            for (var i=0; i < props.teams.length; i++) {
+                teamName = props.teams[i].teamName;
+                slug = props.teams[i].slug;
+                updateCircleProgress(slug, metrics.allTeamsProgressData[teamName].avgCompletion, 160, '35px', '#010D1E');
+            }
+        }
+    }, [metrics, props.teams]);
+
+    return (
+        <div>
+            <h1><Brand /></h1>
+            <h2 className="mt-4">Overall Progress</h2>
+            {metrics.overallProgressData && <div className="overall-panel mt-4">
+                <ProgressCard progressId="overall_progress" data={metrics.overallProgressData} isTeam={false} />
+            </div>}
+            {!metrics.overallProgressData && <div className="overall-panel mt-4 text-center align-items-center">
+                <span className="no-data">No data to display.</span>
+            </div>}
+            <h2 className="mt-5">Teams</h2>
+            {metrics.allTeamsProgressData && <HomeCards teams={props.teams} allTeamsProgressData={metrics.allTeamsProgressData} />}
+            {!metrics.allTeamsProgressData && <div className="overall-panel mt-4 text-center align-items-center">
+                <span className="no-data">No data to display.</span>
+            </div>}
+        </div>
+    );
+}
+
+// COMPONENT: CaretIcon
+function InfoIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16" style={{paddingBottom: '3px'}}>
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+        </svg>
+    );
+}
+
+function LaunchIcon() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+            width="16" height="16" fill="currentColor"
+            style={{paddingBottom: '3px'}}
+        >
+            <path
+                d="M256 64C256 46.33 270.3 32 288 32H415.1C415.1 32 415.1 32
+                415.1 32C420.3 32 424.5 32.86 428.2 34.43C431.1 35.98 435.5
+                38.27 438.6 41.3C438.6 41.35 438.6 41.4 438.7 41.44C444.9 47.66 
+                447.1 55.78 448 63.9C448 63.94 448 63.97 448 64V192C448 209.7 
+                433.7 224 416 224C398.3 224 384 209.7 384 192V141.3L214.6 
+                310.6C202.1 323.1 181.9 323.1 169.4 310.6C156.9 298.1 156.9 
+                277.9 169.4 265.4L338.7 96H288C270.3 96 256 81.67 256 64V64zM0 
+                128C0 92.65 28.65 64 64 64H160C177.7 64 192 78.33 192 96C192 
+                113.7 177.7 128 160 128H64V416H352V320C352 302.3 366.3 288 384 
+                288C401.7 288 416 302.3 416 320V416C416 451.3 387.3 480 352 
+                480H64C28.65 480 0 451.3 0 416V128z"
+            />
+        </svg>
+    );
+}
+
+function EditIcon() {
+    return (
+        <svg
+            className="edit-icon"
+            aria-hidden="false"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="pen-to-square"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            data-fa-i2svg=""
+        >
+            <path
+                fill="currentColor"
+                d="M490.340.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3
+                149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6
+                21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3
+                339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1
+                385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2
+                352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192
+                63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192
+                127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96
+                448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1
+                416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512
+                352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96
+                63.1H192z"
+            >
+            </path>
+        </svg>
+    );
+}
+
+const editIconString = `<svg
+className="edit-icon"
+style="height:14px; width: 14px;"
+aria-hidden="false"
+focusable="false"
+data-prefix="fas"
+data-icon="pen-to-square"
+role="img"
+xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 512 512"
+data-fa-i2svg=""
+>
+<path
+    fill="currentColor"
+    d="M490.340.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3
+    149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6
+    21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3
+    339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1
+    385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2
+    352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192
+    63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192
+    127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96
+    448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1
+    416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512
+    352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96
+    63.1H192z"
+>
+</path>
+</svg>`;
+
+function EditIconText(props) {
+    return (
+        <svg
+            aria-hidden="false"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="pen-to-square"
+            role="text"
+            className={props.className}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            data-fa-i2svg=""
+        >
+            <path
+                fill="currentColor"
+                d="M490.340.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3
+                149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6
+                21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3
+                339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1
+                385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2
+                352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192
+                63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192
+                127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96
+                448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1
+                416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512
+                352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96
+                63.1H192z"
+            >
+            </path>
+        </svg>
+    );
+}
+
+function CaretIcon() {
+    return (
+        <svg
+            className="fa-caret-right collapse-icon"
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="caret-right"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 256 512"
+        data-fa-i2svg="">
+            <path fill="currentColor" d="M118.6 105.4l128 127.1C252.9 239.6 256
+            247.8 256 255.1s-3.125 16.38-9.375 22.63l-128 127.1c-9.156 9.156-22.91
+            11.9-34.88 6.943S64 396.9 64 383.1V128c0-12.94 7.781-24.62 19.75-29.58S109.5
+            96.23 118.6 105.4z">
+            </path>
+        </svg>
+    );
+}
+
+// COMPONENT: ObjectiveForm
+function ObjectiveForm(props) {
+    // Extract URL parameters
+    const params = useParams();
+    const urlParams = new URLSearchParams(useLocation().search);
+    const history = useHistory();
+
+    // Initialise state for form
+    const [formData, setFormData] = useState({});
+    const [team, setTeam] = useState({});
+    const [formErrors, setFormErrors] = useState([]);
+    const formErrorsList = formErrors.map(function(item) {
+        return <li key={item}>{item}</li>;
+    });
+
+    const mode = props.mode === 'edit' ? 'Edit' : 'New';
+    
+    // Query data - simulated
+    useEffect(function() {
+        if (props.mode === 'edit') {
+            getOneIBD('ObjectivesStore', Number(params.id), setFormData);
+        } else {
+            var teamInfo = props.teams.filter(function(item) {
+                return item.teamName === urlParams.get('team');
+            });
+
+            setTeam(teamInfo[0])
+
+            setFormData({
+                objectiveId: -1,
+                objectiveTitle: "",
+                objectiveDescription: "",
+                objectiveStartDate: getDate(new Date()),
+                objectiveEndDate: getDate(new Date()),
+                frequency: urlParams.get('frequency'),
+                team: urlParams.get('team')
+            });
+        }
+    }, []);
+
+    useEffect(function() {
+        if (formData.team && props.mode === 'edit') {
+            var teamInfo = props.teams.filter(function(item) {
+                return item.teamName === formData.team;
+            });
+            setTeam(teamInfo[0]);
+        }
+    }, [formData]);
+    
+    function handleChange(event) {
+        setFormData(prevData => {
+            return {
+                ...prevData,
+                [event.target.name]: event.target.value
+            }
+        });
+    }
+
+    // Prepare select input options
+    var teams = props.teams.map(function(team) {
+        return <option key={team.slug} value={team.teamName}>{team.teamName}</option>
+    });
+    
+    // Enable form datepicker utility
+    useEffect(function() {
+        $(function() {
+            var startDatePicker = $('#objectiveStartDate');
+            startDatePicker.datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            startDatePicker.on('changeDate', function(){
+                setFormData(prevData => {
+                    return {
+                        ...prevData,
+                        objectiveStartDate: getDate(startDatePicker.datepicker('getDate'))
+                    };
+                })
+            });
+
+            var endDatePicker = $('#objectiveEndDate');
+            endDatePicker.datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            endDatePicker.on('changeDate', function(){
+                setFormData(prevData => {
+                    return {
+                        ...prevData,
+                        objectiveEndDate: getDate(endDatePicker.datepicker('getDate'))
+                    };
+                })
+            });
+        });
+    });
+
+    // Cancel: Go back
+    function redirectBack() {
+        return history.push('/' + team.slug);
+    }
+
+    function submitForm() {
+        // Clear previous errors
+        setFormErrors([]);
+
+        // Extract mandatory form inputs
+        const inputTitle = formData.objectiveTitle;
+        const inputStartDate = formData.objectiveStartDate;
+        const inputEndDate = formData.objectiveEndDate;
+        
+        var validStartDate = inputStartDate ? checkDate(inputStartDate) : false;
+        var validEndDate = inputEndDate ? checkDate(inputEndDate) : false;
+
+        // Form ok
+        if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
+            if (props.mode === 'edit') {
+                putIBD('ObjectivesStore', formData, () => history.push('/' + team.slug) );
+            } else {
+                var {objectiveId, ...newData} = formData;
+                putIBD('ObjectivesStore', newData, () => history.push('/' + team.slug) );
+            }
+        } else {
+            if (!inputTitle) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Input a title.'];
+                })
+            }
+
+            if (!inputStartDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set a start date.'];
+                })
+            } else if (!validStartDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set a valid start date.'];
+                })
+            }
+
+            if (!inputEndDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set an end date.'];
+                })
+            } else if (!validEndDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Please set a valid end date.'];
+                })
+            }
+        }
+    }
+
+    return (
+        <div>
+            <h1 className="mb-4">{mode} Objective</h1>
+            <form className="form--group" id="objectiveForm">
+                <div className="form-element">
+                    <label htmlFor="objectiveTitle" className="form--label">Title</label>
+                    <input 
+                        type="text"
+                        name="objectiveTitle"
+                        className="form-control form-dark form--edit"
+                        value={formData.objectiveTitle}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-element">
+                    <label htmlFor="objectiveDescription" className="form--label">Description</label>
+                    <textarea
+                        name="objectiveDescription"
+                        className="form-control form-dark form--edit"
+                        rows="1"
+                        value={formData.objectiveDescription}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="row align-items-center">
+                    <div className="col-6">
+                        <div className="form-element">
+                            <label htmlFor="objectiveStartDate" className="form--label">Start Date</label>
+                            <input
+                                type="text"
+                                id="objectiveStartDate"
+                                name="objectiveStartDate"
+                                className="form-control form-dark form--edit datepicker"
+                                value={formData.objectiveStartDate}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-element">
+                            <label htmlFor="objectiveEndDate" className="form--label">End Date</label>
+                            <input
+                                type="text"
+                                id="objectiveEndDate"
+                                name="objectiveEndDate"
+                                className="form-control form-dark form--edit datepicker"
+                                value={formData.objectiveEndDate}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="row align-items-center">
+                    <div className="col-6">
+                        <div className="form-element">
+                            <label htmlFor="team" className="form--label">Team</label>
+                            <select
+                                name="team"
+                                className="form-control form-dark form--edit"
+                                value={formData.team}
+                                onChange={handleChange}
+                            >
+                                {teams}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-element">
+                            <label htmlFor="frequency" className="form--label">Frequency</label>
+                            <select
+                                name="frequency"
+                                className="form-control form-dark form--edit"
+                                value={formData.frequency}
+                                onChange={handleChange}
+                            >
+                                <option value="annual">Annual</option>
+                                <option value="quarterly">Quarterly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div className="text-right mt-2">
+                <button type="button" className="btn btn-secondary mr-2" onClick={redirectBack}>Back to Team Page</button>
+                <button className="btn btn-green" onClick={submitForm}>Submit</button>
+            </div>
+            {formErrorsList.length > 0 && <div className="form-errors mt-4">
+                <p>Please resolve the following errors:</p>
+                <ul>{formErrorsList}</ul>
+            </div>}
+        </div>
+    );
+}
+
+// COMPONENT: KRForm
+function KRForm(props) {
+    // Extract URL parameters
+    const params = useParams();
+    const urlParams = new URLSearchParams(useLocation().search);
+    const history = useHistory();
+    
+    // Initialise state for form
+    const [formData, setFormData] = useState({});
+    const [team, setTeam] = useState({});
+    const [objectives, setObjectives] = useState([]);
+
+    const mode = props.mode === 'edit' ? 'Edit' : 'New';
+
+    // Run once - query Key Result
+    useEffect(function() {
+        if (props.mode === 'edit') {
+            getOneIBD('KeyResultsStore', Number(params.id), setFormData);
+        } else {
+            var teamInfo = props.teams.filter(function(item) {
+                return item.teamName === urlParams.get('team');
+            });
+            setTeam(teamInfo[0]);
+
+            // Query objectives
+            getTeamObjectiveDataIBD(teamInfo[0].teamName, setObjectives);
+            
+            // Set form data
+            setFormData({
+                krId: -1,
+                krTitle: "",
+                krDescription: "",
+                krStartDate: "2022-04-01",
+                krEndDate: "",
+                minValue: 0,
+                maxValue: 1,
+                currentValue: 0,
+                owner: "",
+                parentObjectiveId: -1,
+                parentObjectiveTeam: urlParams.get('team')
+            });
+        }
+    }, []);
+
+    // Update team (mainly for edit mode) and query objectives based on KR data
+    useEffect(function() {
+        if (formData.parentObjectiveTeam && props.mode === 'edit') {
+            // Get team info
+            var teamInfo = props.teams.filter(function(item) {
+                return item.teamName === formData.parentObjectiveTeam;
+            });
+            setTeam(teamInfo[0]);
+            
+            // Get objectives
+            getTeamObjectiveDataIBD(teamInfo[0].teamName, setObjectives);
+        }
+    }, [formData]);
+
+    // Update options based on Objectives
+    useEffect(function() {
+        if (props.mode === 'new') {
+            setFormData(prevData => {
+                return {
+                    ...prevData,
+                    parentObjectiveId: objectives.length > 0 ? objectives[0].objectiveId : 0
+                };
+            });
+        }
+    }, [objectives]);
+
+    function objectivesToOptions(obj) {
+        return (
+            <option
+                key={obj.objectiveId}
+                value={obj.objectiveId}
+                className="selectbox-text"
+            >
+                [{obj.frequency.charAt(0).toUpperCase() + obj.frequency.slice(1)}] {obj.objectiveTitle}
+            </option>
+        );
+    }
+
+    function handleChange(event) {
+        const name = event.target.name;
+        const value = (name === 'currentValue' || name === 'parentObjectiveId') ? 
+            Number(event.target.value) : 
+            event.target.value;
+        
+        setFormData(prevData => {
+            return {
+                ...prevData,
+                [name]: value
+            }
+        });
+    }
+
+    // Enable form datepicker utility
+    useEffect(function() {
+        $(function() {
+            var startDatePicker = $('#krStartDate');
+            startDatePicker.datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            startDatePicker.on('changeDate', function(){
+                setFormData(prevData => {
+                    return {
+                        ...prevData,
+                        krStartDate: getDate(startDatePicker.datepicker('getDate'))
+                    };
+                })
+            });
+
+            var endDatePicker = $('#krEndDate');
+            endDatePicker.datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            endDatePicker.on('changeDate', function(){
+                setFormData(prevData => {
+                    return {
+                        ...prevData,
+                        krEndDate: getDate(endDatePicker.datepicker('getDate'))
+                    };
+                })
+            });
+        });
+    });
+
+    // Cancel: Go back
+    function redirectBack() {
+        return history.push('/' + team.slug);
+    }
+
+    // Submit: Check form and add to errors first
+    const [formErrors, setFormErrors] = useState([]);
+    const formErrorsList = formErrors.map(function(item) {
+        return <li key={item}>{item}</li>;
+    });
+
+    // Configure form errors
+    function submitForm() {
+        // Clear previous errors
+        setFormErrors([]);
+
+        // Extract mandatory form inputs
+        const inputTitle = formData.krTitle;
+        const inputStartDate = formData.krStartDate;
+        const inputEndDate = formData.krEndDate;
+        
+        var validStartDate = inputStartDate ? checkDate(inputStartDate) : false;;
+        var validEndDate = inputEndDate ? checkDate(inputEndDate) : false;;
+
+        // Form ok
+        if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
+            if (props.mode === 'edit') {
+                putIBD('KeyResultsStore', formData, () => history.push('/' + team.slug))
+            } else {
+                var {krId, ...newData} = formData;
+                putIBD('KeyResultsStore', newData, () => history.push('/' + team.slug));
+            }
+        } else {
+            if (!inputTitle) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Input a title.'];
+                })
+            }
+
+            if (!inputStartDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set a start date.'];
+                })
+            } else if (!validStartDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set a valid start date.'];
+                })
+            }
+
+            if (!inputEndDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Set an end date.'];
+                })
+            } else if (!validEndDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Please set a valid end date.'];
+                })
+            }
+        }
+    }
+    
+    return (
+        <div>
+            <h1 className="mb-4">{mode} Key Result</h1>
+            <form className="form--group" id="keyResultForm">
+                <div className="form-element">
+                    <label htmlFor="krTitle" className="form--label">Title</label>
+                    <input 
+                        type="text"
+                        name="krTitle"
+                        className="form-control form-dark form--edit"
+                        value={formData.krTitle}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-element">
+                    <label htmlFor="krDescription" className="form--label">Description</label>
+                    <textarea
+                        name="krDescription"
+                        className="form-control form-dark form--edit"
+                        rows="1"
+                        value={formData.krDescription}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="row align-items-center">
+                    <div className="col-12">
+                        <div className="form-element">
+                            <label htmlFor="parentObjectiveId" className="form--label">Objective</label>
+                            <select
+                                name="parentObjectiveId"
+                                className="form-control form-dark form--edit"
+                                value={formData.parentObjectiveId}
+                                onChange={handleChange}
+                            >
+                                {objectives.map(objectivesToOptions)}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-element">
+                            <label htmlFor="parentObjectiveTeam" className="form--label">Team</label>
+                            <input
+                                type="text"
+                                name="parentObjectiveTeam"
+                                className="form-control form-dark form--edit"
+                                value={formData.parentObjectiveTeam}
+                                disabled
+                            >
+                            </input>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-element">
+                            <label htmlFor="owner" className="form--label">Owner</label>
+                            <input
+                                type="text"
+                                name="owner"
+                                className="form-control form-dark form--edit"
+                                value={formData.owner}
+                            >
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div className="row align-items-center">
+                    <div className="col-6">
+                        <div className="form-element">
+                            <label htmlFor="krStartDate" className="form--label">Start Date</label>
+                            <input
+                                type="text"
+                                id="krStartDate"
+                                name="krStartDate"
+                                className="form-control form-dark form--edit datepicker"
+                                value={formData.krStartDate}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-element">
+                            <label htmlFor="krEndDate" className="form--label">End Date</label>
+                            <input
+                                type="text"
+                                id="krEndDate"
+                                name="krEndDate"
+                                className="form-control form-dark form--edit datepicker"
+                                value={formData.krEndDate}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    {/* <div className="col-4">
+                        <div className="form-element">
+                            <label htmlFor="frequency" className="form--label">Frequency</label>
+                            <select
+                                name="frequency"
+                                className="form-control form-dark form--edit"
+                                value={formData.frequency}
+                                onChange={handleChange}
+                            >
+                                <option value="annual">Annual</option>
+                                <option value="quarterly">Quarterly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                    </div> */}
+                </div>
+                <div className="row align-items-center">
+                    <div className="col-4">
+                        <div className="form-element">
+                            <label htmlFor="minValue" className="form--label">Min. Value</label>
+                            <input
+                                name="minValue"
+                                type="number"
+                                className="form-control form-dark form--edit"
+                                value={formData.minValue}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-element">
+                            <label htmlFor="currentValue" className="form--label">
+                                Current Value: <span className="form--slider-value">{formData.currentValue}</span>
+                            </label>
+                            <input
+                                name="currentValue"
+                                min={formData.minValue}
+                                max={formData.maxValue}
+                                step="1"
+                                type="range"
+                                className="form-control form-range custom-range form-dark form--edit"
+                                value={formData.currentValue}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-element">
+                            <label htmlFor="maxValue" className="form--label">Max. Value</label>
+                            <input
+                                name="maxValue"
+                                type="number"
+                                className="form-control form-dark form--edit"
+                                value={formData.maxValue}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div className="text-right mt-2">
+                <button type="button" className="btn btn-secondary mr-2" onClick={redirectBack}>Back to Team Page</button>
+                <button className="btn btn-green" onClick={submitForm}>Submit</button>
+            </div>
+            {formErrorsList.length > 0 && <div className="form-errors mt-4">
+                <p>Please resolve the following errors:</p>
+                <ul>{formErrorsList}</ul>
+            </div>}
+        </div>
+    );
+}
+
+// COMPONENT: UpdatesForm
+function UpdatesTable(props) {
+
+    // Initialise state for no. of entries
+    const dataTableSettings = {
+        autoWidth: false,
+        pageLength: 10,
+        displayStart: 0,
+        lengthMenu: [10, 25, 50, 75, 100],
+        order: [
+            [0, 'desc']
+        ],
+        fixedColumns: true,
+        columnDefs: [
+            {width: '15%', name: 'date', targets: 0, data: 'updateDate', className: "text-center"},
+            {
+                width: '75%', name: 'text', targets: 1, data: 'updateText',
+                className: "directory--table-text-sm", sortable: false},
+            {width: '10%', name: 'linkButton', targets: 2, data: 'linkButton', sortable: false, className: "text-center"},
+            {width: '0%', name: 'id', targets: 3, data: 'updateId', visible: false},
+            {width: '0%', name: 'parentKrId', targets: 4, data: 'parentKrId', visible: false},
+        ]
+    };
+
+    const updateRows = props.updateData.map(function(item) {
+        return (
+        <tr key={item.updateId}>
+            <td className="text-center">{item.updateDate}</td>
+            <td>{item.updateText}</td>
+            <td className="text-center">
+                <div onClick={() => {
+                    props.editUpdate(item);
+                }}>
+                    <EditIcon />
+                </div>
+            </td>
+        </tr>
+        );
+    });
+
+    
+
+    useEffect(function() {
+        $(function() {
+            const updateData = props.updateData.map(function(item) {
+                return {
+                    ...item,
+                    linkButton: '<span class="updates-table--link">' + editIconString + '</span>'
+                };
+            })
+
+            // Render datatable
+            const table = $('#updates-table');
+            if (! $.fn.dataTable.isDataTable( '#updates-table' )) {
+                table.DataTable(dataTableSettings);
+                table.DataTable().rows.add(updateData).draw();
+            } else {
+                table.DataTable().clear();
+                table.DataTable().rows.add(updateData).draw();
+            }
+            
+            // Link function
+            $('#updates-table tbody').prop('onclick', 'span').off('click')
+            $('#updates-table tbody').on('click', 'span', function() {
+                var data = table.DataTable().row($(this).parents('tr')).data();
+                props.editUpdate(data);
+            });
+        });
+    }, [props.updateData]);
+
+    return (
+        <table className="table table-dark table-striped directory--table w-100" id="updates-table">
+            <thead>
+                <tr>
+                    <th className="text-center">Date</th>
+                    <th className="text-center">Description</th>
+                    <th className="text-center">Edit</th>
+                </tr>
+            </thead>
+            <tbody className="align-items-center">
+            </tbody>
+        </table>
+    );
+}
+
+function UpdatesForm(props){
+
+    // Extract key result ID from URL parameter
+    const params = useParams();
+    const history = useHistory();
+
+    // Initialise states for page data
+    const [krData, setKrData] = useState({});
+    const [updateData, setUpdateData] = useState([]);
+    const [team, setTeam] = useState('');
+
+    // Initialise states for form
+    const [mode, setMode] = useState('');
+    const [formData, setFormData] = useState({
+        updateId: -1,
+        updateDate: '',
+        updateText: '',
+        parentKrId: -1
+    });
+    const [formErrors, setFormErrors] = useState([]);
+    const formErrorsList = formErrors.map(function(item) {
+        return <li key={item}>{item}</li>;
+    });
+
+    function sortByDate(a, b) {
+        if (a.updateDate > b.updateDate) {
+            return -1;
+        } else if (a.updateDate < b.updateDate) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function sortAndSetUpdates(data) {
+        data.sort(sortByDate);
+        setUpdateData(data);
+    }
+
+    // Query update data - simulated
+    useEffect(function() {
+        getOneIBD('KeyResultsStore', Number(params.id), setKrData);
+        getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+    }, []);
+
+    // Update team based on KR Data
+    useEffect(function() {
+        if (krData.parentObjectiveTeam) {
+            const team = props.teams.filter(function(item) {
+                return item.teamName === krData.parentObjectiveTeam;
+            });
+            setTeam(team);
+            setFormData(prevData => {
+                return {
+                    parentKrId: krData.krId
+                };
+            })
+        }
+    }, [krData]);
+
+    // One time: ensure textarea expands and initialise datepicker
+    useEffect(function() {
+
+        const updateTextArea = $('#updateTextArea');
+        updateTextArea.on('change input', function () {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        });
+
+        $('#editUpdateModal').on('shown.bs.modal', function(event){
+            updateTextArea.height('');
+            updateTextArea.height(updateTextArea.prop('scrollHeight') + 'px');
+        });
+
+        var datePicker = $('#updateDate');
+        datePicker.datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+        datePicker.on('changeDate', function(){
+            setFormData(prevData => {
+                return {
+                    ...prevData,
+                    updateDate: getDate(datePicker.datepicker('getDate'))
+                };
+            })
+        });
+    }, []);
+
+    function handleChange(event){
+        setFormData(prevData => {
+            return {
+                ...prevData,
+                [event.target.name]: event.target.value
+            }
+        });
+    }
+
+    function addUpdate() {
+        setFormData({
+            updateId: 0,
+            updateDate: getDate(new Date()),
+            updateText: '',
+            parentKrId: krData.krId
+        });
+        setMode('new');
+        $('#updateDate').datepicker('setDate', new Date());
+        $('#editUpdateModal').modal('toggle');
+    }
+
+    function editUpdate(update){
+        setFormData(prevData => {
+            return {
+                ...prevData,
+                updateDate: update.updateDate,
+                updateId: update.updateId,
+                updateText: update.updateText
+            };
+        });
+        setMode('edit');
+        $('#updateDate').datepicker('setDate', new Date(update.updateDate));
+        $('#editUpdateModal').modal('toggle');
+    }
+    
+    // Back to Team Page
+    function redirectBack() {
+        return history.push('/' + team[0].slug);
+    }
+
+    function submitForm() {
+        // Clear previous errors
+        setFormErrors([]);
+
+        // Extract mandatory form inputs
+        const inputText = formData.updateText;
+        const inputDate = formData.updateDate;
+
+        var validDate = inputDate ? checkDate(inputDate) : false;
+        
+        if (inputText && inputDate && validDate){
+            // Form ok
+            var {updateId, ...newData} = formData;
+            if (mode === 'edit') {
+                putIBD('UpdatesStore', formData, () => {
+                    getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+                });
+            } else if (mode === 'new') {
+                putIBD('UpdatesStore', newData, () => {
+                    getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+                });
+            }
+            $('#editUpdateModal').modal('hide');
+        } else {
+            // Form not ok
+            if (!inputText) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Provide an update.'];
+                })
+            }
+
+            if (!inputDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Input a date.'];
+                })
+            }
+
+            if (inputDate && !validDate) {
+                setFormErrors(prevData => {
+                    return [...prevData, 'Input a valid date.'];
+                })
+            }
+        }
+    }
+
+    function confirmDelete() {
+        if (window.confirm('Hit OK to confirm deletion of update. This cannot be undone.')) {
+            deleteIBD('UpdatesStore', formData.updateId, () => {
+                getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+            });
+            $('#editUpdateModal').modal('hide');
+        };
+    }
+
+    return (
+        <div>
+            <h1 className="mb-2">Key Result Updates</h1>
+            {krData.krTitle && <h2 className="mb-4">
+                {krData.krTitle} - <span className="text-green">{krData.parentObjectiveTeam}</span>
+            </h2>}
+            <div className="mb-4">
+                <button className="btn btn-blue mr-3" onClick={addUpdate}>Add Update</button>
+                <button className="btn btn-secondary float-right" onClick={redirectBack}>Back to Team Page</button>
+            </div>
+            <div className="directory--container">
+                {updateData.length > 0 && <UpdatesTable updateData={updateData} editUpdate={editUpdate} />}
+                {updateData.length === 0 && <div className="text-center">
+                    <span className="no-data">No data to display.</span>
+                </div>}
+            </div>
+            <div className="modal fade" id="editUpdateModal" tabIndex="-1" aria-labelledby="editUpdateModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-lg modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="editUpdateModalLabel">{mode === 'edit' ? 'Edit' : 'Add'} Update</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <form className="form--group">
+                                <div className="row">
+                                    <div className="col-4">
+                                        <div className="form-element">
+                                            <label htmlFor="updateDate" className="form--label">Date</label>
+                                            <input
+                                                type="text"
+                                                id="updateDate"
+                                                name="updateDate"
+                                                className="form-control form-semi-dark form--edit datepicker"
+                                                value={formData.updateDate}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-element">
+                                    <label htmlFor="updateText" className="form--label">Update</label>
+                                    <textarea
+                                        id="updateTextArea"
+                                        name="updateText"
+                                        rows="1"
+                                        className="form-control form-semi-dark form--edit"
+                                        value={formData.updateText}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                        {formErrorsList.length > 0 && <div className="pr-5 pl-5 mb-4"><div className="form-errors-update mt-2">
+                            <p>Please resolve the following errors:</p>
+                            <ul>{formErrorsList}</ul>
+                        </div></div>}
+                        <div className="modal-footer-custom text-right">
+                            {mode === 'edit' && <button type="button" className="btn btn-danger ml-3 float-left" onClick={confirmDelete}>Delete</button>}
+                            <button type="button" className="btn btn-secondary mr-3" onClick={() => setFormErrors([])} data-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-green mr-3" onClick={submitForm}>Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// COMPONENT: OKR Collapse
+function KeyResultRow(props) {
+    
+    const history = useHistory();
+
+    function toggleModal() {
+        props.setKrData({
+            krTitle: props.krTitle,
+            krDescription: props.krDescription,
+            krStartDate: props.krStartDate,
+            krEndDate: props.krEndDate,
+            minValue: props.minValue,
+            maxValue: props.maxValue,
+            currentValue: props.currentValue,
+            krId: props.krId,
+            owner: props.owner,
+            parentObjectiveId: props.parentObjectiveId,
+            parentObjectiveTeam: props.parentObjectiveTeam
+        });
+
+        $('#kr-modal').modal('toggle');
+    }
+
+    function goToUpdates() {
+        history.push('/edit/update/' + props.krId);
+    }
+
+    return (
+        <div className="keyresult-row">
+            <div className="row align-items-center">
+                <div className="col-5 keyresult-row--info-link" onClick={toggleModal}>
+                    <span className="keyresult-row--title">
+                        {props.krTitle}
+                    </span>
+                    <LaunchIcon />
+                </div>
+                <div className="keyresult-row--updates text-center col-2" onClick={goToUpdates}>
+                    <span className="ml-1">Updates </span>
+                    <LaunchIcon className="keyresult-row--icon" />
+                </div>
+                <div className="text-center col-2">
+                    <span className="keyresult-row--text">{props.krEndDate}</span>
+                </div>
+                <div className="keyresult-row--progress-bar col-3">
+                    <ProgressBar progress={props.progress} isKeyResult={true} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function ObjectiveCard(props) {
+
+    var history = useHistory();
+    function editObjective() {
+        return history.push('/edit/obj/' + props.objectiveId);
+    }
+
+    return (
+        
+        <div className="objective-card">
+            <div className="row align-items-top mt-2">
+                <div className="arrow-div">
+                    <button
+                        className={"btn btn-collapse text-center" + (props.isClicked ? " rotated" : "")}
+                        data-toggle="collapse"
+                        data-target={'#' + props.objId}
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls={props.objId}
+                        id={'btn-' + props.objId}
+                    >
+                        <CaretIcon />
+                    </button>
+                </div>
+                <div className="col-7">
+                    <h5 className="objective-card--title text-left">
+                        <span className="mr-2">{props.objectiveTitle}</span>
+                        {
+                            props.isClicked && 
+                            <div style={{display: 'inline-block', cursor: 'pointer'}} onClick={editObjective}>
+                                <EditIcon />
+                            </div>
+                        }
+                    </h5>
+                    {props.isClicked && <div className="kr-modal--description">{props.objectiveDescription}</div>}
+                </div>
+                <div className="text-center col-2">
+                    <span className="objective-card--text">31 Mar 2023</span>
+                </div>
+                <div className="objective-card--progress-bar col-3">
+                    <ProgressBar progress={props.progress} isKeyResult={false} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+
+function OKRCollapse(props) {
+    const [isClicked, setIsClicked] = useState(true);
+
+    // Calculate objective progress
+    var keyResults = [...props.keyResults];
+    var objProgress = 0;
+    for (var i=0; i < keyResults.length; i++) {
+        keyResults[i].progress = keyResults[i].currentValue / keyResults[i].maxValue;
+        objProgress += keyResults[i].progress;
+    }
+
+    objProgress = objProgress / keyResults.length;
+
+    // Create KR Cards
+    const objId = 'obj-' + props.objective.objectiveId;
+    
+    const keyResultRows = props.keyResults.map(function(item) {
+        return (
+            <KeyResultRow
+                key={item.krId}
+                objId={objId}
+                setKrData={props.setKrData}
+                {...item}
+            />
+        );
+    });
+
+    useEffect(function() {
+        $('#' + objId).on('show.bs.collapse', () => setIsClicked(true));
+        $('#' + objId).on('hide.bs.collapse', () => setIsClicked(false));
+    });
+
+    return (
+        <div className="mt-4">
+            <ObjectiveCard 
+                isClicked={isClicked}
+                objId={objId}
+                progress={objProgress}
+                populateObjForm={props.populateObjForm}
+                {...props.objective}
+            />
+            <div className="okr collapse show" id={objId}>
+                {keyResultRows}
+            </div>
+        </div>
+    );
+}
+
+// COMPONENTS: Team, KRModal, TeamProgress, TeamOKRs, FrequencyTabs
+function FrequencyTabs(props) {
+    return (
+        <div className="mt-4">
+            <ul className="nav nav-pills justify-content-center" role="tablist">
+                <li className="nav-item">
+                    <a
+                        className="nav-link frequency-tabs--link active"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="annual"
+                        href="#team-annual"
+                        onClick={() => props.changeFrequency('annual')}
+                    >
+                            Annual
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a
+                        className="nav-link frequency-tabs--link"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="quarterly"
+                        href="#team-quarterly"
+                        onClick={() => props.changeFrequency('quarterly')}
+                    >
+                            Quarterly
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a
+                        className="nav-link frequency-tabs--link"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="monthly"
+                        href="#team-monthly"
+                        onClick={() => props.changeFrequency('monthly')}
+                    >
+                            Monthly
+                    </a>
+                </li>
+            </ul>
+        </div>
+    );
+}
+
+function KRModal(props) {
+    const startDate = formatDate(props.krData.krStartDate);
+    const endDate = formatDate(props.krData.krEndDate);
+    
+    // Initialise states for raw team data and processed data
+    const [updateData, setUpdateData] = useState([]);
+    const history = useHistory();
+    const table = $('#kr-modal-table');
+    
+    // Trigger once props are in
+    useEffect(function() {
+        if (props.krData.krId) {
+            // Query update data - simulated
+            getTeamUpdatesDataIBD(props.krData.krId, setUpdateData);
+        }
+    }, [props.krData]);
+
+
+    // Update table everytime the table is populated
+    useEffect(function() {
+        $(function() {
+            if (! $.fn.dataTable.isDataTable( '#kr-modal-table' )) {
+                table.DataTable().destroy();
+                table.DataTable({
+                    autoWidth: false,
+                    pageLength: 5,
+                    displayStart: 0,
+                    lengthMenu: [5, 10, 25, 50],
+                    order: [[0, 'desc']],
+                    fixedColumns: true,
+                    columnDefs: [
+                        {width: '18%', name: 'updateDate', targets: 0, data: 'updateDate', className: 'text-center'},
+                        {width: '82%', name: 'updateText', targets: 1, data: 'updateText'},
+                    ]
+                });
+    
+                table.DataTable().rows.add(updateData).draw();
+            } else {
+                table.DataTable().clear();
+                table.DataTable().rows.add(updateData).draw();
+            }
+        });
+    }, [updateData]);
+
+    // Revert to table page
+    function resetTableView() {
+        table.DataTable().page.len(5).draw(true);
+        table.DataTable().page(0);
+    }
+    
+    function editKR() {
+        $('#kr-modal').modal('hide');
+        return history.push('/edit/kr/' + props.krData.krId);
+    }
+
+    function editUpdate() {
+        $('#kr-modal').modal('hide');
+        return history.push('/edit/update/' + props.krData.krId);
+    }
+
+    return (
+        <div className="modal fade" id='kr-modal' tabIndex="-1" role="dialog" aria-labelledby={'kr-modal-label'} aria-hidden="true">
+            <div className="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id={'kr-modal-label'}>{props.krData.parentObjectiveTeam} Key Result</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <div className="kr-modal--panel">
+                            <div className="row align-items-center">
+                                <div className="col-9 kr-modal--main-col">
+                                    <h3>
+                                        <span className="mr-3 text-green">{props.krData.krTitle}</span>
+                                        <div style={{display: 'inline-block', cursor: 'pointer', transition: "0.3s"}} onClick={editKR}>
+                                            <EditIcon />
+                                        </div>
+                                    </h3>
+                                    <div className="kr-modal--subheader">
+                                        <span>{startDate} - {endDate}</span>
+                                        {props.krData.owner ? (
+                                            <span>
+                                                <span className="mr-3 ml-3">|</span>
+                                                <span>{props.krData.owner}</span>
+                                            </span>
+                                        ) : null}
+                                    </div>
+                                    <div className="kr-modal--description">{props.krData.krDescription}</div>
+                                </div>
+                                <div className="col-3 pl-4 text-center">
+                                    <div className="row align-items-center justify-content-center">
+                                        <span className="progress-card--metric-sm">{props.krData.currentValue}</span>
+                                        <span className="pl-3 pr-3 progress-card--metric-between-sm">/</span>
+                                        <span className="progress-card--metric-sm">{props.krData.maxValue}</span>
+                                    </div>
+                                    <div className="col-12 text-center">
+                                        <span className='progress-card--metric-title-sm'>Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="kr-modal--update-panel">
+                            <h3 className="kr-modal--tag-text mb-4 align-items-center">
+                                <span className="mr-4">Updates</span>
+                                <button className="btn kr-modal--edit-button" onClick={editUpdate}>
+                                    <span className="kr-modal--edit-text mr-1">
+                                        Edit
+                                    </span>
+                                    <EditIconText className="kr-modal--edit-icon" />
+                                </button>
+                            </h3>
+                            <table className="table table-dark table-striped kr-modal--table w-100" id="kr-modal-table">
+                                <thead>
+                                    <tr>
+                                        <th className="text-center">Date</th>
+                                        <th className="text-center">Update</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={resetTableView}>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function TeamProgress(props) {
+    return (
+        <div>
+            <h3 className="mt-4">Team Progress</h3>
+            <div className="overall-panel mt-4">
+                <ProgressCard progressId="team-progress" data={props.progressData} isTeam={false} />
+            </div>
+        </div>
+    );
+}
+
+function TeamOKRs(props) {
+    const [krData, setKrData] = useState({});
+
+    function toggleOKRCards() {
+        $('.okr.collapse').each(function() {
+            var collapsible = $(this);
+            collapsible.collapse('toggle');
+        });
+    
+        $('.btn-collapse').each(function() {
+            var caret = $(this);
+            caret.toggleClass('rotated');
+        })
+    }
+    
+    var history = useHistory();
+    function newObjective() {
+        return history.push('/new/obj?team=' + props.team.teamName + '&frequency=' + props.pageData.frequency);
+    }
+
+    function newKeyResult() {
+        return history.push('/new/kr?team=' + props.team.teamName + '&frequency=' + props.pageData.frequency);
+    }
+
+    const objectiveCardRows = props.pageData.data.objectives.map((item) => {
+        var tempKRs = props.pageData.data.keyResults.filter(function(kr) {
+            return kr.parentObjectiveId === item.objectiveId;
+        });
+
+        return <OKRCollapse key={item.objectiveId} objective={item} keyResults={tempKRs} setKrData={setKrData} />;
+    });
+
+    return (
+        <div>
+            <h3 className="mt-5">Objectives & Key Results</h3>
+            <div className="mb-4 mt-3">
+                <button className="btn btn-okr-toggle mr-3" onClick={toggleOKRCards}>
+                    Expand/Collapse
+                </button>
+                <div className="float-right">
+                    <button className="btn btn-green mr-3" onClick={newObjective}>
+                        Add Objective
+                    </button>
+                    <button className="btn btn-green" onClick={newKeyResult}>
+                        Add Key Result
+                    </button>
+                </div>
+            </div>
+            {objectiveCardRows}
+            <KRModal id="kr-modal" krData={krData} />
+        </div>
+    );
+}
+
+function TeamPage(props) {
+
+    // Initialise states for raw team data and processed data
+    const [teamData, setTeamData] = useState({});
+    const [processedData, setProcessedData] = useState({});
+    const [pageData, setPageData] = useState({});
+    
+    // Callback functions to update respective items in raw data state
+    // To be passed to async query to database
+    function updateObjectives(data) {
+        setTeamData(prevData => {return {...prevData, allObjectives: data}});
+    }
+
+    function updateKeyResults(data) {
+        setTeamData(prevData => {return {...prevData, allKeyResults: data}});
+    }
+
+    // Run once - to trigger query
+    useEffect(function() {
+        // Query data - simulated
+        getTeamObjectiveDataIBD(props.team.teamName, updateObjectives);
+        getTeamKeyResultDataIBD(props.team.teamName, updateKeyResults);
+    }, [props.team.teamName]);
+
+    // Processes data and updates page data every time there is a change to the 
+    // raw data state
+    useEffect(function() {
+        if (teamData.allObjectives && teamData.allKeyResults) {
+            const teamProgressData = prepareTeamData(
+                props.team.teamName,
+                teamData.allObjectives,
+                teamData.allKeyResults
+            );
+
+            setProcessedData(prevData => {
+                return {...prevData, teamProgressData: teamProgressData};
+            });
+            
+            setPageData({
+                frequency: 'annual',
+                data: teamProgressData['annual']
+            });
+        }
+    }, [teamData, props.team.teamName])
+
+    // Computes progress metrics for progress card every time the frequency changes
+    useEffect(function() {
+        if (pageData.data) {
+            const avgCompletion = pageData.data.avgCompletion;
+            updateCircleProgress('team-progress', avgCompletion ? avgCompletion : 0, 200, '50px', '#000718');
+        }
+    }, [pageData]);
+
+    function changeFrequency(frequency) {
+        setPageData({
+            ...pageData,
+            frequency: frequency,
+            data: processedData.teamProgressData[frequency]
+        });
+        const avgCompletion = processedData.teamProgressData[frequency].avgCompletion;
+        $('#team-progress').circleProgress('value', avgCompletion ? avgCompletion : 0.0);
+    }
+
+    return (
+        <div>
+            <h1 className="mb-3">{props.team.teamName}</h1>
+            <FrequencyTabs changeFrequency={changeFrequency} />
+            {pageData.data && <TeamProgress progressData={pageData.data} />}
+            {pageData.data && <TeamOKRs 
+                pageData={pageData}
+                teams={props.teams}
+                team={props.team}
+            />}
+        </div>
+    );
+}
+
+// COMPONENT: DIRECTORY
+function DirectoryPage() {
+
+    // Initialise state for Key Results
+    const [krData, setKrData] = useState([]);
+
+    // Run once - query KRs
+    useEffect(function() {
+        getAllIDB('KeyResultsStore', setKrData);
+    }, []);
+
+    // Create table when Key Results are updated
+    useEffect(function() {
+        if (krData.length > 0){
+            // Query update data
+            var krRows = krData.map(function(kr) {
+                return {
+                    title: kr.krTitle,
+                    description: kr.krDescription,
+                    owner: kr.owner,
+                    team: kr.parentObjectiveTeam,
+                    due: kr.krEndDate,
+                    progress: (100 * Number(kr.currentValue) / Number(kr.maxValue)).toFixed(0) + '%'
+                };
+            });
+
+            const table = $('#directory-table');
+            $(function() {
+                if (! $.fn.dataTable.isDataTable( '#directory-table' )) {
+                    // table.DataTable().destroy();
+                    table.DataTable({
+                        autoWidth: false,
+                        pageLength: 25,
+                        displayStart: 0,
+                        lengthMenu: [10, 25, 50, 75, 100],
+                        order: [
+                            [4, 'asc'],
+                            [5, 'asc'],
+                        ],
+                        fixedColumns: true,
+                        columnDefs: [
+                            {width: '25%', name: 'title', targets: 0, data: 'title', className: "directory--table-text-sm"},
+                            {width: '35%', name: 'description', targets: 1, data: 'description', className: "directory--table-text-sm"},
+                            {width: '13%', name: 'owner', targets: 2, data: 'owner', className: 'text-center'},
+                            {width: '10%', name: 'team', targets: 3, data: 'team', className: 'text-center'},
+                            {width: '12%', name: 'due', targets: 4, data: 'due', className: 'text-center'},
+                            {width: '10%', name: 'progress', targets: 5, data: 'progress', className: 'text-center'},
+                        ]
+                    });
+        
+                    table.DataTable().rows.add(krRows).draw();
+                } else {
+                    table.DataTable().clear();
+                    table.DataTable().rows.add(krRows).draw();
+                }
+            });
+        }
+    
+    });
+    
+
+    return (
+        <div>
+            <h1 className="mb-2">Key Results Directory</h1>
+            <p className="directory--text mb-5">Find others with compatible KRs to collaborate with.</p>
+            <div className="directory--container">
+                {krData.length > 0 && <table className="table table-dark directory--table w-100" id="directory-table">
+                    <thead>
+                        <tr>
+                            <th className="text-center">Title</th>
+                            <th className="text-center">Description</th>
+                            <th className="text-center">Owner</th>
+                            <th className="text-center">Team</th>
+                            <th className="text-center">Due</th>
+                            <th className="text-center">Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody className="align-items-center">
+                    </tbody>
+                </table>}
+                {krData.length === 0 && <div className="text-center">
+                    <span className="no-data">No data to display.</span>
+                </div>}
+            </div>
+        </div>
+    );
+}
