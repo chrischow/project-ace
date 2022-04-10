@@ -83,12 +83,15 @@
             loadWords('circle-progress.min', false);
             loadWords('updateCircleProgress', false);
             
-            // Routing
+            // Imports
+            const useEffect = React.useEffect;
+            const useState = React.useState;
             const HashRouter = ReactRouterDOM.HashRouter;
             const Route = ReactRouterDOM.Route;
             const Switch = ReactRouterDOM.Switch;
             const Link = ReactRouterDOM.Link;
             const NavLink = ReactRouterDOM.NavLink;
+            const useHistory = ReactRouterDOM.useHistory;
             
             // Load components
             loadComponent('fakeData');
@@ -137,18 +140,6 @@
                 return <Home teams={teams} />;
             }
 
-            function renderObjectiveForm(props) {
-                return (
-                    <ObjectiveForm teams={teams} />
-                );
-            }
-
-            function renderKRForm(props) {
-                return (
-                    <KRForm teams={teams} />
-                );
-            }
-
             function renderUpdatesForm(props){
                 return <UpdatesForm teams={teams} />
             }
@@ -162,8 +153,10 @@
                             <Switch>
                                 <Route path='/' render={renderHome} exact />
                                 <Route path='/directory' component={DirectoryPage} />
-                                <Route path='/edit/obj/:id' render={renderObjectiveForm} />
-                                <Route path='/edit/kr/:id' render={renderKRForm} />
+                                <Route path='/new/obj' render={() => <ObjectiveForm teams={teams} mode='new' /> } />
+                                <Route path='/new/kr' render={() => <KRForm teams={teams} mode='new' /> } />
+                                <Route path='/edit/obj/:id' render={() => <ObjectiveForm teams={teams} mode='edit' /> } />
+                                <Route path='/edit/kr/:id' render={() => <KRForm teams={teams} mode='edit' />} />
                                 <Route path='/edit/update/:id' render={renderUpdatesForm} />
                                 <TeamRoutes teams={teams} />
                             </Switch>

@@ -58,7 +58,7 @@ function KeyResultRow(props) {
             </div>
         </div>
     );
-};
+}
 
 function ObjectiveCard(props) {
 
@@ -105,7 +105,7 @@ function ObjectiveCard(props) {
             </div>
         </div>
     );
-};
+}
 
 
 export default function OKRCollapse(props) {
@@ -154,4 +154,4 @@ export default function OKRCollapse(props) {
             </div>
         </div>
     );
-};
+}

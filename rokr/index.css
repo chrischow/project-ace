@@ -27,13 +27,13 @@ div::-webkit-scrollbar {
 }
 
 .btn-green {
-  background-color: #27DDCB;
+  background-color: #0EC4B2;
   color: white;
   transition: 0.3s;
 }
 
 .btn-green:hover {
-  background-color: #0EC4B2;
+  background-color: #00AA98;
   color: #fafafa;
   transition: 0.3s;
 }
@@ -253,7 +253,7 @@ hr {
 
 /* OKR collapsibles */
 .btn-okr-toggle {
-  background-color: #6B7E97;
+  background-color: #8497B0;
   color: #EAEAEA;
   transition: 0.3s;
 }
@@ -394,6 +394,29 @@ div.progress-bar {
   font-size: 0.9rem;
   margin-top: 0px;
   margin-bottom: 0px;
+  transition: 0.3s;
+}
+
+.keyresult-row--updates {
+  color: #8497B0;
+  font-size: 0.9rem;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.keyresult-row--updates:hover, .keyresult-row--updates:hover svg {
+  transition: 0.3s;
+  color: #7B73F0;
+}
+
+.keyresult-row--icon {
+  color: #8497B0;
+  height: 12px;
+  width: 12px;
+  margin-bottom: 3px;
+  transition: 0.3s;
 }
 
 /* Details / Edit */
@@ -427,6 +450,7 @@ div.progress-bar {
 .edit-icon:hover {
   color: #27DDCB;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .modal-title {
@@ -453,6 +477,14 @@ div.progress-bar {
   background-color: #000C1D;
 }
 
+.modal-footer-custom {
+  padding: 1.0rem;
+  border-top: none;
+  background-color: #000C1D;
+  border-bottom-right-radius: calc(0.3rem - 1px);
+  border-bottom-left-radius: calc(0.3rem - 1px);
+}
+
 button.close {
   color: white;
   transition: 0.3s;
@@ -462,6 +494,16 @@ button.close:hover {
   color: #fafafa;
   transition: 0.3s;
   transform: scale(1.1);
+}
+
+.btn-secondary {
+  background-color: #8497B0!important;
+  color: white!important;
+}
+
+.btn-secondary:hover {
+  background-color: #6B7E97!important;
+  color: #ddd!important;
 }
 
 /* Forms */
@@ -478,6 +520,22 @@ button.close:hover {
 }
 
 .form-dark:focus {
+  color: white;
+}
+
+.form-semi-dark, .form-semi-dark:focus {
+  /* background-color: #0D192A; */
+  background-color: #0D192A;
+  font-size: 1.2rem;
+  color: #ddd;
+  border: 0;
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: none;
+  transition: 0.3s;
+}
+
+.form-semi-dark:focus {
   color: white;
 }
 
@@ -520,6 +578,20 @@ span.form--slider-value {
   background-color: #0D192A;
   padding: 5px;
   border-radius: 5px;
+}
+
+.form-errors {
+  color: #FF5364;
+  background-color: #0D192A;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-errors-update {
+  color: #FF5364;
+  background-color: #1A2637;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 /* Slider */
@@ -586,6 +658,48 @@ input[type="range"]::-webkit-slider-runnable-track:focus {
   box-shadow: none;
 }
 
+textarea {
+  overflow-y: hidden;
+}
+
+.selectbox-text {
+  font-size: 1.0rem;
+}
+
+/* Datepicker */
+.datepicker-days, .datepicker-months, .datepicker-years, .datepicker-decades, .datepicker-centuries {
+  background-color: #0D192A;
+  color: #eee;
+}
+
+.dropdown-menu {
+  background-color: #0D192A;
+}
+
+.datepicker .datepicker-switch:hover, .datepicker .next:hover, .datepicker .prev:hover, .datepicker tfoot tr th:hover {
+  background: #172334;
+}
+
+.datepicker table tr td.day.focused, .datepicker table tr td.day:hover {
+  background: #3D495A;
+}
+
+.datepicker table tr td.active, .datepicker table tr td.active.disabled, 
+.datepicker table tr td.active.disabled:hover, .datepicker table tr td.active:hover,
+.datepicker table tr td span.active, .datepicker table tr td span.active.disabled, 
+.datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active:hover {
+  background-color: #8497B0;
+  background-image: linear-gradient(to bottom, #9EB1CA,#8497B0);
+}
+
+.datepicker table tr td span.active.active, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled.disabled, .datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active.disabled:hover.active, .datepicker table tr td span.active.disabled:hover.disabled, .datepicker table tr td span.active.disabled:hover:active, .datepicker table tr td span.active.disabled:hover:hover, .datepicker table tr td span.active.disabled:hover[disabled], .datepicker table tr td span.active.disabled[disabled], .datepicker table tr td span.active:active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active:hover.active, .datepicker table tr td span.active:hover.disabled, .datepicker table tr td span.active:hover:active, .datepicker table tr td span.active:hover:hover, .datepicker table tr td span.active:hover[disabled], .datepicker table tr td span.active[disabled] {
+  background-color: #8497B0;
+}
+
+.datepicker table tr td span.focused, .datepicker table tr td span:hover {
+  background: #3D495A;
+}
+
 /* KR Modal */
 .modal-backdrop {
   opacity: 0.6!important;
@@ -601,6 +715,11 @@ input[type="range"]::-webkit-slider-runnable-track:focus {
 
 .text-green {
   color: #27DDCB;
+}
+
+.no-data {
+  color: #8497B0;
+  font-size: 1.4rem;
 }
 
 .kr-modal--subheader {
@@ -634,17 +753,40 @@ input[type="range"]::-webkit-slider-runnable-track:focus {
 }
 
 .kr-modal--tag-text {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
   text-transform: uppercase;
   letter-spacing: 4px;
   color: #8497B0;
 }
 
-.kr-modal--edit-icon {
-  /* display: 'inline-block'; */
+.kr-modal--edit-text {
+  font-size: 0.75rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.kr-modal--edit-button {
+  padding: 3px 7px;
+  background-color: #7B73F0;
+  color: white;
   cursor: 'pointer';
-  transition: "0.3s"
+  transition: "0.3s";
+}
+
+.kr-modal--edit-button:hover {
+  background-color: #625AD7;
+  color: #ddd;
+}
+
+.kr-modal--edit-icon {
+  font-size: 0.9rem;
+  transition: 0.3s;
+  height: 10px;
+  width: 10px;
+  margin-bottom: 2px;
+  padding: 0px;
 }
 
 .kr-modal--table-border {
@@ -728,7 +870,6 @@ input[type="search"], input[type="search"]:focus {
   font-weight: normal;
 }
 
-
 /* Directory */
 .directory--container {
   border-radius: 15px;
@@ -752,23 +893,26 @@ input[type="search"], input[type="search"]:focus {
   border-color: #8497B0!important;
 }
 
-#directory-table_filter {
+#directory-table_filter, #updates-table_filter {
   background-color: #0D192A;
 }
 
-input[type="search"][aria-controls="directory-table"], input[type="search"][aria-controls="directory-table"]:focus {
+input[type="search"][aria-controls="directory-table"], input[type="search"][aria-controls="directory-table"]:focus,
+input[type="search"][aria-controls="updates-table"], input[type="search"][aria-controls="updates-table"]:focus {
   background-color: #172334;
   border: none;
   color: #8497B0;
 }
 
-div.dataTables_length > label > select[name="directory-table_length"], select[name="directory-table_length"]:focus {
+div.dataTables_length > label > select[name="directory-table_length"], select[name="directory-table_length"]:focus,
+div.dataTables_length > label > select[name="updates-table_length"], select[name="updates-table_length"]:focus {
   background-color: #172334;
   border: none;
   color: #8497B0;
 }
 
-div.dataTables_length > label > select[name="directory-table_length"] option {
+div.dataTables_length > label > select[name="directory-table_length"] option,
+div.dataTables_length > label > select[name="updates-table_length"] option {
   background-color: #172334;
   color: #8497B0;
 }
@@ -787,8 +931,21 @@ th.directory--table-text-sm {
   padding-bottom: 7px;
   border-bottom: 1px solid #8497B0;
 }
+
 .update-form--table-text {
   color: #D1E4FD;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #8497B0;
+}
+
+.updates-table--link {
+  color: #D1E4FD;
+  transition: 0.3s;
+}
+
+.updates-table--link:hover {
+  color: #27DDCB;
+  cursor: pointer;
+  transition: 0.3s;
 }

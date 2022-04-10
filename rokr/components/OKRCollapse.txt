@@ -1,6 +1,8 @@
 // COMPONENT: OKR Collapse
 function KeyResultRow(props) {
     
+    const history = useHistory();
+
     function toggleModal() {
         props.setKrData({
             krTitle: props.krTitle,
@@ -19,6 +21,10 @@ function KeyResultRow(props) {
         $('#kr-modal').modal('toggle');
     }
 
+    function goToUpdates() {
+        history.push('/edit/update/' + props.krId);
+    }
+
     return (
         <div className="keyresult-row">
             <div className="row align-items-center">
@@ -26,10 +32,11 @@ function KeyResultRow(props) {
                     <span className="keyresult-row--title">
                         {props.krTitle}
                     </span>
-                    <InfoIcon />
+                    <LaunchIcon />
                 </div>
-                <div className="text-center col-2">
-                    <span className="keyresult-row--text ">{props.owner}</span>
+                <div className="keyresult-row--updates text-center col-2" onClick={goToUpdates}>
+                    <span className="ml-1">Updates </span>
+                    <LaunchIcon className="keyresult-row--icon" />
                 </div>
                 <div className="text-center col-2">
                     <span className="keyresult-row--text">{props.krEndDate}</span>
@@ -40,22 +47,11 @@ function KeyResultRow(props) {
             </div>
         </div>
     );
-};
+}
 
 function ObjectiveCard(props) {
-    
-    function populateForm(){
-        props.populateObjForm({
-            objId: props.objectiveId,
-            objTitle: props.objectiveTitle,
-            objDescription: props.objectiveDescription,
-            objStartDate: props.objectiveStartDate,
-            objEndDate: props.objectiveEndDate,
-            objTeam: props.team
-        });
-    };
 
-    var history = ReactRouterDOM.useHistory();
+    var history = useHistory();
     function editObjective() {
         return history.push('/edit/obj/' + props.objectiveId);
     }
@@ -79,7 +75,7 @@ function ObjectiveCard(props) {
                 </div>
                 <div className="col-7">
                     <h5 className="objective-card--title text-left">
-                        <span className="mr-3">{props.objectiveTitle}</span>
+                        <span className="mr-2">{props.objectiveTitle}</span>
                         {
                             props.isClicked && 
                             <div style={{display: 'inline-block', cursor: 'pointer'}} onClick={editObjective}>
@@ -98,11 +94,11 @@ function ObjectiveCard(props) {
             </div>
         </div>
     );
-};
+}
 
 
 function OKRCollapse(props) {
-    const [isClicked, setIsClicked] = React.useState(false);
+    const [isClicked, setIsClicked] = useState(true);
 
     // Calculate objective progress
     var keyResults = [...props.keyResults];
@@ -120,6 +116,7 @@ function OKRCollapse(props) {
     const keyResultRows = props.keyResults.map(function(item) {
         return (
             <KeyResultRow
+                key={item.krId}
                 objId={objId}
                 setKrData={props.setKrData}
                 {...item}
@@ -127,7 +124,7 @@ function OKRCollapse(props) {
         );
     });
 
-    React.useEffect(function() {
+    useEffect(function() {
         $('#' + objId).on('show.bs.collapse', () => setIsClicked(true));
         $('#' + objId).on('hide.bs.collapse', () => setIsClicked(false));
     });
@@ -141,9 +138,9 @@ function OKRCollapse(props) {
                 populateObjForm={props.populateObjForm}
                 {...props.objective}
             />
-            <div className="okr collapse" id={objId}>
+            <div className="okr collapse show" id={objId}>
                 {keyResultRows}
             </div>
         </div>
     );
-};
+}
