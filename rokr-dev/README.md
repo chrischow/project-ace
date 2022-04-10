@@ -51,6 +51,12 @@ After moving over:
     - UpdatesForm
 
 ### Stage 2: Into the Shithole
+If CRUD functions for dev and production are named identically, you may want to dump all components into a single file:
+
+```bash
+cat fakeData.txt processData.txt queryData.txt Brand.txt Navbar.txt ProgressCard.txt HomeCards.txt ProgressBar.txt Home.txt Icons.txt ObjectiveForm.txt KRForm.txt UpdatesForm.txt OKRCollapse.txt Team.txt Directory.txt > AllComponents.txt
+```
+
 1. Update CRUD functions:
     - Home: All Objectives and Key Results in `Home`
     - Team:
