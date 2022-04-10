@@ -10,7 +10,7 @@ import './App.css';
 
 // Simulated data
 import { setupDB, allData } from './utils/fakeData';
-
+// FOR TESTING ONLY: Set up database
 setupDB(allData);
 
 // Configs
