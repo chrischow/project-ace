@@ -938,3 +938,14 @@ th.directory--table-text-sm {
   padding-bottom: 8px;
   border-bottom: 1px solid #8497B0;
 }
+
+.updates-table--link {
+  color: #D1E4FD;
+  transition: 0.3s;
+}
+
+.updates-table--link:hover {
+  color: #27DDCB;
+  cursor: pointer;
+  transition: 0.3s;
+}

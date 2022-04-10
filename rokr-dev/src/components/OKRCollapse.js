@@ -49,9 +49,6 @@ function KeyResultRow(props) {
                     <span className="ml-1">Updates </span>
                     <LaunchIcon className="keyresult-row--icon" />
                 </div>
-                {/* <div className="text-center col-2">
-                    <span className="keyresult-row--text ">{props.owner}</span>
-                </div> */}
                 <div className="text-center col-2">
                     <span className="keyresult-row--text">{props.krEndDate}</span>
                 </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useHistory } from "react-router-dom";
-import { EditIcon } from './Icons';
+import { EditIcon, editIconString } from './Icons';
 import $ from 'jquery';
 
 import { getDate, checkDate, getOneIBD, getTeamUpdatesDataIBD, 
@@ -10,6 +10,8 @@ import { getDate, checkDate, getOneIBD, getTeamUpdatesDataIBD,
 import { allData } from '../utils/fakeData';
 
 function UpdatesTable(props) {
+
+    // Initialise state for no. of entries
     const dataTableSettings = {
         autoWidth: false,
         pageLength: 10,
@@ -24,7 +26,9 @@ function UpdatesTable(props) {
             {
                 width: '75%', name: 'text', targets: 1, data: 'updateText',
                 className: "directory--table-text-sm", sortable: false},
-            {width: '10%', name: 'edit', targets: 2, className: 'text-center', sortable: false}
+            {width: '10%', name: 'linkButton', targets: 2, data: 'linkButton', sortable: false, className: "text-center"},
+            {width: '0%', name: 'id', targets: 3, data: 'updateId', visible: false},
+            {width: '0%', name: 'parentKrId', targets: 4, data: 'parentKrId', visible: false},
         ]
     };
 
@@ -44,23 +48,35 @@ function UpdatesTable(props) {
         );
     });
 
+    
+
     useEffect(function() {
         $(function() {
+            const updateData = props.updateData.map(function(item) {
+                return {
+                    ...item,
+                    linkButton: '<span class="updates-table--link">' + editIconString + '</span>'
+                };
+            })
+
             // Render datatable
             const table = $('#updates-table');
-            table.DataTable().destroy();
-
             if (! $.fn.dataTable.isDataTable( '#updates-table' )) {
                 table.DataTable(dataTableSettings);
-    
-                table.DataTable().draw();
+                table.DataTable().rows.add(updateData).draw();
             } else {
-                console.log('SHAG');
-                // table.DataTable().destroy();
-                // table.DataTable().draw();
+                table.DataTable().clear();
+                table.DataTable().rows.add(updateData).draw();
             }
+            
+            // Link function
+            $('#updates-table tbody').prop('onclick', 'span').off('click')
+            $('#updates-table tbody').on('click', 'span', function() {
+                var data = table.DataTable().row($(this).parents('tr')).data();
+                props.editUpdate(data);
+            });
         });
-    }, []);
+    }, [props.updateData]);
 
     return (
         <table className="table table-dark table-striped directory--table w-100" id="updates-table">
@@ -72,7 +88,6 @@ function UpdatesTable(props) {
                 </tr>
             </thead>
             <tbody className="align-items-center">
-                {updateRows}
             </tbody>
         </table>
     );
@@ -253,7 +268,6 @@ export default function UpdatesForm(props){
 
     function confirmDelete() {
         if (window.confirm('Hit OK to confirm deletion of update. This cannot be undone.')) {
-            console.log('Delete entry:');
             deleteIBD('UpdatesStore', formData.updateId, () => {
                 getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             });
