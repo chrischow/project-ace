@@ -3,7 +3,7 @@ Project Ace is about making the most of terrible IT infrastructure.
 
 The environment:
 
-- `.js` files are banned
+- JScript (`.js`) files are banned
 - Zero open source tech
 - No backend runtimes: Python, Node.js
 

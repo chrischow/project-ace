@@ -811,7 +811,7 @@ textarea {
 }
 
 #kr-modal-table_filter {
-  background-color: #0D192A8a;
+  background-color: none;
 }
 
 li.paginate_button.page-item.disabled > a.page-link, li.paginate_button.page-item.previous.disabled > a.page-link,
@@ -939,6 +939,19 @@ th.directory--table-text-sm {
   padding-top: 8px;
   padding-bottom: 8px;
   border-bottom: 1px solid #8497B0;
+}
+
+
+.update-form--input:after {
+  content: '';
+  display: block;
+  margin-top: -28px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0px;
+  height: 1px;
+  width: 100%;
+  background: #2C3849;
 }
 
 .updates-table--link {

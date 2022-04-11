@@ -304,7 +304,7 @@ export default function UpdatesForm(props){
                             <form className="form--group">
                                 <div className="row">
                                     <div className="col-4">
-                                        <div className="form-element">
+                                        <div className="form-element update-form--input">
                                             <label htmlFor="updateDate" className="form--label">Date</label>
                                             <input
                                                 type="text"
@@ -317,7 +317,7 @@ export default function UpdatesForm(props){
                                         </div>
                                     </div>
                                 </div>
-                                <div className="form-element">
+                                <div className="form-element update-form--input mt-4">
                                     <label htmlFor="updateText" className="form--label">Update</label>
                                     <textarea
                                         id="updateTextArea"
