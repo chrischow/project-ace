@@ -41,8 +41,7 @@ export default function Home(props) {
                     ...prevData,
                     overallProgressData: computeAnnualMetrics(data.allObjectives, data.allKeyResults),
                     allTeamsProgressData: computeTeamsAnnualMetrics(props.teams, data.allObjectives, data.allKeyResults)
-                };
-            });
+                };});
         }
     }, [data, props.teams])
 
@@ -82,3 +81,4 @@ export default function Home(props) {
         </div>
     );
 }
+
