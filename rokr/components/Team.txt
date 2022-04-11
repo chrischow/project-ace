@@ -1,7 +1,7 @@
 // COMPONENTS: Team, KRModal, TeamProgress, TeamOKRs, FrequencyTabs
 function FrequencyTabs(props) {
     return (
-        <div className="mt-4">
+        <div className="mt-2">
             <ul className="nav nav-pills justify-content-center" role="tablist">
                 <li className="nav-item">
                     <a
@@ -322,3 +322,4 @@ function TeamPage(props) {
         </div>
     );
 }
+

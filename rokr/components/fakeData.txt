@@ -273,3 +273,4 @@ function setupDB(allData) {
         console.log('Database ok.');
     }
 }
+
