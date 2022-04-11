@@ -5,8 +5,7 @@ body {
   scrollbar-width: none;
   overflow-y: scroll;
   /* background-color: #000c1d; */
-  background-image: url('../../images/bg.png');
-  /* background-color: #000c1dee; */
+  background-image: url('https://raw.githubusercontent.com/chrischow/project-ace/main/images/bg.png');
   background-blend-mode: multiply;
   /* background-image: url("https://c.pxhere.com/photos/10/1d/Fire_launch_liftoff_Night_Rocket_science_Ship_Sky-1621779.jpg!d"); */
   background-size: cover;
