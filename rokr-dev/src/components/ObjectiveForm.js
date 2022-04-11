@@ -62,7 +62,12 @@ export default function ObjectiveForm(props) {
 
     // Prepare select input options
     var teams = props.teams.map(function(team) {
-        return <option key={team.slug} value={team.teamName}>{team.teamName}</option>
+        return (
+            <option
+                key={team.slug}
+                className="form-select-dropdown"
+                value={team.teamName}>{team.teamName}</option>
+        );
     });
     
     // Enable form datepicker utility
@@ -227,9 +232,9 @@ export default function ObjectiveForm(props) {
                                 value={formData.frequency}
                                 onChange={handleChange}
                             >
-                                <option value="annual">Annual</option>
-                                <option value="quarterly">Quarterly</option>
-                                <option value="monthly">Monthly</option>
+                                <option className="form-select-dropdown" value="annual">Annual</option>
+                                <option className="form-select-dropdown" value="quarterly">Quarterly</option>
+                                <option className="form-select-dropdown" value="monthly">Monthly</option>
                             </select>
                         </div>
                     </div>

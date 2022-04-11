@@ -18,7 +18,7 @@ $.DataTable = require('datatables.net');
 
 function FrequencyTabs(props) {
     return (
-        <div className="mt-4">
+        <div className="mt-2">
             <ul className="nav nav-pills justify-content-center" role="tablist">
                 <li className="nav-item">
                     <a
@@ -198,7 +198,7 @@ function KRModal(props) {
     );
 }
 
-export function TeamProgress(props) {
+function TeamProgress(props) {
     return (
         <div>
             <h3 className="mt-4">Team Progress</h3>
@@ -209,7 +209,7 @@ export function TeamProgress(props) {
     );
 }
 
-export function TeamOKRs(props) {
+function TeamOKRs(props) {
     const [krData, setKrData] = useState({});
 
     function toggleOKRCards() {

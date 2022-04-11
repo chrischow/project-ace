@@ -81,8 +81,8 @@ export default function KRForm(props) {
         return (
             <option
                 key={obj.objectiveId}
+                className="selectbox-text form-select-dropdown"
                 value={obj.objectiveId}
-                className="selectbox-text"
             >
                 [{obj.frequency.charAt(0).toUpperCase() + obj.frequency.slice(1)}] {obj.objectiveTitle}
             </option>
@@ -320,7 +320,7 @@ export default function KRForm(props) {
                     <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="currentValue" className="form--label">
-                                Current Value: <span className="form--slider-value">{formData.currentValue}</span>
+                                Current Value: <span className="form--slider-value text-center">{formData.currentValue}</span>
                             </label>
                             <input
                                 name="currentValue"

@@ -1,12 +1,20 @@
 body {
   font-family: 'Bahnschrift Light', 'Segoe UI', sans-serif;
   color: #E9E9E9;
-  background-color: #000C1D;
   -ms-overflow-style: none;
   scrollbar-width: none;
   overflow-y: scroll;
+  /* background-color: #000c1d; */
+  background-image: url('../../images/bg.png');
+  /* background-color: #000c1dee; */
+  background-blend-mode: multiply;
+  /* background-image: url("https://c.pxhere.com/photos/10/1d/Fire_launch_liftoff_Night_Rocket_science_Ship_Sky-1621779.jpg!d"); */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
+/* Generic Styles */
 body::-webkit-scrollbar {
   display: none;
 }
@@ -22,8 +30,16 @@ div::-webkit-scrollbar {
   color: #27DDCB;
 }
 
-.top-header {
-  margin-top: 30px;
+.btn-blue {
+  background-color: #7B73F0;
+  color: white;
+  transition: 0.3s;
+}
+
+.btn-blue:hover {
+  background-color: #625AD7;
+  color: #fafafa;
+  transition: 0.3s;
 }
 
 .btn-green {
@@ -38,26 +54,14 @@ div::-webkit-scrollbar {
   transition: 0.3s;
 }
 
-.btn-blue {
-  background-color: #7B73F0;
-  color: white;
-  transition: 0.3s;
+.btn-secondary {
+  background-color: #8497B0!important;
+  color: white!important;
 }
 
-.btn-blue:hover {
-  background-color: #625AD7;
-  color: #fafafa;
-  transition: 0.3s;
-}
-
-.bg-dark, .table > thead.thead-dark th {
-  /* background-color: #000415!important; */
-  background-color: #000718!important;
-}
-
-::selection {
-  background: #27DDCB;
-  color: white;
+.btn-secondary:hover {
+  background-color: #6B7E97!important;
+  color: #ddd!important;
 }
 
 h1 {
@@ -78,10 +82,17 @@ hr {
   max-width: 80%;
 }
 
-/* Navbar */
-.navbar-brand {
-  font-family: 'Bahnschrift'
+::selection {
+  background: #27DDCB;
+  color: white;
 }
+
+.bg-dark, .table > thead.thead-dark th {
+  /* background-color: #000415!important; */
+  background-color: #0007188a!important;
+}
+
+/* Navbar */
 
 .navbar-dark .navbar-nav .nav-link {
   transition: 0.3s;
@@ -100,9 +111,9 @@ hr {
 
 /* Home Page */
 .overall-panel {
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 40px 20px;
-  background-color: #0D192A;
+  background-color: #0D192A8a;
   width: 100%;
 }
 
@@ -117,7 +128,7 @@ hr {
 }
 
 .card--inner {
-  background-color: #0D192A;
+  background-color: #0D192A8a;
   color: #EAEAEA;
   border-radius: 5px;
   transition: 0.3s;
@@ -128,12 +139,13 @@ hr {
 }
 
 .card--inner:hover {
-  background-color: #172334;
+  background-color: #1723348a;
   color: white;
   transition: 0.3s;
   cursor: pointer;
 }
 
+/* Progress Card */
 .progress-card--circle-text {
   color: #8497B0;
   font-size: 1.2rem;
@@ -266,7 +278,7 @@ hr {
 
 /* Objective card */
 .objective-card {
-  background-color: #172334;
+  background-color: #000C1D8a;
   padding: 15px 60px;
   position: relative;
   border-radius: 5px;
@@ -275,7 +287,7 @@ hr {
 }
 
 .objective-card:hover {
-  background-color: #1C2839;
+  background-color: #0D192A8a;
   transition: 0.3s;
 }
 
@@ -334,14 +346,15 @@ hr {
   transform-origin: 50% 50%;
 }
 
+/* Progress bar */
 .progress {
-  background-color: #010D1E;
+  background-color: #010D1Eaa;
   border-radius: 1.0rem;
 }
 
 div.progress.progress-keyresult {
   height: 0.7rem!important;
-  background-color: #0B1728;
+  background-color: #0B1728ba;
 }
 
 div.progress-bar {
@@ -358,13 +371,13 @@ div.progress-bar {
 }
 
 .progress-text-sm{
-  color: #8497B0;
+  color: #D1E4FD;
   font-size: 0.9rem;
 }
 
 /* KeyResult row */
 .keyresult-row {
-  background-color: #2C3849;
+  background-color: #6c83a18a;
   padding: 10px 60px;
   border-radius: 4px;
   width: 100%;
@@ -378,7 +391,7 @@ div.progress-bar {
 }
 
 .keyresult-row--info-link:hover {
-  color: #7B73F0;
+  color: #27DDCB;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -390,7 +403,7 @@ div.progress-bar {
 }
 
 .keyresult-row--text {
-  color: #8497B0;
+  color: #D1E4FD;
   font-size: 0.9rem;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -398,7 +411,7 @@ div.progress-bar {
 }
 
 .keyresult-row--updates {
-  color: #8497B0;
+  color: #D1E4FD;
   font-size: 0.9rem;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -408,11 +421,11 @@ div.progress-bar {
 
 .keyresult-row--updates:hover, .keyresult-row--updates:hover svg {
   transition: 0.3s;
-  color: #7B73F0;
+  color: #27DDCB;
 }
 
 .keyresult-row--icon {
-  color: #8497B0;
+  color: #D1E4FD;
   height: 12px;
   width: 12px;
   margin-bottom: 3px;
@@ -453,6 +466,7 @@ div.progress-bar {
   cursor: pointer;
 }
 
+/* Modals */
 .modal-title {
   text-transform: uppercase;
   letter-spacing: 4px;
@@ -496,27 +510,16 @@ button.close:hover {
   transform: scale(1.1);
 }
 
-.btn-secondary {
-  background-color: #8497B0!important;
-  color: white!important;
-}
-
-.btn-secondary:hover {
-  background-color: #6B7E97!important;
-  color: #ddd!important;
-}
-
 /* Forms */
 .form-dark, .form-dark:focus {
   /* background-color: #0D192A; */
-  background-color: #000C1D;
+  background-color: #000C1D8a;
   font-size: 1.2rem;
   color: #ddd;
   border: 0;
-  padding-left: 0;
-  padding-right: 0;
   box-shadow: none;
   transition: 0.3s;
+  margin-bottom: 30px;
 }
 
 .form-dark:focus {
@@ -529,10 +532,9 @@ button.close:hover {
   font-size: 1.2rem;
   color: #ddd;
   border: 0;
-  padding-left: 0;
-  padding-right: 0;
   box-shadow: none;
   transition: 0.3s;
+  margin-bottom: 30px;
 }
 
 .form-semi-dark:focus {
@@ -541,27 +543,14 @@ button.close:hover {
 
 .form--edit {
   color: white;
+  padding: 5px 10px;
   transition: 0.3s;
 }
 
 .form-dark:disabled {
   /* background-color: #0D192A; */
-  background-color: #000C1D;
+  background-color: #000C1D8a;
   border: #2C3849;
-}
-
-.form-element {
-  margin-bottom: 30px;
-  padding: 0;
-}
-
-.form-element:after {
-  content: '';
-  display: block;
-  margin: 0;
-  height: 1px;
-  width: 100%;
-  background: #2C3849;
 }
 
 .form--label {
@@ -570,12 +559,24 @@ button.close:hover {
   text-transform: uppercase;
   letter-spacing: 3px;
   color: #8497B0;
-  margin-bottom: 0;
+  margin-bottom: 7px;
+}
+
+option.form-select-dropdown {
+  background-color: #000C1Dda!important;
+  color: #8497b0;
+  transition: 0.3s;
+}
+
+select:hover, select:focus, select:active {
+  background-color: #000C1Dca!important;
+  color: white;
+  transition: 0.3s;
 }
 
 span.form--slider-value {
   color: #27DDCB;
-  background-color: #0D192A;
+  background-color: #0D192A8a;
   padding: 5px;
   border-radius: 5px;
 }
@@ -595,9 +596,11 @@ span.form--slider-value {
 }
 
 /* Slider */
+.form-range, .form-range:focus {
+  margin-bottom: 40px;
+}
+
 .custom-range {
-  margin-top: 6px;
-  margin-bottom: 6px;
   height: 30px;
   border: none;
   box-shadow: none;
@@ -809,7 +812,7 @@ textarea {
 }
 
 #kr-modal-table_filter {
-  background-color: #2C3849;
+  background-color: #0D192A8a;
 }
 
 li.paginate_button.page-item.disabled > a.page-link, li.paginate_button.page-item.previous.disabled > a.page-link,
@@ -873,7 +876,7 @@ input[type="search"], input[type="search"]:focus {
 /* Directory */
 .directory--container {
   border-radius: 15px;
-  background-color: #0D192A;
+  background-color: #0D192A8a;
   padding: 25px;
 }
 
@@ -883,7 +886,7 @@ input[type="search"], input[type="search"]:focus {
 }
 
 .directory--table.table-dark {
-  background-color: #0D192A;
+  background-color: #0D192A8a;
   border-color: #8497B0;
   color: #D1E4FD;
   font-size: 0.9rem;
@@ -894,26 +897,26 @@ input[type="search"], input[type="search"]:focus {
 }
 
 #directory-table_filter, #updates-table_filter {
-  background-color: #0D192A;
+  background-color: none;
 }
 
 input[type="search"][aria-controls="directory-table"], input[type="search"][aria-controls="directory-table"]:focus,
 input[type="search"][aria-controls="updates-table"], input[type="search"][aria-controls="updates-table"]:focus {
-  background-color: #172334;
+  background-color: #0D192A8a;
   border: none;
   color: #8497B0;
 }
 
 div.dataTables_length > label > select[name="directory-table_length"], select[name="directory-table_length"]:focus,
 div.dataTables_length > label > select[name="updates-table_length"], select[name="updates-table_length"]:focus {
-  background-color: #172334;
+  background-color: #0D192A;
   border: none;
   color: #8497B0;
 }
 
 div.dataTables_length > label > select[name="directory-table_length"] option,
 div.dataTables_length > label > select[name="updates-table_length"] option {
-  background-color: #172334;
+  background-color: #0D192A;
   color: #8497B0;
 }
 

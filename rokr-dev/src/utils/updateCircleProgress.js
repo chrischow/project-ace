@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import 'jquery-circle-progress';
 
+// UPDATE CIRCLE PROGRESS
 $.circleProgress.defaults.drawValue = function(v, fontSize) {
     var ctx = this.ctx,
         s = this.size,
@@ -23,7 +24,7 @@ export default function updateCircleProgress(slug, progress, size, fontSize, emp
         size: size,     // Team: 150, overall: 250
         startAngle: - Math.PI / 2,
         fill: {  color: '#27DDCB' },
-        emptyFill: "#010D1E"    // Team: #010D1E, Overall: #000718
+        emptyFill: "#010D1E8a"    // Team: #010D1E, Overall: #000718
     });
     
     team_progress.on('circle-animation-progress', function(event, progressValue, stepValue) {
