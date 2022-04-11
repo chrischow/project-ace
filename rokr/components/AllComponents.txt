@@ -1,5 +1,4 @@
 // Configs
-// Configs
 var fakeDataTeams = [
     {teamName: 'HQ RAiD', slug: 'hq-raid'},
     {teamName: 'PAB', slug: 'pab'},
@@ -442,6 +441,7 @@ function formatDate(dateStr) {
         return d + ' ' + m + ' ' + y;
     }
 }
+
 // UTILS FOR QUERYING DATA
 function getDate(date) {
     const rawDate = new Date(date);
@@ -713,6 +713,7 @@ function Brand(){
         </div>
     )
 }
+
 // COMPONENT: Navbar
 function Navbar(props) {
     var linkElements = props.teams.map(function(item) {
@@ -871,7 +872,7 @@ function ProgressBar(props) {
             </div>
         </div>
     );
-}
+};
 
 // COMPONENT: Home
 function Home(props) {
@@ -1157,7 +1158,12 @@ function ObjectiveForm(props) {
 
     // Prepare select input options
     var teams = props.teams.map(function(team) {
-        return <option key={team.slug} value={team.teamName}>{team.teamName}</option>
+        return (
+            <option
+                key={team.slug}
+                className="form-select-dropdown"
+                value={team.teamName}>{team.teamName}</option>
+        );
     });
     
     // Enable form datepicker utility
@@ -1322,9 +1328,9 @@ function ObjectiveForm(props) {
                                 value={formData.frequency}
                                 onChange={handleChange}
                             >
-                                <option value="annual">Annual</option>
-                                <option value="quarterly">Quarterly</option>
-                                <option value="monthly">Monthly</option>
+                                <option className="form-select-dropdown" value="annual">Annual</option>
+                                <option className="form-select-dropdown" value="quarterly">Quarterly</option>
+                                <option className="form-select-dropdown" value="monthly">Monthly</option>
                             </select>
                         </div>
                     </div>
@@ -1416,8 +1422,8 @@ function KRForm(props) {
         return (
             <option
                 key={obj.objectiveId}
+                className="selectbox-text form-select-dropdown"
                 value={obj.objectiveId}
-                className="selectbox-text"
             >
                 [{obj.frequency.charAt(0).toUpperCase() + obj.frequency.slice(1)}] {obj.objectiveTitle}
             </option>
@@ -1655,7 +1661,7 @@ function KRForm(props) {
                     <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="currentValue" className="form--label">
-                                Current Value: <span className="form--slider-value">{formData.currentValue}</span>
+                                Current Value: <span className="form--slider-value text-center">{formData.currentValue}</span>
                             </label>
                             <input
                                 name="currentValue"
@@ -2183,7 +2189,7 @@ function OKRCollapse(props) {
 // COMPONENTS: Team, KRModal, TeamProgress, TeamOKRs, FrequencyTabs
 function FrequencyTabs(props) {
     return (
-        <div className="mt-4">
+        <div className="mt-2">
             <ul className="nav nav-pills justify-content-center" role="tablist">
                 <li className="nav-item">
                     <a
@@ -2592,3 +2598,4 @@ function DirectoryPage() {
         </div>
     );
 }
+
