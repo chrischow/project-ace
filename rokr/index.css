@@ -542,7 +542,7 @@ button.close:hover {
 
 .form--edit {
   color: white;
-  padding: 5px 10px;
+  padding: 10px 10px;
   transition: 0.3s;
 }
 
@@ -596,11 +596,11 @@ span.form--slider-value {
 
 /* Slider */
 .form-range, .form-range:focus {
-  margin-bottom: 40px;
+  margin-bottom: 29px;
 }
 
 .custom-range {
-  height: 30px;
+  height: 42px;
   border: none;
   box-shadow: none;
 }

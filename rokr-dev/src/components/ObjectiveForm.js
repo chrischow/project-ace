@@ -73,6 +73,12 @@ export default function ObjectiveForm(props) {
     // Enable form datepicker utility
     useEffect(function() {
         $(function() {
+            const objDescTextArea = $('#objectiveDescription');
+            objDescTextArea.on('change input', function () {
+                this.style.height = "auto";
+                this.style.height = this.scrollHeight + "px";
+            });
+
             var startDatePicker = $('#objectiveStartDate');
             startDatePicker.datepicker({
                 format: 'yyyy-mm-dd'
@@ -175,6 +181,7 @@ export default function ObjectiveForm(props) {
                     <label htmlFor="objectiveDescription" className="form--label">Description</label>
                     <textarea
                         name="objectiveDescription"
+                        id="objectiveDescription"
                         className="form-control form-dark form--edit"
                         rows="1"
                         value={formData.objectiveDescription}

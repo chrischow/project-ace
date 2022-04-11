@@ -106,6 +106,12 @@ export default function KRForm(props) {
     // Enable form datepicker utility
     useEffect(function() {
         $(function() {
+            const krDescTextArea = $('#krDescription');
+            krDescTextArea.on('change input', function () {
+                this.style.height = "auto";
+                this.style.height = this.scrollHeight + "px";
+            });
+
             var startDatePicker = $('#krStartDate');
             startDatePicker.datepicker({
                 format: 'yyyy-mm-dd'
@@ -215,6 +221,7 @@ export default function KRForm(props) {
                     <label htmlFor="krDescription" className="form--label">Description</label>
                     <textarea
                         name="krDescription"
+                        id="krDescription"
                         className="form-control form-dark form--edit"
                         rows="1"
                         value={formData.krDescription}
