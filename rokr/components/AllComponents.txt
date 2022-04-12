@@ -10,8 +10,8 @@ var fakeDataTeams = [
 
 // #FAKEDATA
 function generateData(teams){
-    // var freqs = ['annual', 'quarterly', 'monthly'];
-    var freqs = ['annual'];
+    var freqs = ['annual', 'quarterly', 'monthly'];
+    // var freqs = ['annual'];
     var counter = 1;
     var objs = [];
     var objName;
@@ -20,65 +20,62 @@ function generateData(teams){
     for (var t=0; t < teams.length; t++) {
         for (var f=0; f < freqs.length; f++) {
             for (var i=0; i < 3; i++) {
-                objName = teams[t].teamName + ' O' + (i+1) + ' ' + freqs[f];
-
-                if (freqs[f] === 'annual'){
-                    endDate = '2023-03-31';
-                } else if (freqs[f] === 'quarterly') {
-                    endDate = '2022-06-30';
+                if (freqs[f] === 'monthly') {
+                    for (var s=0; s < 3; s++) {
+                        objName = teams[t].teamName + ' Staff ' + (s+1) + ' O' + (i+1);
+                        endDate = '2022-04-30';
+        
+                        objs.push({
+                            objectiveId: counter,
+                            objectiveTitle: objName,
+                            objectiveDescription: objName + ' description',
+                            objectiveStartDate: '2022-04-01',
+                            objectiveEndDate: endDate,
+                            team: teams[t].teamName,
+                            owner: 'Staff ' + (s+1),
+                            frequency: freqs[f]
+                        });
+                        counter++;
+                    }
                 } else {
-                    endDate = '2022-04-30';
+                    objName = teams[t].teamName + ' O' + (i+1) + ' ' + freqs[f];
+                    endDate = freqs[f] === 'annual' ? '2023-03-31': '2022-06-30';
+    
+                    objs.push({
+                        objectiveId: counter,
+                        objectiveTitle: objName,
+                        objectiveDescription: objName + ' description',
+                        objectiveStartDate: '2022-04-01',
+                        objectiveEndDate: endDate,
+                        team: teams[t].teamName,
+                        owner: '',
+                        frequency: freqs[f]
+                    });
+                    counter++;
                 }
-
-                objs.push({
-                    objectiveId: counter,
-                    objectiveTitle: objName,
-                    objectiveDescription: objName + ' description',
-                    objectiveStartDate: '2022-04-01',
-                    objectiveEndDate: endDate,
-                    team: teams[t].teamName,
-                    frequency: freqs[f]
-                });
-                counter++;
             }
-        }
-    }
-
-    var staff = {};
-    var currTeam;
-
-    for (t=0; t<teams.length; t++) {
-        currTeam = teams[t].teamName;
-        staff = {
-            ...staff,
-            [currTeam]: []
-        };
-
-        for (var s=0; s<4; s++) {
-            staff[currTeam].push(currTeam + ' Staff ' + (s+1));
         }
     }
 
     var maxs = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
     var krs = [];
-    var krName;
+    var krTitle;
     counter = 1;
     var randIdx;
     var randMax;
-    var randIdxStaff;
-    var randStaff;
+    var freq;
 
     for (i=0; i<objs.length; i++) {
+        freq = objs[i].frequency;
+
         for (var kr=0; kr < 3; kr++){
-            krName = objs[i].objectiveTitle + ' KR ' + (kr+1);
+            krTitle = objs[i].objectiveTitle + ' KR' + (kr+1);
             randIdx = Math.floor(Math.random() * maxs.length);
             randMax = maxs[randIdx];
-            randIdxStaff = Math.floor(Math.random() * 4);
-            randStaff = staff[objs[i].team][randIdxStaff];
 
-            if (freqs[f] === 'annual'){
+            if (freq === 'annual'){
                 endDate = '2023-03-31';
-            } else if (freqs[f] === 'quarterly') {
+            } else if (freq === 'quarterly') {
                 endDate = '2022-06-30';
             } else {
                 endDate = '2022-04-30';
@@ -86,16 +83,15 @@ function generateData(teams){
             
             krs.push({
                 krId: counter,
-                krTitle: krName,
-                krDescription: krName + ' description',
+                krTitle: krTitle,
+                krDescription: krTitle + ' description',
                 krStartDate: '2022-04-01',
                 krEndDate: endDate,
                 minValue: 0,
                 maxValue: randMax,
                 currentValue: Math.random() > 0.6 ? Math.floor(Math.random() * randMax) : randMax,
                 parentObjectiveId: objs[i].objectiveId,
-                parentObjectiveTeam: objs[i].team,
-                owner: randStaff
+                parentObjectiveTeam: objs[i].team
             });
             counter ++;
         }
@@ -169,7 +165,6 @@ function generateData(teams){
             counter++
         }
     }
-
 
     return { 'objectives': objs, 'keyResults': krs, 'updates': updates };
 }
@@ -327,7 +322,9 @@ function computeObjCompletion(objectives, keyResults) {
         });
 
         if (numKRs === completedKRs.length) {
-            completed ++;
+            if (numKRs > 0) {
+                completed ++;
+            }
         }
     }
 
@@ -353,7 +350,7 @@ function computeAnnualMetrics(objectives, keyResults) {
 
     const tempObjCompletion = computeObjCompletion(annualObjectives, annualKRs);
     const output = {
-        avgCompletion: tempObjCompletion.avgCompletion,
+        avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
         keyResultCompletion: computeKrCompletion(annualKRs),
         objectiveCompletion: {
             completed: tempObjCompletion.completed,
@@ -385,7 +382,7 @@ function computeTeamsAnnualMetrics(teams, objectives, keyResults) {
         })
         tempObjCompletion = computeObjCompletion(tempObj, tempKR);
         output[teams[t].teamName] = {
-            avgCompletion: tempObjCompletion.avgCompletion,
+            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
             keyResultCompletion: computeKrCompletion(tempKR),
             objectiveCompletion: {
                 completed: tempObjCompletion.completed,
@@ -396,29 +393,62 @@ function computeTeamsAnnualMetrics(teams, objectives, keyResults) {
     return output;
 }
 
-function prepareTeamData(team, objectives, keyResults) {
+function prepareTeamData(objectives, keyResults) {
     var output = {};
     var freqs = ['annual', 'quarterly', 'monthly'];
     var tempObj;
     var parentObj;
     var tempKR;
     var tempObjCompletion;
+    var staffList;
     for (var f=0; f < freqs.length; f++) {
         tempObj = objectives.filter(function(entry) {
-            return (entry.team === team) && (entry.frequency === freqs[f]);
+            return entry.frequency === freqs[f];
         })
 
         tempKR = keyResults.filter(function(entry) {
             parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
-            return (entry.parentObjectiveTeam === team) && (
-                parentObj.frequency === freqs[f]
-            );
+            return parentObj.frequency === freqs[f];
         })
         
         tempObjCompletion = computeObjCompletion(tempObj, tempKR);
 
         output[freqs[f]] = {
-            avgCompletion: tempObjCompletion.avgCompletion,
+            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
+            keyResultCompletion: computeKrCompletion(tempKR),
+            objectiveCompletion: {
+                completed: tempObjCompletion.completed,
+                total: tempObjCompletion.total,
+            },
+            objectives: tempObj,
+            keyResults: tempKR
+        };
+        
+        if (freqs[f] === 'monthly') {
+            staffList = tempObj.map(function(item) {
+                return item.owner;
+            });
+            staffList = [... new Set(staffList)];
+        }
+    }
+
+    // For each staff, also calculate obj completion and kr completion
+    var staff;
+    for (var i=0; i < staffList.length; i++) {
+        staff = staffList[i];
+        tempObj = objectives.filter(function(entry) {
+            return entry.owner === staff;
+        })
+
+        tempKR = keyResults.filter(function(entry) {
+            parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
+            return parentObj.owner === staff;
+        })
+
+        tempObjCompletion = computeObjCompletion(tempObj, tempKR);
+
+        output[staff] = {
+            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
             keyResultCompletion: computeKrCompletion(tempKR),
             objectiveCompletion: {
                 completed: tempObjCompletion.completed,
@@ -443,6 +473,8 @@ function formatDate(dateStr) {
 }
 
 // UTILS FOR QUERYING DATA
+const apiUrl = "youknowwhatitis/rokr/_api/";
+
 function getDate(date) {
     const rawDate = new Date(date);
     const z = rawDate.getTimezoneOffset() * 60 * 1000;
@@ -465,88 +497,432 @@ function checkDate(date) {
     return dateIsValid;
 }
 
-function getObjectiveData(listId, team) {
+function getListItemEntityTypeFullName(listId) {
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')?$select=ListItemEntityTypeFullName",
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json; odata=verbose'
+        },
+        success: function(data) {
+            console.log('Use the value below:');
+            console.log(data.d.ListItemEntityTypeFullName);
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+function getXRequestDigestValue() {
+    var reqDigest = $.ajax({
+        url: apiUrl + 'contextinfo',
+        method: 'POST',
+        async: false,
+        headers: {
+            'Accept': 'application/json; odata=verbose'
+        },
+        success: function(data) {
+            return data;
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+
+    return reqDigest.responseJSON.d.GetContextWebInformation.FormDigestValue;
+}
+
+// -------- READ --------
+function getObjectiveData(listId, team, callback) {
     const queryColumns = '$select=Id,Title,objectiveDescription,objectiveStartDate,objectiveStartDate,objectiveEndDate,frequency,team';
     var queryFilter = '';
     if (team !== 'all') {
         queryFilter = "&$filter=team eq '" + team + "'";
     }
 
-    var rawData = $.ajax({
-        url: "https://portal.mis.defence.gov.sg/rsaf/RDO/private_api/web/Lists(guid'" +
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" +
             listId + "')/items?" + queryColumns + (queryFilter ? '&' : '') + queryFilter,
         method: 'GET',
         headers: {
             'Accept': 'application/json; odata=verbose'
         },
-        async: false,
+        async: true,
         success: function(data) {
-            return data;
+            var rawData = data.d.reuslts;
+            rawData = rawData.map(function(entry) {
+                return {
+                    objectiveId: entry.Id,
+                    objectiveTitle: entry.Title,
+                    objectiveDescription: entry.objectiveDescription,
+                    objectiveStartDate: getDate(entry.objectiveStartDate),
+                    objectiveEndDate: getDate(entry.objectiveEndDate),
+                    frequency: entry.frequency,
+                    team: entry.team
+                };
+            });
+            callback(rawData);
         },
         error: function(error) {
             console.log(JSON.stringify(error));
         }
     });
-
-    rawData = rawData.responseJSON.d.results;
-
-    const output = rawData.map(function(entry) {
-        return {
-            objectiveId: entry.Id,
-            objectiveTitle: entry.Title,
-            objectiveDescription: entry.objectiveDescription,
-            objectiveStartDate: getDate(entry.objectiveStartDate),
-            objectiveEndDate: getDate(entry.objectiveEndDate),
-            frequency: entry.frequency,
-            team: entry.team
-        };
-    });
-
-    return output
 }
 
-function getKRData(listId, team) {
-    const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,parentObjective/Id,parentObjective/team&$expand=parentObjective';
+function getKRData(listId, team, callback) {
+    const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,owner,parentObjective/Id,parentObjective/team&$expand=parentObjective';
     var queryFilter = '';
 
     if (team !== 'all') {
         queryFilter = "&$filter=parentObjective/team eq '" + team + "'";
     }
 
-    var rawData = $.ajax({
-        url: "https://portal.mis.defence.gov.sg/rsaf/RDO/private/_api/web/Lists(guid'" +
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" +
             listId + "')/items?" + queryColumns + (queryFilter ? '&' : '') + queryFilter,
         method: 'GET',
         headers: {
             'Accept': 'application/json; odata=verbose'
         },
-        async: false,
+        async: true,
         success: function(data) {
-            return data;
+            var rawData = data.d.results;
+            rawData = rawData.map(function(entry) {
+                return {
+                    krId: entry.Id,
+                    krTitle: entry.Title,
+                    krDescription: entry.krDescription,
+                    krStartDate: getDate(entry.krStartDate),
+                    krEndDate: getDate(entry.krEndDate),
+                    minValue: entry.minValue,
+                    maxValue: entry.maxValue,
+                    currentValue: entry.currentValue,
+                    owner: entry.owner,
+                    parentObjectiveId: entry.parentObjective.Id,
+                    parentObjectiveTeam: entry.parentObjective.team
+                };
+            });
+            callback(rawData);
         },
         error: function(error) {
             console.log(JSON.stringify(error));
         }
     });
-
-    const output = rawData.map(function(entry) {
-        return {
-            krId: entry.Id,
-            krTitle: entry.title,
-            krDescription: entry.krDescription,
-            krStartDate: getDate(entry.krStartDate),
-            krEndDate: getDate(entry.krEndDate),
-            minValue: entry.minValue,
-            maxValue: entry.maxValue,
-            currentValue: entry.currentValue,
-            parentObjectiveId: entry.parentObjective.Id,
-            parentObjectiveTeam: entry.parentObjective.team
-        };
-    });
-
-    return output;
 }
 
+function getUpdateData(listId, krId, callback) {
+    var queryColumns = '$select=Id,updateDate,updateText,parentKrId';
+    var queryFilter = "&$filter=parentKrId eq '" + krId + "'";
+
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')itmes?" + 
+            queryColumns + queryFilter,
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json; odata=verbose'
+        },
+        async: true,
+        success: function(data) {
+            var rawData = data.d.results;
+            rawData = rawData.map(function(entry) {
+                return {
+                    updateId: entry.Id,
+                    updateDate: getDate(entry.updateDate),
+                    updateText: entry.updateText,
+                    parentKrId: entry.parentKrId
+                };
+            });
+            callback(rawData);
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+// -------- GET ONE --------
+function getOneObjective(listId, objectiveId, callback) {
+    const queryColumns = '$select=Id,Title,objectiveDescription,objectiveStartDate,objectiveStartDate,objectiveEndDate,frequency,team';
+    var queryFilter = "&$filter=Id eq '" + objectiveId + "'";
+
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" +
+            listId + "')/items?" + queryColumns + queryFilter,
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json; odata=verbose'
+        },
+        async: true,
+        success: function(data) {
+            var rawData = data.d.reuslts;
+            rawData = rawData.map(function(entry) {
+                return {
+                    objectiveId: entry.Id,
+                    objectiveTitle: entry.Title,
+                    objectiveDescription: entry.objectiveDescription,
+                    objectiveStartDate: getDate(entry.objectiveStartDate),
+                    objectiveEndDate: getDate(entry.objectiveEndDate),
+                    frequency: entry.frequency,
+                    team: entry.team
+                };
+            });
+            callback(rawData[0]);
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+function getOneKR(listId, krId, callback) {
+    const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,owner,parentObjective/Id,parentObjective/team&$expand=parentObjective';
+    var queryFilter = "&$filter=Id eq '" + krId + "'";
+
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items?" + 
+            queryColumns + queryFilter,
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json; odata=verbose'
+        },
+        async: true,
+        success: function(data) {
+            var rawData = data.d.results;
+            rawData = rawData.map(function(entry) {
+                return {
+                    krId: entry.Id,
+                    krTitle: entry.Title,
+                    krDescription: entry.krDescription,
+                    krStartDate: getDate(entry.krStartDate),
+                    krEndDate: getDate(entry.krEndDate),
+                    minValue: entry.minValue,
+                    maxValue: entry.maxValue,
+                    currentValue: entry.currentValue,
+                    owner: entry.owner,
+                    parentObjectiveId: entry.parentObjective.Id,
+                    parentObjectiveTeam: entry.parentObjective.team
+                };
+            });
+            callback(rawData[0]);
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+// -------- UPDATE --------
+function updateObjective(listId, objectiveId, payload, reqDigest, listItemEntityTypeFullName, callback) {
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items" + '(' + objectiveId + ')',
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json; odata=verbose',
+            'content-type': 'application/json; odata=verbose',
+            'X-RequestDigest': reqDigest,
+            'IF-MATCH': '*',
+            'X-HTTP-METHOD': 'MERGE'
+        },
+        data: JSON.stringify({
+            '__metadata': {
+                'type': listItemEntityTypeFullName
+            },
+            'Title': payload.objectiveTitle,
+            'objectiveDescription': payload.objectiveDescription,
+            'objectiveStartDate': payload.objectiveStartDate,
+            'objectiveEndDate': payload.objectiveEndDate,
+            'team': payload.team,
+            'frequency': payload.frequency
+        }),
+        success: function(data) {
+            callback();
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+function updateKeyResult(listId, krId, payload, reqDigest, listItemEntityTypeFullName, callback) {
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items" + '(' + krId + ')',
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json; odata=verbose',
+            'content-type': 'application/json; odata=verbose',
+            'X-RequestDigest': reqDigest,
+            'IF-MATCH': '*',
+            'X-HTTP-METHOD': 'MERGE'
+        },
+        data: JSON.stringify({
+            '__metadata': {
+                'type': listItemEntityTypeFullName
+            },
+            'Title': payload.krTitle,
+            'krDescription': payload.krDescription,
+            'krStartDate': payload.krStartDate,
+            'krEndDate': payload.krEndDate,
+            'minValue': payload.minValue,
+            'maxValue': payload.maxValue,
+            'currentValue': payload.currentValue,
+            'owner': payload.owner,
+            'parentObjectiveId': payload.parentObjectiveId,
+            'parentObjectiveTeam': payload.parentObjectiveTeam
+        }),
+        success: function(data) {
+            callback();
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+function updateUpdate(listId, updateId, payload, reqDigest, listItemEntityTypeFullName, callback) {
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items" + '(' + updateId + ')',
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json; odata=verbose',
+            'content-type': 'application/json; odata=verbose',
+            'X-RequestDigest': reqDigest,
+            'IF-MATCH': '*',
+            'X-HTTP-METHOD': 'MERGE'
+        },
+        data: JSON.stringify({
+            '__metadata': {
+                'type': listItemEntityTypeFullName
+            },
+            'Title': '',
+            'updateDate': payload.updateDate,
+            'updateText': payload.updateText,
+            'parentKrId': payload.parentKrId
+        }),
+        success: function(data) {
+            callback();
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+// -------- CREATE --------
+function addObjective(listId, payload, reqDigest, listItemEntityTypeFullName, callback) {
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items",
+        method: 'POST',
+        async: true,
+        headers: {
+            'Accept': 'application/json; odata=verbose',
+            'content-type': 'application/json; odata=verbose',
+            'X-RequestDigest': reqDigest
+        },
+        data: JSON.stringify({
+            '__metadata': {
+                'type': listItemEntityTypeFullName
+            },
+            'Title': payload.objectiveTitle,
+            'objectiveDescription': payload.objectiveDescription,
+            'objectiveStartDate': payload.objectiveStartDate,
+            'objectiveEndDate': payload.objectiveEndDate,
+            'team': payload.team,
+            'frequency': payload.frequency
+        }),
+        success: function(data) {
+            callback();
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+function addKeyResult(listId, payload, reqDigest, listItemEntityTypeFullName, callback) {
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items",
+        method: 'POST',
+        async: true,
+        headers: {
+            'Accept': 'application/json; odata=verbose',
+            'content-type': 'application/json; odata=verbose',
+            'X-RequestDigest': reqDigest
+        },
+        data: JSON.stringify({
+            '__metadata': {
+                'type': listItemEntityTypeFullName
+            },
+            'Title': payload.krTitle,
+            'krDescription': payload.krDescription,
+            'krStartDate': payload.krStartDate,
+            'krEndDate': payload.krEndDate,
+            'minValue': payload.minValue,
+            'maxValue': payload.maxValue,
+            'currentValue': payload.currentValue,
+            'owner': payload.owner,
+            'parentObjectiveId': payload.parentObjectiveId,
+            'parentObjectiveTeam': payload.parentObjectiveTeam
+        }),
+        success: function(data) {
+            callback();
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+function createUpdate(listId, payload, reqDigest, listItemEntityTypeFullName, callback) {
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items",
+        method: 'POST',
+        async: true,
+        headers: {
+            'Accept': 'application/json; odata=verbose',
+            'content-type': 'application/json; odata=verbose',
+            'X-RequestDigest': reqDigest
+        },
+        data: JSON.stringify({
+            '__metadata': {
+                'type': listItemEntityTypeFullName
+            },
+            'Title': '',
+            'updateDate': payload.updateDate,
+            'updateText': payload.updateText,
+            'parentKrId': payload.parentKrId
+        }),
+        success: function(data) {
+            callback();
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+// -------- DELETE --------
+function deleteUpdate(listId, updateId, reqDigest, listItemEntityTypeFullName, callback) {
+    $.ajax({
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items" + '(' + updateId + ')',
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json; odata=verbose',
+            'content-type': 'application/json; odata=verbose',
+            'X-RequestDigest': reqDigest,
+            'IF-MATCH': '*',
+            'X-HTTP-METHOD': 'DELETE'
+        },
+        success: function(data) {
+            callback();
+        },
+        error: function(error) {
+            console.log(JSON.stringify(error));
+        }
+    });
+}
+
+// -------- INDEXEDDB FUNCTIONS --------
 function getAllIDB(objectStore, callback) {
     // window.indexedDB = window.indexedDB || window.mozIndexexedDB || 
     //     window.webkitIndexedDB || window.msIndexedDB;
@@ -1118,7 +1494,9 @@ function ObjectiveForm(props) {
     // Query data - simulated
     useEffect(function() {
         if (props.mode === 'edit') {
+            // Query data - SWAP FUNCTION HERE
             getOneIBD('ObjectivesStore', Number(params.id), setFormData);
+            // getOneObjective(objListId, Number(params.id), setFormData);
         } else {
             var teamInfo = props.teams.filter(function(item) {
                 return item.teamName === urlParams.get('team');
@@ -1224,11 +1602,21 @@ function ObjectiveForm(props) {
 
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
+            var {objectiveId, ...newData} = formData;
             if (props.mode === 'edit') {
                 putIBD('ObjectivesStore', formData, () => history.push('/' + team.slug) );
+                // updateObjective(
+                //     objListId, objectiveId, newData, reqDigest,
+                //     objListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             } else {
-                var {objectiveId, ...newData} = formData;
                 putIBD('ObjectivesStore', newData, () => history.push('/' + team.slug) );
+                // addObjective(
+                //     objListId, newData, reqDigest,
+                //     objListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             }
         } else {
             if (!inputTitle) {
@@ -1285,7 +1673,7 @@ function ObjectiveForm(props) {
                     />
                 </div>
                 <div className="row align-items-center">
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="objectiveStartDate" className="form--label">Start Date</label>
                             <input
@@ -1298,7 +1686,7 @@ function ObjectiveForm(props) {
                             />
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="objectiveEndDate" className="form--label">End Date</label>
                             <input
@@ -1309,6 +1697,21 @@ function ObjectiveForm(props) {
                                 value={formData.objectiveEndDate}
                                 onChange={handleChange}
                             />
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-element">
+                            <label htmlFor="frequency" className="form--label">Frequency</label>
+                            <select
+                                name="frequency"
+                                className="form-control form-dark form--edit"
+                                value={formData.frequency}
+                                onChange={handleChange}
+                            >
+                                <option className="form-select-dropdown" value="annual">Annual</option>
+                                <option className="form-select-dropdown" value="quarterly">Quarterly</option>
+                                <option className="form-select-dropdown" value="monthly">Monthly</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -1328,17 +1731,14 @@ function ObjectiveForm(props) {
                     </div>
                     <div className="col-6">
                         <div className="form-element">
-                            <label htmlFor="frequency" className="form--label">Frequency</label>
-                            <select
-                                name="frequency"
+                            <label htmlFor="owner" className="form--label">Owner</label>
+                            <input
+                                type="text"
+                                name="owner"
                                 className="form-control form-dark form--edit"
-                                value={formData.frequency}
+                                value={formData.owner}
                                 onChange={handleChange}
-                            >
-                                <option className="form-select-dropdown" value="annual">Annual</option>
-                                <option className="form-select-dropdown" value="quarterly">Quarterly</option>
-                                <option className="form-select-dropdown" value="monthly">Monthly</option>
-                            </select>
+                            />
                         </div>
                     </div>
                 </div>
@@ -1372,15 +1772,18 @@ function KRForm(props) {
     // Run once - query Key Result
     useEffect(function() {
         if (props.mode === 'edit') {
+            // Query data - SWAP FUNCTION HERE
             getOneIBD('KeyResultsStore', Number(params.id), setFormData);
+            // getOneKR(krListId, Number(params.id), setFormData);
         } else {
             var teamInfo = props.teams.filter(function(item) {
                 return item.teamName === urlParams.get('team');
             });
             setTeam(teamInfo[0]);
 
-            // Query objectives
+            // Query objectives - SWAP FUNCTION HERE
             getTeamObjectiveDataIBD(teamInfo[0].teamName, setObjectives);
+            // getObjectiveData(objListId, teamInfo[0].teamName, setObjectives);
             
             // Set form data
             setFormData({
@@ -1408,8 +1811,9 @@ function KRForm(props) {
             });
             setTeam(teamInfo[0]);
             
-            // Get objectives
+            // Query objectives - SWAP FUNCTION HERE
             getTeamObjectiveDataIBD(teamInfo[0].teamName, setObjectives);
+            // getObjectiveData(objListId, teamInfo[0].teamName, setObjectives);
         }
     }, [formData]);
 
@@ -1516,11 +1920,22 @@ function KRForm(props) {
 
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
+            var {krId, parentObjectiveTeam, ...newData} = formData;
+            // var reqDigest = getXRequestDigestValue();
             if (props.mode === 'edit') {
                 putIBD('KeyResultsStore', formData, () => history.push('/' + team.slug))
+                // updateKeyResult(
+                //     krListId, krId, newData, reqDigest,
+                //     krListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             } else {
-                var {krId, ...newData} = formData;
-                putIBD('KeyResultsStore', newData, () => history.push('/' + team.slug));
+                putIBD('KeyResultsStore', {parentObjectiveTeam, ...newData}, () => history.push('/' + team.slug));
+                // addKeyResult(
+                //     krListId, newData, reqDigest,
+                //     krListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             }
         } else {
             if (!inputTitle) {
@@ -1603,18 +2018,6 @@ function KRForm(props) {
                             </input>
                         </div>
                     </div>
-                    <div className="col-6">
-                        <div className="form-element">
-                            <label htmlFor="owner" className="form--label">Owner</label>
-                            <input
-                                type="text"
-                                name="owner"
-                                className="form-control form-dark form--edit"
-                                value={formData.owner}
-                            >
-                            </input>
-                        </div>
-                    </div>
                 </div>
                 <div className="row align-items-center">
                     <div className="col-6">
@@ -1643,21 +2046,6 @@ function KRForm(props) {
                             />
                         </div>
                     </div>
-                    {/* <div className="col-4">
-                        <div className="form-element">
-                            <label htmlFor="frequency" className="form--label">Frequency</label>
-                            <select
-                                name="frequency"
-                                className="form-control form-dark form--edit"
-                                value={formData.frequency}
-                                onChange={handleChange}
-                            >
-                                <option value="annual">Annual</option>
-                                <option value="quarterly">Quarterly</option>
-                                <option value="monthly">Monthly</option>
-                            </select>
-                        </div>
-                    </div> */}
                 </div>
                 <div className="row align-items-center">
                     <div className="col-4">
@@ -1742,7 +2130,7 @@ function UpdatesTable(props) {
     const updateRows = props.updateData.map(function(item) {
         return (
         <tr key={item.updateId}>
-            <td className="text-center">{item.updateDate}</td>
+            <td className="text-center">{getDate(item.updateDate)}</td>
             <td>{item.updateText}</td>
             <td className="text-center">
                 <div onClick={() => {
@@ -1815,7 +2203,7 @@ function UpdatesForm(props){
     const [mode, setMode] = useState('');
     const [formData, setFormData] = useState({
         updateId: -1,
-        updateDate: '',
+        updateDate: getDate(new Date()),
         updateText: '',
         parentKrId: -1
     });
@@ -1838,10 +2226,12 @@ function UpdatesForm(props){
         setUpdateData(data);
     }
 
-    // Query update data - simulated
+    // Query update data - SWAP FUNCTION HERE
     useEffect(function() {
         getOneIBD('KeyResultsStore', Number(params.id), setKrData);
         getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+        // getOneKR(krListId, Number(params.id), setKrData);
+        // getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
     }, []);
 
     // Update team based on KR Data
@@ -1941,13 +2331,26 @@ function UpdatesForm(props){
         if (inputText && inputDate && validDate){
             // Form ok
             var {updateId, ...newData} = formData;
+            // var reqDigest = getXRequestDigestValue();
             if (mode === 'edit') {
                 putIBD('UpdatesStore', formData, () => {
                     getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
                 });
+                // updateUpdate(
+                //     updateListId, updateId, newData, reqDigest,
+                //     updateListItemEntityTypeFullName, () => {
+                //         getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
+                //     }
+                // );
             } else if (mode === 'new') {
                 putIBD('UpdatesStore', newData, () => {
                     getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+                    // createUpdate(
+                    //     updateListId, newData, reqDigest,
+                    //     updateListItemEntityTypeFullName, () => {
+                    //         getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
+                    //     }
+                    // );
                 });
             }
             $('#editUpdateModal').modal('hide');
@@ -1978,6 +2381,12 @@ function UpdatesForm(props){
             deleteIBD('UpdatesStore', formData.updateId, () => {
                 getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             });
+            // deleteUpdate(
+            //     updateListId, formData.updateId, reqDigest,
+            //     updateListItemEntityTypeFullName, () => {
+            //         getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
+            //     }
+            // )
             $('#editUpdateModal').modal('hide');
         };
     }
@@ -1993,10 +2402,7 @@ function UpdatesForm(props){
                 <button className="btn btn-secondary float-right" onClick={redirectBack}>Back to Team Page</button>
             </div>
             <div className="directory--container">
-                {updateData.length > 0 && <UpdatesTable updateData={updateData} editUpdate={editUpdate} />}
-                {updateData.length === 0 && <div className="text-center">
-                    <span className="no-data">No data to display.</span>
-                </div>}
+                <UpdatesTable key="updates-table" updateData={updateData} editUpdate={editUpdate} />
             </div>
             <div className="modal fade" id="editUpdateModal" tabIndex="-1" aria-labelledby="editUpdateModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg modal-dialog-centered">
@@ -2141,7 +2547,7 @@ function ObjectiveCard(props) {
                     {props.isClicked && <div className="kr-modal--description">{props.objectiveDescription}</div>}
                 </div>
                 <div className="text-center col-2">
-                    <span className="objective-card--text">31 Mar 2023</span>
+                    <span className="objective-card--text">{props.objectiveEndDate}</span>
                 </div>
                 <div className="objective-card--progress-bar col-3">
                     <ProgressBar progress={props.progress} isKeyResult={false} />
@@ -2171,7 +2577,7 @@ function OKRCollapse(props) {
     const keyResultRows = props.keyResults.map(function(item) {
         return (
             <KeyResultRow
-                key={item.krId}
+                // key={item.krId}
                 objId={objId}
                 setKrData={props.setKrData}
                 {...item}
@@ -2261,8 +2667,9 @@ function KRModal(props) {
     // Trigger once props are in
     useEffect(function() {
         if (props.krData.krId) {
-            // Query update data - simulated
+            // Query update data - SWAP FUNCTION HERE
             getTeamUpdatesDataIBD(props.krData.krId, setUpdateData);
+            // getTeamUpdatesDataIBD(updateListId, props.krData.krId, setUpdateData);
         }
     }, [props.krData]);
 
@@ -2384,9 +2791,11 @@ function KRModal(props) {
 }
 
 function TeamProgress(props) {
+    const entity = (props.frequency !== 'annual' && props.frequency !== 'quarterly') ? 
+        'Individual' : 'Team';
     return (
         <div>
-            <h3 className="mt-4">Team Progress</h3>
+            <h3 className="mt-4">{entity} Progress</h3>
             <div className="overall-panel mt-4">
                 <ProgressCard progressId="team-progress" data={props.progressData} isTeam={false} />
             </div>
@@ -2423,7 +2832,14 @@ function TeamOKRs(props) {
             return kr.parentObjectiveId === item.objectiveId;
         });
 
-        return <OKRCollapse key={item.objectiveId} objective={item} keyResults={tempKRs} setKrData={setKrData} />;
+        return (
+            <OKRCollapse
+                // key={item.objectiveId}
+                objective={item}
+                keyResults={tempKRs}
+                setKrData={setKrData}
+            />
+        );
     });
 
     return (
@@ -2448,12 +2864,41 @@ function TeamOKRs(props) {
     );
 }
 
+function TeamMemberTabs(props) {
+    var staffList = ['All', ...props.staffList]
+    staffList = staffList.map(function(item) {
+        return (
+            <li className="nav-item">
+                <a
+                    className={"nav-link individual-tabs--link" + (item==='All' ? ' active' : '')}
+                    data-toggle="tab"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls={item}
+                    href={"#team-"+item}
+                    onClick={() => props.changeFrequency(item === 'All' ? 'monthly' : item)}
+                >
+                        {item}
+                </a>
+            </li>
+        );
+    });
+    return (
+        <div className="mt-2">
+            <ul className="nav nav-pills justify-content-center" role="tablist">
+                {staffList}
+            </ul>
+        </div>
+    );
+}
+
 function TeamPage(props) {
 
     // Initialise states for raw team data and processed data
     const [teamData, setTeamData] = useState({});
     const [processedData, setProcessedData] = useState({});
     const [pageData, setPageData] = useState({});
+    const [staffList, setStaffList] = useState([]);
     
     // Callback functions to update respective items in raw data state
     // To be passed to async query to database
@@ -2470,6 +2915,8 @@ function TeamPage(props) {
         // Query data - simulated
         getTeamObjectiveDataIBD(props.team.teamName, updateObjectives);
         getTeamKeyResultDataIBD(props.team.teamName, updateKeyResults);
+        // getObjectiveData(objListId, props.team.teamName, updateObjectives);
+        // getKRData(krListId, props.team.teamName, updateKeyResults);
     }, [props.team.teamName]);
 
     // Processes data and updates page data every time there is a change to the 
@@ -2477,11 +2924,10 @@ function TeamPage(props) {
     useEffect(function() {
         if (teamData.allObjectives && teamData.allKeyResults) {
             const teamProgressData = prepareTeamData(
-                props.team.teamName,
                 teamData.allObjectives,
                 teamData.allKeyResults
             );
-
+            
             setProcessedData(prevData => {
                 return {...prevData, teamProgressData: teamProgressData};
             });
@@ -2490,6 +2936,12 @@ function TeamPage(props) {
                 frequency: 'annual',
                 data: teamProgressData['annual']
             });
+
+            setStaffList(
+                Object.keys(teamProgressData).filter(function(item) {
+                    return item !== 'monthly' && item !== 'quarterly' && item !== 'annual';
+                })
+            );
         }
     }, [teamData, props.team.teamName])
 
@@ -2515,7 +2967,16 @@ function TeamPage(props) {
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
             <FrequencyTabs changeFrequency={changeFrequency} />
-            {pageData.data && <TeamProgress progressData={pageData.data} />}
+            {pageData.frequency !== 'annual' && pageData.frequency !== 'quarterly' && staffList && 
+                <TeamMemberTabs
+                    staffList={staffList}
+                    changeFrequency={changeFrequency}
+                />}
+            {pageData.data && 
+                <TeamProgress 
+                    progressData={pageData.data}
+                    frequency={pageData.frequency}
+                />}
             {pageData.data && <TeamOKRs 
                 pageData={pageData}
                 teams={props.teams}
@@ -2533,7 +2994,9 @@ function DirectoryPage() {
 
     // Run once - query KRs
     useEffect(function() {
+        // Query data - SWAP FUNCTION HERE
         getAllIDB('KeyResultsStore', setKrData);
+        // getTeamKeyResultDataIBD(krListId, 'all', setKrData);
     }, []);
 
     // Create table when Key Results are updated
@@ -2544,7 +3007,7 @@ function DirectoryPage() {
                 return {
                     title: kr.krTitle,
                     description: kr.krDescription,
-                    owner: kr.owner,
+                    // owner: kr.owner,
                     team: kr.parentObjectiveTeam,
                     due: kr.krEndDate,
                     progress: (100 * Number(kr.currentValue) / Number(kr.maxValue)).toFixed(0) + '%'
@@ -2554,24 +3017,23 @@ function DirectoryPage() {
             const table = $('#directory-table');
             $(function() {
                 if (! $.fn.dataTable.isDataTable( '#directory-table' )) {
-                    // table.DataTable().destroy();
                     table.DataTable({
                         autoWidth: false,
                         pageLength: 25,
                         displayStart: 0,
                         lengthMenu: [10, 25, 50, 75, 100],
                         order: [
+                            [3, 'asc'],
                             [4, 'asc'],
-                            [5, 'asc'],
                         ],
                         fixedColumns: true,
                         columnDefs: [
                             {width: '25%', name: 'title', targets: 0, data: 'title', className: "directory--table-text-sm"},
                             {width: '35%', name: 'description', targets: 1, data: 'description', className: "directory--table-text-sm"},
-                            {width: '13%', name: 'owner', targets: 2, data: 'owner', className: 'text-center'},
-                            {width: '10%', name: 'team', targets: 3, data: 'team', className: 'text-center'},
-                            {width: '12%', name: 'due', targets: 4, data: 'due', className: 'text-center'},
-                            {width: '10%', name: 'progress', targets: 5, data: 'progress', className: 'text-center'},
+                            // {width: '13%', name: 'owner', targets: 2, data: 'owner', className: 'text-center'},
+                            {width: '10%', name: 'team', targets: 2, data: 'team', className: 'text-center'},
+                            {width: '12%', name: 'due', targets: 3, data: 'due', className: 'text-center'},
+                            {width: '10%', name: 'progress', targets: 4, data: 'progress', className: 'text-center'},
                         ]
                     });
         
@@ -2596,7 +3058,7 @@ function DirectoryPage() {
                         <tr>
                             <th className="text-center">Title</th>
                             <th className="text-center">Description</th>
-                            <th className="text-center">Owner</th>
+                            {/* <th className="text-center">Owner</th> */}
                             <th className="text-center">Team</th>
                             <th className="text-center">Due</th>
                             <th className="text-center">Progress</th>
