@@ -86,7 +86,7 @@ function ObjectiveCard(props) {
                     {props.isClicked && <div className="kr-modal--description">{props.objectiveDescription}</div>}
                 </div>
                 <div className="text-center col-2">
-                    <span className="objective-card--text">31 Mar 2023</span>
+                    <span className="objective-card--text">{props.objectiveEndDate}</span>
                 </div>
                 <div className="objective-card--progress-bar col-3">
                     <ProgressBar progress={props.progress} isKeyResult={false} />
@@ -116,7 +116,7 @@ function OKRCollapse(props) {
     const keyResultRows = props.keyResults.map(function(item) {
         return (
             <KeyResultRow
-                key={item.krId}
+                // key={item.krId}
                 objId={objId}
                 setKrData={props.setKrData}
                 {...item}

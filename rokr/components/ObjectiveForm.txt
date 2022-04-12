@@ -18,7 +18,9 @@ function ObjectiveForm(props) {
     // Query data - simulated
     useEffect(function() {
         if (props.mode === 'edit') {
+            // Query data - SWAP FUNCTION HERE
             getOneIBD('ObjectivesStore', Number(params.id), setFormData);
+            // getOneObjective(objListId, Number(params.id), setFormData);
         } else {
             var teamInfo = props.teams.filter(function(item) {
                 return item.teamName === urlParams.get('team');
@@ -124,11 +126,21 @@ function ObjectiveForm(props) {
 
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
+            var {objectiveId, ...newData} = formData;
             if (props.mode === 'edit') {
                 putIBD('ObjectivesStore', formData, () => history.push('/' + team.slug) );
+                // updateObjective(
+                //     objListId, objectiveId, newData, reqDigest,
+                //     objListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             } else {
-                var {objectiveId, ...newData} = formData;
                 putIBD('ObjectivesStore', newData, () => history.push('/' + team.slug) );
+                // addObjective(
+                //     objListId, newData, reqDigest,
+                //     objListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             }
         } else {
             if (!inputTitle) {
@@ -185,7 +197,7 @@ function ObjectiveForm(props) {
                     />
                 </div>
                 <div className="row align-items-center">
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="objectiveStartDate" className="form--label">Start Date</label>
                             <input
@@ -198,7 +210,7 @@ function ObjectiveForm(props) {
                             />
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="objectiveEndDate" className="form--label">End Date</label>
                             <input
@@ -209,6 +221,21 @@ function ObjectiveForm(props) {
                                 value={formData.objectiveEndDate}
                                 onChange={handleChange}
                             />
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-element">
+                            <label htmlFor="frequency" className="form--label">Frequency</label>
+                            <select
+                                name="frequency"
+                                className="form-control form-dark form--edit"
+                                value={formData.frequency}
+                                onChange={handleChange}
+                            >
+                                <option className="form-select-dropdown" value="annual">Annual</option>
+                                <option className="form-select-dropdown" value="quarterly">Quarterly</option>
+                                <option className="form-select-dropdown" value="monthly">Monthly</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -228,17 +255,14 @@ function ObjectiveForm(props) {
                     </div>
                     <div className="col-6">
                         <div className="form-element">
-                            <label htmlFor="frequency" className="form--label">Frequency</label>
-                            <select
-                                name="frequency"
+                            <label htmlFor="owner" className="form--label">Owner</label>
+                            <input
+                                type="text"
+                                name="owner"
                                 className="form-control form-dark form--edit"
-                                value={formData.frequency}
+                                value={formData.owner}
                                 onChange={handleChange}
-                            >
-                                <option className="form-select-dropdown" value="annual">Annual</option>
-                                <option className="form-select-dropdown" value="quarterly">Quarterly</option>
-                                <option className="form-select-dropdown" value="monthly">Monthly</option>
-                            </select>
+                            />
                         </div>
                     </div>
                 </div>
