@@ -182,7 +182,7 @@ export default function KRForm(props) {
                 //     () => history.push('/' + team.slug)
                 // );
             } else {
-                putIBD('KeyResultsStore', newData, () => history.push('/' + team.slug));
+                putIBD('KeyResultsStore', {parentObjectiveTeam, ...newData}, () => history.push('/' + team.slug));
                 // addKeyResult(
                 //     krListId, newData, reqDigest,
                 //     krListItemEntityTypeFullName,
@@ -266,18 +266,6 @@ export default function KRForm(props) {
                                 className="form-control form-dark form--edit"
                                 value={formData.parentObjectiveTeam}
                                 disabled
-                            >
-                            </input>
-                        </div>
-                    </div>
-                    <div className="col-6">
-                        <div className="form-element">
-                            <label htmlFor="owner" className="form--label">Owner</label>
-                            <input
-                                type="text"
-                                name="owner"
-                                className="form-control form-dark form--edit"
-                                value={formData.owner}
                             >
                             </input>
                         </div>

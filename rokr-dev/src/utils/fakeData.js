@@ -10,8 +10,8 @@ var fakeDataTeams = [
 
 // #FAKEDATA
 function generateData(teams){
-    // var freqs = ['annual', 'quarterly', 'monthly'];
-    var freqs = ['annual'];
+    var freqs = ['annual', 'quarterly', 'monthly'];
+    // var freqs = ['annual'];
     var counter = 1;
     var objs = [];
     var objName;
@@ -20,65 +20,62 @@ function generateData(teams){
     for (var t=0; t < teams.length; t++) {
         for (var f=0; f < freqs.length; f++) {
             for (var i=0; i < 3; i++) {
-                objName = teams[t].teamName + ' O' + (i+1) + ' ' + freqs[f];
-
-                if (freqs[f] === 'annual'){
-                    endDate = '2023-03-31';
-                } else if (freqs[f] === 'quarterly') {
-                    endDate = '2022-06-30';
+                if (freqs[f] === 'monthly') {
+                    for (var s=0; s < 3; s++) {
+                        objName = teams[t].teamName + ' Staff ' + (s+1) + ' O' + (i+1);
+                        endDate = '2022-04-30';
+        
+                        objs.push({
+                            objectiveId: counter,
+                            objectiveTitle: objName,
+                            objectiveDescription: objName + ' description',
+                            objectiveStartDate: '2022-04-01',
+                            objectiveEndDate: endDate,
+                            team: teams[t].teamName,
+                            owner: 'Staff ' + (s+1),
+                            frequency: freqs[f]
+                        });
+                        counter++;
+                    }
                 } else {
-                    endDate = '2022-04-30';
+                    objName = teams[t].teamName + ' O' + (i+1) + ' ' + freqs[f];
+                    endDate = freqs[f] === 'annual' ? '2023-03-31': '2022-06-30';
+    
+                    objs.push({
+                        objectiveId: counter,
+                        objectiveTitle: objName,
+                        objectiveDescription: objName + ' description',
+                        objectiveStartDate: '2022-04-01',
+                        objectiveEndDate: endDate,
+                        team: teams[t].teamName,
+                        owner: '',
+                        frequency: freqs[f]
+                    });
+                    counter++;
                 }
-
-                objs.push({
-                    objectiveId: counter,
-                    objectiveTitle: objName,
-                    objectiveDescription: objName + ' description',
-                    objectiveStartDate: '2022-04-01',
-                    objectiveEndDate: endDate,
-                    team: teams[t].teamName,
-                    frequency: freqs[f]
-                });
-                counter++;
             }
-        }
-    }
-
-    var staff = {};
-    var currTeam;
-
-    for (t=0; t<teams.length; t++) {
-        currTeam = teams[t].teamName;
-        staff = {
-            ...staff,
-            [currTeam]: []
-        };
-
-        for (var s=0; s<4; s++) {
-            staff[currTeam].push(currTeam + ' Staff ' + (s+1));
         }
     }
 
     var maxs = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
     var krs = [];
-    var krName;
+    var krTitle;
     counter = 1;
     var randIdx;
     var randMax;
-    var randIdxStaff;
-    var randStaff;
+    var freq;
 
     for (i=0; i<objs.length; i++) {
+        freq = objs[i].frequency;
+
         for (var kr=0; kr < 3; kr++){
-            krName = objs[i].objectiveTitle + ' KR ' + (kr+1);
+            krTitle = objs[i].objectiveTitle + ' KR' + (kr+1);
             randIdx = Math.floor(Math.random() * maxs.length);
             randMax = maxs[randIdx];
-            randIdxStaff = Math.floor(Math.random() * 4);
-            randStaff = staff[objs[i].team][randIdxStaff];
 
-            if (freqs[f] === 'annual'){
+            if (freq === 'annual'){
                 endDate = '2023-03-31';
-            } else if (freqs[f] === 'quarterly') {
+            } else if (freq === 'quarterly') {
                 endDate = '2022-06-30';
             } else {
                 endDate = '2022-04-30';
@@ -86,16 +83,15 @@ function generateData(teams){
             
             krs.push({
                 krId: counter,
-                krTitle: krName,
-                krDescription: krName + ' description',
+                krTitle: krTitle,
+                krDescription: krTitle + ' description',
                 krStartDate: '2022-04-01',
                 krEndDate: endDate,
                 minValue: 0,
                 maxValue: randMax,
                 currentValue: Math.random() > 0.6 ? Math.floor(Math.random() * randMax) : randMax,
                 parentObjectiveId: objs[i].objectiveId,
-                parentObjectiveTeam: objs[i].team,
-                owner: randStaff
+                parentObjectiveTeam: objs[i].team
             });
             counter ++;
         }
@@ -169,7 +165,6 @@ function generateData(teams){
             counter++
         }
     }
-
 
     return { 'objectives': objs, 'keyResults': krs, 'updates': updates };
 }

@@ -122,28 +122,61 @@ export function computeTeamsAnnualMetrics(teams, objectives, keyResults) {
     return output;
 }
 
-export function prepareTeamData(team, objectives, keyResults) {
+export function prepareTeamData(objectives, keyResults) {
     var output = {};
     var freqs = ['annual', 'quarterly', 'monthly'];
     var tempObj;
     var parentObj;
     var tempKR;
     var tempObjCompletion;
+    var staffList;
     for (var f=0; f < freqs.length; f++) {
         tempObj = objectives.filter(function(entry) {
-            return (entry.team === team) && (entry.frequency === freqs[f]);
+            return entry.frequency === freqs[f];
         })
 
         tempKR = keyResults.filter(function(entry) {
             parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
-            return (entry.parentObjectiveTeam === team) && (
-                parentObj.frequency === freqs[f]
-            );
+            return parentObj.frequency === freqs[f];
         })
         
         tempObjCompletion = computeObjCompletion(tempObj, tempKR);
 
         output[freqs[f]] = {
+            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
+            keyResultCompletion: computeKrCompletion(tempKR),
+            objectiveCompletion: {
+                completed: tempObjCompletion.completed,
+                total: tempObjCompletion.total,
+            },
+            objectives: tempObj,
+            keyResults: tempKR
+        };
+        
+        if (freqs[f] === 'monthly') {
+            staffList = tempObj.map(function(item) {
+                return item.owner;
+            });
+            staffList = [... new Set(staffList)];
+        }
+    }
+
+    // For each staff, also calculate obj completion and kr completion
+    var staff;
+    for (var i=0; i < staffList.length; i++) {
+        staff = staffList[i];
+        tempObj = objectives.filter(function(entry) {
+            return entry.owner === staff;
+        })
+
+        tempKR = keyResults.filter(function(entry) {
+            parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
+            return parentObj.owner === staff;
+        })
+
+        tempObjCompletion = computeObjCompletion(tempObj, tempKR);
+
+        output[staff] = {
             avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
             keyResultCompletion: computeKrCompletion(tempKR),
             objectiveCompletion: {

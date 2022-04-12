@@ -236,7 +236,7 @@ export default function UpdatesForm(props){
         if (inputText && inputDate && validDate){
             // Form ok
             var {updateId, ...newData} = formData;
-            var reqDigest = getXRequestDigestValue();
+            // var reqDigest = getXRequestDigestValue();
             if (mode === 'edit') {
                 putIBD('UpdatesStore', formData, () => {
                     getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);

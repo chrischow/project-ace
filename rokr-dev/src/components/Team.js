@@ -200,9 +200,11 @@ function KRModal(props) {
 }
 
 function TeamProgress(props) {
+    const entity = (props.frequency !== 'annual' && props.frequency !== 'quarterly') ? 
+        'Individual' : 'Team';
     return (
         <div>
-            <h3 className="mt-4">Team Progress</h3>
+            <h3 className="mt-4">{entity} Progress</h3>
             <div className="overall-panel mt-4">
                 <ProgressCard progressId="team-progress" data={props.progressData} isTeam={false} />
             </div>
@@ -239,7 +241,14 @@ function TeamOKRs(props) {
             return kr.parentObjectiveId === item.objectiveId;
         });
 
-        return <OKRCollapse key={item.objectiveId} objective={item} keyResults={tempKRs} setKrData={setKrData} />;
+        return (
+            <OKRCollapse
+                // key={item.objectiveId}
+                objective={item}
+                keyResults={tempKRs}
+                setKrData={setKrData}
+            />
+        );
     });
 
     return (
@@ -264,12 +273,41 @@ function TeamOKRs(props) {
     );
 }
 
+function TeamMemberTabs(props) {
+    var staffList = ['All', ...props.staffList]
+    staffList = staffList.map(function(item) {
+        return (
+            <li className="nav-item">
+                <a
+                    className={"nav-link individual-tabs--link" + (item==='All' ? ' active' : '')}
+                    data-toggle="tab"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls={item}
+                    href={"#team-"+item}
+                    onClick={() => props.changeFrequency(item === 'All' ? 'monthly' : item)}
+                >
+                        {item}
+                </a>
+            </li>
+        );
+    });
+    return (
+        <div className="mt-2">
+            <ul className="nav nav-pills justify-content-center" role="tablist">
+                {staffList}
+            </ul>
+        </div>
+    );
+}
+
 export default function TeamPage(props) {
 
     // Initialise states for raw team data and processed data
     const [teamData, setTeamData] = useState({});
     const [processedData, setProcessedData] = useState({});
     const [pageData, setPageData] = useState({});
+    const [staffList, setStaffList] = useState([]);
     
     // Callback functions to update respective items in raw data state
     // To be passed to async query to database
@@ -295,11 +333,10 @@ export default function TeamPage(props) {
     useEffect(function() {
         if (teamData.allObjectives && teamData.allKeyResults) {
             const teamProgressData = prepareTeamData(
-                props.team.teamName,
                 teamData.allObjectives,
                 teamData.allKeyResults
             );
-
+            
             setProcessedData(prevData => {
                 return {...prevData, teamProgressData: teamProgressData};
             });
@@ -308,6 +345,12 @@ export default function TeamPage(props) {
                 frequency: 'annual',
                 data: teamProgressData['annual']
             });
+
+            setStaffList(
+                Object.keys(teamProgressData).filter(function(item) {
+                    return item !== 'monthly' && item !== 'quarterly' && item !== 'annual';
+                })
+            );
         }
     }, [teamData, props.team.teamName])
 
@@ -333,7 +376,16 @@ export default function TeamPage(props) {
         <div>
             <h1 className="mb-3">{props.team.teamName}</h1>
             <FrequencyTabs changeFrequency={changeFrequency} />
-            {pageData.data && <TeamProgress progressData={pageData.data} />}
+            {pageData.frequency !== 'annual' && pageData.frequency !== 'quarterly' && staffList && 
+                <TeamMemberTabs
+                    staffList={staffList}
+                    changeFrequency={changeFrequency}
+                />}
+            {pageData.data && 
+                <TeamProgress 
+                    progressData={pageData.data}
+                    frequency={pageData.frequency}
+                />}
             {pageData.data && <TeamOKRs 
                 pageData={pageData}
                 teams={props.teams}

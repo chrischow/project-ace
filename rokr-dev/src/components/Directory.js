@@ -26,7 +26,7 @@ export default function DirectoryPage() {
                 return {
                     title: kr.krTitle,
                     description: kr.krDescription,
-                    owner: kr.owner,
+                    // owner: kr.owner,
                     team: kr.parentObjectiveTeam,
                     due: kr.krEndDate,
                     progress: (100 * Number(kr.currentValue) / Number(kr.maxValue)).toFixed(0) + '%'
@@ -42,17 +42,17 @@ export default function DirectoryPage() {
                         displayStart: 0,
                         lengthMenu: [10, 25, 50, 75, 100],
                         order: [
+                            [3, 'asc'],
                             [4, 'asc'],
-                            [5, 'asc'],
                         ],
                         fixedColumns: true,
                         columnDefs: [
                             {width: '25%', name: 'title', targets: 0, data: 'title', className: "directory--table-text-sm"},
                             {width: '35%', name: 'description', targets: 1, data: 'description', className: "directory--table-text-sm"},
-                            {width: '13%', name: 'owner', targets: 2, data: 'owner', className: 'text-center'},
-                            {width: '10%', name: 'team', targets: 3, data: 'team', className: 'text-center'},
-                            {width: '12%', name: 'due', targets: 4, data: 'due', className: 'text-center'},
-                            {width: '10%', name: 'progress', targets: 5, data: 'progress', className: 'text-center'},
+                            // {width: '13%', name: 'owner', targets: 2, data: 'owner', className: 'text-center'},
+                            {width: '10%', name: 'team', targets: 2, data: 'team', className: 'text-center'},
+                            {width: '12%', name: 'due', targets: 3, data: 'due', className: 'text-center'},
+                            {width: '10%', name: 'progress', targets: 4, data: 'progress', className: 'text-center'},
                         ]
                     });
         
@@ -77,7 +77,7 @@ export default function DirectoryPage() {
                         <tr>
                             <th className="text-center">Title</th>
                             <th className="text-center">Description</th>
-                            <th className="text-center">Owner</th>
+                            {/* <th className="text-center">Owner</th> */}
                             <th className="text-center">Team</th>
                             <th className="text-center">Due</th>
                             <th className="text-center">Progress</th>

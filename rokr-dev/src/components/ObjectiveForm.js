@@ -201,7 +201,7 @@ export default function ObjectiveForm(props) {
                     />
                 </div>
                 <div className="row align-items-center">
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="objectiveStartDate" className="form--label">Start Date</label>
                             <input
@@ -214,7 +214,7 @@ export default function ObjectiveForm(props) {
                             />
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-element">
                             <label htmlFor="objectiveEndDate" className="form--label">End Date</label>
                             <input
@@ -225,6 +225,21 @@ export default function ObjectiveForm(props) {
                                 value={formData.objectiveEndDate}
                                 onChange={handleChange}
                             />
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-element">
+                            <label htmlFor="frequency" className="form--label">Frequency</label>
+                            <select
+                                name="frequency"
+                                className="form-control form-dark form--edit"
+                                value={formData.frequency}
+                                onChange={handleChange}
+                            >
+                                <option className="form-select-dropdown" value="annual">Annual</option>
+                                <option className="form-select-dropdown" value="quarterly">Quarterly</option>
+                                <option className="form-select-dropdown" value="monthly">Monthly</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -244,17 +259,14 @@ export default function ObjectiveForm(props) {
                     </div>
                     <div className="col-6">
                         <div className="form-element">
-                            <label htmlFor="frequency" className="form--label">Frequency</label>
-                            <select
-                                name="frequency"
+                            <label htmlFor="owner" className="form--label">Owner</label>
+                            <input
+                                type="text"
+                                name="owner"
                                 className="form-control form-dark form--edit"
-                                value={formData.frequency}
+                                value={formData.owner}
                                 onChange={handleChange}
-                            >
-                                <option className="form-select-dropdown" value="annual">Annual</option>
-                                <option className="form-select-dropdown" value="quarterly">Quarterly</option>
-                                <option className="form-select-dropdown" value="monthly">Monthly</option>
-                            </select>
+                            />
                         </div>
                     </div>
                 </div>
