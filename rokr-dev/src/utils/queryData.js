@@ -36,7 +36,7 @@ function getListItemEntityTypeFullName(listId) {
             console.log('Use the value below:');
             console.log(data.d.ListItemEntityTypeFullName);
         },
-        error: function(data) {
+        error: function(error) {
             console.log(JSON.stringify(error));
         }
     });
@@ -147,7 +147,7 @@ function getUpdateData(listId, krId, callback) {
         url: apiUrl + "web/Lists(guid'" + listId + "')itmes?" + 
             queryColumns + queryFilter,
         method: 'GET',
-        headers = {
+        headers: {
             'Accept': 'application/json; odata=verbose'
         },
         async: true,
@@ -205,7 +205,7 @@ function getOneObjective(listId, objectiveId, callback) {
 
 function getOneKR(listId, krId, callback) {
     const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,owner,parentObjective/Id,parentObjective/team&$expand=parentObjective';
-    var queryFilter = "&$filter=parentObjective/team eq '" + team + "'";
+    var queryFilter = "&$filter=Id eq '" + krId + "'";
 
     $.ajax({
         url: apiUrl + "web/Lists(guid'" + listId + "')/items?" + 
