@@ -28,12 +28,28 @@ var teams = [
 // const appUrl = 'https://raw.githubusercontent.com/chrischow/project-ace/main/rokr/components/';
 
 // List IDs
-// const objListId = 'cca0eabc-f2bd-4866-ba60-a3009004066d';
-// const  krListId = '08572e86-a0aa-4173-ba18-79bab1ee3890';
+// const objListId = 'cd390128-de73-48b9-a9d7-3ff22ccc0500';
+// const  krListId = '5d1e2b07-552b-4fc2-9e7a-a96a7484dcf7';
+// const updateListId = 'b4500e7e-e671-40ac-9898-60815ab388d9';
 
 // List item entity types - use the getListItemEntityType utility;
-// const objListItemEntityTypeFullName = 'SP.Data.ROKR_x0020_ObjectivesListItem';
-// const krListItemEntityTypeFullName = 'SP.Data.RokrKeyResultsListItem';
+// const objListItemEntityTypeFullName = 'SP.Data.ROKRObjectivesListItem';
+// const krListItemEntityTypeFullName = 'SP.Data.ROKRKeyResultsListItem';
+// const updateListItemEntityTypeFullName = 'SP.Data.ROKRUpdatesListItem';
+
+// Set debug mode
+const debugMode = false;
+
+if (debugMode) {
+    function handleError(event) {
+        if (event.message) {
+            alert('Error: ' + event.message + ' at line ' + event.lineno + ' in ' + event.filename);
+        } else {
+            alert('Error: ' + event.type + ' from element: ' + (event.srcElement || event.target));
+        }
+    }
+    window.addEventListener('error', handleError, true);
+}
 
 // Routes
 const TeamRoutes = (props) => {

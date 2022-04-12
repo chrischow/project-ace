@@ -51,7 +51,9 @@ export function computeObjCompletion(objectives, keyResults) {
         });
 
         if (numKRs === completedKRs.length) {
-            completed ++;
+            if (numKRs > 0) {
+                completed ++;
+            }
         }
     }
 
@@ -77,7 +79,7 @@ export function computeAnnualMetrics(objectives, keyResults) {
 
     const tempObjCompletion = computeObjCompletion(annualObjectives, annualKRs);
     const output = {
-        avgCompletion: tempObjCompletion.avgCompletion,
+        avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
         keyResultCompletion: computeKrCompletion(annualKRs),
         objectiveCompletion: {
             completed: tempObjCompletion.completed,
@@ -109,7 +111,7 @@ export function computeTeamsAnnualMetrics(teams, objectives, keyResults) {
         })
         tempObjCompletion = computeObjCompletion(tempObj, tempKR);
         output[teams[t].teamName] = {
-            avgCompletion: tempObjCompletion.avgCompletion,
+            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
             keyResultCompletion: computeKrCompletion(tempKR),
             objectiveCompletion: {
                 completed: tempObjCompletion.completed,
@@ -142,7 +144,7 @@ export function prepareTeamData(team, objectives, keyResults) {
         tempObjCompletion = computeObjCompletion(tempObj, tempKR);
 
         output[freqs[f]] = {
-            avgCompletion: tempObjCompletion.avgCompletion,
+            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
             keyResultCompletion: computeKrCompletion(tempKR),
             objectiveCompletion: {
                 completed: tempObjCompletion.completed,

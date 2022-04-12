@@ -35,7 +35,7 @@ function UpdatesTable(props) {
     const updateRows = props.updateData.map(function(item) {
         return (
         <tr key={item.updateId}>
-            <td className="text-center">{item.updateDate}</td>
+            <td className="text-center">{getDate(item.updateDate)}</td>
             <td>{item.updateText}</td>
             <td className="text-center">
                 <div onClick={() => {
@@ -108,7 +108,7 @@ export default function UpdatesForm(props){
     const [mode, setMode] = useState('');
     const [formData, setFormData] = useState({
         updateId: -1,
-        updateDate: '',
+        updateDate: getDate(new Date()),
         updateText: '',
         parentKrId: -1
     });
@@ -131,10 +131,12 @@ export default function UpdatesForm(props){
         setUpdateData(data);
     }
 
-    // Query update data - simulated
+    // Query update data - SWAP FUNCTION HERE
     useEffect(function() {
         getOneIBD('KeyResultsStore', Number(params.id), setKrData);
         getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+        // getOneKR(krListId, Number(params.id), setKrData);
+        // getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
     }, []);
 
     // Update team based on KR Data
@@ -234,13 +236,26 @@ export default function UpdatesForm(props){
         if (inputText && inputDate && validDate){
             // Form ok
             var {updateId, ...newData} = formData;
+            var reqDigest = getXRequestDigestValue();
             if (mode === 'edit') {
                 putIBD('UpdatesStore', formData, () => {
                     getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
                 });
+                // updateUpdate(
+                //     updateListId, updateId, newData, reqDigest,
+                //     updateListItemEntityTypeFullName, () => {
+                //         getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
+                //     }
+                // );
             } else if (mode === 'new') {
                 putIBD('UpdatesStore', newData, () => {
                     getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
+                    // createUpdate(
+                    //     updateListId, newData, reqDigest,
+                    //     updateListItemEntityTypeFullName, () => {
+                    //         getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
+                    //     }
+                    // );
                 });
             }
             $('#editUpdateModal').modal('hide');
@@ -271,6 +286,12 @@ export default function UpdatesForm(props){
             deleteIBD('UpdatesStore', formData.updateId, () => {
                 getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             });
+            // deleteUpdate(
+            //     updateListId, formData.updateId, reqDigest,
+            //     updateListItemEntityTypeFullName, () => {
+            //         getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
+            //     }
+            // )
             $('#editUpdateModal').modal('hide');
         };
     }
@@ -286,10 +307,7 @@ export default function UpdatesForm(props){
                 <button className="btn btn-secondary float-right" onClick={redirectBack}>Back to Team Page</button>
             </div>
             <div className="directory--container">
-                {updateData.length > 0 && <UpdatesTable updateData={updateData} editUpdate={editUpdate} />}
-                {updateData.length === 0 && <div className="text-center">
-                    <span className="no-data">No data to display.</span>
-                </div>}
+                <UpdatesTable key="updates-table" updateData={updateData} editUpdate={editUpdate} />
             </div>
             <div className="modal fade" id="editUpdateModal" tabIndex="-1" aria-labelledby="editUpdateModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg modal-dialog-centered">

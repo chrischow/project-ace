@@ -22,7 +22,9 @@ export default function ObjectiveForm(props) {
     // Query data - simulated
     useEffect(function() {
         if (props.mode === 'edit') {
+            // Query data - SWAP FUNCTION HERE
             getOneIBD('ObjectivesStore', Number(params.id), setFormData);
+            // getOneObjective(objListId, Number(params.id), setFormData);
         } else {
             var teamInfo = props.teams.filter(function(item) {
                 return item.teamName === urlParams.get('team');
@@ -128,11 +130,21 @@ export default function ObjectiveForm(props) {
 
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
+            var {objectiveId, ...newData} = formData;
             if (props.mode === 'edit') {
                 putIBD('ObjectivesStore', formData, () => history.push('/' + team.slug) );
+                // updateObjective(
+                //     objListId, objectiveId, newData, reqDigest,
+                //     objListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             } else {
-                var {objectiveId, ...newData} = formData;
                 putIBD('ObjectivesStore', newData, () => history.push('/' + team.slug) );
+                // addObjective(
+                //     objListId, newData, reqDigest,
+                //     objListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             }
         } else {
             if (!inputTitle) {

@@ -8,7 +8,7 @@ import { computeAnnualMetrics, computeTeamsAnnualMetrics } from '../utils/proces
 
 // Simulated
 import { allData } from '../utils/fakeData';
-import { getAllIDB } from '../utils/queryData';
+import { getAllIDB, getTeamObjectiveDataIBD } from '../utils/queryData';
 
 // Home component - to be broken down further
 export default function Home(props) {
@@ -28,9 +28,11 @@ export default function Home(props) {
     
     // Run once - to trigger query
     useEffect(function() {
-        // Query data - simulated
+        // Query data - SWAP FUNCTION HERE
         getAllIDB('ObjectivesStore', updateObjectives);
         getAllIDB('KeyResultsStore', updateKeyResults);
+        // getObjectiveDataIBD(objListId, 'all', updateObjectives);
+        // getKRDataIBD(krListId, 'all', updateKeyResults);
     }, [])
 
     // Computes progress card metrics every time there is a change to the raw data state

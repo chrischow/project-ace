@@ -3,7 +3,7 @@ import $ from 'jquery';
 
 
 // Simulated
-import { getAllIDB } from '../utils/queryData';
+import { getAllIDB, getTeamKeyResultDataIBD } from '../utils/queryData';
 import { allData } from '../utils/fakeData';
 
 export default function DirectoryPage() {
@@ -13,7 +13,9 @@ export default function DirectoryPage() {
 
     // Run once - query KRs
     useEffect(function() {
+        // Query data - SWAP FUNCTION HERE
         getAllIDB('KeyResultsStore', setKrData);
+        // getTeamKeyResultDataIBD(krListId, 'all', setKrData);
     }, []);
 
     // Create table when Key Results are updated
@@ -34,7 +36,6 @@ export default function DirectoryPage() {
             const table = $('#directory-table');
             $(function() {
                 if (! $.fn.dataTable.isDataTable( '#directory-table' )) {
-                    // table.DataTable().destroy();
                     table.DataTable({
                         autoWidth: false,
                         pageLength: 25,

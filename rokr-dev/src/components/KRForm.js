@@ -24,15 +24,18 @@ export default function KRForm(props) {
     // Run once - query Key Result
     useEffect(function() {
         if (props.mode === 'edit') {
+            // Query data - SWAP FUNCTION HERE
             getOneIBD('KeyResultsStore', Number(params.id), setFormData);
+            // getOneKR(krListId, Number(params.id), setFormData);
         } else {
             var teamInfo = props.teams.filter(function(item) {
                 return item.teamName === urlParams.get('team');
             });
             setTeam(teamInfo[0]);
 
-            // Query objectives
+            // Query objectives - SWAP FUNCTION HERE
             getTeamObjectiveDataIBD(teamInfo[0].teamName, setObjectives);
+            // getObjectiveData(objListId, teamInfo[0].teamName, setObjectives);
             
             // Set form data
             setFormData({
@@ -60,8 +63,9 @@ export default function KRForm(props) {
             });
             setTeam(teamInfo[0]);
             
-            // Get objectives
+            // Query objectives - SWAP FUNCTION HERE
             getTeamObjectiveDataIBD(teamInfo[0].teamName, setObjectives);
+            // getObjectiveData(objListId, teamInfo[0].teamName, setObjectives);
         }
     }, [formData]);
 
@@ -168,11 +172,22 @@ export default function KRForm(props) {
 
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
+            var {krId, parentObjectiveTeam, ...newData} = formData;
+            // var reqDigest = getXRequestDigestValue();
             if (props.mode === 'edit') {
                 putIBD('KeyResultsStore', formData, () => history.push('/' + team.slug))
+                // updateKeyResult(
+                //     krListId, krId, newData, reqDigest,
+                //     krListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             } else {
-                var {krId, ...newData} = formData;
                 putIBD('KeyResultsStore', newData, () => history.push('/' + team.slug));
+                // addKeyResult(
+                //     krListId, newData, reqDigest,
+                //     krListItemEntityTypeFullName,
+                //     () => history.push('/' + team.slug)
+                // );
             }
         } else {
             if (!inputTitle) {
@@ -295,21 +310,6 @@ export default function KRForm(props) {
                             />
                         </div>
                     </div>
-                    {/* <div className="col-4">
-                        <div className="form-element">
-                            <label htmlFor="frequency" className="form--label">Frequency</label>
-                            <select
-                                name="frequency"
-                                className="form-control form-dark form--edit"
-                                value={formData.frequency}
-                                onChange={handleChange}
-                            >
-                                <option value="annual">Annual</option>
-                                <option value="quarterly">Quarterly</option>
-                                <option value="monthly">Monthly</option>
-                            </select>
-                        </div>
-                    </div> */}
                 </div>
                 <div className="row align-items-center">
                     <div className="col-4">

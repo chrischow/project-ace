@@ -22,39 +22,29 @@ Copy contents of the following:
 
 1. Styles: `index.css`
 2. Utils:
-    - updateCircleProgress
-    - fakeData
-    - queryData
-    - processData
-2. Components:
-    - Brand
-    - Home
-    - HomeCards
-    - Icons
-    - Navbar
-    - OKRCollapse
-    - ProgressBar
-    - ProgressCard
-    - Team
+    - updateCircleProgress to `txt` folder
+    - fakeData to `components` folder (to be processed using Babel)
+    - queryData to `components` folder
+    - processData to `components` folder
+2. All components
 3. Others:
     - Configs and main components from `App.js` to `index.html`. Remember to make any imports **synchronous**.
 
 After moving over:
 - Remember to remove imports and exports of JS functions/objects
-- Remember to add `React.` and `ReactRouterDOM.` to any functions imported from React and React-Router e.g.
-    - `React.useEffect`
-    - `React.useHistory`
-- Current components that use `useHistory` / `useParams`:
-    - Team
-    - KRForm
-    - ObjectiveForm
-    - UpdatesForm
+- Extract any React/ReactDOM/ReactRouterDOM functions e.g. `useHistory = ReactRouterDOM.useHistory`
 
 ### Stage 2: Into the Shithole
-If CRUD functions for dev and production are named identically, you may want to dump all components into a single file:
+If CRUD functions for dev and production are named identically, you may want to dump all components into a single file. You must consolidate them **in order of dependency**. In bash:
 
 ```bash
 cat fakeData.txt processData.txt queryData.txt Brand.txt Navbar.txt ProgressCard.txt HomeCards.txt ProgressBar.txt Home.txt Icons.txt ObjectiveForm.txt KRForm.txt UpdatesForm.txt OKRCollapse.txt Team.txt Directory.txt > AllComponents.txt
+```
+
+In Command Prompt:
+
+```cmd
+Type fakeData.txt processData.txt queryData.txt Brand.txt Navbar.txt ProgressCard.txt HomeCards.txt ProgressBar.txt Home.txt Icons.txt ObjectiveForm.txt KRForm.txt UpdatesForm.txt OKRCollapse.txt Team.txt Directory.txt > AllComponents.txt
 ```
 
 1. Update CRUD functions:
@@ -77,6 +67,11 @@ cat fakeData.txt processData.txt queryData.txt Brand.txt Navbar.txt ProgressCard
         - Delete specific Update in `UpdatesForm`
     - Directory:
         - Read all KRs in `DirectoryPage`
-2. Open `index-uncompiled.html` and save to `index.html`:
+2. (Optional) Open `index-precompile.html` and save all scripts in the `<head>` tag to a duplicate file `index.html`:
     - This puts all scripts into a single file, akin to what `create-react-app` is doing with `bundle.js`
     - Remove all AJAX calls to request and load dependencies
+
+## Other Considerations
+
+##### Why write your utils functions in ES5?
+When you want to test individual functions in the IE11 console, ES6 code will not work. However, now with React-dev-console, it's possible to test ES6 functions in Chrome/Edge. I may switch over to ES6 syntax once React-dev-console proves to be stable.

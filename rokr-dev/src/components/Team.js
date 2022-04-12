@@ -76,8 +76,9 @@ function KRModal(props) {
     // Trigger once props are in
     useEffect(function() {
         if (props.krData.krId) {
-            // Query update data - simulated
+            // Query update data - SWAP FUNCTION HERE
             getTeamUpdatesDataIBD(props.krData.krId, setUpdateData);
+            // getTeamUpdatesDataIBD(updateListId, props.krData.krId, setUpdateData);
         }
     }, [props.krData]);
 
@@ -285,6 +286,8 @@ export default function TeamPage(props) {
         // Query data - simulated
         getTeamObjectiveDataIBD(props.team.teamName, updateObjectives);
         getTeamKeyResultDataIBD(props.team.teamName, updateKeyResults);
+        // getObjectiveData(objListId, props.team.teamName, updateObjectives);
+        // getKRData(krListId, props.team.teamName, updateKeyResults);
     }, [props.team.teamName]);
 
     // Processes data and updates page data every time there is a change to the 
