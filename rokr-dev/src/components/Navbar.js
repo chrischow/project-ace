@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import Brand from './Brand';
+import { NavBarBrand } from './Brand';
 
 export default function Navbar(props) {
     var linkElements = props.teams.map(function(item) {
@@ -14,7 +14,7 @@ export default function Navbar(props) {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
                 <NavLink className="navbar-brand" to="/">
-                    <Brand />
+                    <NavBarBrand />
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-expanded="false" aria-label="Toggle Nav">
                     <span className="navbar-toggler-icon"></span>

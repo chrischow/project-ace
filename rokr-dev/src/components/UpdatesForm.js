@@ -283,6 +283,7 @@ export default function UpdatesForm(props){
 
     function confirmDelete() {
         if (window.confirm('Hit OK to confirm deletion of update. This cannot be undone.')) {
+            // var reqDigest = getXRequestDigestValue();
             deleteIBD('UpdatesStore', formData.updateId, () => {
                 getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             });
@@ -291,7 +292,7 @@ export default function UpdatesForm(props){
             //     updateListItemEntityTypeFullName, () => {
             //         getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
             //     }
-            // )
+            // );
             $('#editUpdateModal').modal('hide');
         };
     }

@@ -63,22 +63,22 @@ function getXRequestDigestValue() {
 
 // -------- READ --------
 function getObjectiveData(listId, team, callback) {
-    const queryColumns = '$select=Id,Title,objectiveDescription,objectiveStartDate,objectiveStartDate,objectiveEndDate,frequency,team';
     var queryFilter = '';
+
     if (team !== 'all') {
         queryFilter = "&$filter=team eq '" + team + "'";
     }
 
     $.ajax({
         url: apiUrl + "web/Lists(guid'" +
-            listId + "')/items?" + queryColumns + (queryFilter ? '&' : '') + queryFilter,
+            listId + "')/items?" + (queryFilter ? '&' : '') + queryFilter,
         method: 'GET',
         headers: {
             'Accept': 'application/json; odata=verbose'
         },
         async: true,
         success: function(data) {
-            var rawData = data.d.reuslts;
+            var rawData = data.value;
             rawData = rawData.map(function(entry) {
                 return {
                     objectiveId: entry.Id,
@@ -86,6 +86,7 @@ function getObjectiveData(listId, team, callback) {
                     objectiveDescription: entry.objectiveDescription,
                     objectiveStartDate: getDate(entry.objectiveStartDate),
                     objectiveEndDate: getDate(entry.objectiveEndDate),
+                    owner: entry.owner,
                     frequency: entry.frequency,
                     team: entry.team
                 };
@@ -99,7 +100,7 @@ function getObjectiveData(listId, team, callback) {
 }
 
 function getKRData(listId, team, callback) {
-    const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,owner,parentObjective/Id,parentObjective/team&$expand=parentObjective';
+    const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,parentObjective/Id,parentObjective/team&$expand=parentObjective';
     var queryFilter = '';
 
     if (team !== 'all') {
@@ -111,11 +112,11 @@ function getKRData(listId, team, callback) {
             listId + "')/items?" + queryColumns + (queryFilter ? '&' : '') + queryFilter,
         method: 'GET',
         headers: {
-            'Accept': 'application/json; odata=verbose'
+            'Accept': 'application/json; odata=nometadata'
         },
         async: true,
         success: function(data) {
-            var rawData = data.d.results;
+            var rawData = data.value;
             rawData = rawData.map(function(entry) {
                 return {
                     krId: entry.Id,
@@ -126,7 +127,6 @@ function getKRData(listId, team, callback) {
                     minValue: entry.minValue,
                     maxValue: entry.maxValue,
                     currentValue: entry.currentValue,
-                    owner: entry.owner,
                     parentObjectiveId: entry.parentObjective.Id,
                     parentObjectiveTeam: entry.parentObjective.team
                 };
@@ -140,19 +140,17 @@ function getKRData(listId, team, callback) {
 }
 
 function getUpdateData(listId, krId, callback) {
-    var queryColumns = '$select=Id,updateDate,updateText,parentKrId';
     var queryFilter = "&$filter=parentKrId eq '" + krId + "'";
 
     $.ajax({
-        url: apiUrl + "web/Lists(guid'" + listId + "')itmes?" + 
-            queryColumns + queryFilter,
+        url: apiUrl + "web/Lists(guid'" + listId + "')/items?" + queryFilter,
         method: 'GET',
         headers: {
-            'Accept': 'application/json; odata=verbose'
+            'Accept': 'application/json; odata=nometadata'
         },
         async: true,
         success: function(data) {
-            var rawData = data.d.results;
+            var rawData = data.value;
             rawData = rawData.map(function(entry) {
                 return {
                     updateId: entry.Id,
@@ -161,6 +159,7 @@ function getUpdateData(listId, krId, callback) {
                     parentKrId: entry.parentKrId
                 };
             });
+
             callback(rawData);
         },
         error: function(error) {
@@ -171,19 +170,18 @@ function getUpdateData(listId, krId, callback) {
 
 // -------- GET ONE --------
 function getOneObjective(listId, objectiveId, callback) {
-    const queryColumns = '$select=Id,Title,objectiveDescription,objectiveStartDate,objectiveStartDate,objectiveEndDate,frequency,team';
     var queryFilter = "&$filter=Id eq '" + objectiveId + "'";
 
     $.ajax({
         url: apiUrl + "web/Lists(guid'" +
-            listId + "')/items?" + queryColumns + queryFilter,
+            listId + "')/items?" + queryFilter,
         method: 'GET',
         headers: {
-            'Accept': 'application/json; odata=verbose'
+            'Accept': 'application/json; odata=nometadata'
         },
         async: true,
         success: function(data) {
-            var rawData = data.d.reuslts;
+            var rawData = data.value;
             rawData = rawData.map(function(entry) {
                 return {
                     objectiveId: entry.Id,
@@ -191,6 +189,7 @@ function getOneObjective(listId, objectiveId, callback) {
                     objectiveDescription: entry.objectiveDescription,
                     objectiveStartDate: getDate(entry.objectiveStartDate),
                     objectiveEndDate: getDate(entry.objectiveEndDate),
+                    owner: entry.owner,
                     frequency: entry.frequency,
                     team: entry.team
                 };
@@ -204,7 +203,7 @@ function getOneObjective(listId, objectiveId, callback) {
 }
 
 function getOneKR(listId, krId, callback) {
-    const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,owner,parentObjective/Id,parentObjective/team&$expand=parentObjective';
+    const queryColumns = '$select=Id,Title,krDescription,krStartDate,krEndDate,minValue,maxValue,currentValue,parentObjective/Id,parentObjective/team&$expand=parentObjective';
     var queryFilter = "&$filter=Id eq '" + krId + "'";
 
     $.ajax({
@@ -212,11 +211,11 @@ function getOneKR(listId, krId, callback) {
             queryColumns + queryFilter,
         method: 'GET',
         headers: {
-            'Accept': 'application/json; odata=verbose'
+            'Accept': 'application/json; odata=nometadata'
         },
         async: true,
         success: function(data) {
-            var rawData = data.d.results;
+            var rawData = data.value;
             rawData = rawData.map(function(entry) {
                 return {
                     krId: entry.Id,
@@ -227,7 +226,6 @@ function getOneKR(listId, krId, callback) {
                     minValue: entry.minValue,
                     maxValue: entry.maxValue,
                     currentValue: entry.currentValue,
-                    owner: entry.owner,
                     parentObjectiveId: entry.parentObjective.Id,
                     parentObjectiveTeam: entry.parentObjective.team
                 };
@@ -260,6 +258,7 @@ function updateObjective(listId, objectiveId, payload, reqDigest, listItemEntity
             'objectiveDescription': payload.objectiveDescription,
             'objectiveStartDate': payload.objectiveStartDate,
             'objectiveEndDate': payload.objectiveEndDate,
+            'owner': payload.owner,
             'team': payload.team,
             'frequency': payload.frequency
         }),
@@ -294,7 +293,6 @@ function updateKeyResult(listId, krId, payload, reqDigest, listItemEntityTypeFul
             'minValue': payload.minValue,
             'maxValue': payload.maxValue,
             'currentValue': payload.currentValue,
-            'owner': payload.owner,
             'parentObjectiveId': payload.parentObjectiveId,
             'parentObjectiveTeam': payload.parentObjectiveTeam
         }),
@@ -355,6 +353,7 @@ function addObjective(listId, payload, reqDigest, listItemEntityTypeFullName, ca
             'objectiveDescription': payload.objectiveDescription,
             'objectiveStartDate': payload.objectiveStartDate,
             'objectiveEndDate': payload.objectiveEndDate,
+            'owner': payload.owner,
             'team': payload.team,
             'frequency': payload.frequency
         }),
@@ -388,7 +387,6 @@ function addKeyResult(listId, payload, reqDigest, listItemEntityTypeFullName, ca
             'minValue': payload.minValue,
             'maxValue': payload.maxValue,
             'currentValue': payload.currentValue,
-            'owner': payload.owner,
             'parentObjectiveId': payload.parentObjectiveId,
             'parentObjectiveTeam': payload.parentObjectiveTeam
         }),

@@ -78,7 +78,7 @@ function KRModal(props) {
         if (props.krData.krId) {
             // Query update data - SWAP FUNCTION HERE
             getTeamUpdatesDataIBD(props.krData.krId, setUpdateData);
-            // getTeamUpdatesDataIBD(updateListId, props.krData.krId, setUpdateData);
+            // getUpdateData(updateListId, props.krData.krId, setUpdateData);
         }
     }, [props.krData]);
 

@@ -158,6 +158,10 @@ export function prepareTeamData(objectives, keyResults) {
                 return item.owner;
             });
             staffList = [... new Set(staffList)];
+
+            staffList = staffList.filter(function(item) {
+                return item !== null;
+            });
         }
     }
 

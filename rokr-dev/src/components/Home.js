@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import Brand from './Brand';
+import { Brand } from './Brand';
 import ProgressCard from './ProgressCard';
 import HomeCards from './HomeCards';
 import updateCircleProgress from '../utils/updateCircleProgress';

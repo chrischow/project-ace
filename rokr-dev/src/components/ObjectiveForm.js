@@ -38,6 +38,7 @@ export default function ObjectiveForm(props) {
                 objectiveDescription: "",
                 objectiveStartDate: getDate(new Date()),
                 objectiveEndDate: getDate(new Date()),
+                owner: '',
                 frequency: urlParams.get('frequency'),
                 team: urlParams.get('team')
             });
@@ -131,6 +132,7 @@ export default function ObjectiveForm(props) {
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
             var {objectiveId, ...newData} = formData;
+            // var reqDigest = getXRequestDigestValue();
             if (props.mode === 'edit') {
                 putIBD('ObjectivesStore', formData, () => history.push('/' + team.slug) );
                 // updateObjective(
