@@ -18,6 +18,9 @@ This project makes full use of the limited approved software, namely:
 - Had a nested object that couldn't access `this.setState` from the top-level component class. Turns out that you need to define the update function in the top-level component class using an arrow function to access the `this` keyword: [link](https://sebhastian.com/this-setstate-is-not-a-function/)
 - Strangely, adding a key when mapping components to an array will stop bootstrap animations
 - You don't need to ship source maps: [link](https://dev.to/oyetoket/is-it-safe-to-ship-javascript-source-maps-to-production-34p8)
+- CSS animation:
+    - Splash screen [link](https://www.youtube.com/watch?v=2ak37WrbSDg)
+    - Sliding transparency mask for revealing text [link](https://medium.com/@mattkenefick/css-gradient-text-reveal-739e7fe36221)
 
 To-do:
 - App:

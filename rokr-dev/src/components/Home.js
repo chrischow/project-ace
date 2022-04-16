@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { Brand } from './Brand';
+import Intro from './Intro';
 import ProgressCard from './ProgressCard';
 import HomeCards from './HomeCards';
 import updateCircleProgress from '../utils/updateCircleProgress';
@@ -67,6 +68,7 @@ export default function Home(props) {
 
     return (
         <div>
+            {props.loading && <Intro loading={props.loading} />}
             <h1><Brand /></h1>
             <h2 className="mt-4">Overall Progress</h2>
             {metrics.overallProgressData && <div className="overall-panel mt-4">
