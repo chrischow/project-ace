@@ -1,7 +1,7 @@
 export function Brand(){
     return (
         <div>
-            <span style={{fontFamily: "Bahnschrift, 'Segoe UI'"}}>
+            <span className='brand--normal'>
                 <span className="accent-blue">R</span>
                 <span className="accent-green">OKR</span>
             </span>
@@ -12,7 +12,7 @@ export function Brand(){
 export function NavBarBrand(){
     return (
         <div>
-            <span style={{fontFamily: "Bahnschrift, 'Segoe UI'", fontWeight: 'bold'}}>
+            <span className='brand--navbar'>
                 <span className="accent-blue">R</span>
                 <span className="accent-green">OKR</span>
             </span>
