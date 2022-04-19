@@ -54,6 +54,7 @@ function Home(props) {
 
     return (
         <div>
+            {props.loading && <Intro loading={props.loading} />}
             <h1><Brand /></h1>
             <h2 className="mt-4">Overall Progress</h2>
             {metrics.overallProgressData && <div className="overall-panel mt-4">

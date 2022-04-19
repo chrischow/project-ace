@@ -1085,9 +1085,68 @@ function deleteIBD(objectStore, key, callback) {
 function Brand(){
     return (
         <div>
-            <span style={{fontFamily: "Bahnschrift, 'Segoe UI'"}}><span className="accent-blue">R</span><span className="accent-green">OKR</span></span>
+            <span style={{fontFamily: "Bahnschrift, 'Segoe UI'"}}>
+                <span className="accent-blue">R</span>
+                <span className="accent-green">OKR</span>
+            </span>
         </div>
     )
+}
+
+function NavBarBrand(){
+    return (
+        <div>
+            <span style={{fontFamily: "Bahnschrift, 'Segoe UI'", fontWeight: 'bold'}}>
+                <span className="accent-blue">R</span>
+                <span className="accent-green">OKR</span>
+            </span>
+        </div>
+    )
+}
+
+// COMPONENT: Intro
+function Intro(props) {
+  useEffect(function () {
+    if (props.loading) {
+      const intro = $(".intro");
+      const brand = $(".intro--brand");
+      const subtitle = $(".intro--subtitle");
+
+      $(function () {
+        setTimeout(() => {
+          brand.addClass("active");
+        }, 400);
+
+        setTimeout(() => {
+          brand.removeClass("active");
+          brand.addClass("fade");
+        }, 3200);
+
+        setTimeout(() => {
+          subtitle.removeClass("active");
+          subtitle.addClass("fade");
+        }, 3400);
+
+        setTimeout(() => {
+          intro.css("top", "-100vh");
+        }, 3700);
+      });
+    }
+  }, []);
+
+  return (
+    <div className="intro text-center">
+      <div className="intro--header">
+        <h1 className="intro--brand">
+          <Brand />
+        </h1>
+        <br />
+        <h2 className="intro--subtitle animation-text-wipe animate-in">
+          Built by RDO
+        </h2>
+      </div>
+    </div>
+  );
 }
 
 // COMPONENT: Navbar
@@ -1306,6 +1365,7 @@ function Home(props) {
 
     return (
         <div>
+            {props.loading && <Intro loading={props.loading} />}
             <h1><Brand /></h1>
             <h2 className="mt-4">Overall Progress</h2>
             {metrics.overallProgressData && <div className="overall-panel mt-4">
@@ -2617,11 +2677,11 @@ function FrequencyTabs(props) {
                         data-toggle="tab"
                         role="tab"
                         aria-selected="true"
-                        aria-controls="annual"
-                        href="#team-annual"
-                        onClick={() => props.changeFrequency('annual')}
+                        aria-controls="monthly"
+                        href="#team-monthly"
+                        onClick={() => props.changeFrequency('monthly')}
                     >
-                            Annual
+                            Monthly
                     </a>
                 </li>
                 <li className="nav-item">
@@ -2643,11 +2703,11 @@ function FrequencyTabs(props) {
                         data-toggle="tab"
                         role="tab"
                         aria-selected="false"
-                        aria-controls="monthly"
-                        href="#team-monthly"
-                        onClick={() => props.changeFrequency('monthly')}
+                        aria-controls="annual"
+                        href="#team-annual"
+                        onClick={() => props.changeFrequency('annual')}
                     >
-                            Monthly
+                            Annual
                     </a>
                 </li>
             </ul>
@@ -2933,8 +2993,8 @@ function TeamPage(props) {
             });
             
             setPageData({
-                frequency: 'annual',
-                data: teamProgressData['annual']
+                frequency: 'monthly',
+                data: teamProgressData['monthly']
             });
 
             setStaffList(

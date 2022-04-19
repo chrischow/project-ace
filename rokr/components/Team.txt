@@ -9,11 +9,11 @@ function FrequencyTabs(props) {
                         data-toggle="tab"
                         role="tab"
                         aria-selected="true"
-                        aria-controls="annual"
-                        href="#team-annual"
-                        onClick={() => props.changeFrequency('annual')}
+                        aria-controls="monthly"
+                        href="#team-monthly"
+                        onClick={() => props.changeFrequency('monthly')}
                     >
-                            Annual
+                            Monthly
                     </a>
                 </li>
                 <li className="nav-item">
@@ -35,11 +35,11 @@ function FrequencyTabs(props) {
                         data-toggle="tab"
                         role="tab"
                         aria-selected="false"
-                        aria-controls="monthly"
-                        href="#team-monthly"
-                        onClick={() => props.changeFrequency('monthly')}
+                        aria-controls="annual"
+                        href="#team-annual"
+                        onClick={() => props.changeFrequency('annual')}
                     >
-                            Monthly
+                            Annual
                     </a>
                 </li>
             </ul>
@@ -325,8 +325,8 @@ function TeamPage(props) {
             });
             
             setPageData({
-                frequency: 'annual',
-                data: teamProgressData['annual']
+                frequency: 'monthly',
+                data: teamProgressData['monthly']
             });
 
             setStaffList(
