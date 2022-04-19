@@ -159,6 +159,8 @@ hr {
 
 .animation-text-wipe {
   opacity: 0;
+  -webkit-mask-image: linear-gradient(to left, #0000 25%, #000 75%);
+  -webkit-mask-size: 400%;
   mask-image: linear-gradient(to left, #0000 25%, #000 75%);
   mask-size: 400%;
 }
@@ -174,10 +176,12 @@ hr {
 @keyframes text-wipe {
   0% {
     opacity: 1;
+    -webkit-mask-position: 100%;
     mask-position: 100%;
   }
   100% {
     opacity: 1;
+    -webkit-mask-position: 0%;
     mask-position: 0%;
   }
 }
