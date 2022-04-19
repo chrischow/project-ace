@@ -38,13 +38,13 @@ After moving over:
 If CRUD functions for dev and production are named identically, you may want to dump all components into a single file. You must consolidate them **in order of dependency**. In bash:
 
 ```bash
-cat fakeData.txt processData.txt queryData.txt Brand.txt Navbar.txt ProgressCard.txt HomeCards.txt ProgressBar.txt Home.txt Icons.txt ObjectiveForm.txt KRForm.txt UpdatesForm.txt OKRCollapse.txt Team.txt Directory.txt > AllComponents.txt
+cat fakeData.txt processData.txt queryData.txt Brand.txt Intro.txt Navbar.txt ProgressCard.txt HomeCards.txt ProgressBar.txt Home.txt Icons.txt ObjectiveForm.txt KRForm.txt UpdatesForm.txt OKRCollapse.txt Team.txt Directory.txt > AllComponents.txt
 ```
 
 In Command Prompt:
 
 ```cmd
-Type fakeData.txt processData.txt queryData.txt Brand.txt Navbar.txt ProgressCard.txt HomeCards.txt ProgressBar.txt Home.txt Icons.txt ObjectiveForm.txt KRForm.txt UpdatesForm.txt OKRCollapse.txt Team.txt Directory.txt > AllComponents.txt
+Type fakeData.txt processData.txt queryData.txt Brand.txt Intro.txt Navbar.txt ProgressCard.txt HomeCards.txt ProgressBar.txt Home.txt Icons.txt ObjectiveForm.txt KRForm.txt UpdatesForm.txt OKRCollapse.txt Team.txt Directory.txt > AllComponents.txt
 ```
 
 1. Update CRUD functions:
