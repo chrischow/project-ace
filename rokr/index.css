@@ -186,13 +186,15 @@ hr {
   }
 }
 
-@keyframes slider {
-  to {
-    left: 100%;
-  }
+/* Navbar */
+.brand--normal {
+  font-family: Bahnschrift, 'Segoe UI', sans-serif;
 }
 
-/* Navbar */
+.brand--navbar {
+  font-family: Bahnschrift, "Segoe UI";
+  font-weight: bold;
+}
 
 .navbar-dark .navbar-nav .nav-link {
   transition: 0.3s;
