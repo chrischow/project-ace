@@ -1,7 +1,7 @@
 $inDir = "./rokr-dev/src/components"
 $inDir2 = "./rokr-dev/src/utils"
 
-$dest = "./rokr-dev/build/txt"
+$dest = "./rokr-dev/build/txt" # For testing first. To change to actual folder once it's good to go.
 
 if (-not (Test-Path -Path $dest)) {
     md $dest

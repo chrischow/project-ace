@@ -18,8 +18,12 @@ From [Pluralsight](https://www.pluralsight.com/guides/using-react-router-with-cd
 ## Build Stages
 
 ### Stage 1: ROKR-Dev to ROKR
-Copy contents of the following:
+Use `npm run package` to run the PS script to do the below conversion. Steps done:
+- [x] .js files in component and utils are parsed to comment out import lines and export lines with `//**RAVEN* ... */`
+- [x] first line added `//**RAVEN**filename={...}` for subsequent joining into AllComponent.txt
+- [ ] Combine into one AllComponent.txt. Need to figure out how to determine order.
 
+~~Copy contents of the following:~~ 
 1. Styles: `index.css`
 2. Utils:
     - updateCircleProgress to `txt` folder
@@ -32,7 +36,7 @@ Copy contents of the following:
 
 After moving over:
 - Remember to remove imports and exports of JS functions/objects
-- Extract any React/ReactDOM/ReactRouterDOM functions e.g. `useHistory = ReactRouterDOM.useHistory`
+- ~~Extract any React/ReactDOM/ReactRouterDOM functions e.g. `useHistory = ReactRouterDOM.useHistory`~~ [No longer necessary? since the imports are {} into current scope.]
 
 ### Stage 2: Into the Shithole
 If CRUD functions for dev and production are named identically, you may want to dump all components into a single file. You must consolidate them **in order of dependency**. In bash:
