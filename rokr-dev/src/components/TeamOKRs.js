@@ -11,10 +11,12 @@ import Modal from "./Modal";
 
 // Simulated
 import { getDate } from "../utils/queryData";
+import { AddIconText } from "./Icons";
 
 export default function TeamOKRs(props) {
   const [krData, setKrData] = useState({});
   const [objFormData, setObjFormData] = useState({});
+  // const [krFormData, setKrFormData] = useState({});
 
   function toggleOKRCards() {
     $(".okr.collapse").each(function () {
@@ -50,11 +52,9 @@ export default function TeamOKRs(props) {
     });
 
     $("#obj-edit-modal").modal("toggle");
-    // return history.push(
-    //   "/new/obj?team=" + props.team.teamName + "&frequency=" + freq
-    // );
   }
 
+  // Function to render Objective form in modal
   const renderObjForm = () => {
     return (
       <ObjectiveForm2
@@ -66,6 +66,12 @@ export default function TeamOKRs(props) {
     );
   };
 
+  // Function to render Key Result form in modal
+  const renderKrForm = () => {
+    return (
+      <h3>KR Form Placeholder</h3>
+    );
+  }
   // Prepare OKR Collapse cards
   const objectiveCardRows = props.pageData.data.objectives.map((item) => {
     var tempKRs = props.pageData.data.keyResults.filter(function (kr) {
@@ -92,11 +98,9 @@ export default function TeamOKRs(props) {
         </button>
         <div className="float-right">
           <button className="btn btn-green" onClick={newObjective}>
-            Add Objective
+            <span className="mr-1">Add Objective</span>
+            <AddIconText className="btn-okr-toggle-icon" />
           </button>
-          {/* <button className="btn btn-green" onClick={newKeyResult}>
-            Add Key Result
-          </button> */}
         </div>
       </div>
       {objectiveCardRows}
@@ -105,6 +109,11 @@ export default function TeamOKRs(props) {
         modalId="obj-edit-modal"
         modalTitle="Objectives"
         renderModalContent={() => renderObjForm()}
+      />
+      <Modal
+        modalId="kr-edit-modal"
+        modalTitle="Key Results"
+        renderModalContent={() => renderKrForm()}
       />
     </div>
   );

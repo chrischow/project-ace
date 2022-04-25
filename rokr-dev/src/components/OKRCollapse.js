@@ -8,9 +8,8 @@ import $ from "jquery";
 
 import {
   CaretIcon,
-  EditIcon,
   EditIconText,
-  InfoIcon,
+  AddIconText,
   LaunchIcon,
 } from "./Icons";
 import Modal from "./Modal";
@@ -37,6 +36,11 @@ function KeyResultRow(props) {
 
     $("#kr-modal").modal("toggle");
   }
+  
+  // Function to launch Key Result edit modal
+  const editKeyResult = mode => {
+    $('#kr-edit-modal').modal('toggle');
+  };
 
   function goToUpdates() {
     history.push("/edit/update/" + props.krId);
@@ -45,17 +49,28 @@ function KeyResultRow(props) {
   return (
     <div className="keyresult-row">
       <div className="row align-items-center">
-        <div className="col-5 keyresult-row--info-link" onClick={toggleModal}>
-          <span className="keyresult-row--title">{props.krTitle}</span>
-          <LaunchIcon />
+        <div className="col-5">
+          <div className="keyresult-row--title">{props.krTitle}</div>
         </div>
-        <div
+        <div className="col-2 text-center">
+          <div className="keyresult-row--action-btn keyresult-row--edit-text mb-1" onClick={toggleModal}>
+            View
+          </div>
+          <span className="keyresult-row--action-divider keyresult-row--edit-text ml-1 mr-1 mb-1"> | </span>
+          <div className="keyresult-row--action-btn keyresult-row--edit-text" onClick={editKeyResult}>
+            Edit
+          </div>
+          {/* <div className="keyresult-row--action-btn keyresult-row--edit-text" onClick={goToUpdates}>
+            Updates
+          </div> */}
+        </div>
+        {/* <div
           className="keyresult-row--updates text-center col-2"
           onClick={goToUpdates}
         >
           <span className="ml-1">Updates </span>
           <LaunchIcon className="keyresult-row--icon" />
-        </div>
+        </div> */}
         <div className="text-center col-2">
           <span className="keyresult-row--text">{props.krEndDate}</span>
         </div>
@@ -70,6 +85,7 @@ function KeyResultRow(props) {
 function ObjectiveCard(props) {
   var history = useHistory();
 
+  // Function to launch Objective edit modal
   function editObjective() {
     props.setObjFormData({
       objectiveId: props.objectiveId,
@@ -85,15 +101,17 @@ function ObjectiveCard(props) {
     // return history.push("/edit/obj/" + props.objectiveId);
   }
 
-  function addKR() {
-    return history.push(
-      "/new/kr?team=" +
-        props.team +
-        "&frequency=" +
-        props.frequency +
-        "&parentObjectiveId=" +
-        props.objectiveId
-    );
+  const addKR = () => {
+    // Update state here - have to pass down from TeamOKRs
+    $('#kr-edit-modal').modal('toggle');
+    // return history.push(
+    //   "/new/kr?team=" +
+    //     props.team +
+    //     "&frequency=" +
+    //     props.frequency +
+    //     "&parentObjectiveId=" +
+    //     props.objectiveId
+    // );
   }
 
   return (
@@ -139,7 +157,8 @@ function ObjectiveCard(props) {
               className="btn objective-card--add-kr-button"
               onClick={addKR}
             >
-              <span className="objective-card--add-kr-text mr-1">Add KR +</span>
+              <span className="objective-card--add-kr-text mr-1">Add KR</span>
+              <AddIconText className="objective-card--edit-icon" />
             </button>
           )}
         </div>
@@ -171,7 +190,7 @@ export default function OKRCollapse(props) {
   // Create KR Cards
   const objId = "obj-" + props.objective.objectiveId;
 
-  const keyResultRows = props.keyResults.map(function (item) {
+  const keyResultRows = props.keyResults.map(item => {
     return (
       <KeyResultRow
         // key={item.krId}

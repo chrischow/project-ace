@@ -4,7 +4,7 @@ import $ from "jquery";
 import "datatables.net-bs4";
 import "../dataTables.bootstrap4.min.css";
 
-import { EditIcon, EditIconText } from "./Icons";
+import { EditIcon, EditIconText, AddIconText } from "./Icons";
 import { formatDate } from "../utils/processData";
 
 // Simulated
@@ -191,6 +191,30 @@ export default function KRModal(props) {
                 </thead>
                 <tbody></tbody>
               </table>
+              <div className="kr-modal--add-collapse mt-5 mb-4">
+                <a
+                  data-toggle="collapse"
+                  href="#addUpdate"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="addUpdate"
+                  className="kr-modal--add-collapse-header"
+                >
+                  <AddIconText className="kr-modal--add-collapse-header-icon" />
+                  <span className="mr-1"> Add an Update</span>
+                </a>
+                <div className="collapse mt-3" id="addUpdate">
+                  <div className="">
+                    <form className="form">
+                      <input type="date" className="form-control form-dark"></input>
+                      <textarea className="form-control form-dark" />
+                    </form>
+                    <div className="text-right">
+                      <button class="btn btn-green text-right">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="modal-footer">

@@ -48,8 +48,6 @@ function UpdatesTable(props) {
         );
     });
 
-    
-
     useEffect(function() {
         $(function() {
             const updateData = props.updateData.map(function(item) {
