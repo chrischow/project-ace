@@ -1,310 +1,19 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import $ from "jquery";
 import "datatables.net-bs4";
 import "../dataTables.bootstrap4.min.css";
-
-import { EditIcon, EditIconText } from "./Icons";
-import ObjectiveForm2 from "./ObjectiveForm2";
-import OKRCollapse from "./OKRCollapse";
-import Modal from "./Modal";
 import ProgressCard from "./ProgressCard";
+import { FrequencyTabs, TeamMemberTabs } from './Tabs';
+import TeamOKRs from './TeamOKRs';
 import updateCircleProgress from "../utils/updateCircleProgress";
-import {
-  prepareTeamData,
-  formatDate,
-  sortStringArray,
-} from "../utils/processData";
+import { prepareTeamData, sortStringArray } from "../utils/processData";
 
 // Simulated
 import {
   getTeamObjectiveDataIBD,
   getTeamKeyResultDataIBD,
-  getTeamUpdatesDataIBD,
   getDate,
 } from "../utils/queryData";
-
-// const $ = require('jquery');
-$.DataTable = require("datatables.net");
-
-function FrequencyTabs(props) {
-  return (
-    <div className="mt-2">
-      <ul className="nav nav-pills justify-content-center" role="tablist">
-        <li className="nav-item">
-          <a
-            className="nav-link frequency-tabs--link active"
-            data-toggle="tab"
-            role="tab"
-            aria-selected="false"
-            aria-controls="monthly"
-            href="#team-monthly"
-            onClick={() => props.changeFrequency("monthly")}
-          >
-            Monthly
-          </a>
-        </li>
-        <li className="nav-item">
-          <a
-            className="nav-link frequency-tabs--link"
-            data-toggle="tab"
-            role="tab"
-            aria-selected="false"
-            aria-controls="quarterly"
-            href="#team-quarterly"
-            onClick={() => props.changeFrequency("quarterly")}
-          >
-            Quarterly
-          </a>
-        </li>
-        <li className="nav-item">
-          <a
-            className="nav-link frequency-tabs--link"
-            data-toggle="tab"
-            role="tab"
-            aria-selected="true"
-            aria-controls="annual"
-            href="#team-annual"
-            onClick={() => props.changeFrequency("annual")}
-          >
-            Annual
-          </a>
-        </li>
-      </ul>
-    </div>
-  );
-}
-
-function TeamMemberTabs(props) {
-  var staffList = ["All", ...props.staffList];
-  staffList = staffList.map(function (item) {
-    return (
-      <li className="nav-item">
-        <a
-          className={
-            "nav-link individual-tabs--link" + (item === "All" ? " active" : "")
-          }
-          data-toggle="tab"
-          role="tab"
-          aria-selected="true"
-          aria-controls={item}
-          href={"#team-" + item}
-          onClick={() =>
-            props.changeFrequency(item === "All" ? "monthly" : item)
-          }
-        >
-          {item}
-        </a>
-      </li>
-    );
-  });
-  return (
-    <div className="mt-2">
-      <ul className="nav nav-pills justify-content-center" role="tablist">
-        {staffList}
-      </ul>
-    </div>
-  );
-}
-
-function KRModal(props) {
-  const startDate = formatDate(props.krData.krStartDate);
-  const endDate = formatDate(props.krData.krEndDate);
-
-  // Initialise states for raw team data and processed data
-  const [updateData, setUpdateData] = useState([]);
-  const history = useHistory();
-  const table = $("#kr-modal-table");
-
-  // Trigger once props are in
-  useEffect(
-    function () {
-      if (props.krData.krId) {
-        // Query update data - SWAP FUNCTION HERE
-        getTeamUpdatesDataIBD(props.krData.krId, setUpdateData);
-        // getUpdateData(updateListId, props.krData.krId, setUpdateData);
-      }
-    },
-    [props.krData]
-  );
-
-  // Update table everytime the table is populated
-  useEffect(
-    function () {
-      $(function () {
-        if (!$.fn.dataTable.isDataTable("#kr-modal-table")) {
-          table.DataTable().destroy();
-          table.DataTable({
-            autoWidth: false,
-            pageLength: 5,
-            displayStart: 0,
-            lengthMenu: [5, 10, 25, 50],
-            order: [[0, "desc"]],
-            fixedColumns: true,
-            columnDefs: [
-              {
-                width: "18%",
-                name: "updateDate",
-                targets: 0,
-                data: "updateDate",
-                className: "text-center",
-              },
-              {
-                width: "82%",
-                name: "updateText",
-                targets: 1,
-                data: "updateText",
-              },
-            ],
-          });
-
-          table.DataTable().rows.add(updateData).draw();
-        } else {
-          table.DataTable().clear();
-          table.DataTable().rows.add(updateData).draw();
-        }
-      });
-    },
-    [updateData]
-  );
-
-  // Revert to table page
-  function resetTableView() {
-    table.DataTable().page.len(5).draw(true);
-    table.DataTable().page(0);
-  }
-
-  function editKR() {
-    $("#kr-modal").modal("hide");
-    return history.push("/edit/kr/" + props.krData.krId);
-  }
-
-  function editUpdate() {
-    $("#kr-modal").modal("hide");
-    return history.push("/edit/update/" + props.krData.krId);
-  }
-
-  return (
-    <div
-      className="modal fade"
-      id="kr-modal"
-      tabIndex="-1"
-      role="dialog"
-      aria-labelledby={"kr-modal-label"}
-      aria-hidden="true"
-    >
-      <div
-        className="modal-dialog modal-xl modal-dialog-centered"
-        role="document"
-      >
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title" id={"kr-modal-label"}>
-              {props.krData.parentObjectiveTeam} Key Result
-            </h5>
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div className="modal-body">
-            <div className="kr-modal--panel">
-              <div className="row align-items-center">
-                <div className="col-9 kr-modal--main-col">
-                  <h3>
-                    <span className="mr-3 text-green">
-                      {props.krData.krTitle}
-                    </span>
-                    <div
-                      style={{
-                        display: "inline-block",
-                        cursor: "pointer",
-                        transition: "0.3s",
-                      }}
-                      onClick={editKR}
-                    >
-                      <EditIcon />
-                    </div>
-                  </h3>
-                  <div className="kr-modal--subheader">
-                    <span>
-                      {startDate} - {endDate}
-                    </span>
-                    {props.krData.owner ? (
-                      <span>
-                        <span className="mr-3 ml-3">|</span>
-                        <span>{props.krData.owner}</span>
-                      </span>
-                    ) : null}
-                  </div>
-                  <div className="kr-modal--description">
-                    {props.krData.krDescription}
-                  </div>
-                </div>
-                <div className="col-3 pl-4 text-center">
-                  <div className="row align-items-center justify-content-center">
-                    <span className="progress-card--metric-sm">
-                      {props.krData.currentValue}
-                    </span>
-                    <span className="pl-3 pr-3 progress-card--metric-between-sm">
-                      /
-                    </span>
-                    <span className="progress-card--metric-sm">
-                      {props.krData.maxValue}
-                    </span>
-                  </div>
-                  <div className="col-12 text-center">
-                    <span className="progress-card--metric-title-sm">
-                      Completed
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="kr-modal--update-panel">
-              <h3 className="kr-modal--tag-text mb-4 align-items-center">
-                <span className="mr-4">Updates</span>
-                <button
-                  className="btn kr-modal--edit-button"
-                  onClick={editUpdate}
-                >
-                  <span className="kr-modal--edit-text mr-1">Edit</span>
-                  <EditIconText className="kr-modal--edit-icon" />
-                </button>
-              </h3>
-              <table
-                className="table table-dark table-striped kr-modal--table w-100"
-                id="kr-modal-table"
-              >
-                <thead>
-                  <tr>
-                    <th className="text-center">Date</th>
-                    <th className="text-center">Update</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-dismiss="modal"
-              onClick={resetTableView}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function TeamProgress(props) {
   const entity =
@@ -325,104 +34,6 @@ function TeamProgress(props) {
   );
 }
 
-function TeamOKRs(props) {
-  const [krData, setKrData] = useState({});
-  const [objFormData, setObjFormData] = useState({});
-
-  function toggleOKRCards() {
-    $(".okr.collapse").each(function () {
-      var collapsible = $(this);
-      collapsible.collapse("toggle");
-    });
-
-    $(".btn-collapse").each(function () {
-      var caret = $(this);
-      caret.toggleClass("rotated");
-    });
-  }
-
-  var history = useHistory();
-
-  // Function to initialise objective form and open modal
-  function newObjective() {
-    const freq = ["annual", "quarterly", "monthly"].includes(
-      props.pageData.frequency
-    )
-      ? props.pageData.frequency
-      : "monthly";
-
-    setObjFormData({
-      objectiveId: -1,
-      objectiveTitle: "",
-      objectiveDescription: "",
-      objectiveStartDate: getDate(new Date()),
-      objectiveEndDate: getDate(new Date()),
-      owner: "",
-      frequency: freq,
-      team: props.team.teamName,
-    });
-
-    $("#obj-edit-modal").modal("toggle");
-    // return history.push(
-    //   "/new/obj?team=" + props.team.teamName + "&frequency=" + freq
-    // );
-  }
-
-  const renderObjForm = () => {
-    return (
-      <ObjectiveForm2
-        teams={props.teams}
-        objFormData={objFormData}
-        teamName={props.team.teamName}
-        refreshData={props.refreshData}
-      />
-    );
-  };
-
-  // Prepare OKR Collapse cards
-  const objectiveCardRows = props.pageData.data.objectives.map((item) => {
-    var tempKRs = props.pageData.data.keyResults.filter(function (kr) {
-      return kr.parentObjectiveId === item.objectiveId;
-    });
-
-    return (
-      <OKRCollapse
-        // key={item.objectiveId}
-        objective={item}
-        keyResults={tempKRs}
-        setKrData={setKrData}
-        setObjFormData={setObjFormData}
-      />
-    );
-  });
-
-  return (
-    <div>
-      <h3 className="mt-5">Objectives & Key Results</h3>
-      <div className="mb-4 mt-3">
-        <button className="btn btn-okr-toggle" onClick={toggleOKRCards}>
-          Expand/Collapse
-        </button>
-        <div className="float-right">
-          <button className="btn btn-green" onClick={newObjective}>
-            Add Objective
-          </button>
-          {/* <button className="btn btn-green" onClick={newKeyResult}>
-            Add Key Result
-          </button> */}
-        </div>
-      </div>
-      {objectiveCardRows}
-      <KRModal id="kr-modal" krData={krData} />
-      <Modal
-        modalId="obj-edit-modal"
-        modalTitle="Objectives"
-        renderModalContent={() => renderObjForm()}
-      />
-    </div>
-  );
-}
-
 export default function TeamPage(props) {
   // Initialise states for raw team data and processed data
   const [teamData, setTeamData] = useState({});
@@ -432,32 +43,28 @@ export default function TeamPage(props) {
 
   // Callback functions to update respective items in raw data state
   // To be passed to async query to database
-  const updateObjectives = data => {
+  const updateObjectives = (data) => {
     // Sort data
     var dataSorted = data.sort((a, b) => {
       return a.objectiveTitle > b.objectiveTitle
         ? 1
         : a.objectiveTitle < b.objectiveTitle
-          ? -1
-          : 0;
+        ? -1
+        : 0;
     });
 
-    setTeamData(prevData => {
+    setTeamData((prevData) => {
       return { ...prevData, allObjectives: dataSorted };
     });
   };
 
-  const updateKeyResults = data => {
+  const updateKeyResults = (data) => {
     // Sort data
     var dataSorted = data.sort((a, b) => {
-      return a.krTitle > b.krTitle
-        ? 1
-        : a.krTitle < b.krTitle
-          ? -1
-          : 0;
+      return a.krTitle > b.krTitle ? 1 : a.krTitle < b.krTitle ? -1 : 0;
     });
 
-    setTeamData(prevData => {
+    setTeamData((prevData) => {
       return { ...prevData, allKeyResults: dataSorted };
     });
   };
@@ -488,7 +95,7 @@ export default function TeamPage(props) {
           teamData.allKeyResults
         );
 
-        setProcessedData(prevData => {
+        setProcessedData((prevData) => {
           return { ...prevData, teamProgressData: teamProgressData };
         });
 
@@ -497,12 +104,14 @@ export default function TeamPage(props) {
           data: teamProgressData["monthly"],
         });
 
-        var staffListSorted = Object.keys(teamProgressData).filter(function (item) {
+        var staffListSorted = Object.keys(teamProgressData).filter(function (
+          item
+        ) {
           return (
             item !== "monthly" && item !== "quarterly" && item !== "annual"
           );
         });
-        staffListSorted = staffListSorted.sort(sortStringArray)
+        staffListSorted = staffListSorted.sort(sortStringArray);
         setStaffList(staffListSorted);
       }
     },
