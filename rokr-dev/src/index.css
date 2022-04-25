@@ -404,14 +404,15 @@ hr {
 
 /* OKR collapsibles */
 .btn-okr-toggle {
-  background-color: #8497B0;
-  color: #EAEAEA;
+  background-color: #8497B000;
+  color: #8497B0;
+  border: 1px solid #8497B0;
   transition: 0.3s;
 }
 
 .btn-okr-toggle:hover {
-  background-color: #00AA98;
-  color: #EAEAEA;
+  background-color: #8497B033;
+  color: #8497B0;
   transition: 0.3s;
 }
 
@@ -487,15 +488,16 @@ hr {
 
 .objective-card--edit-button {
   padding: 0px 5px;
-  background-color: #7B73F0;
-  color: white;
+  background-color: #7B73F000;
+  color: #7B73F0;
+  border: 1px solid #7b73f0;
   cursor: 'pointer';
   transition: 0.3s;
 }
 
 .objective-card--edit-button:hover {
-  background-color: #625AD7;
-  color: #ddd;
+  background-color: #7B73F033;
+  color: #7B73F0;
   transition: 0.3s;
 }
 
@@ -508,24 +510,23 @@ hr {
 
 .objective-card--edit-icon {
   font-size: 0.9rem;
-  transition: 0.3s;
   height: 10px;
   width: 10px;
-  margin-bottom: 2px;
   padding: 0px;
 }
 
 .objective-card--add-kr-button {
   padding: 0px 5px;
-  background-color: #0EC4B2;
-  color: white;
+  background-color: #0EC4B200;
+  color: #0EC4B2;
+  border: 1px solid #0EC4B2;
   cursor: 'pointer';
   transition: 0.3s;
 }
 
 .objective-card--add-kr-button:hover {
-  background-color: #00AA98;
-  color: #ddd;
+  background-color: #0EC4B233;
+  color: #0EC4B2;
   transition: 0.3s;
 }
 

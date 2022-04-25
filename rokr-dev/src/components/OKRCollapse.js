@@ -13,6 +13,7 @@ import {
   InfoIcon,
   LaunchIcon,
 } from "./Icons";
+import Modal from "./Modal";
 import ProgressBar from "./ProgressBar";
 import { useHistory } from "react-router-dom";
 
@@ -68,9 +69,20 @@ function KeyResultRow(props) {
 
 function ObjectiveCard(props) {
   var history = useHistory();
-  
+
   function editObjective() {
-    return history.push("/edit/obj/" + props.objectiveId);
+    props.setObjFormData({
+      objectiveId: props.objectiveId,
+      objectiveTitle: props.objectiveTitle,
+      objectiveDescription: props.objectiveDescription,
+      objectiveStartDate: props.objectiveStartDate,
+      objectiveEndDate: props.objectiveEndDate,
+      owner: props.owner,
+      frequency: props.frequency,
+      team: props.team,
+    });
+    $('#obj-edit-modal').modal('toggle');
+    // return history.push("/edit/obj/" + props.objectiveId);
   }
 
   function addKR() {
@@ -79,7 +91,7 @@ function ObjectiveCard(props) {
         props.team +
         "&frequency=" +
         props.frequency +
-        "&parentObjectiveId=" + 
+        "&parentObjectiveId=" +
         props.objectiveId
     );
   }
@@ -114,7 +126,7 @@ function ObjectiveCard(props) {
           )}
           {props.isClicked && (
             <button
-              className="btn objective-card--edit-button mr-2"
+              className="btn objective-card--edit-button mr-3"
               onClick={editObjective}
             >
               <span className="objective-card--edit-text mr-1">Edit</span>
@@ -181,7 +193,7 @@ export default function OKRCollapse(props) {
         isClicked={isClicked}
         objId={objId}
         progress={objProgress}
-        populateObjForm={props.populateObjForm}
+        setObjFormData={props.setObjFormData}
         {...props.objective}
       />
       <div className="okr collapse show" id={objId}>

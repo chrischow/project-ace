@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import $ from "jquery";
-
-import ProgressCard from "./ProgressCard";
-import OKRCollapse from "./OKRCollapse";
-import { EditIcon, EditIconText } from "./Icons";
-import updateCircleProgress from "../utils/updateCircleProgress";
-import { prepareTeamData, formatDate } from "../utils/processData";
 import "datatables.net-bs4";
 import "../dataTables.bootstrap4.min.css";
+
+import { EditIcon, EditIconText } from "./Icons";
+import ObjectiveForm2 from "./ObjectiveForm2";
+import OKRCollapse from "./OKRCollapse";
+import Modal from "./Modal";
+import ProgressCard from "./ProgressCard";
+import updateCircleProgress from "../utils/updateCircleProgress";
+import {
+  prepareTeamData,
+  formatDate,
+  sortStringArray,
+} from "../utils/processData";
 
 // Simulated
 import {
   getTeamObjectiveDataIBD,
   getTeamKeyResultDataIBD,
   getTeamUpdatesDataIBD,
+  getDate,
 } from "../utils/queryData";
 
 // const $ = require('jquery');
@@ -320,6 +327,7 @@ function TeamProgress(props) {
 
 function TeamOKRs(props) {
   const [krData, setKrData] = useState({});
+  const [objFormData, setObjFormData] = useState({});
 
   function toggleOKRCards() {
     $(".okr.collapse").each(function () {
@@ -334,24 +342,44 @@ function TeamOKRs(props) {
   }
 
   var history = useHistory();
+
+  // Function to initialise objective form and open modal
   function newObjective() {
-    return history.push(
-      "/new/obj?team=" +
-        props.team.teamName +
-        "&frequency=" +
-        props.pageData.frequency
-    );
+    const freq = ["annual", "quarterly", "monthly"].includes(
+      props.pageData.frequency
+    )
+      ? props.pageData.frequency
+      : "monthly";
+
+    setObjFormData({
+      objectiveId: -1,
+      objectiveTitle: "",
+      objectiveDescription: "",
+      objectiveStartDate: getDate(new Date()),
+      objectiveEndDate: getDate(new Date()),
+      owner: "",
+      frequency: freq,
+      team: props.team.teamName,
+    });
+
+    $("#obj-edit-modal").modal("toggle");
+    // return history.push(
+    //   "/new/obj?team=" + props.team.teamName + "&frequency=" + freq
+    // );
   }
 
-  function newKeyResult() {
-    return history.push(
-      "/new/kr?team=" +
-        props.team.teamName +
-        "&frequency=" +
-        props.pageData.frequency
+  const renderObjForm = () => {
+    return (
+      <ObjectiveForm2
+        teams={props.teams}
+        objFormData={objFormData}
+        teamName={props.team.teamName}
+        refreshData={props.refreshData}
+      />
     );
-  }
+  };
 
+  // Prepare OKR Collapse cards
   const objectiveCardRows = props.pageData.data.objectives.map((item) => {
     var tempKRs = props.pageData.data.keyResults.filter(function (kr) {
       return kr.parentObjectiveId === item.objectiveId;
@@ -363,6 +391,7 @@ function TeamOKRs(props) {
         objective={item}
         keyResults={tempKRs}
         setKrData={setKrData}
+        setObjFormData={setObjFormData}
       />
     );
   });
@@ -385,6 +414,11 @@ function TeamOKRs(props) {
       </div>
       {objectiveCardRows}
       <KRModal id="kr-modal" krData={krData} />
+      <Modal
+        modalId="obj-edit-modal"
+        modalTitle="Objectives"
+        renderModalContent={() => renderObjForm()}
+      />
     </div>
   );
 }
@@ -398,26 +432,48 @@ export default function TeamPage(props) {
 
   // Callback functions to update respective items in raw data state
   // To be passed to async query to database
-  function updateObjectives(data) {
-    setTeamData((prevData) => {
-      return { ...prevData, allObjectives: data };
+  const updateObjectives = data => {
+    // Sort data
+    var dataSorted = data.sort((a, b) => {
+      return a.objectiveTitle > b.objectiveTitle
+        ? 1
+        : a.objectiveTitle < b.objectiveTitle
+          ? -1
+          : 0;
     });
-  }
 
-  function updateKeyResults(data) {
-    setTeamData((prevData) => {
-      return { ...prevData, allKeyResults: data };
+    setTeamData(prevData => {
+      return { ...prevData, allObjectives: dataSorted };
     });
-  }
+  };
+
+  const updateKeyResults = data => {
+    // Sort data
+    var dataSorted = data.sort((a, b) => {
+      return a.krTitle > b.krTitle
+        ? 1
+        : a.krTitle < b.krTitle
+          ? -1
+          : 0;
+    });
+
+    setTeamData(prevData => {
+      return { ...prevData, allKeyResults: dataSorted };
+    });
+  };
+
+  const refreshData = () => {
+    getTeamObjectiveDataIBD(props.team.teamName, updateObjectives);
+    getTeamKeyResultDataIBD(props.team.teamName, updateKeyResults);
+    // getObjectiveData(objListId, props.team.teamName, updateObjectives);
+    // getKRData(krListId, props.team.teamName, updateKeyResults);
+  };
 
   // Run once - to trigger query
   useEffect(
     function () {
       // Query data - simulated
-      getTeamObjectiveDataIBD(props.team.teamName, updateObjectives);
-      getTeamKeyResultDataIBD(props.team.teamName, updateKeyResults);
-      // getObjectiveData(objListId, props.team.teamName, updateObjectives);
-      // getKRData(krListId, props.team.teamName, updateKeyResults);
+      refreshData();
     },
     [props.team.teamName]
   );
@@ -432,7 +488,7 @@ export default function TeamPage(props) {
           teamData.allKeyResults
         );
 
-        setProcessedData((prevData) => {
+        setProcessedData(prevData => {
           return { ...prevData, teamProgressData: teamProgressData };
         });
 
@@ -441,13 +497,13 @@ export default function TeamPage(props) {
           data: teamProgressData["monthly"],
         });
 
-        setStaffList(
-          Object.keys(teamProgressData).filter(function (item) {
-            return (
-              item !== "monthly" && item !== "quarterly" && item !== "annual"
-            );
-          })
-        );
+        var staffListSorted = Object.keys(teamProgressData).filter(function (item) {
+          return (
+            item !== "monthly" && item !== "quarterly" && item !== "annual"
+          );
+        });
+        staffListSorted = staffListSorted.sort(sortStringArray)
+        setStaffList(staffListSorted);
       }
     },
     [teamData, props.team.teamName]
@@ -503,7 +559,12 @@ export default function TeamPage(props) {
         />
       )}
       {pageData.data && (
-        <TeamOKRs pageData={pageData} teams={props.teams} team={props.team} />
+        <TeamOKRs
+          pageData={pageData}
+          teams={props.teams}
+          team={props.team}
+          refreshData={refreshData}
+        />
       )}
     </div>
   );

@@ -26,7 +26,6 @@ export default function DirectoryPage() {
                 return {
                     title: kr.krTitle,
                     description: kr.krDescription,
-                    // owner: kr.owner,
                     team: kr.parentObjectiveTeam,
                     due: kr.krEndDate,
                     progress: (100 * Number(kr.currentValue) / Number(kr.maxValue)).toFixed(0) + '%'
