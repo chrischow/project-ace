@@ -39,6 +39,19 @@ function KeyResultRow(props) {
   
   // Function to launch Key Result edit modal
   const editKeyResult = mode => {
+    props.setKrData({
+      krTitle: props.krTitle,
+      krDescription: props.krDescription,
+      krStartDate: props.krStartDate,
+      krEndDate: props.krEndDate,
+      minValue: props.minValue,
+      maxValue: props.maxValue,
+      currentValue: props.currentValue,
+      krId: props.krId,
+      owner: props.owner,
+      parentObjectiveId: props.parentObjectiveId,
+      parentObjectiveTeam: props.parentObjectiveTeam,
+    });
     $('#kr-edit-modal').modal('toggle');
   };
 
@@ -103,6 +116,19 @@ function ObjectiveCard(props) {
 
   const addKR = () => {
     // Update state here - have to pass down from TeamOKRs
+    props.setKrData({
+      krId: -1,
+      krTitle: "",
+      krDescription: "",
+      krStartDate: "2022-04-01",
+      krEndDate: "",
+      minValue: 0,
+      maxValue: 1,
+      currentValue: 0,
+      owner: "",
+      parentObjectiveId: props.objectiveId, // Fix this
+      parentObjectiveTeam: props.team
+    });
     $('#kr-edit-modal').modal('toggle');
     // return history.push(
     //   "/new/kr?team=" +
@@ -213,6 +239,7 @@ export default function OKRCollapse(props) {
         objId={objId}
         progress={objProgress}
         setObjFormData={props.setObjFormData}
+        setKrData={props.setKrData}
         {...props.objective}
       />
       <div className="okr collapse show" id={objId}>

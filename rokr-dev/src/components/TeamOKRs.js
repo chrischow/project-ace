@@ -12,6 +12,7 @@ import Modal from "./Modal";
 // Simulated
 import { getDate } from "../utils/queryData";
 import { AddIconText } from "./Icons";
+import KRForm2 from "./KRForm2";
 
 export default function TeamOKRs(props) {
   const [krData, setKrData] = useState({});
@@ -69,7 +70,12 @@ export default function TeamOKRs(props) {
   // Function to render Key Result form in modal
   const renderKrForm = () => {
     return (
-      <h3>KR Form Placeholder</h3>
+      <KRForm2
+        teams={props.teams}
+        krData={krData}
+        teamName={props.team.teamName}
+        refreshData={props.refreshData}
+      />
     );
   }
   // Prepare OKR Collapse cards

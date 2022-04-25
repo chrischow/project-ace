@@ -4,13 +4,10 @@ import $ from "jquery";
 import { getDate, checkDate, getOneIBD, putIBD } from "../utils/queryData";
 
 export default function ObjectiveForm2(props) {
-  // Extract URL parameters
-  const history = useHistory();
 
   // Initialise state for form
   const [formData, setFormData] = useState({});
   const [mode, setMode] = useState('');
-  const [team, setTeam] = useState({});
   const [formErrors, setFormErrors] = useState([]);
   const formErrorsList = formErrors.map(function (item) {
     return <li key={item}>{item}</li>;
@@ -83,11 +80,6 @@ export default function ObjectiveForm2(props) {
       });
     });
   });
-
-  // Cancel: Go back
-  function redirectBack() {
-    return history.push("/" + team.slug);
-  }
 
   function submitForm() {
     // Clear previous errors

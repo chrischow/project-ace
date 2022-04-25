@@ -12,7 +12,6 @@ import { prepareTeamData, sortStringArray } from "../utils/processData";
 import {
   getTeamObjectiveDataIBD,
   getTeamKeyResultDataIBD,
-  getDate,
 } from "../utils/queryData";
 
 function TeamProgress(props) {

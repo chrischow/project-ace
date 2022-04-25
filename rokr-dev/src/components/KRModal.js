@@ -210,7 +210,7 @@ export default function KRModal(props) {
                       <textarea className="form-control form-dark" />
                     </form>
                     <div className="text-right">
-                      <button class="btn btn-green text-right">Submit</button>
+                      <button className="btn btn-green text-right">Submit</button>
                     </div>
                   </div>
                 </div>
