@@ -3,6 +3,7 @@
     "create-react-app": "^5.0.0"
   },
   "scripts": {
-    "package": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./package.ps1"
+    "package": "./package.sh",
+    "unwrap": "./unwrap.sh"
   }
 }
