@@ -129,6 +129,11 @@ export default function TeamPage(props) {
           "50px",
           "#000718"
         );
+        // Reset OKR Collapses
+        $(".okr.collapse").each(function () {
+          var collapsible = $(this);
+          collapsible.collapse("show");
+        });
       }
     },
     [pageData]

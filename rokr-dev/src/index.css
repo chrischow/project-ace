@@ -404,15 +404,15 @@ hr {
 
 /* OKR collapsibles */
 .btn-okr-toggle {
-  background-color: #8497B000;
-  color: #8497B0;
-  border: 1px solid #8497B0;
+  background-color: #8497B022;
+  color: #9EB1CA;
+  border: 1px solid #9EB1CA;
   transition: 0.3s;
 }
 
 .btn-okr-toggle:hover {
-  background-color: #8497B033;
-  color: #9EB1CA;
+  background-color: #8497B044;
+  color: #D1E4FD;
   border: 1px solid #9EB1CA;
   transition: 0.3s;
 }
