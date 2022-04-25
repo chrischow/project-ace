@@ -22,7 +22,7 @@ function generateData(teams){
             for (var i=0; i < 3; i++) {
                 if (freqs[f] === 'monthly') {
                     for (var s=0; s < 3; s++) {
-                        objName = teams[t].teamName + ' Staff ' + (s+1) + ' O' + (i+1);
+                        objName = teams[t].teamName + ' Staff ' + (3-s) + ' O' + (i+1);
                         endDate = '2022-04-30';
         
                         objs.push({
@@ -32,7 +32,7 @@ function generateData(teams){
                             objectiveStartDate: '2022-04-01',
                             objectiveEndDate: endDate,
                             team: teams[t].teamName,
-                            owner: 'Staff ' + (s+1),
+                            owner: 'Staff ' + (3-s),
                             frequency: freqs[f]
                         });
                         counter++;

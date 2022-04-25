@@ -25,6 +25,9 @@ export default function Navbar(props) {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/directory">Directory</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/timeline">Timeline</NavLink>
+                        </li>
                     </ul>
                 </div>
             </div>

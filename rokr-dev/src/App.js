@@ -8,6 +8,7 @@ import ObjectiveForm from "./components/ObjectiveForm";
 import KRForm from "./components/KRForm";
 import UpdatesForm from "./components/UpdatesForm";
 import Intro from "./components/Intro";
+import TimelinePage from './components/Timeline.js';
 import "./App.css";
 
 // Simulated data
@@ -117,6 +118,7 @@ function App() {
           />
           <Route path="/intro" component={Intro} />
           <Route path="/directory" component={DirectoryPage} />
+          <Route path="/timeline" component={TimelinePage} />
           <Route
             path="/new/obj"
             render={() => <ObjectiveForm teams={teams} mode="new" />}
