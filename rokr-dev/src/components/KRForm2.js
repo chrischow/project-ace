@@ -53,29 +53,8 @@ export default function KRForm2(props) {
     if (props.krData) {
       setMode(props.krData.krId > 0 ? "Edit" : "New");
       setFormData(props.krData);
-
-      // Query objectives - SWAP FUNCTION HERE
-      getTeamObjectiveDataIBD(props.teamName, updateObjectives);
-      // getObjectiveData(objListId, teamInfo[0].teamName, setObjectives);
     }
   }, [props.krData]);
-
-  // Update options based on Objectives
-  // useEffect(
-  //   function () {
-  //     if (mode === "New") {
-  //       console.log(objectives[0].objectiveId);
-  //       setFormData(prevData => {
-  //         return {
-  //           ...prevData,
-  //           parentObjectiveId:
-  //             objectives.length > 0 ? objectives[0].objectiveId : 0,
-  //         };
-  //       });
-  //     }
-  //   },
-  //   [objectives]
-  // );
 
   function objectivesToOptions(obj) {
     return (
@@ -90,14 +69,14 @@ export default function KRForm2(props) {
     );
   }
 
-  function handleChange(event) {
+  const handleChange = event => {
     const name = event.target.name;
     const value =
       name === "currentValue" || name === "parentObjectiveId"
         ? Number(event.target.value)
         : event.target.value;
 
-    setFormData((prevData) => {
+    setFormData(prevData => {
       return {
         ...prevData,
         [name]: value,
@@ -106,8 +85,8 @@ export default function KRForm2(props) {
   }
 
   // Enable form datepicker utility
-  useEffect(function () {
-    $(function () {
+  useEffect(() => {
+    $(() => {
       const krDescTextArea = $("#krDescription");
       krDescTextArea.on("change input", function () {
         this.style.height = "auto";
@@ -263,7 +242,7 @@ export default function KRForm2(props) {
                 value={formData.parentObjectiveId}
                 onChange={handleChange}
               >
-                {objectives.map(objectivesToOptions)}
+                {props.objectives.map(objectivesToOptions)}
               </select>
             </div>
           </div>

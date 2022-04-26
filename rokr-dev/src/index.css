@@ -404,7 +404,7 @@ hr {
 
 /* OKR collapsibles */
 .btn-okr-toggle {
-  background-color: #8497B022;
+  background-color: #8497B000;
   color: #9EB1CA;
   border: 1px solid #9EB1CA;
   transition: 0.3s;
@@ -611,10 +611,9 @@ div.progress-bar {
 
 .keyresult-row--action-btn {
   color: #AEA6FF;
-  display: inline-block;
+  /* display: inline-block; */
   transition: 0.3s;
 }
-
 
 .keyresult-row--action-btn:hover {
   color: #958DFF;
@@ -622,8 +621,12 @@ div.progress-bar {
   cursor: pointer;
 }
 
-.keyresult-row--action-divider {
-  color: #AEA6FF;
+.keyresult-row--new-updates {
+  color: #27DDCB;
+}
+
+.keyresult-row--new-updates:hover {
+  color: #41F7E5;
 }
 
 .keyresult-row--updates {
@@ -677,6 +680,7 @@ div.progress-bar {
   height: 10px;
   width: 10px;
   padding: 0px;
+  margin-bottom: 2px;
 }
 
 /* Details / Edit */
@@ -744,6 +748,12 @@ div.progress-bar {
   background-color: #000C1D;
   border-bottom-right-radius: calc(0.3rem - 1px);
   border-bottom-left-radius: calc(0.3rem - 1px);
+}
+
+@media (min-width: 992px) {
+  .modal-lg, .modal-xl {
+      max-width: 950px;
+  }
 }
 
 button.close {

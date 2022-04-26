@@ -10,14 +10,12 @@ import {
   CaretIcon,
   EditIconText,
   AddIconText,
-  LaunchIcon,
+  AlertIconText,
 } from "./Icons";
-import Modal from "./Modal";
 import ProgressBar from "./ProgressBar";
 import { useHistory } from "react-router-dom";
 
 function KeyResultRow(props) {
-  const history = useHistory();
 
   function toggleModal() {
     props.setKrData({
@@ -38,7 +36,7 @@ function KeyResultRow(props) {
   }
   
   // Function to launch Key Result edit modal
-  const editKeyResult = mode => {
+  const editKeyResult = () => {
     props.setKrData({
       krTitle: props.krTitle,
       krDescription: props.krDescription,
@@ -55,10 +53,6 @@ function KeyResultRow(props) {
     $('#kr-edit-modal').modal('toggle');
   };
 
-  function goToUpdates() {
-    history.push("/edit/update/" + props.krId);
-  }
-
   return (
     <div className="keyresult-row">
       <div className="row align-items-center">
@@ -66,10 +60,10 @@ function KeyResultRow(props) {
           <div className="keyresult-row--title">{props.krTitle}</div>
         </div>
         <div className="col-2 text-center">
-          <div className="keyresult-row--action-btn keyresult-row--edit-text mb-1" onClick={toggleModal}>
-            View
+          <div className={"keyresult-row--action-btn keyresult-row--edit-text mb-1"} onClick={toggleModal}>
+            <span>View</span>
+            {props.nLatestUpdates > 0 && <span className="keyresult-row--new-updates"> ({props.nLatestUpdates} New)</span>}
           </div>
-          <span className="keyresult-row--action-divider keyresult-row--edit-text ml-1 mr-1 mb-1"> | </span>
           <div className="keyresult-row--action-btn keyresult-row--edit-text" onClick={editKeyResult}>
             Edit
           </div>
@@ -164,7 +158,7 @@ function ObjectiveCard(props) {
             <span className="mr-2">{props.objectiveTitle}</span>
           </h5>
           {props.isClicked && (
-            <div className="kr-modal--description mb-3">
+            <div className="kr-modal--description mb-2">
               {props.objectiveDescription}
             </div>
           )}
@@ -177,7 +171,6 @@ function ObjectiveCard(props) {
               <EditIconText className="objective-card--edit-icon" />
             </button>
           )}
-
           {props.isClicked && (
             <button
               className="btn objective-card--add-kr-button"
@@ -217,11 +210,16 @@ export default function OKRCollapse(props) {
   const objId = "obj-" + props.objective.objectiveId;
 
   const keyResultRows = props.keyResults.map(item => {
+    // Get no. of latest updates
+    var nLatestUpdates = props.latestUpdates.reduce((a,b) => {
+      return a + (Number(b.parentKrId) === Number(item.krId) ? 1 : 0);
+    }, 0);
     return (
       <KeyResultRow
         // key={item.krId}
         objId={objId}
         setKrData={props.setKrData}
+        nLatestUpdates={nLatestUpdates}
         {...item}
       />
     );

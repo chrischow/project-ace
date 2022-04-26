@@ -75,6 +75,7 @@ export default function TeamOKRs(props) {
         krData={krData}
         teamName={props.team.teamName}
         refreshData={props.refreshData}
+        objectives={props.objectives}
       />
     );
   }
@@ -91,6 +92,7 @@ export default function TeamOKRs(props) {
         keyResults={tempKRs}
         setKrData={setKrData}
         setObjFormData={setObjFormData}
+        latestUpdates={props.latestUpdates}
       />
     );
   });
