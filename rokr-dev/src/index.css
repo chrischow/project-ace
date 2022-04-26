@@ -616,17 +616,28 @@ div.progress-bar {
 }
 
 .keyresult-row--action-btn:hover {
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.keyresult-row--action-btn-text {
+  transition: 0.3s;
+}
+
+.keyresult-row--action-btn:hover .keyresult-row--action-btn-text {
   color: #958DFF;
   transition: 0.3s;
   cursor: pointer;
 }
 
 .keyresult-row--new-updates {
-  color: #27DDCB;
+  transition: 0.3s;
+  color: #41F7E5;
 }
 
-.keyresult-row--new-updates:hover {
-  color: #41F7E5;
+.keyresult-row--action-btn:hover .keyresult-row--new-updates {
+  transition: 0.3s;
+  color: #27DDCB;
 }
 
 .keyresult-row--updates {
