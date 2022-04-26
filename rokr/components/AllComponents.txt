@@ -276,11 +276,11 @@ function setupDB(allData) {
 }
 
 
-module.exports = {
+/*module.exports = {
     fakeDataTeams,
     allData,
     setupDB
-};
+};*/
 
 //**RAVEN**filename={processData.js}
 // Compute KR completion
