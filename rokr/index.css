@@ -82,7 +82,7 @@ hr {
 }
 
 ::selection {
-  background: #27DDCB;
+  background: #0EC4B2;
   color: white;
 }
 
@@ -404,15 +404,24 @@ hr {
 
 /* OKR collapsibles */
 .btn-okr-toggle {
-  background-color: #8497B0;
-  color: #EAEAEA;
+  background-color: #8497B000;
+  color: #9EB1CA;
+  border: 1px solid #9EB1CA;
   transition: 0.3s;
 }
 
 .btn-okr-toggle:hover {
-  background-color: #00AA98;
-  color: #EAEAEA;
+  background-color: #8497B044;
+  color: #D1E4FD;
+  border: 1px solid #9EB1CA;
   transition: 0.3s;
+}
+
+.btn-okr-toggle-icon {
+  font-size: 1.2rem;
+  height: 20px;
+  width: 14px;
+  padding: 0px;
 }
 
 /* Objective card */
@@ -425,10 +434,10 @@ hr {
   width: 100%;
 }
 
-.objective-card:hover {
+/* .objective-card:hover {
   background-color: #0D192A8a;
   transition: 0.3s;
-}
+} */
 
 .btn.focus, .btn:focus {
   box-shadow: none;
@@ -483,6 +492,57 @@ hr {
   transform-box: fill-box;
   transform: rotate(90deg) translate(-2px, -2px);
   transform-origin: 50% 50%;
+}
+
+.objective-card--edit-button {
+  padding: 0px 5px;
+  background-color: #7B73F000;
+  color: #7B73F0;
+  border: 1px solid #7b73f0;
+  cursor: 'pointer';
+  transition: 0.3s;
+}
+
+.objective-card--edit-button:hover {
+  background-color: #7B73F033;
+  color: #7B73F0;
+  transition: 0.3s;
+}
+
+.objective-card--edit-text {
+  font-size: 0.70rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.objective-card--edit-icon {
+  font-size: 0.9rem;
+  height: 10px;
+  width: 10px;
+  padding: 0px;
+}
+
+.objective-card--add-kr-button {
+  padding: 0px 5px;
+  background-color: #0EC4B200;
+  color: #0EC4B2;
+  border: 1px solid #0EC4B2;
+  cursor: 'pointer';
+  transition: 0.3s;
+}
+
+.objective-card--add-kr-button:hover {
+  background-color: #0EC4B233;
+  color: #0EC4B2;
+  transition: 0.3s;
+}
+
+.objective-card--add-kr-text {
+  font-size: 0.70rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
 }
 
 /* Progress bar */
@@ -549,6 +609,26 @@ div.progress-bar {
   transition: 0.3s;
 }
 
+.keyresult-row--action-btn {
+  color: #AEA6FF;
+  /* display: inline-block; */
+  transition: 0.3s;
+}
+
+.keyresult-row--action-btn:hover {
+  color: #958DFF;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.keyresult-row--new-updates {
+  color: #27DDCB;
+}
+
+.keyresult-row--new-updates:hover {
+  color: #41F7E5;
+}
+
 .keyresult-row--updates {
   color: #D1E4FD;
   font-size: 0.9rem;
@@ -569,6 +649,38 @@ div.progress-bar {
   width: 12px;
   margin-bottom: 3px;
   transition: 0.3s;
+}
+
+.keyresult-row--edit-button {
+  padding: 0px 4px;
+  /* background-color: #7B73F0; */
+  background-color: #AEA6FF00;
+  color: #AEA6FF;
+  border: 1px solid #AEA6FF;
+  cursor: 'pointer';
+  transition: 0.3s;
+}
+
+.keyresult-row--edit-button:hover {
+  /* background-color: #6E66E3; */
+  background-color: #AEA6FF33;
+  color: #AEA6FF;
+  transition: 0.3s;
+}
+
+.keyresult-row--edit-text {
+  font-size: 0.60rem;
+  font-family: 'Bahnschrift Light', 'Segoe UI Light', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.keyresult-row--edit-icon {
+  font-size: 0.6rem;
+  height: 10px;
+  width: 10px;
+  padding: 0px;
+  margin-bottom: 2px;
 }
 
 /* Details / Edit */
@@ -636,6 +748,12 @@ div.progress-bar {
   background-color: #000C1D;
   border-bottom-right-radius: calc(0.3rem - 1px);
   border-bottom-left-radius: calc(0.3rem - 1px);
+}
+
+@media (min-width: 992px) {
+  .modal-lg, .modal-xl {
+      max-width: 950px;
+  }
 }
 
 button.close {
@@ -911,15 +1029,17 @@ textarea {
 
 .kr-modal--edit-button {
   padding: 3px 7px;
-  background-color: #7B73F0;
-  color: white;
+  background-color: #7B73F000;
+  border: 1px solid #7B73F0;
+  color: #7B73F0;
   cursor: 'pointer';
   transition: "0.3s";
 }
 
 .kr-modal--edit-button:hover {
-  background-color: #625AD7;
-  color: #ddd;
+  background-color: #7B73F033;
+  color: #7B73F0;
+  transition: 0.3s;
 }
 
 .kr-modal--edit-icon {
@@ -927,6 +1047,30 @@ textarea {
   transition: 0.3s;
   height: 10px;
   width: 10px;
+  margin-bottom: 2px;
+  padding: 0px;
+}
+
+/* .kr-modal--add-collapse {
+  padding-bottom: 8px;
+  border-bottom: 1px solid #00AA98;
+} */
+
+.kr-modal--add-collapse-header {
+  color: #00AA98;
+  transition: 0.3s;
+}
+
+.kr-modal--add-collapse-header:hover {
+  color: #27DDCB;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.kr-modal--add-collapse-header-icon {
+  font-size: 1.0rem;
+  height: 14px;
+  width: 14px;
   margin-bottom: 2px;
   padding: 0px;
 }
@@ -1045,8 +1189,8 @@ div.dataTables_length > label > select[name="kr-modal-table_length"]:hover {
   color: #172334;
 }
 
-input[type="search"][aria-controls="directory-table_length"], input[type="search"][aria-controls="directory-table_length"]:focus,
-input[type="search"][aria-controls="updates-table_length"], input[type="search"][aria-controls="updates-table_length"]:focus {
+input[type="search"][aria-controls="directory-table"], input[type="search"][aria-controls="directory-table_length"]:focus,
+input[type="search"][aria-controls="updates-table"], input[type="search"][aria-controls="updates-table_length"]:focus {
   background-color: #0D192A8a;
   border: none;
   color: #8497B0;
