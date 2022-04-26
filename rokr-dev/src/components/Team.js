@@ -51,7 +51,7 @@ export default function TeamPage(props) {
         ? -1
         : 0;
     });
-
+    
     setTeamData((prevData) => {
       return { ...prevData, allObjectives: dataSorted };
     });
