@@ -1,5 +1,8 @@
-// COMPONENT: ProgressCard
-function ProgressCard(props) {
+//**RAVEN**filename={ProgressCard.js}
+// ProgressCard
+// Card with (1) a progress circle, (2) count of objectives, and (3) count of key results
+
+/**RAVEN* export default */function ProgressCard(props) {
     // Define styles
     var styleCircleText = 'progress-card--circle-text';
     var styleHeaderText = 'progress-card--header-text';

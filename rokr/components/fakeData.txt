@@ -1,3 +1,4 @@
+//**RAVEN**filename={fakeData.js}
 // Configs
 var fakeDataTeams = [
     {teamName: 'HQ RAiD', slug: 'hq-raid'},
@@ -22,7 +23,7 @@ function generateData(teams){
             for (var i=0; i < 3; i++) {
                 if (freqs[f] === 'monthly') {
                     for (var s=0; s < 3; s++) {
-                        objName = teams[t].teamName + ' Staff ' + (s+1) + ' O' + (i+1);
+                        objName = teams[t].teamName + ' Staff ' + (3-s) + ' O' + (i+1);
                         endDate = '2022-04-30';
         
                         objs.push({
@@ -32,7 +33,7 @@ function generateData(teams){
                             objectiveStartDate: '2022-04-01',
                             objectiveEndDate: endDate,
                             team: teams[t].teamName,
-                            owner: 'Staff ' + (s+1),
+                            owner: 'Staff ' + (3-s),
                             frequency: freqs[f]
                         });
                         counter++;
@@ -147,8 +148,12 @@ function generateData(teams){
         '2022-02-11', '2022-02-13', '2022-02-15', '2022-02-17', '2022-02-19',
         '2022-02-21', '2022-02-23', '2022-02-25', '2022-02-27',
         '2022-03-01', '2022-03-03', '2022-03-05', '2022-03-07', '2022-03-09',
-        '2022-03-11', '2022-03-13', '2022-03-15', '2022-03-17'
-        
+        '2022-03-11', '2022-03-13', '2022-03-15', '2022-03-17', '2022-03-19',
+        '2022-03-21', '2022-03-23', '2022-03-25', '2022-03-27', '2022-03-29',
+        '2022-04-01', '2022-04-04', '2022-04-05', '2022-04-07', '2022-04-09',
+        '2022-04-11', '2022-04-13', '2022-04-15', '2022-04-17', '2022-04-19',
+        '2022-04-21', '2022-04-23', '2022-04-25',
+        // '2022-04-27', '2022-04-29',
     ]
 
 
@@ -208,6 +213,7 @@ function setupDB(allData) {
             keyPath: 'updateId', autoIncrement: true
         });
         store.createIndex('updateIdIndex', 'updateId', {unique: true});
+        store.createIndex('updateDateIndex', 'updateDate', {unique: false});
         store.createIndex('parentKrIdIndex', 'parentKrId', {unique: false});
 
         e.target.transaction.oncomplete = function() {
@@ -268,4 +274,11 @@ function setupDB(allData) {
         console.log('Database ok.');
     }
 }
+
+
+module.exports = {
+    fakeDataTeams,
+    allData,
+    setupDB
+};
 

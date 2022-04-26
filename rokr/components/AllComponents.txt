@@ -2274,8 +2274,8 @@ data-fa-i2svg=""
 /**RAVEN* import { useParams, useHistory, useLocation } from "react-router-dom";*/
 /**RAVEN* import $ from 'jquery';*/
 
-/**RAVEN* import { getDate, checkDate, getOneIBD, getTeamObjectiveDataIBD,*/
-    putIBD } from '../utils/queryData';
+/**RAVEN* import { getDate, checkDate, getOneIBD, getTeamObjectiveDataIBD,
+    putIBD } from '../utils/queryData';*/
 
 // Simulated
 /**RAVEN* import { allData } from '../utils/fakeData';*/
@@ -2632,13 +2632,13 @@ data-fa-i2svg=""
 /**RAVEN* import { useParams, useHistory } from "react-router-dom";*/
 /**RAVEN* import $ from "jquery";*/
 
-/**RAVEN* import {*/
+/**RAVEN* import {
   getDate,
   checkDate,
   getOneIBD,
   getTeamObjectiveDataIBD,
   putIBD,
-} from "../utils/queryData";
+} from "../utils/queryData";*/
 
 /**RAVEN* export default */function KRForm2(props) {
   // Extract URL parameters
@@ -2994,8 +2994,8 @@ data-fa-i2svg=""
 /**RAVEN* import { EditIcon, editIconString } from './Icons';*/
 /**RAVEN* import $ from 'jquery';*/
 
-/**RAVEN* import { getDate, checkDate, getOneIBD, getTeamUpdatesDataIBD, */
-    putIBD, deleteIBD } from '../utils/queryData';
+/**RAVEN* import { getDate, checkDate, getOneIBD, getTeamUpdatesDataIBD, 
+    putIBD, deleteIBD } from '../utils/queryData';*/
 
 // Simulated
 /**RAVEN* import { allData } from '../utils/fakeData';*/
@@ -3363,12 +3363,12 @@ function UpdatesTable(props) {
 /**RAVEN* import { useState, useEffect } from "react";*/
 /**RAVEN* import $ from "jquery";*/
 
-/**RAVEN* import {*/
+/**RAVEN* import {
   CaretIcon,
   EditIconText,
   AddIconText,
   AlertIconText,
-} from "./Icons";
+} from "./Icons";*/
 /**RAVEN* import ProgressBar from "./ProgressBar";*/
 /**RAVEN* import { useHistory } from "react-router-dom";*/
 
@@ -3823,12 +3823,12 @@ function ObjectiveCard(props) {
 /**RAVEN* import { prepareTeamData, sortStringArray } from "../utils/processData";*/
 
 // Simulated
-/**RAVEN* import {*/
+/**RAVEN* import {
   getTeamObjectiveDataIBD,
   getTeamKeyResultDataIBD,
   getAllIDB,
   getDate,
-} from "../utils/queryData";
+} from "../utils/queryData";*/
 
 function TeamProgress(props) {
   const entity =

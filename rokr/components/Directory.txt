@@ -1,5 +1,13 @@
-// COMPONENT: DIRECTORY
-function DirectoryPage() {
+//**RAVEN**filename={Directory.js}
+/**RAVEN* import { useState, useEffect } from 'react';*/
+/**RAVEN* import $ from 'jquery';*/
+
+
+// Simulated
+/**RAVEN* import { getAllIDB, getTeamKeyResultDataIBD } from '../utils/queryData';*/
+/**RAVEN* import { allData } from '../utils/fakeData';*/
+
+/**RAVEN* export default */function DirectoryPage() {
 
     // Initialise state for Key Results
     const [krData, setKrData] = useState([]);
@@ -19,7 +27,6 @@ function DirectoryPage() {
                 return {
                     title: kr.krTitle,
                     description: kr.krDescription,
-                    // owner: kr.owner,
                     team: kr.parentObjectiveTeam,
                     due: kr.krEndDate,
                     progress: (100 * Number(kr.currentValue) / Number(kr.maxValue)).toFixed(0) + '%'

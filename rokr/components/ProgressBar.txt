@@ -1,5 +1,5 @@
-// COMPONENT: ProgressBar
-function ProgressBar(props) {
+//**RAVEN**filename={ProgressBar.js}
+/**RAVEN* export default */function ProgressBar(props) {
     const progressNow = Math.round(100 * Number(props.progress));
     const progressNowString = String(progressNow ? progressNow: 0) + '%';
 

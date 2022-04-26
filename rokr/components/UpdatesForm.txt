@@ -1,4 +1,15 @@
-// COMPONENT: UpdatesForm
+//**RAVEN**filename={UpdatesForm.js}
+/**RAVEN* import { useState, useEffect } from 'react';*/
+/**RAVEN* import { useParams, useHistory } from "react-router-dom";*/
+/**RAVEN* import { EditIcon, editIconString } from './Icons';*/
+/**RAVEN* import $ from 'jquery';*/
+
+/**RAVEN* import { getDate, checkDate, getOneIBD, getTeamUpdatesDataIBD, 
+    putIBD, deleteIBD } from '../utils/queryData';*/
+
+// Simulated
+/**RAVEN* import { allData } from '../utils/fakeData';*/
+
 function UpdatesTable(props) {
 
     // Initialise state for no. of entries
@@ -37,8 +48,6 @@ function UpdatesTable(props) {
         </tr>
         );
     });
-
-    
 
     useEffect(function() {
         $(function() {
@@ -83,7 +92,7 @@ function UpdatesTable(props) {
     );
 }
 
-function UpdatesForm(props){
+/**RAVEN* export default */function UpdatesForm(props){
 
     // Extract key result ID from URL parameter
     const params = useParams();
@@ -273,6 +282,7 @@ function UpdatesForm(props){
 
     function confirmDelete() {
         if (window.confirm('Hit OK to confirm deletion of update. This cannot be undone.')) {
+            // var reqDigest = getXRequestDigestValue();
             deleteIBD('UpdatesStore', formData.updateId, () => {
                 getTeamUpdatesDataIBD(Number(params.id), sortAndSetUpdates);
             });
@@ -281,7 +291,7 @@ function UpdatesForm(props){
             //     updateListItemEntityTypeFullName, () => {
             //         getUpdateData(updateListId, Number(params.id), sortAndSetUpdates);
             //     }
-            // )
+            // );
             $('#editUpdateModal').modal('hide');
         };
     }

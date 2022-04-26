@@ -1,5 +1,5 @@
-// COMPONENT: Brand
-function Brand(){
+//**RAVEN**filename={Brand.js}
+/**RAVEN* export */function Brand(){
     return (
         <div>
             <span className='brand--normal'>
@@ -10,7 +10,7 @@ function Brand(){
     )
 }
 
-function NavBarBrand(){
+/**RAVEN* export */function NavBarBrand(){
     return (
         <div>
             <span className='brand--navbar'>

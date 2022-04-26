@@ -1,5 +1,8 @@
-// COMPONENT: Navbar
-function Navbar(props) {
+//**RAVEN**filename={Navbar.js}
+/**RAVEN* import { NavLink } from 'react-router-dom';*/
+/**RAVEN* import { NavBarBrand } from './Brand';*/
+
+/**RAVEN* export default */function Navbar(props) {
     var linkElements = props.teams.map(function(item) {
         return (
             <li key={'nav-' + item.slug} className="nav-item">
@@ -22,6 +25,9 @@ function Navbar(props) {
                         {linkElements}
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/directory">Directory</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/timeline">Timeline</NavLink>
                         </li>
                     </ul>
                 </div>

@@ -1,5 +1,9 @@
-// COMPONENT: Intro
-function Intro(props) {
+//**RAVEN**filename={Intro.js}
+/**RAVEN* import { useEffect } from "react";*/
+/**RAVEN* import { Brand } from "./Brand";*/
+/**RAVEN* import $ from "jquery";*/
+
+/**RAVEN* export default */function Intro(props) {
   useEffect(function () {
     if (props.loading) {
       const intro = $(".intro");
@@ -42,4 +46,3 @@ function Intro(props) {
     </div>
   );
 }
-

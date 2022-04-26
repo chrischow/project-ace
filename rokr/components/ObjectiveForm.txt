@@ -1,5 +1,10 @@
-// COMPONENT: ObjectiveForm
-function ObjectiveForm(props) {
+//**RAVEN**filename={ObjectiveForm.js}
+/**RAVEN* import { useParams, useHistory, useLocation } from "react-router-dom";*/
+/**RAVEN* import { useState, useEffect } from 'react';*/
+/**RAVEN* import $ from 'jquery';*/
+/**RAVEN* import { getDate, checkDate, getOneIBD, putIBD } from '../utils/queryData';*/
+
+/**RAVEN* export default */function ObjectiveForm(props) {
     // Extract URL parameters
     const params = useParams();
     const urlParams = new URLSearchParams(useLocation().search);
@@ -34,6 +39,7 @@ function ObjectiveForm(props) {
                 objectiveDescription: "",
                 objectiveStartDate: getDate(new Date()),
                 objectiveEndDate: getDate(new Date()),
+                owner: '',
                 frequency: urlParams.get('frequency'),
                 team: urlParams.get('team')
             });
@@ -127,6 +133,7 @@ function ObjectiveForm(props) {
         // Form ok
         if (inputTitle && inputStartDate && validStartDate && inputEndDate && validEndDate) {
             var {objectiveId, ...newData} = formData;
+            // var reqDigest = getXRequestDigestValue();
             if (props.mode === 'edit') {
                 putIBD('ObjectivesStore', formData, () => history.push('/' + team.slug) );
                 // updateObjective(

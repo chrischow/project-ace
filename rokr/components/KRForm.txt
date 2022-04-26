@@ -1,5 +1,15 @@
-// COMPONENT: KRForm
-function KRForm(props) {
+//**RAVEN**filename={KRForm.js}
+/**RAVEN* import { useState, useEffect } from 'react';*/
+/**RAVEN* import { useParams, useHistory, useLocation } from "react-router-dom";*/
+/**RAVEN* import $ from 'jquery';*/
+
+/**RAVEN* import { getDate, checkDate, getOneIBD, getTeamObjectiveDataIBD,
+    putIBD } from '../utils/queryData';*/
+
+// Simulated
+/**RAVEN* import { allData } from '../utils/fakeData';*/
+
+/**RAVEN* export default */function KRForm(props) {
     // Extract URL parameters
     const params = useParams();
     const urlParams = new URLSearchParams(useLocation().search);

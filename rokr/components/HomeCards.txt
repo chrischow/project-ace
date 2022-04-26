@@ -1,4 +1,9 @@
-// COMPONENT: HomeCards and Card
+//**RAVEN**filename={HomeCards.js}
+// HomeCards
+// Team progress cards
+/**RAVEN* import ProgressCard from './ProgressCard';*/
+/**RAVEN* import { useHistory } from 'react-router-dom';*/
+
 function Card(props) {
     const history = useHistory();
     function goToTeamPage() {
@@ -16,7 +21,7 @@ function Card(props) {
 }
 
 // HomeCards
-function HomeCards(props) {
+/**RAVEN* export default */function HomeCards(props) {
     var cards = props.teams.map(function(team) {
         return (
             <Card

@@ -1,5 +1,19 @@
-// COMPONENT: Home
-function Home(props) {
+//**RAVEN**filename={Home.js}
+/**RAVEN* import { useState, useEffect } from 'react';*/
+
+/**RAVEN* import { Brand } from './Brand';*/
+/**RAVEN* import Intro from './Intro';*/
+/**RAVEN* import ProgressCard from './ProgressCard';*/
+/**RAVEN* import HomeCards from './HomeCards';*/
+/**RAVEN* import updateCircleProgress from '../utils/updateCircleProgress';*/
+/**RAVEN* import { computeAnnualMetrics, computeTeamsAnnualMetrics } from '../utils/processData';*/
+
+// Simulated
+/**RAVEN* import { allData } from '../utils/fakeData';*/
+/**RAVEN* import { getAllIDB, getTeamObjectiveDataIBD } from '../utils/queryData';*/
+
+// Home component - to be broken down further
+/**RAVEN* export default */function Home(props) {
     // Initialise states for raw data and computed metrics
     const [data, setData] = useState({});
     const [metrics, setMetrics] = useState({});
@@ -16,9 +30,11 @@ function Home(props) {
     
     // Run once - to trigger query
     useEffect(function() {
-        // Query data - simulated
+        // Query data - SWAP FUNCTION HERE
         getAllIDB('ObjectivesStore', updateObjectives);
         getAllIDB('KeyResultsStore', updateKeyResults);
+        // getObjectiveDataIBD(objListId, 'all', updateObjectives);
+        // getKRDataIBD(krListId, 'all', updateKeyResults);
     }, [])
 
     // Computes progress card metrics every time there is a change to the raw data state
@@ -29,8 +45,7 @@ function Home(props) {
                     ...prevData,
                     overallProgressData: computeAnnualMetrics(data.allObjectives, data.allKeyResults),
                     allTeamsProgressData: computeTeamsAnnualMetrics(props.teams, data.allObjectives, data.allKeyResults)
-                };
-            });
+                };});
         }
     }, [data, props.teams])
 
