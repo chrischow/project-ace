@@ -17,11 +17,19 @@ From [Pluralsight](https://www.pluralsight.com/guides/using-react-router-with-cd
 
 ## Build Stages
 
+### Quick Start
+
+```bash
+cd project-ace
+bash package.sh
+cp rokr-dev/build/txt/* rokr/components/
+```
+
 ### Stage 1: ROKR-Dev to ROKR
 Use `npm run package` to run the PS script to do the below conversion. Steps done:
 - [x] .js files in component and utils are parsed to comment out import lines and export lines with `//**RAVEN* ... */`
 - [x] first line added `//**RAVEN**filename={...}` for subsequent joining into AllComponent.txt
-- [ ] Combine into one AllComponent.txt. Need to figure out how to determine order.
+- [x] Combine into one AllComponent.txt. Need to figure out how to determine order.
 
 ~~Copy contents of the following:~~ 
 1. Styles: `index.css`

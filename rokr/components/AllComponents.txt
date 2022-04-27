@@ -483,10 +483,11 @@ function setupDB(allData) {
   const tempObj = objectives.filter((item) => {
     const date = offsetDate(item.objectiveEndDate);
     const year = getYear(date);
+    const workyear = getWorkYear(date);
     const currentSubGroup = frequency === 'annual'
-      ? year
+      ? workyear
       : frequency === 'quarterly'
-        ? getQuarter(date, year)
+        ? getQuarter(date, workyear)
         : getMonth(date, year);
     
     var condition = true;
@@ -590,8 +591,12 @@ function setupDB(allData) {
 
 // Get year
 /**RAVEN* export */function getYear(cleanDate) {
+  return cleanDate.getFullYear();
+}
+
+/**RAVEN* export */function getWorkYear(cleanDate) {
   const year = cleanDate.getFullYear();
-  return cleanDate.getMonth() + 1 <= 3 ? year - 1 : year;
+  return 'WY ' + (cleanDate.getMonth() + 1 <= 3 ? year - 1 : year);
 }
 
 // Get quarter
@@ -611,16 +616,17 @@ function setupDB(allData) {
     monthly: [],
   };
 
-  var date, year, quarter, month;
+  var date, year, workyear, quarter, month;
   objectives.forEach((item) => {
     date = offsetDate(item.objectiveEndDate);
     year = getYear(date);
-    quarter = getQuarter(date, year);
+    workyear = getWorkYear(date);
+    quarter = getQuarter(date, workyear);
     month = getMonth(date, year);
 
     if (item.frequency === "annual") {
-      if (!output.annual.includes(year)) {
-        output.annual.push(year);
+      if (!output.annual.includes(workyear)) {
+        output.annual.push(workyear);
       }
     } else if (item.frequency === "quarterly") {
       if (!output.quarterly.includes(quarter)) {
@@ -4026,6 +4032,7 @@ function ObjectiveCard(props) {
   getYear,
   getQuarter,
   getMonth,
+  getWorkYear,
 } from "../utils/processData";*/
 
 /**RAVEN* export */function FrequencyTabs(props) {
@@ -4090,10 +4097,11 @@ function ObjectiveCard(props) {
     // Compute default option
     const today = offsetDate(new Date());
     const year = getYear(today);
+    const workyear = getWorkYear(today);
     const initCurrentSubGroup = props.currentGroup === "annual"
-      ? year
+      ? workyear
       : props.currentGroup === "quarterly"
-      ? getQuarter(today, year)
+      ? getQuarter(today, workyear)
       : getMonth(today, year);
     setFormData(initCurrentSubGroup);
     props.setCurrentSubGroup(initCurrentSubGroup);
