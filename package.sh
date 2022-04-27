@@ -23,3 +23,6 @@ do
     #sed "$pattern" "${file}" >> "${dest}/${baseFile}.txt"
     awk -f package.awk "${file}" >> "${dest}/${baseFile}.txt"
 done
+
+cd "$dest"
+cat fakeData.txt processData.txt queryData.txt Brand.txt Intro.txt Navbar.txt ProgressCard.txt HomeCards.txt ProgressBar.txt Home.txt Icons.txt Modal.txt ObjectiveForm.txt ObjectiveForm2.txt KRForm.txt KRForm2.txt KRModal.txt UpdatesForm.txt OKRCollapse.txt Tabs.txt TeamOKRs.txt Team.txt Timeline.txt Directory.txt > AllComponents.txt
