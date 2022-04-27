@@ -276,7 +276,7 @@ function setupDB(allData) {
 }
 
 
-/*module.exports = {
+/**RAVEN* module.exports = {
     fakeDataTeams,
     allData,
     setupDB
@@ -285,219 +285,362 @@ function setupDB(allData) {
 //**RAVEN**filename={processData.js}
 // Compute KR completion
 /**RAVEN* export */function computeKrCompletion(data) {
-    
-    var krCompleted = data.map(function(entry) {
-        var pct = entry.currentValue / entry.maxValue;
-        return pct === 1.0 ? 1 : 0;
-    }).reduce((prev, next) => prev + next, 0);
-    
-    return {
-        completed: krCompleted,
-        total: data.length
-    };
+  var krCompleted = data
+    .map(function (entry) {
+      var pct = entry.currentValue / entry.maxValue;
+      return pct === 1.0 ? 1 : 0;
+    })
+    .reduce((prev, next) => prev + next, 0);
+
+  return {
+    completed: krCompleted,
+    total: data.length,
+  };
 }
 
 // Compute KR percentages
-/**RAVEN* export */function computeKrPercentage(data){
-    var count = 0;
-    var total = 0.0;
-    for (var i=0; i < data.length; i++){
-        total += data[i].currentValue / data[i].maxValue;
-        count += 1
-    }
-    return total/count;
+/**RAVEN* export */function computeKrPercentage(data) {
+  var count = 0;
+  var total = 0.0;
+  for (var i = 0; i < data.length; i++) {
+    total += data[i].currentValue / data[i].maxValue;
+    count += 1;
+  }
+  return total / count;
 }
 
 // Compute Objective completion
 /**RAVEN* export */function computeObjCompletion(objectives, keyResults) {
-    
-    var total = objectives.length;
-    var completed = 0;
-    var filteredKRs;
-    var completedKRs;
-    var numKRs;
-    var pctCompletion;
-    var avgCompletion = 0;
-    for (var i=0; i<objectives.length; i++) {
-        
-        // Filter KRs for each objective
-        filteredKRs = keyResults.filter(function(kr) {
-            return kr.parentObjectiveId === objectives[i].objectiveId;
-        });
-        numKRs = filteredKRs.length;
+  var total = objectives.length;
+  var completed = 0;
+  var filteredKRs;
+  var completedKRs;
+  var numKRs;
+  var pctCompletion;
+  var avgCompletion = 0;
+  for (var i = 0; i < objectives.length; i++) {
+    // Filter KRs for each objective
+    filteredKRs = keyResults.filter(function (kr) {
+      return kr.parentObjectiveId === objectives[i].objectiveId;
+    });
+    numKRs = filteredKRs.length;
 
-        // Compute average completion
-        pctCompletion = filteredKRs.map(function(kr) {
-            return kr.currentValue / kr.maxValue;
-        })
-        avgCompletion += pctCompletion.reduce(function(a, b) { return a + b }, 0) / numKRs;
-        completedKRs = filteredKRs.filter(function(kr) {
-            return kr.currentValue === kr.maxValue;
-        });
+    // Compute average completion
+    pctCompletion = filteredKRs.map(function (kr) {
+      return kr.currentValue / kr.maxValue;
+    });
+    avgCompletion +=
+      pctCompletion.reduce(function (a, b) {
+        return a + b;
+      }, 0) / numKRs;
+    completedKRs = filteredKRs.filter(function (kr) {
+      return kr.currentValue === kr.maxValue;
+    });
 
-        if (numKRs === completedKRs.length) {
-            if (numKRs > 0) {
-                completed ++;
-            }
-        }
+    if (numKRs === completedKRs.length) {
+      if (numKRs > 0) {
+        completed++;
+      }
     }
+  }
 
-    avgCompletion /= total;
+  avgCompletion /= total;
 
-    return { completed, total, avgCompletion };
+  return { completed, total, avgCompletion };
 }
 
+// Compute overall metrics for a given frequency
+/**RAVEN* export */function computeMetrics(objectives, keyResults, frequency) {
+  const tempObjectives = objectives.filter(function (obj) {
+    return obj.frequency === frequency;
+  });
 
-// Compute overall annual metrics
-/**RAVEN* export */function computeAnnualMetrics(objectives, keyResults) {
-
-    const annualObjectives = objectives.filter(function(obj) {
-        return obj.frequency === 'annual';
+  const tempKRs = keyResults.filter(function (kr) {
+    const objs = tempObjectives.filter(function (obj) {
+      return obj.objectiveId === kr.parentObjectiveId;
     });
-    
-    const annualKRs = keyResults.filter(function(kr) {
-        const objs = annualObjectives.filter(function(obj) {
-            return obj.objectiveId === kr.parentObjectiveId;
-        });
-        return objs.length > 0;
+    return objs.length > 0;
+  });
+
+  const tempObjCompletion = computeObjCompletion(tempObjectives, tempKRs);
+  const output = {
+    avgCompletion: tempObjCompletion.avgCompletion
+      ? tempObjCompletion.avgCompletion
+      : 0,
+    keyResultCompletion: computeKrCompletion(tempKRs),
+    objectiveCompletion: {
+      completed: tempObjCompletion.completed,
+      total: tempObjCompletion.total,
+    },
+  };
+
+  return output;
+}
+
+// Compute overall metrics for a given set of teams, at a given frequency
+/**RAVEN* export */function computeTeamsMetrics(teams, objectives, keyResults, frequency) {
+  var output = {};
+  var tempObj, tempKR;
+  for (var i = 0; i < teams.length; i++) {
+    // Filter objectives
+    tempObj = objectives.filter(function (entry) {
+      return entry.team === teams[i].teamName;
+    });
+    // Filter KRs
+    tempKR = keyResults.filter(function (entry) {
+      return entry.parentObjectiveTeam === teams[i].teamName;
     });
 
-    const tempObjCompletion = computeObjCompletion(annualObjectives, annualKRs);
-    const output = {
-        avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
-        keyResultCompletion: computeKrCompletion(annualKRs),
-        objectiveCompletion: {
-            completed: tempObjCompletion.completed,
-            total: tempObjCompletion.total,
-        }
+    output[teams[i].teamName] = computeMetrics(tempObj, tempKR, frequency);
+  }
+  return output;
+}
+
+// Prepare team data in nested format
+/**RAVEN* export */function prepareTeamData(objectives, keyResults) {
+  var output = {};
+  var freqs = ["annual", "quarterly", "monthly"];
+  var tempObj;
+  var parentObj;
+  var tempKR;
+  var tempObjCompletion;
+  var staffList;
+  for (var f = 0; f < freqs.length; f++) {
+    tempObj = objectives.filter(function (entry) {
+      return entry.frequency === freqs[f];
+    });
+
+    tempKR = keyResults.filter(function (entry) {
+      parentObj = objectives.filter(
+        (obj) => obj.objectiveId === entry.parentObjectiveId
+      )[0];
+      return parentObj.frequency === freqs[f];
+    });
+
+    tempObjCompletion = computeObjCompletion(tempObj, tempKR);
+
+    output[freqs[f]] = {
+      avgCompletion: tempObjCompletion.avgCompletion
+        ? tempObjCompletion.avgCompletion
+        : 0,
+      keyResultCompletion: computeKrCompletion(tempKR),
+      objectiveCompletion: {
+        completed: tempObjCompletion.completed,
+        total: tempObjCompletion.total,
+      },
+      objectives: tempObj,
+      keyResults: tempKR,
     };
 
-    return output;
+    if (freqs[f] === "monthly") {
+      staffList = tempObj.map(function (item) {
+        return item.owner;
+      });
+      staffList = [...new Set(staffList)];
+
+      staffList = staffList.filter(function (item) {
+        return item !== null;
+      });
+    }
+  }
+
+  // For each staff, also calculate obj completion and kr completion
+  var staff;
+  for (var i = 0; i < staffList.length; i++) {
+    staff = staffList[i];
+    tempObj = objectives.filter(function (entry) {
+      return entry.owner === staff;
+    });
+
+    tempKR = keyResults.filter(function (entry) {
+      parentObj = objectives.filter(
+        (obj) => obj.objectiveId === entry.parentObjectiveId
+      )[0];
+      return parentObj.owner === staff;
+    });
+
+    tempObjCompletion = computeObjCompletion(tempObj, tempKR);
+
+    output[staff] = {
+      avgCompletion: tempObjCompletion.avgCompletion
+        ? tempObjCompletion.avgCompletion
+        : 0,
+      keyResultCompletion: computeKrCompletion(tempKR),
+      objectiveCompletion: {
+        completed: tempObjCompletion.completed,
+        total: tempObjCompletion.total,
+      },
+      objectives: tempObj,
+      keyResults: tempKR,
+    };
+  }
+
+  return output;
 }
 
-
-// Prepare data for teams
-/**RAVEN* export */function computeTeamsAnnualMetrics(teams, objectives, keyResults) {
-    var output = {};
-    var tempObj;
-    var parentObj;
-    var tempKR;
-    var tempObjCompletion;
-    for (var t=0; t < teams.length; t++) {
-        output[teams[t].teamName] = {};
-        tempObj = objectives.filter(function(entry) {
-            return (entry.team === teams[t].teamName) && (entry.frequency === 'annual');
-        })
-        tempKR = keyResults.filter(function(entry) {
-            parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
-            return (entry.parentObjectiveTeam === teams[t].teamName) && (
-                parentObj.frequency === 'annual'
-            );
-        })
-        tempObjCompletion = computeObjCompletion(tempObj, tempKR);
-        output[teams[t].teamName] = {
-            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
-            keyResultCompletion: computeKrCompletion(tempKR),
-            objectiveCompletion: {
-                completed: tempObjCompletion.completed,
-                total: tempObjCompletion.total,
-            }
-        };
+// Prepare display data
+/**RAVEN* export */function prepareTeamPageData(objectives, keyResults, frequency, staff, subGroup) {
+  const tempObj = objectives.filter((item) => {
+    const date = offsetDate(item.objectiveEndDate);
+    const year = getYear(date);
+    const currentSubGroup = frequency === 'annual'
+      ? year
+      : frequency === 'quarterly'
+        ? getQuarter(date, year)
+        : getMonth(date, year);
+    
+    var condition = true;
+    condition = condition && item.frequency === frequency;
+    if (frequency === 'monthly' && staff) {
+      condition = condition && item.owner === staff;
     }
-    return output;
+    condition = condition && currentSubGroup === subGroup;
+    
+    return condition;
+  });
+
+  const tempKR = keyResults.filter((kr) => {
+    const objs = tempObj.filter(function (obj) {
+      return obj.objectiveId === kr.parentObjectiveId;
+    });
+    return objs.length > 0;
+  });
+
+  const tempObjCompletion = computeObjCompletion(tempObj, tempKR);
+  const output = {
+    avgCompletion: tempObjCompletion.avgCompletion
+      ? tempObjCompletion.avgCompletion
+      : 0,
+    keyResultCompletion: computeKrCompletion(tempKR),
+    objectiveCompletion: {
+      completed: tempObjCompletion.completed,
+      total: tempObjCompletion.total,
+    },
+    objectives: tempObj,
+    keyResults: tempKR,
+  };
+
+  return output;
 }
 
-/**RAVEN* export */function prepareTeamData(objectives, keyResults) {
-    var output = {};
-    var freqs = ['annual', 'quarterly', 'monthly'];
-    var tempObj;
-    var parentObj;
-    var tempKR;
-    var tempObjCompletion;
-    var staffList;
-    for (var f=0; f < freqs.length; f++) {
-        tempObj = objectives.filter(function(entry) {
-            return entry.frequency === freqs[f];
-        })
-
-        tempKR = keyResults.filter(function(entry) {
-            parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
-            return parentObj.frequency === freqs[f];
-        })
-        
-        tempObjCompletion = computeObjCompletion(tempObj, tempKR);
-
-        output[freqs[f]] = {
-            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
-            keyResultCompletion: computeKrCompletion(tempKR),
-            objectiveCompletion: {
-                completed: tempObjCompletion.completed,
-                total: tempObjCompletion.total,
-            },
-            objectives: tempObj,
-            keyResults: tempKR
-        };
-        
-        if (freqs[f] === 'monthly') {
-            staffList = tempObj.map(function(item) {
-                return item.owner;
-            });
-            staffList = [... new Set(staffList)];
-
-            staffList = staffList.filter(function(item) {
-                return item !== null;
-            });
-        }
-    }
-
-    // For each staff, also calculate obj completion and kr completion
-    var staff;
-    for (var i=0; i < staffList.length; i++) {
-        staff = staffList[i];
-        tempObj = objectives.filter(function(entry) {
-            return entry.owner === staff;
-        })
-
-        tempKR = keyResults.filter(function(entry) {
-            parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
-            return parentObj.owner === staff;
-        })
-
-        tempObjCompletion = computeObjCompletion(tempObj, tempKR);
-
-        output[staff] = {
-            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
-            keyResultCompletion: computeKrCompletion(tempKR),
-            objectiveCompletion: {
-                completed: tempObjCompletion.completed,
-                total: tempObjCompletion.total,
-            },
-            objectives: tempObj,
-            keyResults: tempKR
-        };
-    }
-
-    return output;
-}
-
+// Format date in `%d %b %y` format
 /**RAVEN* export */function formatDate(dateStr) {
-    if (dateStr) {
-        var date = new Date(dateStr);
-        var y = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
-        var m = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
-        var d = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
-        return d + ' ' + m + ' ' + y;
-    }
+  if (dateStr) {
+    var date = new Date(dateStr);
+    var y = new Intl.DateTimeFormat("en", { year: "numeric" }).format(date);
+    var m = new Intl.DateTimeFormat("en", { month: "short" }).format(date);
+    var d = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(date);
+    return d + " " + m + " " + y;
+  }
 }
 
+// Sort strings in alphabetical order
 /**RAVEN* export */function sortStringArray(a, b) {
-    if (a > b) {
-        return 1;
-    } else if (a < b) {
-        return -1;
+  if (a > b) {
+    return 1;
+  } else if (a < b) {
+    return -1;
+  }
+  return 0;
+}
+
+// Sort Objectives by frequency, then by title
+/**RAVEN* export */function sortObjectivesFreqTitle(a, b) {
+  const aFreq =
+    a.frequency === "annual" ? 3 : a.frequency === "quarterly" ? 2 : 1;
+
+  const bFreq =
+    b.frequency === "annual" ? 3 : b.frequency === "quarterly" ? 2 : 1;
+
+  return aFreq > bFreq
+    ? -1
+    : aFreq < bFreq
+    ? 1
+    : a.objectiveTitle > b.objectiveTitle
+    ? 1
+    : a.objectiveTitle < b.objectiveTitle
+    ? -1
+    : 0;
+}
+
+// Get staff
+/**RAVEN* export */function getStaffFromObjectives(objectives) {
+  var staffList = objectives.map(function (item) {
+    if (item.frequency === "monthly") {
+      return item.owner;
     }
-    return 0;
-}//**RAVEN**filename={queryData.js}
+  });
+  staffList = [...new Set(staffList)];
+
+  staffList = staffList.filter(function (item) {
+    return item != null;
+  });
+
+  staffList.sort(sortStringArray);
+  return staffList;
+}
+
+// Date functions
+/**RAVEN* export */function offsetDate(date) {
+  const rawDate = new Date(date);
+  const z = rawDate.getTimezoneOffset() * 60 * 1000;
+  const localDate = new Date(rawDate - z);
+  return localDate;
+}
+
+// Get year
+/**RAVEN* export */function getYear(cleanDate) {
+  const year = cleanDate.getFullYear();
+  return cleanDate.getMonth() + 1 <= 3 ? year - 1 : year;
+}
+
+// Get quarter
+/**RAVEN* export */function getQuarter(cleanDate, year) {
+  return year + ' Q' + (Math.floor(cleanDate.getMonth() / 3));
+}
+
+/**RAVEN* export */function getMonth(cleanDate, year) {
+  return year + '-' + String(cleanDate.getMonth() + 1).padStart(2, '0');
+}
+
+// Get entries for annual, quarterly, and monthly
+/**RAVEN* export */function getSubGroupsFromObjectives(objectives) {
+  var output = {
+    annual: [],
+    quarterly: [],
+    monthly: [],
+  };
+
+  var date, year, quarter, month;
+  objectives.forEach((item) => {
+    date = offsetDate(item.objectiveEndDate);
+    year = getYear(date);
+    quarter = getQuarter(date, year);
+    month = getMonth(date, year);
+
+    if (item.frequency === "annual") {
+      if (!output.annual.includes(year)) {
+        output.annual.push(year);
+      }
+    } else if (item.frequency === "quarterly") {
+      if (!output.quarterly.includes(quarter)) {
+        output.quarterly.push(quarter);
+      }
+    } else {
+      if (!output.monthly.includes(month)) {
+        output.monthly.push(month);
+      }
+    }
+  });
+
+  // Sort
+  output.annual.sort().reverse();
+  output.quarterly.sort().reverse();
+  output.monthly.sort().reverse();
+
+  return output;
+}
+//**RAVEN**filename={queryData.js}
 // UTILS FOR QUERYING DATA
 /**RAVEN* import $ from 'jquery';*/
 
@@ -1353,94 +1496,141 @@ function Card(props) {
 };
 
 //**RAVEN**filename={Home.js}
-/**RAVEN* import { useState, useEffect } from 'react';*/
+/**RAVEN* import { useState, useEffect } from "react";*/
 
-/**RAVEN* import { Brand } from './Brand';*/
-/**RAVEN* import Intro from './Intro';*/
-/**RAVEN* import ProgressCard from './ProgressCard';*/
-/**RAVEN* import HomeCards from './HomeCards';*/
-/**RAVEN* import updateCircleProgress from '../utils/updateCircleProgress';*/
-/**RAVEN* import { computeAnnualMetrics, computeTeamsAnnualMetrics } from '../utils/processData';*/
+/**RAVEN* import { Brand } from "./Brand";*/
+/**RAVEN* import Intro from "./Intro";*/
+/**RAVEN* import ProgressCard from "./ProgressCard";*/
+/**RAVEN* import HomeCards from "./HomeCards";*/
+/**RAVEN* import updateCircleProgress from "../utils/updateCircleProgress";*/
+/**RAVEN* import {
+  computeMetrics,
+  computeTeamsMetrics
+} from "../utils/processData";*/
 
 // Simulated
-/**RAVEN* import { allData } from '../utils/fakeData';*/
-/**RAVEN* import { getAllIDB, getTeamObjectiveDataIBD } from '../utils/queryData';*/
+/**RAVEN* import { getAllIDB, getTeamObjectiveDataIBD } from "../utils/queryData";*/
 
 // Home component - to be broken down further
 /**RAVEN* export default */function Home(props) {
-    // Initialise states for raw data and computed metrics
-    const [data, setData] = useState({});
-    const [metrics, setMetrics] = useState({});
+  // Initialise states for raw data and computed metrics
+  const [data, setData] = useState({});
+  const [metrics, setMetrics] = useState({});
 
-    // Callback functions to update respective items in raw data state
-    // To be passed to async query to database
-    function updateObjectives(data) {
-        setData(prevData => {return {...prevData, allObjectives: data}});
+  // Callback functions to update respective items in raw data state
+  // To be passed to async query to database
+  function updateObjectives(data) {
+    setData((prevData) => {
+      return { ...prevData, allObjectives: data };
+    });
+  }
+
+  function updateKeyResults(data) {
+    setData((prevData) => {
+      return { ...prevData, allKeyResults: data };
+    });
+  }
+
+  // Run once - to trigger query
+  useEffect(function () {
+    // Query data - SWAP FUNCTION HERE
+    getAllIDB("ObjectivesStore", updateObjectives);
+    getAllIDB("KeyResultsStore", updateKeyResults);
+    // getObjectiveDataIBD(objListId, 'all', updateObjectives);
+    // getKRDataIBD(krListId, 'all', updateKeyResults);
+  }, []);
+
+  // Computes progress card metrics every time there is a change to the raw data state
+  useEffect(() => {
+    if (data.allObjectives && data.allKeyResults) {
+      setMetrics((prevData) => {
+        return {
+          ...prevData,
+          overallProgressData: computeMetrics(
+            data.allObjectives,
+            data.allKeyResults,
+            "annual"
+          ),
+          allTeamsProgressData: computeTeamsMetrics(
+            props.teams,
+            data.allObjectives,
+            data.allKeyResults,
+            "annual"
+          ),
+        };
+      });
     }
+  }, [data, props.teams]);
 
-    function updateKeyResults(data) {
-        setData(prevData => {return {...prevData, allKeyResults: data}});
-    }
-    
-    // Run once - to trigger query
-    useEffect(function() {
-        // Query data - SWAP FUNCTION HERE
-        getAllIDB('ObjectivesStore', updateObjectives);
-        getAllIDB('KeyResultsStore', updateKeyResults);
-        // getObjectiveDataIBD(objListId, 'all', updateObjectives);
-        // getKRDataIBD(krListId, 'all', updateKeyResults);
-    }, [])
+  // Renders progress cards every time there is a change to the metrics
+  useEffect(
+    function () {
+      if (metrics.overallProgressData) {
+        updateCircleProgress(
+          "overall_progress",
+          metrics.overallProgressData.avgCompletion,
+          200,
+          "50px",
+          "#000718"
+        );
+      }
 
-    // Computes progress card metrics every time there is a change to the raw data state
-    useEffect(function() {
-        if (data.allObjectives && data.allKeyResults) {
-            setMetrics(prevData => {
-                return {
-                    ...prevData,
-                    overallProgressData: computeAnnualMetrics(data.allObjectives, data.allKeyResults),
-                    allTeamsProgressData: computeTeamsAnnualMetrics(props.teams, data.allObjectives, data.allKeyResults)
-                };});
+      // Load teams
+      var teamName;
+      var slug;
+      if (metrics.allTeamsProgressData) {
+        for (var i = 0; i < props.teams.length; i++) {
+          teamName = props.teams[i].teamName;
+          slug = props.teams[i].slug;
+          updateCircleProgress(
+            slug,
+            metrics.allTeamsProgressData[teamName].avgCompletion,
+            160,
+            "35px",
+            "#010D1E"
+          );
         }
-    }, [data, props.teams])
+      }
+    },
+    [metrics, props.teams]
+  );
 
-    // Renders progress cards every time there is a change to the metrics
-    useEffect(function() {
-        if (metrics.overallProgressData) {
-            updateCircleProgress('overall_progress', metrics.overallProgressData.avgCompletion, 200, '50px', '#000718');
-        }
-
-        // Load teams
-        var teamName;
-        var slug;
-        if (metrics.allTeamsProgressData) {
-            for (var i=0; i < props.teams.length; i++) {
-                teamName = props.teams[i].teamName;
-                slug = props.teams[i].slug;
-                updateCircleProgress(slug, metrics.allTeamsProgressData[teamName].avgCompletion, 160, '35px', '#010D1E');
-            }
-        }
-    }, [metrics, props.teams]);
-
-    return (
-        <div>
-            {props.loading && <Intro loading={props.loading} />}
-            <h1><Brand /></h1>
-            <h2 className="mt-4">Overall Progress</h2>
-            {metrics.overallProgressData && <div className="overall-panel mt-4">
-                <ProgressCard progressId="overall_progress" data={metrics.overallProgressData} isTeam={false} />
-            </div>}
-            {!metrics.overallProgressData && <div className="overall-panel mt-4 text-center align-items-center">
-                <span className="no-data">No data to display.</span>
-            </div>}
-            <h2 className="mt-5">Teams</h2>
-            {metrics.allTeamsProgressData && <HomeCards teams={props.teams} allTeamsProgressData={metrics.allTeamsProgressData} />}
-            {!metrics.allTeamsProgressData && <div className="overall-panel mt-4 text-center align-items-center">
-                <span className="no-data">No data to display.</span>
-            </div>}
+  return (
+    <div>
+      {props.loading && <Intro loading={props.loading} />}
+      <h1>
+        <Brand />
+      </h1>
+      <h2 className="mt-4">Overall Progress</h2>
+      {metrics.overallProgressData && (
+        <div className="overall-panel mt-4">
+          <ProgressCard
+            progressId="overall_progress"
+            data={metrics.overallProgressData}
+            isTeam={false}
+          />
         </div>
-    );
+      )}
+      {!metrics.overallProgressData && (
+        <div className="overall-panel mt-4 text-center align-items-center">
+          <span className="no-data">No data to display.</span>
+        </div>
+      )}
+      <h2 className="mt-5">Teams</h2>
+      {metrics.allTeamsProgressData && (
+        <HomeCards
+          teams={props.teams}
+          allTeamsProgressData={metrics.allTeamsProgressData}
+        />
+      )}
+      {!metrics.allTeamsProgressData && (
+        <div className="overall-panel mt-4 text-center align-items-center">
+          <span className="no-data">No data to display.</span>
+        </div>
+      )}
+    </div>
+  );
 }
-
 //**RAVEN**filename={Icons.js}
 /**RAVEN* export */function InfoIcon() {
   return (
@@ -1518,7 +1708,7 @@ function Card(props) {
   );
 }
 
-/**RAVEN* export */const editIconString = `<svg
+/**RAVEN* export const editIconString = `<svg
 className="edit-icon"
 style="height:14px; width: 14px;"
 aria-hidden="false"
@@ -1548,7 +1738,7 @@ data-fa-i2svg=""
 </path>
 </svg>`;
 
-/**RAVEN* export */function EditIconText(props) {
+export */function EditIconText(props) {
   return (
     <svg
       aria-hidden="false"
@@ -1649,7 +1839,8 @@ data-fa-i2svg=""
       />
     </svg>
   );
-}//**RAVEN**filename={Modal.js}
+}
+//**RAVEN**filename={Modal.js}
 /**RAVEN* export default */function Modal(props) {
   return (
     <div
@@ -3822,16 +4013,24 @@ function ObjectiveCard(props) {
         setKrData={props.setKrData}
         {...props.objective}
       />
-      <div className="okr collapse" id={objId}>
+      <div className="okr collapse show" id={objId}>
         {keyResultRows}
       </div>
     </div>
   );
 }
 //**RAVEN**filename={Tabs.js}
+/**RAVEN* import { useState, useEffect } from "react";*/
+/**RAVEN* import {
+  offsetDate,
+  getYear,
+  getQuarter,
+  getMonth,
+} from "../utils/processData";*/
+
 /**RAVEN* export */function FrequencyTabs(props) {
   return (
-    <div className="mt-2">
+    <div>
       <ul className="nav nav-pills justify-content-center" role="tablist">
         <li className="nav-item">
           <a
@@ -3841,7 +4040,10 @@ function ObjectiveCard(props) {
             aria-selected="false"
             aria-controls="monthly"
             href="#team-monthly"
-            onClick={() => props.changeFrequency("monthly")}
+            onClick={() => {
+              // props.changeFrequency("monthly");
+              props.setCurrentGroup("monthly");
+            }}
           >
             Monthly
           </a>
@@ -3854,7 +4056,10 @@ function ObjectiveCard(props) {
             aria-selected="false"
             aria-controls="quarterly"
             href="#team-quarterly"
-            onClick={() => props.changeFrequency("quarterly")}
+            onClick={() => {
+              // props.changeFrequency("quarterly");
+              props.setCurrentGroup("quarterly");
+            }}
           >
             Quarterly
           </a>
@@ -3867,7 +4072,10 @@ function ObjectiveCard(props) {
             aria-selected="true"
             aria-controls="annual"
             href="#team-annual"
-            onClick={() => props.changeFrequency("annual")}
+            onClick={() => {
+              // props.changeFrequency("annual");
+              props.setCurrentGroup("annual");
+            }}
           >
             Annual
           </a>
@@ -3877,11 +4085,58 @@ function ObjectiveCard(props) {
   );
 }
 
+/**RAVEN* export */function SubGroupDropdown(props) {
+  // State for controlled form
+  const [formData, setFormData] = useState("");
+
+  useEffect(() => {
+    // Compute default option
+    const today = offsetDate(new Date());
+    const year = getYear(today);
+    const initCurrentSubGroup = props.currentGroup === "annual"
+      ? year
+      : props.currentGroup === "quarterly"
+      ? getQuarter(today, year)
+      : getMonth(today, year);
+    setFormData(initCurrentSubGroup);
+    props.setCurrentSubGroup(initCurrentSubGroup);
+  }, [props.currentGroup]);
+
+  // Handle change in dropdown
+  const handleChange = (event) => {
+    setFormData((prevData) => event.target.value);
+    props.setCurrentSubGroup(event.target.value);
+    console.log(event.target.value);
+  };
+
+  // Prepare options
+  const subgroupOptions = props.subGroups[props.currentGroup];
+  
+  const options = subgroupOptions.map((item, idx) => {
+    return <option value={item} key={'sg-' + idx}>{item}</option>;
+  });
+
+  return (
+    <div className="row justify-content-center mt-3">
+      <div className="col-3">
+        <select
+          name="subgroup-select"
+          className="form-control form-dark nav-subgroup-dropdown"
+          onChange={handleChange}
+          value={formData}
+        >
+          {options}
+        </select>
+      </div>
+    </div>
+  );
+}
+
 /**RAVEN* export */function TeamMemberTabs(props) {
   var staffList = ["All", ...props.staffList];
-  staffList = staffList.map(function (item) {
+  staffList = staffList.map(function (item, idx) {
     return (
-      <li className="nav-item">
+      <li className="nav-item" key={'tm-' + idx}>
         <a
           className={
             "nav-link individual-tabs--link" + (item === "All" ? " active" : "")
@@ -3891,9 +4146,11 @@ function ObjectiveCard(props) {
           aria-selected="true"
           aria-controls={item}
           href={"#team-" + item}
-          onClick={() =>
-            props.changeFrequency(item === "All" ? "monthly" : item)
-          }
+          onClick={() => {
+            const group = item === "All" ? "monthly" : item;
+            props.changeFrequency(item === "All" ? "monthly" : item);
+            props.setCurrentStaff(item == "All" ? null : item);
+          }}
         >
           {item}
         </a>
@@ -3907,7 +4164,8 @@ function ObjectiveCard(props) {
       </ul>
     </div>
   );
-}//**RAVEN**filename={TeamOKRs.js}
+}
+//**RAVEN**filename={TeamOKRs.js}
 /**RAVEN* import { useState } from "react";*/
 /**RAVEN* import { useHistory } from "react-router-dom";*/
 /**RAVEN* import $ from "jquery";*/
@@ -3945,11 +4203,7 @@ function ObjectiveCard(props) {
 
   // Function to initialise objective form and open modal
   function newObjective() {
-    const freq = ["annual", "quarterly", "monthly"].includes(
-      props.pageData.frequency
-    )
-      ? props.pageData.frequency
-      : "monthly";
+    const freq = props.currentGroup;
 
     setObjFormData({
       objectiveId: -1,
@@ -3990,8 +4244,8 @@ function ObjectiveCard(props) {
     );
   }
   // Prepare OKR Collapse cards
-  const objectiveCardRows = props.pageData.data.objectives.map((item) => {
-    var tempKRs = props.pageData.data.keyResults.filter(function (kr) {
+  const objectiveCardRows = props.currentData.objectives.map((item) => {
+    var tempKRs = props.currentData.keyResults.filter(function (kr) {
       return kr.parentObjectiveId === item.objectiveId;
     });
 
@@ -4042,10 +4296,20 @@ function ObjectiveCard(props) {
 /**RAVEN* import "datatables.net-bs4";*/
 /**RAVEN* import "../dataTables.bootstrap4.min.css";*/
 /**RAVEN* import ProgressCard from "./ProgressCard";*/
-/**RAVEN* import { FrequencyTabs, TeamMemberTabs } from "./Tabs";*/
+/**RAVEN* import { FrequencyTabs, TeamMemberTabs, SubGroupDropdown } from "./Tabs";*/
 /**RAVEN* import TeamOKRs from "./TeamOKRs";*/
 /**RAVEN* import updateCircleProgress from "../utils/updateCircleProgress";*/
-/**RAVEN* import { prepareTeamData, sortStringArray } from "../utils/processData";*/
+/**RAVEN* import {
+  prepareTeamData,
+  getStaffFromObjectives,
+  sortStringArray,
+  sortObjectivesFreqTitle,
+  getSubGroupsFromObjectives,
+  prepareTeamPageData,
+  getMonth,
+  getYear,
+  offsetDate,
+} from "../utils/processData";*/
 
 // Simulated
 /**RAVEN* import {
@@ -4062,7 +4326,7 @@ function TeamProgress(props) {
       : "Team";
   return (
     <div>
-      <h3 className="mt-4">{entity} Progress</h3>
+      <h3 className="mt-1">{entity} Progress</h3>
       <div className="overall-panel mt-4">
         <ProgressCard
           progressId="team-progress"
@@ -4075,38 +4339,28 @@ function TeamProgress(props) {
 }
 
 /**RAVEN* export default */function TeamPage(props) {
-  // Initialise states for raw team data and processed data
+  // Initialise states for data
   const [teamData, setTeamData] = useState({});
-  const [processedData, setProcessedData] = useState({});
   const [latestUpdates, setLatestUpdates] = useState([]);
-  const [pageData, setPageData] = useState({});
   const [staffList, setStaffList] = useState([]);
+  const [subGroups, setSubGroups] = useState({});
+
+  // Initialise states for filters
+  const [currentGroup, setCurrentGroup] = useState("monthly");
+  const [currentSubGroup, setCurrentSubGroup] = useState("");
+  const [currentStaff, setCurrentStaff] = useState("");
+  const [currentData, setCurrentData] = useState({});
+
+  const [processedData, setProcessedData] = useState({});
+  const [pageData, setPageData] = useState({});
 
   // Callback functions to update respective items in raw data state
   // To be passed to async query to database
   const updateObjectives = (data) => {
     // Sort data
-    var dataSorted = data.sort((a, b) => {
-      const aFreq =
-        a.frequency === "annual" ? 3 : a.frequency === "quarterly" ? 2 : 1;
+    var dataSorted = data.sort(sortObjectivesFreqTitle);
 
-      const bFreq =
-        b.frequency === "annual" ? 3 : b.frequency === "quarterly" ? 2 : 1;
-
-      return aFreq > bFreq
-        ? -1
-        : aFreq < bFreq
-        ? 1
-        : a.objectiveTitle > b.objectiveTitle
-        ? 1
-        : a.objectiveTitle < b.objectiveTitle
-        ? -1
-        : 0;
-    });
-
-    setTeamData((prevData) => {
-      return { ...prevData, allObjectives: dataSorted };
-    });
+    setTeamData((prevData) => ({ ...prevData, allObjectives: dataSorted }));
   };
 
   const updateKeyResults = (data) => {
@@ -4115,15 +4369,13 @@ function TeamProgress(props) {
       return a.krTitle > b.krTitle ? 1 : a.krTitle < b.krTitle ? -1 : 0;
     });
 
-    setTeamData((prevData) => {
-      return { ...prevData, allKeyResults: dataSorted };
-    });
+    setTeamData((prevData) => ({ ...prevData, allKeyResults: dataSorted }));
   };
 
   const updateUpdates = (data) => {
     // Configure date
     var startDate = new Date(),
-        endDate = new Date();
+      endDate = new Date();
 
     startDate.setDate(startDate.getDate() - 7);
     startDate = getDate(startDate);
@@ -4137,7 +4389,11 @@ function TeamProgress(props) {
     // Filter data by date and krId
     var filteredData = data.filter((item) => {
       const updateDate = getDate(item.updateDate);
-      return updateDate >= startDate && updateDate <= endDate && krIds.includes(item.parentKrId);
+      return (
+        updateDate >= startDate &&
+        updateDate <= endDate &&
+        krIds.includes(item.parentKrId)
+      );
     });
 
     setLatestUpdates(filteredData);
@@ -4156,42 +4412,64 @@ function TeamProgress(props) {
     refreshData();
   }, [props.team.teamName]);
 
+  // Get filters: frequencies and staff list
+  useEffect(() => {
+    if (teamData.allObjectives) {
+      const staffList = getStaffFromObjectives(teamData.allObjectives);
+      const subgroups = getSubGroupsFromObjectives(teamData.allObjectives);
+      setStaffList(staffList);
+      setSubGroups(subgroups);
+      // Check today's date
+      const today = offsetDate(new Date());
+      const year = getYear(today);
+      const initCurrentSubGroup = getMonth(today, year);
+      setCurrentSubGroup(initCurrentSubGroup);
+    }
+  }, [teamData.allObjectives]);
+
   // Processes data and updates page data every time there is a change to the
   // raw data state
   useEffect(() => {
     if (teamData.allObjectives && teamData.allKeyResults) {
       // Query updates
-      getAllIDB('UpdatesStore', updateUpdates);
+      getAllIDB("UpdatesStore", updateUpdates);
 
+      // WIP: BYPASS THIS PRE-COMPUTE STEP - contains different frequencies
       const teamProgressData = prepareTeamData(
         teamData.allObjectives,
         teamData.allKeyResults
       );
-      
+      console.log(teamProgressData);
       setProcessedData((prevData) => {
         return { ...prevData, teamProgressData: teamProgressData };
       });
 
       setPageData({
         frequency: "monthly",
+        // WIP: JUMP STRAIGHT TO THIS I.E. COMPUTE METRICS
         data: teamProgressData["monthly"],
       });
-
-      // Prepare stafflist
-      var staffListSorted = Object.keys(teamProgressData).filter(function (
-        item
-      ) {
-        return item !== "monthly" && item !== "quarterly" && item !== "annual";
-      });
-      staffListSorted = staffListSorted.sort(sortStringArray);
-      setStaffList(staffListSorted);
+      
     }
   }, [teamData, props.team.teamName]);
 
+  useEffect(() => {
+    if (
+      teamData.allObjectives &&
+      teamData.allKeyResults &&
+      currentGroup &&
+      currentSubGroup
+    ) {
+      const newCurrentData = prepareTeamPageData(teamData.allObjectives, teamData.allKeyResults, currentGroup, currentStaff, currentSubGroup);
+      setCurrentData(newCurrentData);
+    }
+  }, [teamData, currentGroup, currentSubGroup, currentStaff]);
+
   // Computes progress metrics for progress card every time the frequency changes
   useEffect(() => {
-    if (pageData.data) {
-      const avgCompletion = pageData.data.avgCompletion;
+    // if (pageData.data) {
+    if (Object.keys(currentData).length > 0) {
+      const avgCompletion = currentData.avgCompletion;
       updateCircleProgress(
         "team-progress",
         avgCompletion ? avgCompletion : 0,
@@ -4205,7 +4483,7 @@ function TeamProgress(props) {
         collapsible.collapse("show");
       });
     }
-  }, [pageData]);
+  }, [currentData]);
 
   const changeFrequency = (frequency) => {
     setPageData({
@@ -4223,25 +4501,37 @@ function TeamProgress(props) {
 
   return (
     <div>
-      <h1 className="mb-3">{props.team.teamName}</h1>
-      <FrequencyTabs changeFrequency={changeFrequency} />
-      {pageData.frequency !== "annual" &&
-        pageData.frequency !== "quarterly" &&
+      <h1 className="teampage-title">{props.team.teamName}</h1>
+      <FrequencyTabs
+        changeFrequency={changeFrequency}
+        setCurrentGroup={setCurrentGroup}
+      />
+      {currentGroup !== "annual" &&
+        currentGroup !== "quarterly" &&
         staffList && (
           <TeamMemberTabs
             staffList={staffList}
             changeFrequency={changeFrequency}
+            setCurrentStaff={setCurrentStaff}
           />
         )}
-      {pageData.data && (
-        <TeamProgress
-          progressData={pageData.data}
-          frequency={pageData.frequency}
+      {currentGroup && subGroups.monthly && (
+        <SubGroupDropdown
+          currentGroup={currentGroup}
+          subGroups={subGroups}
+          setCurrentSubGroup={setCurrentSubGroup}
         />
       )}
-      {pageData.data && (
+      {Object.keys(currentData).length > 0 && (
+        <TeamProgress
+          progressData={currentData}
+          frequency={currentGroup}
+        />
+      )}
+      {Object.keys(currentData).length > 0 && (
         <TeamOKRs
-          pageData={pageData}
+          currentData={currentData}
+          currentGroup={currentGroup}
           objectives={teamData.allObjectives}
           teams={props.teams}
           team={props.team}

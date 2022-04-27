@@ -75,7 +75,7 @@
   );
 }
 
-/**RAVEN* export */const editIconString = `<svg
+/**RAVEN* export const editIconString = `<svg
 className="edit-icon"
 style="height:14px; width: 14px;"
 aria-hidden="false"
@@ -105,7 +105,7 @@ data-fa-i2svg=""
 </path>
 </svg>`;
 
-/**RAVEN* export */function EditIconText(props) {
+export */function EditIconText(props) {
   return (
     <svg
       aria-hidden="false"

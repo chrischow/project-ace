@@ -62,23 +62,13 @@ function KeyResultRow(props) {
         </div>
         <div className="col-2 text-center">
           <div className={"keyresult-row--action-btn keyresult-row--edit-text mb-1"} onClick={toggleModal}>
-            <span>View</span>
+            <span className="keyresult-row--action-btn-text">View</span>
             {props.nLatestUpdates > 0 && <span className="keyresult-row--new-updates"> ({props.nLatestUpdates} New)</span>}
           </div>
           <div className="keyresult-row--action-btn keyresult-row--edit-text" onClick={editKeyResult}>
             Edit
           </div>
-          {/* <div className="keyresult-row--action-btn keyresult-row--edit-text" onClick={goToUpdates}>
-            Updates
-          </div> */}
         </div>
-        {/* <div
-          className="keyresult-row--updates text-center col-2"
-          onClick={goToUpdates}
-        >
-          <span className="ml-1">Updates </span>
-          <LaunchIcon className="keyresult-row--icon" />
-        </div> */}
         <div className="text-center col-2">
           <span className="keyresult-row--text">{props.krEndDate}</span>
         </div>
@@ -241,7 +231,7 @@ function ObjectiveCard(props) {
         setKrData={props.setKrData}
         {...props.objective}
       />
-      <div className="okr collapse" id={objId}>
+      <div className="okr collapse show" id={objId}>
         {keyResultRows}
       </div>
     </div>
