@@ -4,6 +4,7 @@ import {
   getYear,
   getQuarter,
   getMonth,
+  getWorkYear,
 } from "../utils/processData";
 
 export function FrequencyTabs(props) {
@@ -68,10 +69,11 @@ export function SubGroupDropdown(props) {
     // Compute default option
     const today = offsetDate(new Date());
     const year = getYear(today);
+    const workyear = getWorkYear(today);
     const initCurrentSubGroup = props.currentGroup === "annual"
-      ? year
+      ? workyear
       : props.currentGroup === "quarterly"
-      ? getQuarter(today, year)
+      ? getQuarter(today, workyear)
       : getMonth(today, year);
     setFormData(initCurrentSubGroup);
     props.setCurrentSubGroup(initCurrentSubGroup);
