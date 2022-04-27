@@ -11,7 +11,8 @@ do
     baseFile=${file%.*}
     baseFile=${baseFile##*/}
     echo $"//**RAVEN**filename={${baseFile}.js}" > "${dest}/${baseFile}.txt"
-    sed "$pattern" "${file}" >> "${dest}/${baseFile}.txt"
+    #sed "$pattern" "${file}" >> "${dest}/${baseFile}.txt"
+    awk -f package.awk "${file}" >> "${dest}/${baseFile}.txt"
 done
 
 for file in "$inDir2"/*.js
@@ -19,5 +20,6 @@ do
     baseFile=${file%.*}
     baseFile=${baseFile##*/}
     echo $"//**RAVEN**filename={${baseFile}.js}" > "${dest}/${baseFile}.txt"
-    sed "$pattern" "${file}" >> "${dest}/${baseFile}.txt"
+    #sed "$pattern" "${file}" >> "${dest}/${baseFile}.txt"
+    awk -f package.awk "${file}" >> "${dest}/${baseFile}.txt"
 done
