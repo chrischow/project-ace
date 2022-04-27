@@ -198,10 +198,11 @@ export function prepareTeamPageData(objectives, keyResults, frequency, staff, su
   const tempObj = objectives.filter((item) => {
     const date = offsetDate(item.objectiveEndDate);
     const year = getYear(date);
+    const workyear = getWorkYear(date);
     const currentSubGroup = frequency === 'annual'
-      ? year
+      ? workyear
       : frequency === 'quarterly'
-        ? getQuarter(date, year)
+        ? getQuarter(date, workyear)
         : getMonth(date, year);
     
     var condition = true;
@@ -305,8 +306,12 @@ export function offsetDate(date) {
 
 // Get year
 export function getYear(cleanDate) {
+  return cleanDate.getFullYear();
+}
+
+export function getWorkYear(cleanDate) {
   const year = cleanDate.getFullYear();
-  return cleanDate.getMonth() + 1 <= 3 ? year - 1 : year;
+  return 'WY ' + (cleanDate.getMonth() + 1 <= 3 ? year - 1 : year);
 }
 
 // Get quarter
@@ -326,16 +331,17 @@ export function getSubGroupsFromObjectives(objectives) {
     monthly: [],
   };
 
-  var date, year, quarter, month;
+  var date, year, workyear, quarter, month;
   objectives.forEach((item) => {
     date = offsetDate(item.objectiveEndDate);
     year = getYear(date);
-    quarter = getQuarter(date, year);
+    workyear = getWorkYear(date);
+    quarter = getQuarter(date, workyear);
     month = getMonth(date, year);
 
     if (item.frequency === "annual") {
-      if (!output.annual.includes(year)) {
-        output.annual.push(year);
+      if (!output.annual.includes(workyear)) {
+        output.annual.push(workyear);
       }
     } else if (item.frequency === "quarterly") {
       if (!output.quarterly.includes(quarter)) {
