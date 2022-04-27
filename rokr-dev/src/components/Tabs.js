@@ -19,8 +19,7 @@ export function FrequencyTabs(props) {
             aria-controls="monthly"
             href="#team-monthly"
             onClick={() => {
-              // props.changeFrequency("monthly");
-              props.setCurrentGroup("monthly");
+              props.changeFrequency("monthly");
             }}
           >
             Monthly
@@ -35,8 +34,7 @@ export function FrequencyTabs(props) {
             aria-controls="quarterly"
             href="#team-quarterly"
             onClick={() => {
-              // props.changeFrequency("quarterly");
-              props.setCurrentGroup("quarterly");
+              props.changeFrequency("quarterly");
             }}
           >
             Quarterly
@@ -51,8 +49,7 @@ export function FrequencyTabs(props) {
             aria-controls="annual"
             href="#team-annual"
             onClick={() => {
-              // props.changeFrequency("annual");
-              props.setCurrentGroup("annual");
+              props.changeFrequency("annual");
             }}
           >
             Annual
@@ -84,7 +81,6 @@ export function SubGroupDropdown(props) {
   const handleChange = (event) => {
     setFormData((prevData) => event.target.value);
     props.setCurrentSubGroup(event.target.value);
-    console.log(event.target.value);
   };
 
   // Prepare options
@@ -125,9 +121,9 @@ export function TeamMemberTabs(props) {
           aria-controls={item}
           href={"#team-" + item}
           onClick={() => {
-            const group = item === "All" ? "monthly" : item;
-            props.changeFrequency(item === "All" ? "monthly" : item);
-            props.setCurrentStaff(item == "All" ? null : item);
+            const staff = item == "All" ? null : item;
+            props.changeFrequency('monthly');
+            props.setCurrentStaff(staff);
           }}
         >
           {item}

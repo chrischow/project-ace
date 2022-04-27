@@ -146,7 +146,7 @@ export default function TeamPage(props) {
         teamData.allObjectives,
         teamData.allKeyResults
       );
-      console.log(teamProgressData);
+      
       setProcessedData((prevData) => {
         return { ...prevData, teamProgressData: teamProgressData };
       });
@@ -193,13 +193,9 @@ export default function TeamPage(props) {
   }, [currentData]);
 
   const changeFrequency = (frequency) => {
-    setPageData({
-      ...pageData,
-      frequency: frequency,
-      data: processedData.teamProgressData[frequency],
-    });
+    setCurrentGroup(frequency);
     const avgCompletion =
-      processedData.teamProgressData[frequency].avgCompletion;
+      currentData.avgCompletion;
     $("#team-progress").circleProgress(
       "value",
       avgCompletion ? avgCompletion : 0.0
