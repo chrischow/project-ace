@@ -128,6 +128,7 @@ export default function TeamPage(props) {
         teamData.allObjectives,
         teamData.allKeyResults
       );
+      console.log(teamProgressData);
       
       setProcessedData((prevData) => {
         return { ...prevData, teamProgressData: teamProgressData };

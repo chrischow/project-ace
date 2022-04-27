@@ -64,23 +64,23 @@ export function computeObjCompletion(objectives, keyResults) {
 
 
 // Compute overall annual metrics
-export function computeAnnualMetrics(objectives, keyResults) {
+export function computeMetrics(objectives, keyResults, frequency) {
 
-    const annualObjectives = objectives.filter(function(obj) {
-        return obj.frequency === 'annual';
+    const tempObjectives = objectives.filter(function(obj) {
+        return obj.frequency === frequency;
     });
     
-    const annualKRs = keyResults.filter(function(kr) {
-        const objs = annualObjectives.filter(function(obj) {
+    const tempKRs = keyResults.filter(function(kr) {
+        const objs = tempObjectives.filter(function(obj) {
             return obj.objectiveId === kr.parentObjectiveId;
         });
         return objs.length > 0;
     });
 
-    const tempObjCompletion = computeObjCompletion(annualObjectives, annualKRs);
+    const tempObjCompletion = computeObjCompletion(tempObjectives, tempKRs);
     const output = {
         avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
-        keyResultCompletion: computeKrCompletion(annualKRs),
+        keyResultCompletion: computeKrCompletion(tempKRs),
         objectiveCompletion: {
             completed: tempObjCompletion.completed,
             total: tempObjCompletion.total,
@@ -90,34 +90,21 @@ export function computeAnnualMetrics(objectives, keyResults) {
     return output;
 }
 
-
-// Prepare data for teams
-export function computeTeamsAnnualMetrics(teams, objectives, keyResults) {
+export function computeTeamsMetrics(teams, objectives, keyResults, frequency) {
     var output = {};
-    var tempObj;
-    var parentObj;
-    var tempKR;
-    var tempObjCompletion;
-    for (var t=0; t < teams.length; t++) {
-        output[teams[t].teamName] = {};
+    var tempObj, tempKR, parentObj;
+    for (var i=0; i < teams.length; i++) {
+        // Filter objectives
         tempObj = objectives.filter(function(entry) {
-            return (entry.team === teams[t].teamName) && (entry.frequency === 'annual');
+            return entry.team === teams[i].teamName;
         })
+        // Filter KRs
         tempKR = keyResults.filter(function(entry) {
             parentObj = objectives.filter(obj => obj.objectiveId === entry.parentObjectiveId)[0];
-            return (entry.parentObjectiveTeam === teams[t].teamName) && (
-                parentObj.frequency === 'annual'
-            );
+            return entry.parentObjectiveTeam === teams[i].teamName;
         })
-        tempObjCompletion = computeObjCompletion(tempObj, tempKR);
-        output[teams[t].teamName] = {
-            avgCompletion: tempObjCompletion.avgCompletion ? tempObjCompletion.avgCompletion : 0,
-            keyResultCompletion: computeKrCompletion(tempKR),
-            objectiveCompletion: {
-                completed: tempObjCompletion.completed,
-                total: tempObjCompletion.total,
-            }
-        };
+
+        output[teams[i].teamName] = computeMetrics(tempObj, tempKR, frequency);
     }
     return output;
 }
