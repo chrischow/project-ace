@@ -3,10 +3,20 @@ import $ from "jquery";
 import "datatables.net-bs4";
 import "../dataTables.bootstrap4.min.css";
 import ProgressCard from "./ProgressCard";
-import { FrequencyTabs, TeamMemberTabs } from "./Tabs";
+import { FrequencyTabs, TeamMemberTabs, SubGroupDropdown } from "./Tabs";
 import TeamOKRs from "./TeamOKRs";
 import updateCircleProgress from "../utils/updateCircleProgress";
-import { prepareTeamData, sortStringArray } from "../utils/processData";
+import {
+  prepareTeamData,
+  getStaffFromObjectives,
+  sortStringArray,
+  sortObjectivesFreqTitle,
+  getSubGroupsFromObjectives,
+  prepareTeamPageData,
+  getMonth,
+  getYear,
+  offsetDate,
+} from "../utils/processData";
 
 // Simulated
 import {
@@ -23,7 +33,7 @@ function TeamProgress(props) {
       : "Team";
   return (
     <div>
-      <h3 className="mt-4">{entity} Progress</h3>
+      <h3 className="mt-1">{entity} Progress</h3>
       <div className="overall-panel mt-4">
         <ProgressCard
           progressId="team-progress"
@@ -36,38 +46,28 @@ function TeamProgress(props) {
 }
 
 export default function TeamPage(props) {
-  // Initialise states for raw team data and processed data
+  // Initialise states for data
   const [teamData, setTeamData] = useState({});
-  const [processedData, setProcessedData] = useState({});
   const [latestUpdates, setLatestUpdates] = useState([]);
-  const [pageData, setPageData] = useState({});
   const [staffList, setStaffList] = useState([]);
+  const [subGroups, setSubGroups] = useState({});
+
+  // Initialise states for filters
+  const [currentGroup, setCurrentGroup] = useState("monthly");
+  const [currentSubGroup, setCurrentSubGroup] = useState("");
+  const [currentStaff, setCurrentStaff] = useState("");
+  const [currentData, setCurrentData] = useState({});
+
+  const [processedData, setProcessedData] = useState({});
+  const [pageData, setPageData] = useState({});
 
   // Callback functions to update respective items in raw data state
   // To be passed to async query to database
   const updateObjectives = (data) => {
     // Sort data
-    var dataSorted = data.sort((a, b) => {
-      const aFreq =
-        a.frequency === "annual" ? 3 : a.frequency === "quarterly" ? 2 : 1;
+    var dataSorted = data.sort(sortObjectivesFreqTitle);
 
-      const bFreq =
-        b.frequency === "annual" ? 3 : b.frequency === "quarterly" ? 2 : 1;
-
-      return aFreq > bFreq
-        ? -1
-        : aFreq < bFreq
-        ? 1
-        : a.objectiveTitle > b.objectiveTitle
-        ? 1
-        : a.objectiveTitle < b.objectiveTitle
-        ? -1
-        : 0;
-    });
-
-    setTeamData((prevData) => {
-      return { ...prevData, allObjectives: dataSorted };
-    });
+    setTeamData((prevData) => ({ ...prevData, allObjectives: dataSorted }));
   };
 
   const updateKeyResults = (data) => {
@@ -76,15 +76,13 @@ export default function TeamPage(props) {
       return a.krTitle > b.krTitle ? 1 : a.krTitle < b.krTitle ? -1 : 0;
     });
 
-    setTeamData((prevData) => {
-      return { ...prevData, allKeyResults: dataSorted };
-    });
+    setTeamData((prevData) => ({ ...prevData, allKeyResults: dataSorted }));
   };
 
   const updateUpdates = (data) => {
     // Configure date
     var startDate = new Date(),
-        endDate = new Date();
+      endDate = new Date();
 
     startDate.setDate(startDate.getDate() - 7);
     startDate = getDate(startDate);
@@ -98,7 +96,11 @@ export default function TeamPage(props) {
     // Filter data by date and krId
     var filteredData = data.filter((item) => {
       const updateDate = getDate(item.updateDate);
-      return updateDate >= startDate && updateDate <= endDate && krIds.includes(item.parentKrId);
+      return (
+        updateDate >= startDate &&
+        updateDate <= endDate &&
+        krIds.includes(item.parentKrId)
+      );
     });
 
     setLatestUpdates(filteredData);
@@ -117,43 +119,64 @@ export default function TeamPage(props) {
     refreshData();
   }, [props.team.teamName]);
 
+  // Get filters: frequencies and staff list
+  useEffect(() => {
+    if (teamData.allObjectives) {
+      const staffList = getStaffFromObjectives(teamData.allObjectives);
+      const subgroups = getSubGroupsFromObjectives(teamData.allObjectives);
+      setStaffList(staffList);
+      setSubGroups(subgroups);
+      // Check today's date
+      const today = offsetDate(new Date());
+      const year = getYear(today);
+      const initCurrentSubGroup = getMonth(today, year);
+      setCurrentSubGroup(initCurrentSubGroup);
+    }
+  }, [teamData.allObjectives]);
+
   // Processes data and updates page data every time there is a change to the
   // raw data state
   useEffect(() => {
     if (teamData.allObjectives && teamData.allKeyResults) {
       // Query updates
-      getAllIDB('UpdatesStore', updateUpdates);
+      getAllIDB("UpdatesStore", updateUpdates);
 
+      // WIP: BYPASS THIS PRE-COMPUTE STEP - contains different frequencies
       const teamProgressData = prepareTeamData(
         teamData.allObjectives,
         teamData.allKeyResults
       );
       console.log(teamProgressData);
-      
       setProcessedData((prevData) => {
         return { ...prevData, teamProgressData: teamProgressData };
       });
 
       setPageData({
         frequency: "monthly",
+        // WIP: JUMP STRAIGHT TO THIS I.E. COMPUTE METRICS
         data: teamProgressData["monthly"],
       });
-
-      // Prepare stafflist
-      var staffListSorted = Object.keys(teamProgressData).filter(function (
-        item
-      ) {
-        return item !== "monthly" && item !== "quarterly" && item !== "annual";
-      });
-      staffListSorted = staffListSorted.sort(sortStringArray);
-      setStaffList(staffListSorted);
+      
     }
   }, [teamData, props.team.teamName]);
 
+  useEffect(() => {
+    if (
+      teamData.allObjectives &&
+      teamData.allKeyResults &&
+      currentGroup &&
+      currentSubGroup
+    ) {
+      const newCurrentData = prepareTeamPageData(teamData.allObjectives, teamData.allKeyResults, currentGroup, currentStaff, currentSubGroup);
+      setCurrentData(newCurrentData);
+    }
+  }, [teamData, currentGroup, currentSubGroup, currentStaff]);
+
   // Computes progress metrics for progress card every time the frequency changes
   useEffect(() => {
-    if (pageData.data) {
-      const avgCompletion = pageData.data.avgCompletion;
+    // if (pageData.data) {
+    if (Object.keys(currentData).length > 0) {
+      const avgCompletion = currentData.avgCompletion;
       updateCircleProgress(
         "team-progress",
         avgCompletion ? avgCompletion : 0,
@@ -167,7 +190,7 @@ export default function TeamPage(props) {
         collapsible.collapse("show");
       });
     }
-  }, [pageData]);
+  }, [currentData]);
 
   const changeFrequency = (frequency) => {
     setPageData({
@@ -185,25 +208,37 @@ export default function TeamPage(props) {
 
   return (
     <div>
-      <h1 className="mb-3">{props.team.teamName}</h1>
-      <FrequencyTabs changeFrequency={changeFrequency} />
-      {pageData.frequency !== "annual" &&
-        pageData.frequency !== "quarterly" &&
+      <h1 className="teampage-title">{props.team.teamName}</h1>
+      <FrequencyTabs
+        changeFrequency={changeFrequency}
+        setCurrentGroup={setCurrentGroup}
+      />
+      {currentGroup !== "annual" &&
+        currentGroup !== "quarterly" &&
         staffList && (
           <TeamMemberTabs
             staffList={staffList}
             changeFrequency={changeFrequency}
+            setCurrentStaff={setCurrentStaff}
           />
         )}
-      {pageData.data && (
-        <TeamProgress
-          progressData={pageData.data}
-          frequency={pageData.frequency}
+      {currentGroup && subGroups.monthly && (
+        <SubGroupDropdown
+          currentGroup={currentGroup}
+          subGroups={subGroups}
+          setCurrentSubGroup={setCurrentSubGroup}
         />
       )}
-      {pageData.data && (
+      {Object.keys(currentData).length > 0 && (
+        <TeamProgress
+          progressData={currentData}
+          frequency={currentGroup}
+        />
+      )}
+      {Object.keys(currentData).length > 0 && (
         <TeamOKRs
-          pageData={pageData}
+          currentData={currentData}
+          currentGroup={currentGroup}
           objectives={teamData.allObjectives}
           teams={props.teams}
           team={props.team}

@@ -326,10 +326,15 @@ hr {
   font-size: 0.8rem;
 }
 
+/* Team page */
+h1.teampage-title {
+  margin-bottom: -5px;
+}
+
 /* Frequency tabs */
 .frequency-tabs--link {
   color: #6B7E97;
-  font-size: 1.1rem;
+  font-size: 1.0rem;
   transition: 0.3s;
 }
 
@@ -370,7 +375,7 @@ hr {
 /* Individual tabs */
 .individual-tabs--link {
   color: #6B7E97;
-  font-size: 1.0rem;
+  font-size: 0.9rem;
   transition: 0.3s;
 }
 
@@ -400,6 +405,11 @@ hr {
   border-bottom: 1px solid #7B73F0;
   color: #7B73F0;
   transition: 0.4s;
+}
+
+/* SubGroup dropdown */
+.nav-subgroup-dropdown {
+  font-size: 0.95rem!important;
 }
 
 /* OKR collapsibles */

@@ -35,11 +35,7 @@ export default function TeamOKRs(props) {
 
   // Function to initialise objective form and open modal
   function newObjective() {
-    const freq = ["annual", "quarterly", "monthly"].includes(
-      props.pageData.frequency
-    )
-      ? props.pageData.frequency
-      : "monthly";
+    const freq = props.currentGroup;
 
     setObjFormData({
       objectiveId: -1,
@@ -80,8 +76,8 @@ export default function TeamOKRs(props) {
     );
   }
   // Prepare OKR Collapse cards
-  const objectiveCardRows = props.pageData.data.objectives.map((item) => {
-    var tempKRs = props.pageData.data.keyResults.filter(function (kr) {
+  const objectiveCardRows = props.currentData.objectives.map((item) => {
+    var tempKRs = props.currentData.keyResults.filter(function (kr) {
       return kr.parentObjectiveId === item.objectiveId;
     });
 

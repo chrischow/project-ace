@@ -230,7 +230,7 @@ export default function OKRCollapse(props) {
         setKrData={props.setKrData}
         {...props.objective}
       />
-      <div className="okr collapse" id={objId}>
+      <div className="okr collapse show" id={objId}>
         {keyResultRows}
       </div>
     </div>

@@ -1,6 +1,14 @@
+import { useState, useEffect } from "react";
+import {
+  offsetDate,
+  getYear,
+  getQuarter,
+  getMonth,
+} from "../utils/processData";
+
 export function FrequencyTabs(props) {
   return (
-    <div className="mt-2">
+    <div>
       <ul className="nav nav-pills justify-content-center" role="tablist">
         <li className="nav-item">
           <a
@@ -10,7 +18,10 @@ export function FrequencyTabs(props) {
             aria-selected="false"
             aria-controls="monthly"
             href="#team-monthly"
-            onClick={() => props.changeFrequency("monthly")}
+            onClick={() => {
+              // props.changeFrequency("monthly");
+              props.setCurrentGroup("monthly");
+            }}
           >
             Monthly
           </a>
@@ -23,7 +34,10 @@ export function FrequencyTabs(props) {
             aria-selected="false"
             aria-controls="quarterly"
             href="#team-quarterly"
-            onClick={() => props.changeFrequency("quarterly")}
+            onClick={() => {
+              // props.changeFrequency("quarterly");
+              props.setCurrentGroup("quarterly");
+            }}
           >
             Quarterly
           </a>
@@ -36,7 +50,10 @@ export function FrequencyTabs(props) {
             aria-selected="true"
             aria-controls="annual"
             href="#team-annual"
-            onClick={() => props.changeFrequency("annual")}
+            onClick={() => {
+              // props.changeFrequency("annual");
+              props.setCurrentGroup("annual");
+            }}
           >
             Annual
           </a>
@@ -46,11 +63,58 @@ export function FrequencyTabs(props) {
   );
 }
 
+export function SubGroupDropdown(props) {
+  // State for controlled form
+  const [formData, setFormData] = useState("");
+
+  useEffect(() => {
+    // Compute default option
+    const today = offsetDate(new Date());
+    const year = getYear(today);
+    const initCurrentSubGroup = props.currentGroup === "annual"
+      ? year
+      : props.currentGroup === "quarterly"
+      ? getQuarter(today, year)
+      : getMonth(today, year);
+    setFormData(initCurrentSubGroup);
+    props.setCurrentSubGroup(initCurrentSubGroup);
+  }, [props.currentGroup]);
+
+  // Handle change in dropdown
+  const handleChange = (event) => {
+    setFormData((prevData) => event.target.value);
+    props.setCurrentSubGroup(event.target.value);
+    console.log(event.target.value);
+  };
+
+  // Prepare options
+  const subgroupOptions = props.subGroups[props.currentGroup];
+  
+  const options = subgroupOptions.map((item, idx) => {
+    return <option value={item} key={'sg-' + idx}>{item}</option>;
+  });
+
+  return (
+    <div className="row justify-content-center mt-3">
+      <div className="col-3">
+        <select
+          name="subgroup-select"
+          className="form-control form-dark nav-subgroup-dropdown"
+          onChange={handleChange}
+          value={formData}
+        >
+          {options}
+        </select>
+      </div>
+    </div>
+  );
+}
+
 export function TeamMemberTabs(props) {
   var staffList = ["All", ...props.staffList];
-  staffList = staffList.map(function (item) {
+  staffList = staffList.map(function (item, idx) {
     return (
-      <li className="nav-item">
+      <li className="nav-item" key={'tm-' + idx}>
         <a
           className={
             "nav-link individual-tabs--link" + (item === "All" ? " active" : "")
@@ -60,9 +124,11 @@ export function TeamMemberTabs(props) {
           aria-selected="true"
           aria-controls={item}
           href={"#team-" + item}
-          onClick={() =>
-            props.changeFrequency(item === "All" ? "monthly" : item)
-          }
+          onClick={() => {
+            const group = item === "All" ? "monthly" : item;
+            props.changeFrequency(item === "All" ? "monthly" : item);
+            props.setCurrentStaff(item == "All" ? null : item);
+          }}
         >
           {item}
         </a>
